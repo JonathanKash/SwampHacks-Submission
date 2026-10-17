@@ -267,7 +267,7 @@ def test_identify_places_a_copy_in_the_knowledge_base(tmp_path, monkeypatch):
     r = client.post("/api/identify", files={"file": ("meme.png", png_bytes(query), "image/png")})
     assert r.status_code == 200, r.text
     body = r.json()
-    assert body["matched"] is True and body["root"]["params"]["filename"] == "o1.png"
+    assert body["matched"] is True and body["parent"]["params"]["filename"] == "o1.png"
     assert body["report"]["verdict"] in ("parent-child", "inconclusive")
     unrelated = client.post("/api/identify", files={"file": ("x.png", png_bytes(synthetic_photo(33)), "image/png")}).json()
     assert unrelated["matched"] is False

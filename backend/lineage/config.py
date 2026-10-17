@@ -72,6 +72,9 @@ WEIGHTS: dict[str, float] = {
 
 # Registration is considered failed below this many RANSAC inliers, or when fewer
 # than this fraction of ratio-test matches are inliers (guards spurious homographies).
+# identify: a placement counts as a match only when the best parent explains the query at well
+# under the root cost (a weak, barely-under-root match is reported as "no family").
+IDENTIFY_MAX_COST_FRACTION: float = 0.8
 ORB_FEATURES: int = 4000  # keypoints per image for ORB (and the SIFT fallback)
 MIN_INLIERS: int = 12
 MIN_INLIER_RATIO: float = 0.25

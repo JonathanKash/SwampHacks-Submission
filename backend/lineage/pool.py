@@ -300,9 +300,13 @@ class Pool:
                 if best is None or res.total < best[1].total:
                     best = (cid, res)
             parent_id, forward = best
-            if forward.total >= self.engine.root_cost:
-                return {"matched": False, "reason": "no item explains this image more cheaply than being a new original",
+            if forward.semantic:
+                return {"matched": False, "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
                         "nearest": parent_id, "cost": round(forward.total, 4)}
+            limit = config.IDENTIFY_MAX_COST_FRACTION * self.engine.root_cost
+            if forward.total >= limit:
+                return {"matched": False, "reason": "no item explains this image clearly more cheaply than being a new original",
+                        "nearest": parent_id, "cost": round(forward.total, 4), "limit": round(limit, 4)}
             reverse = self.engine.media.cost(data, self.engine.data[parent_id])
             nodes = {n["id"]: n for n in self.tree["nodes"]}
             root_id, seen = parent_id, set()
@@ -315,6 +319,7 @@ class Pool:
             return {"matched": True, "parent": nodes.get(parent_id), "root": nodes.get(root_id), "edit": short, "explain": full,
                     "cost": round(forward.total, 4), "reverse_cost": round(reverse.total, 4),
                     "semantic_only": forward.semantic,
+                    "match_strength": round(1.0 - forward.total / limit, 3),
                     "would_be_better_parent": reverse.total < current_cost and reverse.total < forward.total,
                     "depth_below_root": len(seen)}
 
