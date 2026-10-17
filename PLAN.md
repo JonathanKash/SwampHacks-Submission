@@ -121,6 +121,7 @@ are, and an exportable report.
       server's LAN URL (or PUBLIC_URL) when the page is opened via localhost
 - [x] Phone-width (390px) check of the edit flow: no overflow, layout fine
 - [x] Low-memory mode widens candidates to k=16 (pHash-only search missed a true parent at k=8)
+- [x] Moderation: delete an image (demo pool or case) with child re-linking; documented in the runbook
 
 ## Phase 5 — second media type: text (started 2026-10-17 ~02:30 ET)
 - [x] Media plug-in interface (lineage/media.py); Engine takes any plug-in; evidence accepts plug-in reasons

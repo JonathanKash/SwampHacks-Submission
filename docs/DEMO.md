@@ -38,6 +38,8 @@ updates with evidence -> audit batch upload -> calibrated confidence -> industry
 - **Port 8000 is taken** on the dev laptop; everything is on 8010.
 - **Memory**: the server holds one CLIP model (~1.5 GB). Do not run `eval.py` / `calibrate.py` next to
   it on a 16 GB laptop during the demo; each loads its own copy.
+- **Remove one bad upload** (moderation): `curl -X DELETE -H "X-Admin-Token: $ADMIN_TOKEN" http://localhost:8010/api/items/<id>`
+  (ids are visible in the tree details panel). Children are re-linked to its parent and the tree rebuilds.
 - **Reset mid-event**: `POST /api/reset` with header `X-Admin-Token: <ADMIN_TOKEN>` (if set), then
   rerun `seed_pool.py` and restart the server.
 
