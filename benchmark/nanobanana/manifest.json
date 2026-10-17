@@ -85,6 +85,169 @@
           "sha256": "7b85e8bbfc92bf2bddaaf8c6c5ca79b311691abbfc2af5fb8fd3241c1f115977",
           "instruction": "Add one small, realistic object that fits the scene (for example a bird, a cup, a bicycle, a sign). Keep everything else pixel-identical.",
           "tool": "antigravity/gemini"
+        },
+        {
+          "edit": "object_remove",
+          "file": "edits/src02/object_remove.png",
+          "parent": "src02.jpg",
+          "sha256": "90b07d21bfa4fd35df3c039aba905298195c1d579aa49554a9300f09c0fda8e1",
+          "instruction": "Remove one clearly visible object or person from the scene and fill the area realistically. Keep everything else pixel-identical.",
+          "tool": "antigravity/gemini"
+        },
+        {
+          "edit": "text_overlay",
+          "file": "edits/src02/text_overlay.png",
+          "parent": "src02.jpg",
+          "sha256": "1dd74bd9a35c5b93e82ab805663dd489face2cdbe786083b133535eaa7999fae",
+          "instruction": "Add a short bold meme-style caption in white text with a black outline across the bottom of the image. Keep everything else pixel-identical.",
+          "tool": "antigravity/gemini"
+        }
+      ],
+      "failed": [
+        {
+          "edit": "background_swap",
+          "note": "I have started the image editing task using the image generation subagent to replace the background while keeping the main subject identical in position and size. I will verify the output once complete.\nWaiting for the image editing subagent to complete the background swap.\nFAILED\n"
+        },
+        {
+          "edit": "style_change",
+          "note": "Waiting for the image-generator subagent to complete the task. Run without tools to await reactive notification.\nI have launched the image editing process and am waiting for it to complete.\nFAILED\nroot agent idle; waiting up to 30m0s for 1 background task(s)\n"
+        },
+        {
+          "edit": "subtle_retouch",
+          "note": "Wait for subagent completion.\nFAILED\n"
+        }
+      ]
+    },
+    {
+      "source": {
+        "file": "src03.jpg",
+        "sha256": "87946cb906a9a205aac7cdcda7590cf0808f6269b6862b6155f5cec0816d2cfa"
+      },
+      "edits": [],
+      "failed": [
+        {
+          "edit": "object_add",
+          "note": "Waiting for the image-generator subagent to edit and save the image.\nFAILED\n"
+        },
+        {
+          "edit": "object_remove",
+          "note": "Waiting for the image-generator subagent to finish editing the image.\nFAILED\n"
+        },
+        {
+          "edit": "background_swap",
+          "note": "Waiting for the image-generator subagent to edit and save the image.\nFAILED\n"
+        },
+        {
+          "edit": "style_change",
+          "note": "Waiting for subagent `image-generator` to complete the task.\nFAILED\n"
+        },
+        {
+          "edit": "subtle_retouch",
+          "note": "Waiting for the image generation task to complete.\nFAILED\n"
+        },
+        {
+          "edit": "text_overlay",
+          "note": "Waiting for the image-generation subagent to complete the edit.\nWaiting for the image-editing process to complete.\nWaiting for the image edit to complete.\nWaiting for the subagent to finish generating the edited image.\nFAILED\nroot agent idle; waiting up to 30m0s for 1 background task(s)\n"
+        }
+      ]
+    },
+    {
+      "source": {
+        "file": "src04.jpg",
+        "sha256": "4417b7fe752db0c1147eb1daeab8a564bec3dbd2af717fc9b3ff51344e43369a"
+      },
+      "edits": [
+        {
+          "edit": "background_swap",
+          "file": "edits/src04/background_swap.png",
+          "parent": "src04.jpg",
+          "sha256": "87706a368b796c1727efe24c7159fe006e523caf73d7eea399487d1af693ad9c",
+          "instruction": "Replace the background behind the main subject with a different but plausible background. Keep the main subject identical in position and size.",
+          "tool": "antigravity/gemini"
+        }
+      ],
+      "failed": [
+        {
+          "edit": "object_add",
+          "note": "Got it, waiting for the image generator subagent to finish processing.\n"
+        },
+        {
+          "edit": "object_remove",
+          "note": "Working on editing the image with the image generation tool...\nFAILED\n"
+        },
+        {
+          "edit": "style_change",
+          "note": "Waiting for image-generator subagent to complete the edit.\nWaiting for the image generation to finish...\nFAILED\nroot agent idle; waiting up to 30m0s for 1 background task(s)\n"
+        },
+        {
+          "edit": "subtle_retouch",
+          "note": "Subagent `Image Editor` has been invoked and is currently editing the image. I will wait for its completion.\nFAILED\n"
+        },
+        {
+          "edit": "text_overlay",
+          "note": "FAILED\n"
+        }
+      ]
+    },
+    {
+      "source": {
+        "file": "src05.jpg",
+        "sha256": "2a631f3ee5795748dfd38e648a0b277912a334737c5fc3f2b6bdb21ffdee158d"
+      },
+      "edits": [],
+      "failed": [
+        {
+          "edit": "object_add",
+          "note": "FAILED\n"
+        },
+        {
+          "edit": "object_remove",
+          "note": "An image editing subagent has been dispatched to remove an object from the image and save the result as requested. Awaiting completion.\nFAILED\n"
+        },
+        {
+          "edit": "background_swap",
+          "note": "Wait for subagent completion...\nFAILED\n"
+        },
+        {
+          "edit": "style_change",
+          "note": "Ready and waiting for the subagent to complete the task.\nFAILED\n"
+        },
+        {
+          "edit": "subtle_retouch",
+          "note": "Waiting for the image-generation subagent to complete the edit.\nWaiting for the image editing subagent to finish processing.\nStill waiting for image editing to complete.\nWaiting for subagent completion.\nFAILED\n"
+        },
+        {
+          "edit": "text_overlay",
+          "note": "An image editor subagent has been launched to edit the image using the image tool. I will wait for it to complete.\nI am waiting for the image generator subagent to finish editing the image.\nFAILED\n"
+        }
+      ]
+    },
+    {
+      "source": {
+        "file": "src06.jpg",
+        "sha256": "de0d9f9f23852025c30be99a3967eae8f038024d2738b2bfbcc547718107da6f"
+      },
+      "edits": [],
+      "failed": [
+        {
+          "edit": "object_add",
+          "note": "Got it, waiting for the image generator subagent to finish editing the image.\nWaiting for the image generation subagent to complete the task.\nFAILED\nroot agent idle; waiting up to 30m0s for 1 background task(s)\n"
+        },
+        {
+          "edit": "object_remove",
+          "note": "DONE\nFAILED\n"
+        },
+        {
+          "edit": "background_swap",
+          "note": "Waiting for the image-generator subagent to complete the task...\nFAILED\n"
+        },
+        {
+          "edit": "style_change",
+          "note": "Waiting for image-generator subagent to complete the task...\nWaiting for the image generation to complete.\nFAILED\nroot agent idle; waiting up to 30m0s for 1 background task(s)\n"
+        },
+        {
+          "edit": "subtle_retouch",
+          "note": "Waiting for the image-generator subagent to complete the edit.\nI'll wait for the subagent to finish generating the edited image.\nFAILED\n"
         }
       ]
     }
