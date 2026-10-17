@@ -147,3 +147,23 @@ def test_confidence_reports_other_corpora_for_the_same_bucket():
            "corpora": {"web-memes": {"buckets": {"margin ≥ 0.30": {"correct": 58, "n": 100}}}}}
     c = confidence_for(0.5, cal)
     assert c["precision"] == 0.92 and c["by_corpus"]["web-memes"] == {"precision": 0.58, "n": 100}
+
+
+def test_cli_identify_against_a_case_dir(tmp_path):
+    import contextlib
+
+    import lineage_cli
+    from lineage.pool import Pool
+
+    case_dir = tmp_path / "kb"
+    pool = Pool(case_dir, use_clip=False, mode="audit")
+    original = synthetic_photo(51)
+    pool.add_image(original, None, None, {"filename": "fam/original.jpg", "family": "Fam", "family_id": "fam",
+                                          "role": "documented original", "date": "2020-01-01"}, source="web")
+    query = tmp_path / "q.png"
+    image_edits.crop(original, random.Random(9), fraction=0.7)[0].save(query)
+    buf = io.StringIO()
+    with contextlib.redirect_stdout(buf):
+        assert lineage_cli.main(["--no-clip", "identify", str(query), "--case-dir", str(case_dir), "--json"]) == 0
+    out = json.loads(buf.getvalue())
+    assert out["matched"] is True and out["root"]["params"]["family"] == "Fam"

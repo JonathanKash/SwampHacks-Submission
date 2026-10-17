@@ -4,6 +4,7 @@
   lineage tree FOLDER [--json] [--out report.json] reconstruct the lineage of every image in a folder
   lineage place IMAGE --against FOLDER [--json]   where does IMAGE land in an existing lineage
   lineage batch-compare FOLDER [--out pairs.csv]  every pair in a folder, as a CSV ledger
+  lineage identify IMAGE [--case-dir data/cases/<id>] [--json]  place IMAGE against a stored case (knowledge base)
 
 Add --no-clip on small machines (pHash-only candidate search). Reports record the tool
 version, the weights hash and the SHA-256 of every input, so the same inputs reproduce the
@@ -181,6 +182,52 @@ def cmd_place(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_identify(args: argparse.Namespace) -> int:
+    """Same placement as /api/identify, against a case directory on disk (no server needed)."""
+    from lineage import config
+    from lineage.pool import Pool
+
+    case_dir = Path(args.case_dir) if args.case_dir else None
+    if case_dir is None:
+        cases_dir = config.DATA_DIR / "cases"
+        index = json.loads((cases_dir / "index.json").read_text(encoding="utf-8")) if (cases_dir / "index.json").exists() else {}
+        memes = sorted(((m.get("items", 0), cid) for cid, m in index.items() if "meme" in m.get("name", "").lower()), reverse=True)
+        if not memes:
+            print("no knowledge-base case found; pass --case-dir or run backend/scripts/build_meme_case.py", file=sys.stderr)
+            return 2
+        case_dir = cases_dir / memes[0][1]
+    pool = Pool(case_dir, use_clip=not args.no_clip, mode="audit")
+    image = Path(args.image)
+    data = load_image_data("Q", image, pool.engine.embedder)
+    placed = pool.place(data)
+    out = {"image": str(image), "case_dir": str(case_dir), **{k: v for k, v in placed.items() if k not in ("parent", "root")}}
+    for key in ("parent", "root"):
+        node = placed.get(key)
+        if node:
+            out[key] = {"id": node["id"], "params": node.get("params", {})}
+    if placed.get("matched"):
+        fam_id = (placed["parent"].get("params") or {}).get("family_id")
+        if fam_id:
+            documented = next((n for n in pool.tree["nodes"] if (n.get("params") or {}).get("family_id") == fam_id
+                               and str((n.get("params") or {}).get("role", "")).startswith("documented")), None)
+            if documented:
+                out["tree_disagrees"] = bool(placed.get("root") and placed["root"]["id"] != documented["id"])
+                out["root"] = {"id": documented["id"], "params": documented.get("params", {})}
+    if args.json:
+        print(json.dumps(out, indent=2, ensure_ascii=False))
+        return 0
+    if not out["matched"]:
+        print(f"No family matched: {out.get('reason')}")
+        return 0
+    fam = out["root"]["params"]
+    print(f"Family: {fam.get('family') or fam.get('filename')}  (match strength {out['match_strength']:.0%})")
+    print(f"Documented original: {fam.get('filename')}  date {fam.get('date') or '?'}  source {fam.get('source_url') or '?'}")
+    print(f"Your copy: {out['explain']} (from {out['parent']['params'].get('role') or out['parent']['id']})")
+    if out.get("tree_disagrees"):
+        print("Note: the stored tree had linked the matched copy to another family; the item's family label is used.")
+    return 0
+
+
 def cmd_batch(args: argparse.Namespace) -> int:
     folder = Path(args.folder)
     embedder = None if args.no_clip else ClipEmbedder()
@@ -225,6 +272,11 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--against", required=True)
     p.add_argument("--json", action="store_true")
     p.set_defaults(fn=cmd_place)
+    i = sub.add_parser("identify", help="place an image against a stored case (knowledge base)")
+    i.add_argument("image")
+    i.add_argument("--case-dir")
+    i.add_argument("--json", action="store_true")
+    i.set_defaults(fn=cmd_identify)
     b = sub.add_parser("batch-compare", help="every pair in a folder as CSV")
     b.add_argument("folder")
     b.add_argument("--out")
