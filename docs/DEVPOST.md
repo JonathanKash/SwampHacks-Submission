@@ -18,6 +18,8 @@ The `/audit` workspace applies the same engine to industry provenance work witho
 
 Lineage is designed for newsroom verification, trust and safety investigations, legal discovery, and digital asset management: settings where a team receives many related images and needs to know which came first, what changed, and which decisions require review.
 
+Visitors can join from their own phones: the big screen and the landing page show a scan-to-join QR code, a new image triggers a brief arrival overlay on the screen with the source, the edit and the verdict, and organisers can remove a bad upload with one moderation call that re-links its children.
+
 ## How we built it
 
 Each image receives a 64-bit pHash and a 512-bit binarized CLIP fingerprint. We use Hamming distance to select the top eight likely relatives, then run the expensive directed comparison only on those candidates rather than on every possible pair.

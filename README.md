@@ -16,8 +16,8 @@ Repository: https://github.com/JonathanKash/SwampHacks-Submission
 | Page      | Who it is for | What happens |
 |-----------|---------------|--------------|
 | `/`       | everyone      | The idea, the pipeline, how to join the demo, the industry use cases |
-| `/edit`   | tablet        | Pick a pool image, apply exactly one edit (crop, rotate, filter, caption, crunchy JPEG, AI restyle), submit, see the verdict with its evidence |
-| `/tree`   | big screen    | The live forest: thumbnails, edge labels, a tree-accuracy scoreboard, newest-image callout, evidence panel |
+| `/edit`   | tablet or phone | Pick a pool image, apply exactly one edit (crop, rotate, filter, caption, crunchy JPEG, AI restyle), submit, see the verdict with its evidence and the aligned evidence picture |
+| `/tree`   | big screen    | The live forest: thumbnails, edge labels, a tree-accuracy scoreboard, an arrival overlay when a new image lands, a scan-to-join QR code, evidence and provenance panel |
 | `/audit`  | industry      | Provenance audit: create a case (with analyst), drop in many versions, get the tree with calibrated precision and reliability tiers, visual diff plates, tamper-evident footprints (SHA-256, pHash), metadata and C2PA hints, compare any two images, JSON (hash-stamped, optionally HMAC-signed), CSV ledger and self-contained HTML reports |
 | `/text`   | curious       | The same core on paragraphs: paste versions, see which was trimmed, reworded or rewritten |
 
