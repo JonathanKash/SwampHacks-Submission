@@ -21,11 +21,11 @@
     "semantic_scale": 5.0
   },
   "buckets": {
-    "margin ≥ 0.30": {
+    "margin \u2265 0.30": {
       "correct": 35,
       "n": 38
     },
-    "margin 0.05–0.30": {
+    "margin 0.05\u20130.30": {
       "correct": 99,
       "n": 122
     },
@@ -33,7 +33,7 @@
       "correct": 62,
       "n": 92
     },
-    "margin 0.02–0.05": {
+    "margin 0.02\u20130.05": {
       "correct": 16,
       "n": 23
     }
@@ -73,15 +73,15 @@
   "corpora": {
     "web-memes": {
       "buckets": {
-        "margin ≥ 0.30": {
+        "margin \u2265 0.30": {
           "correct": 97,
           "n": 172
         },
-        "margin 0.05–0.30": {
+        "margin 0.05\u20130.30": {
           "correct": 8,
           "n": 12
         },
-        "margin 0.02–0.05": {
+        "margin 0.02\u20130.05": {
           "correct": 0,
           "n": 2
         }
@@ -92,15 +92,15 @@
     },
     "web-memes-clean-truth": {
       "buckets": {
-        "margin 0.05–0.30": {
+        "margin 0.05\u20130.30": {
           "correct": 6,
           "n": 9
         },
-        "margin ≥ 0.30": {
+        "margin \u2265 0.30": {
           "correct": 71,
           "n": 97
         },
-        "margin 0.02–0.05": {
+        "margin 0.02\u20130.05": {
           "correct": 0,
           "n": 1
         }

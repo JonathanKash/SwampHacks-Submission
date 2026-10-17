@@ -28,7 +28,7 @@ def main(results_path: str, name: str) -> None:
         "source": f"benchmark/run_benchmark.py ({res.get('mode')}), {Path(results_path).name}",
         "note": "Observed precision of parent-child claims on this corpus, by the same margin buckets.",
     }
-    CAL.write_text(json.dumps(cal, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    CAL.write_text(json.dumps(cal, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")
     sys.stdout.reconfigure(encoding="utf-8")
     for b, v in buckets.items():
         print(f"  {name} {b}: {v['correct']}/{v['n']} = {v['correct'] / v['n']:.0%}")
