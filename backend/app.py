@@ -299,6 +299,75 @@ def case_thumb(case_id: str, file: str):
     return FileResponse(path)
 
 
+# ---- pairwise compare: "Why is this the parent?" -------------------------------------
+def _item_data_and_meta(target_pool: Pool, item_id: str) -> tuple:
+    if item_id not in target_pool.engine.data:
+        raise HTTPException(404, f"unknown item {item_id}")
+    node = next((n for n in target_pool.tree["nodes"] if n["id"] == item_id), {})
+    return target_pool.engine.data[item_id], {"footprint": node.get("footprint"), "metadata": node.get("metadata")}
+
+
+def _upload_data_and_meta(upload: UploadFile, label: str) -> tuple:
+    """Decode an ad-hoc upload into ImageData plus the same hints a pool item would carry."""
+    import hashlib
+    import tempfile
+
+    from lineage.plugins.image_fingerprint import load_image_data
+    from lineage.pool import c2pa_present, exif_hints, jpeg_quality_estimate
+
+    raw = upload.file.read()
+    try:
+        img = Image.open(io.BytesIO(raw))
+        hints = {**exif_hints(img), "c2pa_manifest": c2pa_present(raw)}
+        width, height = img.size
+    except Exception as exc:
+        raise HTTPException(400, f"could not decode {upload.filename}: {exc}") from exc
+    with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp:
+        img.convert("RGB").save(tmp, format="PNG")
+        path = Path(tmp.name)
+    try:
+        data = load_image_data(f"{label}-{hashlib.sha256(raw).hexdigest()[:8]}", path, pool.engine.embedder)
+    finally:
+        path.unlink(missing_ok=True)
+    meta = {"footprint": {"sha256": hashlib.sha256(raw).hexdigest(), "width": width, "height": height,
+                          "bytes": len(raw), "jpeg_quality": jpeg_quality_estimate(raw)}, "metadata": hints}
+    return data, meta
+
+
+@app.post("/api/compare")
+def compare_pair(a: UploadFile | None = File(None), b: UploadFile | None = File(None),
+                 a_id: str | None = Form(None), b_id: str | None = Form(None), case: str | None = Form(None)) -> dict:
+    """Two files, or two item ids from the demo pool (or a case): parent/child/siblings/unrelated/inconclusive."""
+    from lineage.compare import compare
+
+    target = _case_pool(case) if case else pool
+    if a is not None:
+        da, ma = _upload_data_and_meta(a, "A")
+    elif a_id:
+        da, ma = _item_data_and_meta(target, a_id)
+    else:
+        raise HTTPException(400, "provide file a or a_id")
+    if b is not None:
+        db, mb = _upload_data_and_meta(b, "B")
+    elif b_id:
+        db, mb = _item_data_and_meta(target, b_id)
+    else:
+        raise HTTPException(400, "provide file b or b_id")
+    report = compare(da, db, ma, mb, tool_version=TOOL_VERSION)
+    # Visual evidence inline (works for ad-hoc uploads too): source aligned onto copy, both ways.
+    import base64
+
+    from lineage.diff import diff_plate, encode_png
+
+    plates = {}
+    for key, (src, dst) in {"a_to_b": (da, db), "b_to_a": (db, da)}.items():
+        plate, info = diff_plate(src, dst)
+        plates[key] = {"png": "data:image/png;base64," + base64.b64encode(encode_png(plate)).decode("ascii"),
+                       "registered": info["registered"], "inliers": info["inliers"]}
+    report["plates"] = plates
+    return report
+
+
 # ---- text media (stateless demo of the second plug-in) -------------------------------
 class TextVersion(BaseModel):
     id: str | None = None

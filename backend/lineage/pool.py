@@ -41,6 +41,32 @@ def c2pa_present(raw: bytes | None) -> bool:
     return b"jumb" in head and b"c2pa" in head
 
 
+# Luminance quantization table of the IJG baseline at quality 50 (the scaling reference).
+_IJG_LUMA_Q50 = [
+    16, 11, 10, 16, 24, 40, 51, 61, 12, 12, 14, 19, 26, 58, 60, 55, 14, 13, 16, 24, 40, 57, 69, 56,
+    14, 17, 22, 29, 51, 87, 80, 62, 18, 22, 37, 56, 68, 109, 103, 77, 24, 35, 55, 64, 81, 104, 113, 92,
+    49, 64, 78, 87, 103, 121, 120, 101, 72, 92, 95, 98, 112, 100, 103, 99,
+]
+
+
+def jpeg_quality_estimate(raw: bytes | None) -> int | None:
+    """Estimated IJG quality (1-100) from the file's luminance quantization table, or None if
+    the upload is not a JPEG. Compression history is a hint: parents are usually saved at
+    higher quality, but re-saving a copy at q95 does not make it a parent."""
+    if not raw or raw[:2] != bytes([0xFF, 0xD8]):  # JPEG SOI marker
+        return None
+    try:
+        tables = Image.open(io.BytesIO(raw)).quantization or {}
+    except Exception:
+        return None
+    luma = tables.get(0)
+    if not luma or len(luma) < 64:
+        return None
+    scale = 100.0 * sum(float(q) / ref for q, ref in zip(luma, _IJG_LUMA_Q50)) / 64.0
+    quality = (200.0 - scale) / 2.0 if scale <= 100.0 else 5000.0 / scale
+    return int(max(1, min(100, round(quality))))
+
+
 def exif_hints(img: Image.Image) -> dict:
     """Metadata hints: useful context, but easy to strip or forge, so never evidence."""
     try:
@@ -103,11 +129,15 @@ class Pool:
         `raw` is the uploaded file as received (for metadata/manifest hints)."""
         params = dict(params or {})
         params.setdefault("metadata", {**exif_hints(img), "c2pa_manifest": c2pa_present(raw)})
-        # Tamper-evident footprint of what was received, before any resizing.
+        # Tamper-evident footprint of what was received, before any resizing. The hash is of
+        # the uploaded bytes when we have them, else of a lossless re-encode.
+        raw_bytes = raw
         raw = io.BytesIO()
         img.save(raw, format="PNG")
-        params.setdefault("footprint", {"sha256": hashlib.sha256(raw.getvalue()).hexdigest(),
-                                        "width": img.size[0], "height": img.size[1], "bytes": len(raw.getvalue())})
+        params.setdefault("footprint", {"sha256": hashlib.sha256(raw_bytes or raw.getvalue()).hexdigest(),
+                                        "width": img.size[0], "height": img.size[1],
+                                        "bytes": len(raw_bytes) if raw_bytes else len(raw.getvalue()),
+                                        "jpeg_quality": jpeg_quality_estimate(raw_bytes)})
         img = img.convert("RGB")
         w, h = img.size
         scale = config.MAX_SIDE / max(w, h)
