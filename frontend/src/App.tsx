@@ -3,6 +3,7 @@ import AuditPage from "./AuditPage";
 import ComparePage from "./ComparePage";
 import EditPage from "./EditPage";
 import ErrorBoundary from "./ErrorBoundary";
+import IdentifyPage from "./IdentifyPage";
 import LandingPage from "./LandingPage";
 import MethodPage from "./MethodPage";
 import TextPage from "./TextPage";
@@ -14,6 +15,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/edit" element={<EditPage />} />
+        <Route path="/identify" element={<IdentifyPage />} />
         <Route path="/compare" element={<ComparePage />} />
         <Route path="/tree" element={<TreePage />} />
         <Route path="/audit" element={<AuditPage />} />

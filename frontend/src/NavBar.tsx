@@ -1,10 +1,19 @@
 import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { BriefcaseIcon, CompareIcon, InfoIcon, NetworkIcon, PencilIcon, TextLinesIcon } from "./icons";
+import {
+  BriefcaseIcon,
+  CompareIcon,
+  IdentifyIcon,
+  InfoIcon,
+  NetworkIcon,
+  PencilIcon,
+  TextLinesIcon,
+} from "./icons";
 
 const NAV_ITEMS = [
   { to: "/", label: "About", icon: InfoIcon, end: true },
   { to: "/edit", label: "Make an edit", icon: PencilIcon, end: false },
+  { to: "/identify", label: "Identify", icon: IdentifyIcon, end: false },
   { to: "/compare", label: "Compare", icon: CompareIcon, end: false },
   { to: "/tree", label: "Live tree", icon: NetworkIcon, end: false },
   { to: "/audit", label: "Audit", icon: BriefcaseIcon, end: false },

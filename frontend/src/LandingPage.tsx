@@ -47,6 +47,10 @@ export default function LandingPage() {
           Just pixels.
         </p>
         <div className="hero-actions">
+          <Link to="/identify" className="primary-button cta">
+            Identify a meme
+            <small>one upload · 38 families</small>
+          </Link>
           <Link to="/edit" className="primary-button cta">
             Make an edit
             <small>tablet · 30 seconds</small>

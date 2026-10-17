@@ -128,3 +128,12 @@ export function CompareIcon({ width = 16, ...props }: IconProps) {
     </svg>
   );
 }
+
+export function IdentifyIcon({ width = 16, ...props }: IconProps) {
+  return (
+    <svg {...iconProps(width)} {...props}>
+      <circle cx="10.5" cy="10.5" r="6.5" />
+      <path d="m15.5 15.5 5 5M8 11l1.8 1.8L13.5 9" />
+    </svg>
+  );
+}

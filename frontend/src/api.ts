@@ -154,6 +154,35 @@ export interface TreeNode extends PoolItem {
   evidence: Evidence;
 }
 
+interface IdentifyResponseBase {
+  case: string;
+  footprint: Record<string, unknown>;
+  metadata: Record<string, unknown>;
+}
+
+export interface IdentifyMatchResponse extends IdentifyResponseBase {
+  matched: true;
+  parent: TreeNode;
+  root: TreeNode;
+  edit: string;
+  explain: string;
+  cost: number;
+  reverse_cost: number;
+  semantic_only: boolean;
+  would_be_better_parent: boolean;
+  depth_below_root: number;
+  report: CompareReportResponse;
+}
+
+export interface IdentifyNoMatchResponse extends IdentifyResponseBase {
+  matched: false;
+  reason: string;
+  nearest?: string;
+  cost?: number;
+}
+
+export type IdentifyResponse = IdentifyMatchResponse | IdentifyNoMatchResponse;
+
 export interface TreeEdge {
   src: string;
   dst: string;
@@ -256,6 +285,14 @@ export function fetchCalibration(signal?: AbortSignal): Promise<CalibrationRespo
 
 export function comparePair(formData: FormData, signal?: AbortSignal): Promise<CompareReportResponse> {
   return requestJson<CompareReportResponse>("/api/compare", {
+    method: "POST",
+    body: formData,
+    signal,
+  });
+}
+
+export function identifyImage(formData: FormData, signal?: AbortSignal): Promise<IdentifyResponse> {
+  return requestJson<IdentifyResponse>("/api/identify", {
     method: "POST",
     body: formData,
     signal,
