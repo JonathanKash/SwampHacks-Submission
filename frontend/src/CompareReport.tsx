@@ -80,7 +80,17 @@ export default function CompareReport({ report }: CompareReportProps) {
     <article className={`compare-report verdict-${report.verdict}`}>
       <div className="compare-verdict-card">
         <p className="eyebrow">Pairwise verdict</p>
-        <h2>{verdictText(report)}</h2>
+        <h2>
+          {verdictText(report)}
+          {report.rerendered && (
+            <span
+              className="signal-kind is-indicator"
+              title="The two align, but every pixel differs after the best colour fit: restyle, background swap or generative re-draw. Direction is not measurable from pixels."
+            >
+              Re-rendered copy
+            </span>
+          )}
+        </h2>
         {report.verdict === "inconclusive" && (
           <h3 className="compare-relation">{report.relation}</h3>
         )}

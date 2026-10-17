@@ -101,6 +101,7 @@ export type CompareConfidence =
 export interface CompareReportResponse {
   verdict: CompareVerdict;
   relation: string;
+  rerendered?: boolean;
   parent: "A" | "B" | null;
   child: "A" | "B" | null;
   summary: string;

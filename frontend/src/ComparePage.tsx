@@ -104,7 +104,7 @@ export default function ComparePage() {
         <h1>Which image came first?</h1>
         <p>
           Add two files. Lineage aligns and measures them in both directions, then shows the evidence for
-          parent and child, siblings, unrelated files, or an inconclusive result.
+          parent and child, siblings, unrelated files, a re-rendered copy, or an inconclusive result.
         </p>
       </section>
 
