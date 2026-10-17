@@ -1121,6 +1121,10 @@ button:disabled {
   gap: 7px;
 }
 
+.audit-new-case-fields input:first-child {
+  grid-column: 1 / -1;
+}
+
 .audit-new-case input {
   min-width: 0;
   min-height: 58px;
@@ -1235,6 +1239,27 @@ button:disabled {
   line-height: 1.6;
 }
 
+.audit-how-to-read {
+  max-width: 54rem;
+  margin: 0 0 28px;
+  padding: 17px 19px;
+  border: 1px solid rgba(98, 230, 166, 0.25);
+  border-radius: 17px;
+  background: rgba(98, 230, 166, 0.045);
+}
+
+.audit-how-to-read h3 {
+  margin: 0 0 7px;
+  font-size: 0.9rem;
+}
+
+.audit-how-to-read p {
+  margin: 0;
+  color: #bdc9c3;
+  font-size: 0.83rem;
+  line-height: 1.52;
+}
+
 .audit-use-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1277,6 +1302,13 @@ button:disabled {
 
 .audit-case-header h2 {
   font-size: clamp(1.4rem, 2.4vw, 2rem);
+}
+
+.audit-case-analyst {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
 }
 
 .audit-actions {
@@ -1444,6 +1476,70 @@ button:disabled {
   align-items: flex-start;
 }
 
+.audit-precision {
+  display: grid;
+  justify-items: end;
+  gap: 3px;
+}
+
+.audit-precision small {
+  color: var(--muted);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.visual-diff-block {
+  margin-top: 14px;
+}
+
+.visual-diff-toggle {
+  height: 38px;
+  min-height: 38px;
+  padding: 0 12px;
+  border-radius: 11px;
+  font-size: 0.76rem;
+}
+
+.visual-diff {
+  position: relative;
+  min-height: 52px;
+  margin: 10px 0 0;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #070b0a;
+}
+
+.visual-diff .spinner {
+  position: absolute;
+  top: 20px;
+  left: calc(50% - 10px);
+  border-color: rgba(98, 230, 166, 0.18);
+  border-top-color: var(--green);
+}
+
+.visual-diff img {
+  display: block;
+  width: 100%;
+  border-radius: 8px;
+}
+
+.visual-diff figcaption {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.67rem;
+  line-height: 1.4;
+}
+
+.visual-diff-error {
+  margin: 4px 2px;
+  color: #ffbcc5;
+  font-size: 0.76rem;
+  line-height: 1.4;
+}
+
 .metadata-hints {
   margin-top: 14px;
   padding: 15px;
@@ -1486,6 +1582,59 @@ button:disabled {
   margin: 0;
   color: var(--muted);
   font-size: 0.8rem;
+}
+
+.footprint {
+  margin-top: 14px;
+  padding: 15px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: rgba(9, 14, 13, 0.68);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.footprint h3 {
+  margin: 0 0 10px;
+  color: var(--green);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.footprint dl {
+  display: grid;
+  margin: 0;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 8px 10px;
+  font-size: 0.72rem;
+}
+
+.footprint dt {
+  color: var(--muted);
+}
+
+.footprint dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.footprint-hash {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.footprint-hash button {
+  padding: 2px 7px;
+  border: 1px solid #3a4a45;
+  border-radius: 7px;
+  color: var(--green);
+  background: #17201e;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.66rem;
 }
 
 .audit-print-report {
@@ -1626,6 +1775,15 @@ button:disabled {
   .audit-print-report h1 {
     margin: 0 0 12px;
     font-size: 24pt;
+  }
+
+  .audit-print-report header > .audit-print-analyst {
+    margin: -7px 0 12px;
+    color: #444;
+    font-size: 9pt;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
   }
 
   .audit-print-report header dl {

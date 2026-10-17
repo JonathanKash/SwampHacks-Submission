@@ -549,9 +549,17 @@
 }
 
 .score-side .tree-report-link {
+  height: 36px;
+  min-height: 36px;
   padding: 0 11px;
+  border-radius: 11px;
   font-size: 0.76rem;
   white-space: nowrap;
+}
+
+.tree-report-links {
+  display: flex;
+  gap: 6px;
 }
 
 .newest-callout {

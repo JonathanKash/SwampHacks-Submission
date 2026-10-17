@@ -6,6 +6,7 @@ import { provenancePath } from "./provenance";
 import TreeView from "./TreeView";
 import { usePageTitle } from "./usePageTitle";
 import { useTreePolling } from "./useTreePolling";
+import VisualDiff from "./VisualDiff";
 
 function formatPercent(value: number | null): string {
   if (value === null) return "—";
@@ -64,9 +65,19 @@ export default function TreePage() {
           <div className="score-side">
             <span>{tree?.nodes.length ?? 0} images</span>
             <span>{tree?.nodes.filter((node) => node.root).length ?? 0} families</span>
-            <a className="secondary-button tree-report-link" href="/api/report" download>
-              Download report
-            </a>
+            <span className="tree-report-links">
+              <a className="secondary-button tree-report-link" href="/api/report" download>
+                JSON
+              </a>
+              <a
+                className="secondary-button tree-report-link"
+                href="/api/report.html"
+                target="_blank"
+                rel="noreferrer"
+              >
+                HTML report
+              </a>
+            </span>
             <span
               className={`poll-dot ${fetching ? "is-fetching" : ""} ${error ? "has-error" : ""}`}
               title={error ?? "Checking for new images every 2 seconds"}
@@ -143,6 +154,12 @@ export default function TreePage() {
                 <p className="eyebrow">{selectedNode.root ? "Original" : "Edited copy"}</p>
                 <h2>{incomingEdge ? incomingEdge.label : "root of its family"}</h2>
                 <img src={selectedNode.url} alt={`Full-size image ${selectedNode.id}`} />
+                {!selectedNode.root && tree && (
+                  <VisualDiff
+                    key={`${selectedNode.id}-${tree.version}`}
+                    src={`/api/diff/${encodeURIComponent(selectedNode.id)}?t=${tree.version}`}
+                  />
+                )}
                 {incomingEdge ? (
                   <div className="edge-details">
                     <div className="detail-heading">

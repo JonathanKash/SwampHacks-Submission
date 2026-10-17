@@ -18,7 +18,7 @@ Repository: https://github.com/JonathanKash/SwampHacks-Submission
 | `/`       | everyone      | The idea, the pipeline, how to join the demo, the industry use cases |
 | `/edit`   | tablet        | Pick a pool image, apply exactly one edit (crop, rotate, filter, caption, crunchy JPEG, AI restyle), submit, see the verdict with its evidence |
 | `/tree`   | big screen    | The live forest: thumbnails, edge labels, a tree-accuracy scoreboard, newest-image callout, evidence panel |
-| `/audit`  | industry      | Provenance audit: create a case, drop in many versions, get the tree with calibrated confidence, metadata hints, a JSON report and a print summary |
+| `/audit`  | industry      | Provenance audit: create a case (with analyst), drop in many versions, get the tree with calibrated precision and reliability tiers, visual diff plates, tamper-evident footprints (SHA-256, pHash), metadata and C2PA hints, JSON and self-contained HTML reports |
 | `/text`   | curious       | The same core on paragraphs: paste versions, see which was trimmed, reworded or rewritten |
 
 Industry use cases: newsroom verification desks, trust and safety teams, legal discovery,

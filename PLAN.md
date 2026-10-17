@@ -100,8 +100,10 @@ are, and an exportable report.
 - [x] Footprint per item (SHA-256, dimensions, bytes, pHash); analyst on cases; tool version in reports
 - [x] Self-contained HTML report with inventory table, how-to-read, method and limitations (/api/report.html, per case)
 - [x] UI polish (Codex): favicon + titles, inline SVG icons, compact mobile nav, shimmer loading, button consistency
-- [ ] Frontend: diff toggle in panels, auditor vocabulary, footprint block, analyst field, HTML report links (Codex, in progress)
-- [ ] Smoke test extended to diff + HTML report endpoints
+- [x] Frontend: diff toggle in panels, auditor vocabulary + reliability tiers, footprint block, analyst field,
+      HTML report links, how-to-read explainer (Codex)
+- [x] Smoke test extended to diff + HTML report + footprint
+- [x] C2PA manifest presence recorded at ingest (unverified hint)
 
 ## Phase 5 — second media type: text (started 2026-10-17 ~02:30 ET)
 - [x] Media plug-in interface (lineage/media.py); Engine takes any plug-in; evidence accepts plug-in reasons

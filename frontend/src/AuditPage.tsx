@@ -18,14 +18,18 @@ import {
   deleteCase,
   fetchCases,
   fetchCaseTree,
+  htmlReportUrl,
   reportUrl,
   uploadCaseFiles,
 } from "./api";
-import EvidenceList from "./EvidenceList";
+import EvidenceList, { reliabilityTier } from "./EvidenceList";
 import NavBar from "./NavBar";
 import { provenancePath, provenanceSentence } from "./provenance";
 import TreeView from "./TreeView";
 import { usePageTitle } from "./usePageTitle";
+import VisualDiff from "./VisualDiff";
+
+const CANDIDATE_ORIGINAL_TITLE = "earliest within this case; an earlier version outside it may exist";
 
 const AUDIT_USES = [
   ["Newsroom verification desks", "Separate likely source images from crops, captions, and circulated copies."],
@@ -45,6 +49,19 @@ function formatPrecision(value: number | null): string {
   return `${Number.isInteger(percent) ? percent.toFixed(0) : percent.toFixed(1)}%`;
 }
 
+function formatBytes(value: number): string {
+  return `${new Intl.NumberFormat().format(value)} bytes`;
+}
+
+function storedAnalyst(): string {
+  try {
+    return window.localStorage.getItem("lineage.analyst") ?? "";
+  } catch {
+    // Storage can be blocked in privacy-focused browser modes.
+    return "";
+  }
+}
+
 function isImage(file: File): boolean {
   return file.type.startsWith("image/") || /\.(avif|bmp|gif|heic|heif|jpe?g|png|tiff?|webp)$/i.test(file.name);
 }
@@ -56,6 +73,7 @@ export default function AuditPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [cases, setCases] = useState<AuditCase[]>([]);
   const [caseName, setCaseName] = useState("");
+  const [analyst, setAnalyst] = useState(storedAnalyst);
   const [tree, setTree] = useState<TreeResponse | null>(null);
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
   const [casesLoading, setCasesLoading] = useState(true);
@@ -69,7 +87,9 @@ export default function AuditPage() {
   const [treeError, setTreeError] = useState<string | null>(null);
   const [refreshToken, setRefreshToken] = useState(0);
   const [copied, setCopied] = useState(false);
+  const [copiedHash, setCopiedHash] = useState(false);
   const copyResetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hashCopyResetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const selectedCaseId = searchParams.get("case");
 
   const selectCase = useCallback((id: string | null) => {
@@ -102,6 +122,7 @@ export default function AuditPage() {
 
   useEffect(() => () => {
     if (copyResetTimer.current !== null) clearTimeout(copyResetTimer.current);
+    if (hashCopyResetTimer.current !== null) clearTimeout(hashCopyResetTimer.current);
   }, []);
 
   useEffect(() => {
@@ -166,6 +187,7 @@ export default function AuditPage() {
     () => tree?.edges.find((edge) => edge.dst === selectedNodeId) ?? null,
     [selectedNodeId, tree],
   );
+  const selectedPrecision = incomingEdge?.evidence.confidence.precision ?? null;
   const summary = tree?.summary ?? {
     images: tree?.nodes.length ?? selectedCase?.items ?? 0,
     families: tree?.nodes.filter((node) => node.root).length ?? 0,
@@ -180,7 +202,7 @@ export default function AuditPage() {
     setCreating(true);
     setError(null);
     try {
-      const created = await createCase(name);
+      const created = await createCase(name, analyst.trim());
       setCases((current) => [...current, created]);
       selectCase(created.id);
       setCaseName("");
@@ -242,12 +264,32 @@ export default function AuditPage() {
 
   const selectNode = useCallback((node: TreeNode) => setSelectedNodeId(node.id), []);
 
+  const handleAnalystChange = (value: string) => {
+    setAnalyst(value);
+    try {
+      window.localStorage.setItem("lineage.analyst", value);
+    } catch {
+      // The form still works when storage is unavailable.
+    }
+  };
+
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
       setCopied(true);
       if (copyResetTimer.current !== null) clearTimeout(copyResetTimer.current);
       copyResetTimer.current = setTimeout(() => setCopied(false), 1_500);
+    } catch (copyError) {
+      setError(messageFrom(copyError));
+    }
+  };
+
+  const handleCopyHash = async (hash: string) => {
+    try {
+      await navigator.clipboard.writeText(hash);
+      setCopiedHash(true);
+      if (hashCopyResetTimer.current !== null) clearTimeout(hashCopyResetTimer.current);
+      hashCopyResetTimer.current = setTimeout(() => setCopiedHash(false), 1_500);
     } catch (copyError) {
       setError(messageFrom(copyError));
     }
@@ -265,13 +307,21 @@ export default function AuditPage() {
             </div>
             <form className="audit-new-case" onSubmit={handleCreate}>
               <label htmlFor="audit-case-name">New case</label>
-              <div>
+              <div className="audit-new-case-fields">
                 <input
                   id="audit-case-name"
                   value={caseName}
                   onChange={(event) => setCaseName(event.target.value)}
                   placeholder="Case name"
                   maxLength={100}
+                />
+                <input
+                  id="audit-case-analyst"
+                  value={analyst}
+                  onChange={(event) => handleAnalystChange(event.target.value)}
+                  placeholder="Analyst (optional)"
+                  aria-label="Analyst (optional)"
+                  maxLength={80}
                 />
                 <button className="primary-button" type="submit" disabled={!caseName.trim() || creating}>
                   {creating ? <span className="spinner" aria-label="Creating case" /> : "Add"}
@@ -291,6 +341,7 @@ export default function AuditPage() {
                 >
                   <button type="button" className="audit-case-select" onClick={() => selectCase(auditCase.id)}>
                     <strong>{auditCase.name}</strong>
+                    {auditCase.analyst && <span>Analyst · {auditCase.analyst}</span>}
                     <span>{auditCase.items} {auditCase.items === 1 ? "image" : "images"}</span>
                   </button>
                   <button
@@ -313,10 +364,20 @@ export default function AuditPage() {
               <p className="eyebrow">Unknown ground truth</p>
               <h2>Turn a folder of image variants into an explainable family tree.</h2>
               <p>
-                An audit identifies the likely original, describes what changed in every copy, and shows how
+                An audit identifies the candidate original, describes what changed in every copy, and shows how
                 sure the system is from calibrated empirical precision. There is no accuracy counter because
                 the real lineage is not known in advance.
               </p>
+              <div className="audit-how-to-read">
+                <h3>How to read a lineage tree</h3>
+                <p>
+                  Each image sits under the image it was most cheaply derived from, using pixel measurements only.{' '}
+                  <span title={CANDIDATE_ORIGINAL_TITLE}>'Candidate original'</span> means nothing in the case explains
+                  it more cheaply than calling it an original; an earlier version outside this case may exist. Precision
+                  figures come from an evaluation on synthetic edit chains with known truth. Treat low-margin decisions
+                  as leads to verify, not conclusions.
+                </p>
+              </div>
               <div className="audit-use-grid">
                 {AUDIT_USES.map(([title, description]) => (
                   <article key={title}>
@@ -332,10 +393,19 @@ export default function AuditPage() {
                 <div>
                   <p className="eyebrow">Active case</p>
                   <h2>{selectedCase.name}</h2>
+                  {selectedCase.analyst && <p className="audit-case-analyst">Analyst · {selectedCase.analyst}</p>}
                 </div>
                 <div className="audit-actions">
                   <a className="secondary-button" href={reportUrl(selectedCase.id)} download>
                     Download report (JSON)
+                  </a>
+                  <a
+                    className="secondary-button"
+                    href={htmlReportUrl(selectedCase.id)}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Open HTML report
                   </a>
                   <button className="secondary-button" type="button" onClick={() => void handleCopyLink()}>
                     {copied ? "Copied" : "Copy link"}
@@ -350,7 +420,7 @@ export default function AuditPage() {
                 <div><dt>images</dt><dd>{summary.images}</dd></div>
                 <div><dt>families</dt><dd>{summary.families}</dd></div>
                 <div><dt>mean empirical precision</dt><dd>{formatPrecision(summary.mean_precision)}</dd></div>
-                <div><dt>low-confidence decisions</dt><dd>{summary.low_confidence}</dd></div>
+                <div><dt>low-reliability decisions (&lt; 80%)</dt><dd>{summary.low_confidence}</dd></div>
                 <span
                   className={`poll-dot ${treeFetching ? "is-fetching" : ""} ${treeError ? "has-error" : ""}`}
                   title={treeError ?? "Checking for changes every 3 seconds"}
@@ -419,6 +489,8 @@ export default function AuditPage() {
                       selectedId={selectedNodeId}
                       onSelect={selectNode}
                       colorBy="confidence"
+                      rootLabel="Candidate original"
+                      rootTitle={CANDIDATE_ORIGINAL_TITLE}
                     />
                     <div className="legend audit-legend" aria-label="Audit confidence legend">
                       <span className="legend-item"><i className="swatch sure" /> 85%+ precision</span>
@@ -439,22 +511,34 @@ export default function AuditPage() {
                     >
                       ×
                     </button>
-                    <p className="eyebrow">{selectedNode.root ? "Likely original" : "Derived image"}</p>
+                    <p className="eyebrow" title={selectedNode.root ? CANDIDATE_ORIGINAL_TITLE : undefined}>
+                      {selectedNode.root ? "Candidate original" : "Derived copy"}
+                    </p>
                     <h2>{incomingEdge?.label ?? "root of its family"}</h2>
                     <img src={selectedNode.url} alt={`Full-size audit image ${selectedNode.id}`} />
                     <div className={incomingEdge ? "edge-details" : "root-details"}>
                       <div className="detail-heading">
                         <span>Lineage's reading</span>
-                        {incomingEdge?.evidence.confidence.precision !== null && incomingEdge && (
-                          <strong>{formatPrecision(incomingEdge.evidence.confidence.precision)} precision</strong>
+                        {selectedPrecision !== null && (
+                          <span className="audit-precision">
+                            <strong>{formatPrecision(selectedPrecision)} precision</strong>
+                            <small>{reliabilityTier(selectedPrecision)}</small>
+                          </span>
                         )}
                       </div>
                       <p>
-                        {incomingEdge?.explain ??
-                          "No uploaded image explains this one more cheaply, so it is treated as a likely original."}
+                        {incomingEdge
+                          ? `Derived from ${incomingEdge.src}: ${incomingEdge.explain}`
+                          : "No uploaded image explains this one more cheaply, so it is treated as a candidate original."}
                       </p>
                       <EvidenceList evidence={incomingEdge?.evidence ?? selectedNode.evidence} compact />
                     </div>
+                    {!selectedNode.root && tree && (
+                      <VisualDiff
+                        key={`${selectedNode.id}-${tree.version}`}
+                        src={`/api/cases/${encodeURIComponent(selectedCase.id)}/diff/${encodeURIComponent(selectedNode.id)}?t=${tree.version}`}
+                      />
+                    )}
                     {tree && !selectedNode.root && (
                       <div className="provenance">
                         <h3>Provenance path</h3>
@@ -484,6 +568,32 @@ export default function AuditPage() {
                         <p>no EXIF</p>
                       )}
                     </div>
+                    {selectedNode.footprint && (
+                      <div className="footprint">
+                        <h3>Footprint</h3>
+                        <dl>
+                          <dt>Dimensions</dt>
+                          <dd>{selectedNode.footprint.width} × {selectedNode.footprint.height}px</dd>
+                          <dt>Bytes</dt>
+                          <dd>{formatBytes(selectedNode.footprint.bytes)}</dd>
+                          <dt>pHash</dt>
+                          <dd>{selectedNode.footprint.phash}</dd>
+                          <dt>SHA-256</dt>
+                          <dd className="footprint-hash">
+                            <span title={selectedNode.footprint.sha256}>
+                              {selectedNode.footprint.sha256.slice(0, 16)}…
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => void handleCopyHash(selectedNode.footprint?.sha256 ?? "")}
+                              aria-label="Copy full SHA-256 hash"
+                            >
+                              {copiedHash ? "copied" : "copy"}
+                            </button>
+                          </dd>
+                        </dl>
+                      </div>
+                    )}
                     <small className="node-id-small">id {selectedNode.id}</small>
                   </aside>
                 )}
@@ -499,11 +609,12 @@ export default function AuditPage() {
           <header>
             <p>Lineage provenance audit</p>
             <h1>{selectedCase.name}</h1>
+            {selectedCase.analyst && <p className="audit-print-analyst">Analyst · {selectedCase.analyst}</p>}
             <dl>
               <div><dt>Images</dt><dd>{summary.images}</dd></div>
               <div><dt>Families</dt><dd>{summary.families}</dd></div>
               <div><dt>Mean empirical precision</dt><dd>{formatPrecision(summary.mean_precision)}</dd></div>
-              <div><dt>Low-confidence decisions</dt><dd>{summary.low_confidence}</dd></div>
+              <div><dt>Low-reliability decisions (&lt; 80%)</dt><dd>{summary.low_confidence}</dd></div>
             </dl>
           </header>
           <div className="audit-print-list">
@@ -515,8 +626,15 @@ export default function AuditPage() {
                   <img src={node.thumb} alt="" />
                   <div>
                     <h2>{node.id}</h2>
-                    <p><strong>Parent:</strong> {node.predicted_parent ?? "likely original"}</p>
-                    <p>{edge?.explain ?? "Treated as a likely original because no uploaded image explains it more cheaply."}</p>
+                    <p>
+                      <strong>Parent:</strong>{' '}
+                      {node.predicted_parent ?? <span title={CANDIDATE_ORIGINAL_TITLE}>candidate original</span>}
+                    </p>
+                    <p>
+                      {edge
+                        ? `Derived from ${edge.src}: ${edge.explain}`
+                        : "Treated as a candidate original because no uploaded image explains it more cheaply."}
+                    </p>
                     <ul>
                       {evidence.reasons.map((reason) => <li key={reason}>{reason}</li>)}
                     </ul>

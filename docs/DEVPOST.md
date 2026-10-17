@@ -8,6 +8,8 @@ Every edit destroys information. A crop loses its edges, a JPEG re-save loses de
 
 ## What it does
 
+For auditors, every decision comes with a visual diff plate (the source aligned onto the copy, the copy, and a residual heatmap), a tamper-evident footprint (SHA-256, pHash, dimensions), reliability tiers on the calibrated precision, and a self-contained HTML report with an evidence inventory and a limitations section.
+
 A second media type ships too: paste several versions of a paragraph at `/text` and the same core, with MinHash fingerprints and a word-loss cost swapped in, reports which copy was trimmed, reworded or rewritten.
 
 In the live demo, a visitor uses the tablet `/edit` page to choose an image and apply one edit. Lineage returns a verdict and the evidence behind it, while the big-screen `/tree` page adds the result to a live forest with labeled edges, an evidence panel, and a tree-accuracy scoreboard.

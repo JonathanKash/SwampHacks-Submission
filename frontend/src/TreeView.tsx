@@ -45,6 +45,8 @@ interface TreeViewProps {
   selectedId: string | null;
   onSelect: (node: TreeNode) => void;
   colorBy?: "truth" | "confidence";
+  rootLabel?: string;
+  rootTitle?: string;
 }
 
 function buildLayout(data: TreeResponse): LayoutResult {
@@ -128,7 +130,14 @@ function labelWidth(label: string): number {
   return Math.min(196, Math.max(56, labelText(label).length * 7.2 + 22));
 }
 
-export default function TreeView({ data, selectedId, onSelect, colorBy = "truth" }: TreeViewProps) {
+export default function TreeView({
+  data,
+  selectedId,
+  onSelect,
+  colorBy = "truth",
+  rootLabel = "original",
+  rootTitle,
+}: TreeViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const previousPositions = useRef(new Map<string, LayoutNode>());
@@ -312,10 +321,12 @@ export default function TreeView({ data, selectedId, onSelect, colorBy = "truth"
       .select("image")
       .attr("href", (node) => node.item.thumb)
       .attr("clip-path", (node) => `url(#node-clip-${node.item.id})`);
-    nodeMerged.select("text.node-id").text((node) => captions.get(node.item.id) ?? "original");
+    nodeMerged.select("text.node-id").text((node) => captions.get(node.item.id) ?? rootLabel);
     nodeMerged
       .select("title")
-      .text((node) => `${node.item.edit ? `${node.item.edit} · ` : ""}${node.item.id}`);
+      .text((node) => node.item.root && rootTitle
+        ? `${rootTitle} · ${node.item.id}`
+        : `${node.item.edit ? `${node.item.edit} · ` : ""}${node.item.id}`);
     nodeMerged
       .transition()
       .duration(TRANSITION_MS)
@@ -323,7 +334,7 @@ export default function TreeView({ data, selectedId, onSelect, colorBy = "truth"
       .attr("transform", (node) => `translate(${node.x},${node.y})`);
 
     previousPositions.current = new Map(layout.nodes.map((node) => [node.item.id, node]));
-  }, [colorBy, data, onSelect, selectedId, size]);
+  }, [colorBy, data, onSelect, rootLabel, rootTitle, selectedId, size]);
 
   return (
     <div className="tree-view" ref={containerRef}>

@@ -28,6 +28,13 @@ export interface PoolItem {
   params: EditParams;
   source: string;
   created_at: number; // unix seconds (float) from the server
+  footprint?: {
+    sha256: string;
+    width: number;
+    height: number;
+    bytes: number;
+    phash: string;
+  };
   metadata?: {
     software?: string;
     datetime?: string;
@@ -96,6 +103,7 @@ export interface AuditCase {
   name: string;
   items: number;
   created_at: number;
+  analyst: string;
 }
 
 export interface CasesResponse {
@@ -179,11 +187,11 @@ export function fetchCases(signal?: AbortSignal): Promise<CasesResponse> {
   return requestJson<CasesResponse>("/api/cases", { signal });
 }
 
-export function createCase(name: string, signal?: AbortSignal): Promise<AuditCase> {
+export function createCase(name: string, analyst?: string, signal?: AbortSignal): Promise<AuditCase> {
   return requestJson<AuditCase>("/api/cases", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name }),
+    body: JSON.stringify({ name, analyst: analyst || undefined }),
     signal,
   });
 }
@@ -227,6 +235,10 @@ export async function fetchCaseTree(
 
 export function reportUrl(id: string): string {
   return `/api/cases/${encodeURIComponent(id)}/report`;
+}
+
+export function htmlReportUrl(id: string): string {
+  return `/api/cases/${encodeURIComponent(id)}/report.html`;
 }
 
 
