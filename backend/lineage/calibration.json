@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T22:14:22",
+  "generated_at": "2026-10-16T22:28:02",
   "runs": [
     "run1",
     "run2"
@@ -19,20 +19,20 @@
     "semantic_scale": 5.0
   },
   "buckets": {
-    "margin < 0.02": {
-      "correct": 66,
-      "n": 93
-    },
     "margin \u2265 0.30": {
-      "correct": 11,
-      "n": 12
+      "correct": 23,
+      "n": 24
     },
     "margin 0.05\u20130.10": {
-      "correct": 42,
-      "n": 47
+      "correct": 45,
+      "n": 53
+    },
+    "margin < 0.02": {
+      "correct": 44,
+      "n": 67
     },
     "margin 0.02\u20130.05": {
-      "correct": 16,
+      "correct": 15,
       "n": 21
     },
     "margin 0.10\u20130.30": {
@@ -41,10 +41,6 @@
     }
   },
   "per_edit": {
-    "root": {
-      "correct": 12,
-      "n": 12
-    },
     "caption": {
       "correct": 23,
       "n": 29
@@ -64,6 +60,10 @@
     "jpeg": {
       "correct": 28,
       "n": 44
+    },
+    "root": {
+      "correct": 4,
+      "n": 4
     }
   }
 }
