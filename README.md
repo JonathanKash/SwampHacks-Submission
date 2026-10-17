@@ -9,18 +9,30 @@ cost(a -> b), then take the minimum spanning arborescence of the directed graph.
 
 Built at SwampHacks XII (University of Florida, Oct 16-18 2026).
 
-## Run it (Phase 0: synthetic evaluation)
+## Run it
 
 ```
 py -3.13 -m venv .venv
 .venv\Scripts\python -m pip install -r backend\requirements.txt
 .venv\Scripts\python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
-copy .env.example .env
+copy .env.example .env                                            # add GEMINI_API_KEY for AI restyle
 
 .venv\Scripts\python backend\scripts\fetch_seeds.py              # CC0 images from the Met
+.venv\Scripts\python backend\scripts\seed_pool.py --reset        # pre-seed the demo pool with known chains
+cd frontend && npm install && npm run build && cd ..              # builds frontend/dist
+.venv\Scripts\python -m uvicorn app:app --app-dir backend --port 8010
+```
+
+Then open http://localhost:8010/ (about), /edit (tablet) and /tree (big screen). The first start
+downloads the CLIP weights (about 350 MB). For frontend development run `npm run dev` inside
+`frontend/`; it proxies the API to port 8010.
+
+Evaluation and tests:
+
+```
 .venv\Scripts\python backend\scripts\gen_chains.py --name run1   # synthetic edit chains + truth
 .venv\Scripts\python backend\scripts\eval.py data\synthetic\run1 # tree accuracy report
-.venv\Scripts\python -m pytest backend\tests -q                  # specs for the hand-written core
+.venv\Scripts\python -m pytest backend\tests -q                  # 111 tests
 ```
 
 ## Architecture
