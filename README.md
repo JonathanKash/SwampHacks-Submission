@@ -20,6 +20,7 @@ Repository: https://github.com/JonathanKash/SwampHacks-Submission
 | `/tree`   | big screen    | The live forest: thumbnails, edge labels, a tree-accuracy scoreboard, an arrival overlay when a new image lands, a scan-to-join QR code, evidence and provenance panel |
 | `/audit`  | industry      | Provenance audit: create a case (with analyst), drop in many versions, get the tree with calibrated precision and reliability tiers, visual diff plates, tamper-evident footprints (SHA-256, pHash), metadata and C2PA hints, compare any two images, JSON (hash-stamped, optionally HMAC-signed), CSV ledger and self-contained HTML reports |
 | `/text`   | curious       | The same core on paragraphs: paste versions, see which was trimmed, reworded or rewritten |
+| `/method` | judges        | Every cost term with its weight and direction logic, the arborescence, evidence and calibration, limitations |
 
 Industry use cases: newsroom verification desks, trust and safety teams, legal discovery,
 digital asset management. The engine is never told the true parent of anything; in the demo

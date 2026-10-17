@@ -129,7 +129,8 @@ export default function LandingPage() {
         </ol>
         <p className="idea-note">
           Nothing in those three stages knows what an image is. Swap the plug-ins and the same core traces
-          paragraphs instead: <Link to="/text">try it on text</Link>.
+          paragraphs instead: <Link to="/text">try it on text</Link>. Want every cost term, weight and
+          limitation? <Link to="/method">Read the method</Link>.
         </p>
       </section>
 

@@ -1393,3 +1393,61 @@ p a {
   text-transform: none;
   vertical-align: middle;
 }
+
+/* ---- method page ------------------------------------------------------------- */
+.method-table-wrap {
+  overflow-x: auto;
+}
+
+.method-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.method-table caption {
+  padding: 0 0 10px;
+  color: var(--muted);
+  font-weight: 700;
+  text-align: left;
+}
+
+.method-table th,
+.method-table td {
+  padding: 10px 12px;
+  border-top: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+  line-height: 1.45;
+}
+
+.method-table thead th {
+  color: var(--muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.method-table tbody th {
+  color: var(--green);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.method-list {
+  margin: 0;
+  padding-left: 20px;
+  color: #d4ddd7;
+  line-height: 1.6;
+}
+
+.method-list li + li {
+  margin-top: 8px;
+}
+
+.lede code {
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 0.9em;
+}
