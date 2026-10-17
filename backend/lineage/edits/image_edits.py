@@ -17,7 +17,7 @@ import random
 
 import cv2
 import numpy as np
-from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont, ImageOps
+from PIL import Image, ImageDraw, ImageEnhance, ImageFont, ImageOps
 
 EDIT_TYPES: tuple[str, ...] = ("crop", "rotate", "filter", "caption", "jpeg")
 FILTER_KINDS: tuple[str, ...] = ("warm", "cool", "brighter", "darker", "contrast", "grayscale")

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from lineage.plugins.image_explain import explain, short_label
 from lineage.types import CostResult
 

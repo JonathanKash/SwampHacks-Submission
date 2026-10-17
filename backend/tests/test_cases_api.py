@@ -6,10 +6,9 @@ import importlib
 import io
 import random
 
-from PIL import Image
-
 from lineage.edits import image_edits
 from lineage.pool import Pool
+from PIL import Image
 from tests.conftest import synthetic_photo
 
 

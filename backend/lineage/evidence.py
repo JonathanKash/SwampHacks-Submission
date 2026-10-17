@@ -189,7 +189,7 @@ def build_evidence(
         )
 
     if margin is not None and runner_up_id is not None:
-        label = "being an original" if runner_up_id == "__root__" else f"the next-best parent"
+        label = "being an original" if runner_up_id == "__root__" else "the next-best parent"
         reasons.append(f"The alternative ({label}) costs {runner_up_cost:.3f}; margin {margin:.3f}.")
     confidence = confidence_for(margin, calibration) if margin is not None else {"bucket": None, "precision": None, "n": 0}
     if confidence["precision"] is not None:

@@ -6,9 +6,8 @@ import io
 import random
 
 import pytest
-from PIL import Image
-
 from lineage.pool import Pool
+from PIL import Image
 from tests.conftest import synthetic_photo
 
 
@@ -94,7 +93,6 @@ def test_api_endpoints(tmp_path, monkeypatch):
 
 
 def test_crop_never_fails_on_tiny_images():
-    from PIL import Image
 
     from lineage.edits.image_edits import crop
 

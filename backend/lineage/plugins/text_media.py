@@ -7,17 +7,16 @@ child carry ten times the weight of words discarded from the parent.
 
 from __future__ import annotations
 
-from collections import Counter
-from dataclasses import dataclass
 import hashlib
 import math
 import re
+from collections import Counter
+from dataclasses import dataclass
 from typing import Iterable
 
 import numpy as np
 
 from lineage.types import CostResult, Fingerprint
-
 
 TEXT_WEIGHTS: dict[str, float] = {
     "added": 3.0,

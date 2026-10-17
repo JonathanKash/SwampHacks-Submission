@@ -44,3 +44,13 @@ run3 81.1% (held out); roots found 6/6 on every run; true parent inside the top-
 98.9%; empirical precision by margin: >= 0.30 about 96%, < 0.02 about 66%. 116 tests.
 Audit load test: 30 shuffled versions from 3 originals, 9 edits deep, uploaded in 29 s; 3 families
 found; 28 of 30 parents correct against the hidden truth (93%).
+
+## Pre-submission checklist (Devpost closes Sun Oct 18, 08:00 ET)
+
+- [ ] Repo public: https://github.com/JonathanKash/SwampHacks-Submission (README, AI disclosure, credits current)
+- [ ] `python backend/scripts/smoke.py http://localhost:8010` prints ALL OK (or against the deployed URL)
+- [ ] Devpost text pasted from `docs/DEVPOST.md`; "Built with" list matches README credits
+- [ ] 2-minute video or live demo rehearsed with the script in `docs/DEVPOST.md`
+- [ ] Screenshots: landing, /edit verdict, /tree with panel, /audit (take fresh ones from the running app)
+- [ ] Team members added on Devpost; tracks selected
+- [ ] `.env` never committed; `GEMINI_API_KEY` present on the demo machine if restyle should hit Gemini

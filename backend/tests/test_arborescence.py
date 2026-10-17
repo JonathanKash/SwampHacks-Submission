@@ -12,7 +12,6 @@ import random
 
 import networkx as nx
 import pytest
-
 from lineage.core.arborescence import minimum_arborescence
 from lineage.types import Edge
 

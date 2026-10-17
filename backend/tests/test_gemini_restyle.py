@@ -6,9 +6,8 @@ import io
 from types import SimpleNamespace
 
 import pytest
-from PIL import Image
-
 from lineage.plugins import gemini_restyle
+from PIL import Image
 from tests.conftest import synthetic_photo
 
 

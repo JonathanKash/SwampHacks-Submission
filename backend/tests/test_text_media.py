@@ -5,11 +5,9 @@ from __future__ import annotations
 import random
 
 import numpy as np
-
 from lineage.core.candidates import hamming_code, hamming_phash
 from lineage.core.engine import Engine
 from lineage.plugins.text_media import TextMedia, minhash_code, simhash64
-
 
 S1 = "During autumn workshop, our patient team learned how careful sketches guide every difficult engineering decision."
 S2 = "In spite of rain, students carried a large number of bright sensors across the crowded campus."

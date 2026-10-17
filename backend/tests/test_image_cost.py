@@ -11,7 +11,6 @@ import math
 
 import numpy as np
 import pytest
-
 from lineage import config
 from lineage.edits import image_edits
 from lineage.plugins.image_cost import cost, register
