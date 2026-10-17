@@ -215,3 +215,9 @@ Decisions in SPEC.md (v2 section). Images first; audio/video only after images w
 - [x] Identify fast path: ORB-only scan of the candidates, SIFT only on the nearest four when nothing aligns
       (SIFT on every unrelated candidate made identify take 4-17 s under load). Knowledge base rebuilt with 5
       variants per family (223 items).
+- [x] 13:00-14:00 ET: CLI `identify` against a case directory; placement unit test; smoke test covers compare,
+      calibration corpora, identify and the new routes (ALL OK live); HTML report and CSV carry the web-memes
+      precision; tree view zoom/pan with fit controls (223-item case readable); method page: decides vs informs,
+      symmetry limitation, caption-removed row; deploy notes + Dockerfile copy benchmark/; CLAUDE.md refreshed.
+- [ ] identify_eval over all held-out meme variants running against the live server (results -> PLAN/Devpost).
+- [ ] Gemini edit-corpus retry scheduled for 15:45 local (quota reset).
