@@ -32,7 +32,7 @@ Evaluation and tests:
 ```
 .venv\Scripts\python backend\scripts\gen_chains.py --name run1   # synthetic edit chains + truth
 .venv\Scripts\python backend\scripts\eval.py data\synthetic\run1 # tree accuracy report
-.venv\Scripts\python -m pytest backend\tests -q                  # 111 tests
+.venv\Scripts\python -m pytest backend\tests -q                  # 113 tests
 ```
 
 ## Architecture
@@ -71,8 +71,9 @@ the tuning from the evaluation numbers. Specifically:
 - OpenAI Codex (via the Codex CLI): the explain plug-in (`plugins/image_explain.py` and its
   tests), the initial React frontend scaffold (API client, polling hook, D3 tree view, first
   versions of the edit and tree pages) and the audit workspace page.
-- Google Gemini (via the Antigravity CLI): research of the current Gemini image-editing API and
-  a browser-based visual QA pass of the UI.
+- Google Gemini (via the Antigravity CLI): research of the current Gemini image-editing API and a
+  route sanity check of the running app. Visual QA was done with Playwright screenshots reviewed
+  by Claude Code.
 
 The Chu-Liu/Edmonds implementation in `backend/lineage/core/arborescence.py` is written from
 scratch (not a library call) and is cross-checked against networkx in the tests. Seed images

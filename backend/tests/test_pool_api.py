@@ -91,3 +91,13 @@ def test_api_endpoints(tmp_path, monkeypatch):
     assert client.get("/api/random").status_code == 200
     assert client.post("/api/edit", json={"parent_id": "nope", "edit": "crop"}).status_code == 404
     assert client.post("/api/edit", json={"parent_id": root_id, "edit": "bogus"}).status_code == 400
+
+
+def test_crop_never_fails_on_tiny_images():
+    from PIL import Image
+
+    from lineage.edits.image_edits import crop
+
+    tiny = Image.new("RGB", (20, 12), "white")
+    out, params = crop(tiny, random.Random(0), fraction=0.5)
+    assert out.size == (20, 12) and params["fraction"] == 0.5

@@ -164,9 +164,12 @@ export default function TreeView({ data, selectedId, onSelect, colorBy = "truth"
 
     const contentWidth = Math.max(1, layout.maxX - layout.minX);
     const contentHeight = Math.max(1, layout.maxY - layout.minY);
-    const scale = Math.min(1.25, (size.width - 64) / contentWidth, (size.height - 54) / contentHeight);
+    // Leave room at the bottom for the legend and the newest-image callout.
+    const bottomReserve = 110;
+    const usableHeight = size.height - 54 - bottomReserve;
+    const scale = Math.min(1.25, (size.width - 64) / contentWidth, usableHeight / contentHeight);
     const scaledHeight = contentHeight * scale;
-    const top = Math.max(26, (size.height - scaledHeight) / 2);
+    const top = Math.max(26, (usableHeight - scaledHeight) / 2 + 20);
     const translateX = size.width / 2 - ((layout.minX + layout.maxX) / 2) * scale;
     const translateY = top - layout.minY * scale;
     stage

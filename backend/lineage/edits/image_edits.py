@@ -33,7 +33,8 @@ def crop(img: Image.Image, rng: random.Random, fraction: float | None = None) ->
     w, h = img.size
     fraction = fraction if fraction is not None else rng.uniform(0.45, 0.85)
     scale = math.sqrt(fraction)
-    cw, ch = max(32, int(w * scale)), max(32, int(h * scale))
+    # Never ask for more than the image has: tiny images (after many crops) just keep everything.
+    cw, ch = min(w, max(32, int(w * scale))), min(h, max(32, int(h * scale)))
     x0 = rng.randint(0, w - cw)
     y0 = rng.randint(0, h - ch)
     box = (x0, y0, x0 + cw, y0 + ch)
