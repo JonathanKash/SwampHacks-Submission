@@ -872,6 +872,76 @@ p a {
   right: calc(20px + var(--panel-width, 360px));
 }
 
+.tree-view svg {
+  cursor: grab;
+}
+
+.tree-view svg:active {
+  cursor: grabbing;
+}
+
+.tree-zoom-overlay {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  z-index: 6;
+  display: grid;
+  justify-items: start;
+  gap: 7px;
+  pointer-events: none;
+}
+
+.tree-zoom-controls {
+  display: flex;
+  padding: 4px;
+  gap: 3px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(13, 19, 18, 0.94);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.34);
+  pointer-events: auto;
+}
+
+.tree-zoom-controls button {
+  display: grid;
+  min-width: 34px;
+  height: 34px;
+  padding: 0 9px;
+  place-items: center;
+  border: 0;
+  border-radius: 8px;
+  color: #dce5e0;
+  background: transparent;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 850;
+  cursor: pointer;
+  transition: color 160ms ease, background 160ms ease;
+}
+
+.tree-zoom-controls button:hover,
+.tree-zoom-controls button:focus-visible {
+  color: #06100b;
+  background: var(--green);
+}
+
+.tree-zoom-hint {
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 650;
+  opacity: 0.78;
+  transition: opacity 250ms ease;
+}
+
+.tree-zoom-hint.is-hidden {
+  opacity: 0;
+}
+
+/* Keep the existing newest card clear of the new bottom-left controls. */
+.tree-canvas-wrap > .newest-callout {
+  bottom: 92px;
+}
+
 .node-id-small {
   display: block;
   margin-top: 12px;
@@ -1709,6 +1779,13 @@ p a {
 
   .arrival-explained img:nth-child(n + 3) {
     display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tree-zoom-controls button,
+  .tree-zoom-hint {
+    transition: none;
   }
 }
 

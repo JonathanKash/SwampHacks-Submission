@@ -1,5 +1,15 @@
-import { hierarchy, select, tree as d3Tree } from "d3";
-import { useLayoutEffect, useRef, useState } from "react";
+import {
+  hierarchy,
+  select,
+  tree as d3Tree,
+  zoom,
+  zoomIdentity,
+  zoomTransform,
+  type D3ZoomEvent,
+  type ZoomBehavior,
+  type ZoomTransform,
+} from "d3";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { TreeEdge, TreeNode, TreeResponse } from "./api";
 import { reliabilityTier } from "./EvidenceList";
 
@@ -8,6 +18,11 @@ const NODE_HALF = NODE_SIZE / 2;
 const HORIZONTAL_GAP = 150;
 const VERTICAL_GAP = 166;
 const TRANSITION_MS = 600;
+const ZOOM_TRANSITION_MS = 250;
+const MIN_ZOOM = 0.3;
+const MAX_ZOOM = 6;
+const MIN_FITTED_NODE_SIZE = 40;
+const FOCUSED_NODE_SIZE = 64;
 
 interface HierarchyDatum {
   id: string;
@@ -150,6 +165,37 @@ function edgeAriaLabel(edge: LayoutEdge, colorBy: "truth" | "confidence"): strin
   return `derived via ${edge.label}, ${edge.correct ? "correct" : "wrong"} parent, ${precisionText}`;
 }
 
+function fitTreeTransform(layout: LayoutResult, width: number, height: number): ZoomTransform {
+  const contentWidth = Math.max(1, layout.maxX - layout.minX);
+  const contentHeight = Math.max(1, layout.maxY - layout.minY);
+  // Keep the existing breathing room for the legend and newest-image callout.
+  const bottomReserve = 110;
+  const usableHeight = Math.max(1, height - 54 - bottomReserve);
+  const scale = Math.min(1.25, Math.max(1, width - 64) / contentWidth, usableHeight / contentHeight);
+  const scaledHeight = contentHeight * scale;
+  const top = Math.max(26, (usableHeight - scaledHeight) / 2 + 20);
+  const translateX = width / 2 - ((layout.minX + layout.maxX) / 2) * scale;
+  const translateY = top - layout.minY * scale;
+  return zoomIdentity.translate(translateX, translateY).scale(scale);
+}
+
+function focusedTreeTransform(
+  layout: LayoutResult,
+  data: TreeResponse,
+  width: number,
+  height: number,
+): ZoomTransform {
+  const focus = layout.nodes.find((node) => node.item.id === data.newest_id)
+    ?? layout.nodes.find((node) => node.item.root)
+    ?? layout.nodes.find((node) => !node.item.predicted_parent)
+    ?? layout.nodes[0];
+  const scale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, FOCUSED_NODE_SIZE / NODE_SIZE));
+  if (!focus) return zoomIdentity;
+  return zoomIdentity
+    .translate(width / 2 - focus.x * scale, height / 2 - focus.y * scale)
+    .scale(scale);
+}
+
 export default function TreeView({
   data,
   selectedId,
@@ -161,8 +207,40 @@ export default function TreeView({
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const previousPositions = useRef(new Map<string, LayoutNode>());
+  const previousItemCount = useRef<number | null>(null);
+  const zoomBehaviorRef = useRef<ZoomBehavior<SVGSVGElement, unknown> | null>(null);
+  const fitTransformRef = useRef<ZoomTransform>(zoomIdentity);
+  const reduceMotionRef = useRef(false);
+  const draggedRef = useRef(false);
+  const dragResetTimerRef = useRef<number | null>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const [tooltip, setTooltip] = useState<TooltipState | null>(null);
+  const [showZoomHint, setShowZoomHint] = useState(true);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setShowZoomHint(false), 4000);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  const changeZoom = useCallback((factor: number) => {
+    const svgElement = svgRef.current;
+    const zoomBehavior = zoomBehaviorRef.current;
+    if (!svgElement || !zoomBehavior) return;
+    const svg = select(svgElement);
+    svg.interrupt("tree-zoom");
+    if (reduceMotionRef.current) svg.call(zoomBehavior.scaleBy, factor);
+    else svg.transition("tree-zoom").duration(ZOOM_TRANSITION_MS).call(zoomBehavior.scaleBy, factor);
+  }, []);
+
+  const fitTree = useCallback(() => {
+    const svgElement = svgRef.current;
+    const zoomBehavior = zoomBehaviorRef.current;
+    if (!svgElement || !zoomBehavior) return;
+    const svg = select(svgElement);
+    svg.interrupt("tree-zoom");
+    if (reduceMotionRef.current) svg.call(zoomBehavior.transform, fitTransformRef.current);
+    else svg.transition("tree-zoom").duration(ZOOM_TRANSITION_MS).call(zoomBehavior.transform, fitTransformRef.current);
+  }, []);
 
   useLayoutEffect(() => {
     const element = containerRef.current;
@@ -183,31 +261,64 @@ export default function TreeView({
 
     const layout = buildLayout(data);
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    reduceMotionRef.current = reduceMotion;
     const transitionMs = reduceMotion ? 0 : TRANSITION_MS;
     const exitTransitionMs = reduceMotion ? 0 : 240;
     // Caption each node with what was done to it; ids mean nothing to a viewer.
     const captions = new Map(data.edges.map((edge) => [edge.dst, edge.label]));
     const svg = select(svgElement).attr("viewBox", `0 0 ${size.width} ${size.height}`);
-    const stage = svg.select<SVGGElement>("g.tree-stage");
+    const viewport = svg.select<SVGGElement>("g.viewport");
+    const stage = viewport.select<SVGGElement>("g.tree-stage");
     const clipsLayer = svg.select<SVGDefsElement>("defs.tree-defs");
     const linksLayer = stage.select<SVGGElement>("g.links-layer");
     const labelsLayer = stage.select<SVGGElement>("g.labels-layer");
     const nodesLayer = stage.select<SVGGElement>("g.nodes-layer");
 
-    const contentWidth = Math.max(1, layout.maxX - layout.minX);
-    const contentHeight = Math.max(1, layout.maxY - layout.minY);
-    // Leave room at the bottom for the legend and the newest-image callout.
-    const bottomReserve = 110;
-    const usableHeight = size.height - 54 - bottomReserve;
-    const scale = Math.min(1.25, (size.width - 64) / contentWidth, usableHeight / contentHeight);
-    const scaledHeight = contentHeight * scale;
-    const top = Math.max(26, (usableHeight - scaledHeight) / 2 + 20);
-    const translateX = size.width / 2 - ((layout.minX + layout.maxX) / 2) * scale;
-    const translateY = top - layout.minY * scale;
-    stage
-      .transition()
-      .duration(transitionMs)
-      .attr("transform", `translate(${translateX},${translateY}) scale(${scale})`);
+    const fitTransform = fitTreeTransform(layout, size.width, size.height);
+    fitTransformRef.current = fitTransform;
+    const zoomBehavior = zoom<SVGSVGElement, unknown>()
+      .scaleExtent([MIN_ZOOM, MAX_ZOOM])
+      .clickDistance(4)
+      .on("start", (event: D3ZoomEvent<SVGSVGElement, unknown>) => {
+        const type = event.sourceEvent?.type;
+        if (type === "mousedown" || type === "touchstart" || type === "pointerdown") {
+          if (dragResetTimerRef.current !== null) window.clearTimeout(dragResetTimerRef.current);
+          draggedRef.current = false;
+        }
+      })
+      .on("zoom", (event: D3ZoomEvent<SVGSVGElement, unknown>) => {
+        const type = event.sourceEvent?.type;
+        if (type === "mousemove" || type === "touchmove" || type === "pointermove") {
+          draggedRef.current = true;
+        }
+        viewport.attr("transform", event.transform.toString());
+      })
+      .on("end", () => {
+        if (!draggedRef.current) return;
+        // Let the click following mouseup observe the drag before clearing it.
+        dragResetTimerRef.current = window.setTimeout(() => {
+          draggedRef.current = false;
+          dragResetTimerRef.current = null;
+        }, 0);
+      });
+    zoomBehaviorRef.current = zoomBehavior;
+    svg.call(zoomBehavior);
+    viewport.attr("transform", zoomTransform(svgElement).toString());
+
+    const itemCountChanged = previousItemCount.current !== data.nodes.length;
+    if (itemCountChanged) {
+      const initialTransform = fitTransform.k * NODE_SIZE < MIN_FITTED_NODE_SIZE
+        ? focusedTreeTransform(layout, data, size.width, size.height)
+        : fitTransform;
+      const animate = previousItemCount.current !== null && !reduceMotion;
+      svg.interrupt("tree-zoom");
+      if (animate) {
+        svg.transition("tree-zoom").duration(ZOOM_TRANSITION_MS).call(zoomBehavior.transform, initialTransform);
+      } else {
+        svg.call(zoomBehavior.transform, initialTransform);
+      }
+      previousItemCount.current = data.nodes.length;
+    }
 
     const clips = clipsLayer
       .selectAll<SVGClipPathElement, LayoutNode>("clipPath.node-clip")
@@ -335,6 +446,10 @@ export default function TreeView({
       .attr("aria-label", (node) => `Open image ${node.item.id}`)
       .on("click", (event: MouseEvent, node) => {
         event.stopPropagation();
+        if (draggedRef.current) {
+          event.preventDefault();
+          return;
+        }
         onSelect(node.item, event.currentTarget as SVGGElement);
       })
       .on("keydown", (event: KeyboardEvent, node) => {
@@ -364,18 +479,38 @@ export default function TreeView({
       .attr("transform", (node) => `translate(${node.x},${node.y})`);
 
     previousPositions.current = new Map(layout.nodes.map((node) => [node.item.id, node]));
+
+    return () => {
+      svg.on(".zoom", null);
+      svg.interrupt("tree-zoom");
+      if (dragResetTimerRef.current !== null) window.clearTimeout(dragResetTimerRef.current);
+      dragResetTimerRef.current = null;
+      draggedRef.current = false;
+    };
   }, [colorBy, data, onSelect, rootLabel, rootTitle, selectedId, size]);
 
   return (
     <div className="tree-view" ref={containerRef}>
       <svg ref={svgRef} role="img" aria-label="Live image lineage forest">
         <defs className="tree-defs" />
-        <g className="tree-stage">
-          <g className="links-layer" />
-          <g className="labels-layer" />
-          <g className="nodes-layer" />
+        <g className="viewport">
+          <g className="tree-stage">
+            <g className="links-layer" />
+            <g className="labels-layer" />
+            <g className="nodes-layer" />
+          </g>
         </g>
       </svg>
+      <div className="tree-zoom-overlay">
+        <div className="tree-zoom-controls" role="group" aria-label="Tree zoom controls">
+          <button type="button" aria-label="Zoom in" onClick={() => changeZoom(1.35)}>+</button>
+          <button type="button" aria-label="Zoom out" onClick={() => changeZoom(1 / 1.35)}>−</button>
+          <button type="button" aria-label="Fit tree to view" onClick={fitTree}>Fit</button>
+        </div>
+        <span className={`tree-zoom-hint${showZoomHint ? "" : " is-hidden"}`}>
+          scroll to zoom · drag to pan
+        </span>
+      </div>
       {tooltip && (
         <div className="edge-tooltip" style={{ left: tooltip.x, top: tooltip.y }} role="tooltip">
           {tooltip.text}
