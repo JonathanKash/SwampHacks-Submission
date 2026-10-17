@@ -5,26 +5,35 @@ import QRCode from "qrcode";
  * Scan-to-join code for the tablet page, so visitors can add edits from their own phones.
  * Rendered as a data URL so it works offline and needs no server round-trip.
  */
-export default function QrCode({ path = "/edit", size = 132, label = "scan to add your own edit" }: {
+export default function QrCode({ path = "/edit", size = 132, label = "scan to add your own edit", baseUrl }: {
   path?: string;
   size?: number;
   label?: string;
+  baseUrl?: string | null;
 }) {
   const [src, setSrc] = useState<string | null>(null);
-  const [origin, setOrigin] = useState<string>(typeof window !== "undefined" ? window.location.origin : "");
-  const url = `${origin}${path}`;
+  const [pageOrigin, setPageOrigin] = useState<string>(typeof window !== "undefined" ? window.location.origin : "");
+  const normalizedBaseUrl = baseUrl?.replace(/\/+$/, "") ?? null;
+  const publicOrigin = normalizedBaseUrl?.startsWith("https://") ? normalizedBaseUrl : null;
+  const publicHost = publicOrigin ? new URL(publicOrigin).host : null;
+  const origin = publicOrigin
+    ?? (/^https?:\/\/(localhost|127\.0\.0\.1)(:|$)/.test(pageOrigin) && normalizedBaseUrl
+      ? normalizedBaseUrl
+      : pageOrigin);
+  const targetPath = publicOrigin ? "/identify" : path;
+  const url = `${origin}${targetPath}`;
 
   // A phone cannot reach "localhost": when the page runs on a loopback origin, ask the
   // server for its LAN address (or PUBLIC_URL) and encode that instead.
   useEffect(() => {
-    if (!/^https?:\/\/(localhost|127\.0\.0\.1)(:|$)/.test(origin)) return;
+    if (baseUrl !== undefined || !/^https?:\/\/(localhost|127\.0\.0\.1)(:|$)/.test(pageOrigin)) return;
     fetch("/api/health")
       .then((r) => r.json() as Promise<{ lan_url?: string | null }>)
       .then((h) => {
-        if (h.lan_url) setOrigin(h.lan_url.replace(/\/$/, ""));
+        if (h.lan_url) setPageOrigin(h.lan_url.replace(/\/$/, ""));
       })
       .catch(() => undefined);
-  }, [origin]);
+  }, [baseUrl, pageOrigin]);
 
   useEffect(() => {
     let active = true;
@@ -49,7 +58,18 @@ export default function QrCode({ path = "/edit", size = 132, label = "scan to ad
       <img src={src} width={size} height={size} alt={`QR code linking to ${url}`} />
       <figcaption>
         {label}
-        <span>{url.replace(/^https?:\/\//, "")}</span>
+        {publicOrigin ? (
+          <>
+            <span style={{ fontFamily: "ui-monospace, SFMono-Regular, Consolas, monospace", fontSize: "1rem" }}>
+              {publicHost}
+            </span>
+            <span style={{ color: "var(--green)", fontFamily: "ui-monospace, SFMono-Regular, Consolas, monospace", fontSize: "1rem" }}>
+              /identify
+            </span>
+          </>
+        ) : (
+          <span>{url.replace(/^https?:\/\//, "")}</span>
+        )}
       </figcaption>
     </figure>
   );

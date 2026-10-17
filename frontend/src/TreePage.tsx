@@ -12,6 +12,7 @@ import ReplayOverlay from "./ReplayOverlay";
 import { provenancePath } from "./provenance";
 import TreeView from "./TreeView";
 import { usePageTitle } from "./usePageTitle";
+import { useHealth } from "./useHealth";
 import { useTreePolling } from "./useTreePolling";
 import VisualDiff from "./VisualDiff";
 
@@ -25,6 +26,7 @@ export default function TreePage() {
   usePageTitle("Live tree · Lineage");
 
   const { tree, loading, fetching, error } = useTreePolling();
+  const health = useHealth();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [parentReport, setParentReport] = useState<CompareReportResponse | null>(null);
   const [parentReportOpen, setParentReportOpen] = useState(false);
@@ -123,7 +125,7 @@ export default function TreePage() {
             <h1>Lineage</h1>
           </div>
         </Link>
-        <QrCode size={84} />
+        <QrCode size={84} baseUrl={health?.lan_url ?? null} />
         <div className="scoreboard">
           {demoMode ? (
             <div className="fool-score" aria-live="polite" aria-atomic="true">
