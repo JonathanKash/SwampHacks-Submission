@@ -66,13 +66,49 @@ export interface CalibrationResponse {
 
 export type CompareVerdict = "parent-child" | "siblings" | "unrelated" | "inconclusive";
 
+export type CompareConfidence =
+  | {
+      bucket: "caption-side cue";
+      precision: number;
+      n: number;
+      observed: number;
+      source: string;
+    }
+  | {
+      bucket: `margin ${string}`;
+      precision: number | null;
+      n: number;
+    }
+  | {
+      bucket: null;
+      precision: null;
+      n: 0;
+    };
+
 export interface CompareReportResponse {
   verdict: CompareVerdict;
   relation: string;
   parent: "A" | "B" | null;
   child: "A" | "B" | null;
   summary: string;
-  confidence: { bucket: string | null; precision: number | null; n: number };
+  decisive_cues: string[];
+  caption_side: "A" | "B" | null;
+  noise: {
+    measurable: boolean;
+    region_fraction: number;
+    noise_inside_changed?: number;
+    noise_outside?: number;
+    ratio?: number;
+    break?: boolean;
+    two_tone?: number | null;
+    achromatic?: number;
+    dark?: number;
+    bright?: number;
+    lum_std?: number;
+    caption_like?: boolean;
+    caption_on?: "copy" | "source" | null;
+  } | null;
+  confidence: CompareConfidence;
   benchmark_for_edit_type: { edit_type: string | null; accuracy: number | null; n: number };
   costs: { a_to_b: number; b_to_a: number; margin: number | null };
   explain: { a_to_b: string; b_to_a: string };
@@ -81,7 +117,7 @@ export interface CompareReportResponse {
     found: string;
     direction: string;
     weight: number | string;
-    kind: "pixel" | "semantic" | "metadata" | "gate";
+    kind: "pixel" | "semantic" | "metadata" | "gate" | "indicator";
   }>;
   conflicts: string[];
   unavailable: string[];

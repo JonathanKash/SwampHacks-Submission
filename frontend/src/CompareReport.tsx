@@ -5,6 +5,18 @@ interface CompareReportProps {
   report: CompareReportResponse;
 }
 
+const DECISIVE_CUE_NAMES: Record<string, string> = {
+  coverage: "coverage",
+  color_residual: "colour fit",
+  blockiness: "JPEG grid energy",
+  resolution: "resolution",
+  chroma: "colour gained from gray",
+  entropy: "histogram entropy",
+  blobs: "compact content difference",
+  caption_removed: "caption removed",
+  edit_ops: "number of edit operations",
+};
+
 function percent(value: number): string {
   const amount = value * 100;
   return `${Number.isInteger(amount) ? amount.toFixed(0) : amount.toFixed(1)}%`;
@@ -16,11 +28,22 @@ function verdictText(report: CompareReportResponse): string {
   }
   if (report.verdict === "siblings") return "Siblings: two copies of a common source";
   if (report.verdict === "unrelated") return "Unrelated";
-  return `Inconclusive: ${report.relation}`;
+  return "Inconclusive";
 }
 
 function shortHash(value: string | null): string {
   return value ? `${value.slice(0, 16)}…` : "unavailable";
+}
+
+function confidenceText(report: CompareReportResponse): string {
+  const { confidence } = report;
+  if (confidence.bucket === "caption-side cue") {
+    return `≥ ${percent(confidence.precision)} (Wilson lower bound) · caption-side cue, observed ${percent(confidence.observed)} on n=${confidence.n} benchmark pairs`;
+  }
+  if (confidence.bucket?.startsWith("margin") && confidence.precision !== null) {
+    return `${percent(confidence.precision)} empirical precision (n=${confidence.n})`;
+  }
+  return report.costs.margin !== null ? `margin ${report.costs.margin}` : "no direction claimed";
 }
 
 function DetailList({ items, empty }: { items: string[]; empty?: string }) {
@@ -38,6 +61,9 @@ export default function CompareReport({ report }: CompareReportProps) {
   const evidenceId = useId();
   const benchmark = report.benchmark_for_edit_type;
   const noParentClaimed = report.verdict === "inconclusive" || report.verdict === "unrelated";
+  const hasDecisionDetails = report.decisive_cues.length > 0
+    || report.verdict === "parent-child"
+    || report.caption_side !== null;
 
   const downloadReport = () => {
     const blob = new Blob([JSON.stringify(report, null, 2)], { type: "application/json" });
@@ -54,15 +80,41 @@ export default function CompareReport({ report }: CompareReportProps) {
       <div className="compare-verdict-card">
         <p className="eyebrow">Pairwise verdict</p>
         <h2>{verdictText(report)}</h2>
+        {report.verdict === "inconclusive" && (
+          <h3 className="compare-relation">{report.relation}</h3>
+        )}
         <p className="compare-summary">{report.summary}</p>
+        {hasDecisionDetails && (
+          <div className="compare-decision" aria-label="What decided the verdict">
+            <strong>What decided it</strong>
+            <div className="compare-decision-chips">
+              {report.decisive_cues.map((cue) => (
+                <span className="compare-decision-chip" key={cue}>
+                  {DECISIVE_CUE_NAMES[cue] ?? cue}
+                </span>
+              ))}
+              {report.decisive_cues.length === 0 && report.verdict === "parent-child" && (
+                <span className="compare-decision-note">
+                  several cues agree (no single cue is decisive)
+                </span>
+              )}
+              {report.caption_side && (
+                <span className="compare-decision-chip is-caption">
+                  caption-like content on {report.caption_side}
+                </span>
+              )}
+            </div>
+          </div>
+        )}
         {noParentClaimed && <p className="compare-no-parent">No parent is claimed.</p>}
         <div className="compare-confidence-row">
-          <span className={`confidence ${report.confidence.precision === null ? "muted" : ""}`}>
-            {report.confidence.precision !== null
-              ? `${percent(report.confidence.precision)} empirical precision (n=${report.confidence.n})`
-              : report.costs.margin !== null
-                ? `margin ${report.costs.margin}`
-                : "no direction claimed"}
+          <span
+            className={`confidence ${report.confidence.precision === null ? "muted" : ""}`}
+            title={report.confidence.bucket === "caption-side cue"
+              ? report.confidence.source
+              : undefined}
+          >
+            {confidenceText(report)}
           </span>
           {benchmark.edit_type !== null && benchmark.accuracy !== null && (
             <span className="compare-benchmark">
@@ -108,7 +160,9 @@ export default function CompareReport({ report }: CompareReportProps) {
                 <tbody>
                   {report.signals.map((signal, index) => (
                     <tr
-                      className={signal.kind === "metadata" ? "is-metadata" : ""}
+                      className={signal.kind === "metadata" || signal.kind === "indicator"
+                        ? `is-${signal.kind}`
+                        : ""}
                       key={`${signal.signal}-${index}`}
                     >
                       <th scope="row">
@@ -124,6 +178,10 @@ export default function CompareReport({ report }: CompareReportProps) {
                 </tbody>
               </table>
             </div>
+            <p className="compare-indicator-note">
+              Indicators are measured and shown; they never decide a verdict unless listed under
+              {" \u201cWhat decided it\u201d."}
+            </p>
           </section>
 
           <section>

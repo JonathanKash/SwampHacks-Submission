@@ -1731,6 +1731,13 @@ p a {
   line-height: 1.08;
 }
 
+.compare-relation {
+  margin: 9px 0 0;
+  color: #e7c19d;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
 .compare-report.verdict-siblings .compare-verdict-card h2,
 .compare-report.verdict-inconclusive .compare-verdict-card h2 {
   color: var(--orange);
@@ -1746,6 +1753,48 @@ p a {
   color: #d4ddd7;
   font-size: 1rem;
   line-height: 1.58;
+}
+
+.compare-decision {
+  display: flex;
+  margin-top: 14px;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.compare-decision > strong {
+  color: #cfd8d2;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.compare-decision-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.compare-decision-chip {
+  padding: 3px 8px;
+  border: 1px solid rgba(98, 230, 166, 0.32);
+  border-radius: 999px;
+  color: #b9f0d3;
+  background: rgba(98, 230, 166, 0.06);
+  font-weight: 750;
+}
+
+.compare-decision-chip.is-caption {
+  border-color: rgba(255, 185, 104, 0.42);
+  color: #ffc27e;
+  background: rgba(255, 185, 104, 0.07);
+}
+
+.compare-decision-note {
+  color: #cfd8d2;
 }
 
 .compare-no-parent {
@@ -1854,6 +1903,15 @@ p a {
   color: #9eaaa4;
 }
 
+.compare-signals-table tr.is-indicator {
+  color: #cfb996;
+  background: rgba(255, 185, 104, 0.035);
+}
+
+.compare-signals-table tr.is-indicator th {
+  color: #e5c18d;
+}
+
 .compare-signals-table th small {
   display: block;
   margin-top: 5px;
@@ -1885,6 +1943,19 @@ p a {
 .signal-kind.is-semantic {
   border-color: rgba(255, 138, 61, 0.42);
   color: #ffb280;
+}
+
+.signal-kind.is-indicator {
+  border-color: rgba(255, 185, 104, 0.44);
+  color: #ffc27e;
+  background: rgba(255, 185, 104, 0.06);
+}
+
+.compare-indicator-note {
+  margin: 9px 2px 0;
+  color: var(--muted);
+  font-size: 0.74rem;
+  line-height: 1.45;
 }
 
 .compare-plates {
