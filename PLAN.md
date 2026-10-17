@@ -247,3 +247,7 @@ Decisions in SPEC.md (v2 section). Images first; audio/video only after images w
 - Internet originals: reverse-image provider behind SERPAPI_KEY (code and UI are in place, no key).
 - Finish the Gemini edit corpus (quota) and re-measure per edit type; calibrate the "object add/remove" case if a
   measurable asymmetry appears (noise consistency showed ratio 1.5-2.3 on the first examples).
+- [x] 17:00 polish wave (parallel Codex): compare page swap A/B + pick from the demo pool; identify "try a sample";
+      audit reviewed flags + analyst notes (browser-local, outside the signed report); text page example + legend;
+      edit page Fool Lineage hints + outcome lines; method page gates section; navbar phone collapse (in progress).
+      Backend: 132 tests green, smoke ALL OK; JPEG re-save regression test for the re-render gate.
