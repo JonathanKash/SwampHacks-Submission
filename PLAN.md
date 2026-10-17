@@ -219,7 +219,7 @@ Decisions in SPEC.md (v2 section). Images first; audio/video only after images w
       precision; tree view zoom/pan with fit controls (223-item case readable); method page: decides vs informs,
       symmetry limitation, caption-removed row; deploy notes + Dockerfile copy benchmark/; CLAUDE.md refreshed.
 - [x] Identify on 378 held-out meme copies (knowledge base: 223 items, pHash-only mode): 293 correct family (77.5%), 85 abstained, 0 wrong family; median 4.13 s, p90 5.3 s. By kind: crop 31/45, caption 255/314, other 5/6, screenshot 2/13.
-- [ ] Gemini edit-corpus retry scheduled for 15:45 local (quota reset).
+- [~] Gemini edit corpus resumed 15:50 local after the quota reset (16 edits so far; driver running, 12 per pass).
 - [x] Meme benchmark pass 3 (family splits, 563 pairs, pHash-only): when the documented "original" is a SMALLER
       file than its variant (287 pairs, ambiguous truth) wrong parent claimed 31%, direction 20%, abstained 49%;
       when the documented original is at least as large (276 pairs, clean truth) wrong parent claimed 13%,
