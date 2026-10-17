@@ -34,6 +34,10 @@ class Engine:
             media = ImageMedia(embedder)
         self.media = media
         self.embedder = getattr(media, "embedder", None)
+        if media.name == "image" and self.embedder is None:
+            # pHash alone is a weaker candidate signal than pHash + CLIP: widen the net so the
+            # true parent of a heavily edited copy is still among the pairs we cost.
+            self.k = max(self.k, config.CANDIDATE_K_NO_CLIP)
         self.items: dict[str, Item] = {}
         self.data: dict[str, Any] = {}
         self.fingerprints: dict[str, Fingerprint] = {}

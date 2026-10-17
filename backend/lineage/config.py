@@ -33,6 +33,7 @@ USE_CLIP: bool = _env_bool("USE_CLIP", True)
 
 # Candidate search: how many likely relatives to keep per item.
 CANDIDATE_K: int = 8
+CANDIDATE_K_NO_CLIP: int = 16  # pHash-only mode (USE_CLIP=false) needs a wider net
 
 # Images are downscaled to this max side before any analysis (speed + consistency).
 MAX_SIDE: int = 768

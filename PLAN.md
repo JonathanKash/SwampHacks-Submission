@@ -117,7 +117,10 @@ are, and an exportable report.
       "Verify a report" control on the audit page
 - [x] Fixed DATA_DIR resolving against the shell cwd (server launched from another folder saw an empty pool)
 - [x] Big-screen arrival overlay (source -> edit, verdict, precision; auto-dismiss; reduced motion)
-- [x] Scan-to-join QR code on the TV and landing pages (visitors add edits from their phones)
+- [x] Scan-to-join QR code on the TV and landing pages (visitors add edits from their phones); QR encodes the
+      server's LAN URL (or PUBLIC_URL) when the page is opened via localhost
+- [x] Phone-width (390px) check of the edit flow: no overflow, layout fine
+- [x] Low-memory mode widens candidates to k=16 (pHash-only search missed a true parent at k=8)
 
 ## Phase 5 — second media type: text (started 2026-10-17 ~02:30 ET)
 - [x] Media plug-in interface (lineage/media.py); Engine takes any plug-in; evidence accepts plug-in reasons
