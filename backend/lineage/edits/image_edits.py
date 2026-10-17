@@ -4,8 +4,9 @@ Used by the synthetic chain generator (Phase 0), the pre-seed script, and the
 server side of the /edit tablet page. Every edit returns the new image plus the
 parameters that were used, so the generator can store them as ground truth.
 
-AI restyle (Gemini) is deliberately NOT here; it lives in the API layer because
-it needs a network call and a key.
+AI restyle (Gemini) lives in plugins/gemini_restyle.py because it needs a network
+call and a billing-enabled key. `restyle_local` below is the offline stand-in the
+server uses when Gemini is unavailable, so the demo never dead-ends.
 """
 
 from __future__ import annotations
@@ -14,7 +15,9 @@ import io
 import math
 import random
 
-from PIL import Image, ImageDraw, ImageEnhance, ImageFont, ImageOps
+import cv2
+import numpy as np
+from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont, ImageOps
 
 EDIT_TYPES: tuple[str, ...] = ("crop", "rotate", "filter", "caption", "jpeg")
 FILTER_KINDS: tuple[str, ...] = ("warm", "cool", "brighter", "darker", "contrast", "grayscale")
@@ -128,3 +131,32 @@ def apply_edit(img: Image.Image, edit_type: str, rng: random.Random, **params) -
     if edit_type == "jpeg":
         return jpeg(img, rng, **params)
     raise ValueError(f"unknown edit type: {edit_type}")
+
+
+LOCAL_STYLES: tuple[str, ...] = ("watercolor", "pencil sketch", "oil painting", "pop art", "pixel art")
+
+
+def restyle_local(img: Image.Image, style: str | None = None) -> tuple[Image.Image, dict]:
+    """Offline stylization (OpenCV / Pillow). Used when the Gemini call fails.
+    Strong enough that ORB registration usually breaks, which is exactly the case
+    the semantic (CLIP) edge exists for."""
+    style = style if style in LOCAL_STYLES else "watercolor"
+    bgr = cv2.cvtColor(np.asarray(img.convert("RGB")), cv2.COLOR_RGB2BGR)
+    if style == "watercolor":
+        out = cv2.stylization(bgr, sigma_s=60, sigma_r=0.45)
+    elif style == "pencil sketch":
+        _, out = cv2.pencilSketch(bgr, sigma_s=60, sigma_r=0.07, shade_factor=0.05)
+    elif style == "oil painting":
+        out = cv2.edgePreservingFilter(bgr, flags=cv2.RECURS_FILTER, sigma_s=80, sigma_r=0.6)
+        out = cv2.detailEnhance(out, sigma_s=10, sigma_r=0.15)
+    elif style == "pop art":
+        quant = (bgr // 64) * 64 + 32  # 4 levels per channel
+        edges = cv2.adaptiveThreshold(cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY), 255,
+                                      cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 9, 5)
+        out = cv2.bitwise_and(quant, quant, mask=edges)
+    else:  # pixel art
+        h, w = bgr.shape[:2]
+        small = cv2.resize(bgr, (max(8, w // 12), max(8, h // 12)), interpolation=cv2.INTER_AREA)
+        out = cv2.resize(small, (w, h), interpolation=cv2.INTER_NEAREST)
+    result = Image.fromarray(cv2.cvtColor(out, cv2.COLOR_BGR2RGB))
+    return result, {"style": style, "model": "local-opencv"}
