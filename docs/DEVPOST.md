@@ -97,3 +97,22 @@ We built Lineage with AI coding agents under our direction: Claude Code contribu
 ### 1:54–2:00 — Close
 
 “No filenames, timestamps, or trusted metadata—just the information left in the pixels. That is Lineage.”
+
+
+## Update, Oct 17: provenance for the real web
+
+- **Identify a meme.** Upload any copy from your camera roll; Lineage places it in a family of 38 documented
+  meme originals and shows the documented original with its source, date and links, plus the evidence.
+- **Compare two files, and ask why.** Verdicts are parent-child, siblings, unrelated or inconclusive. Every
+  verdict lists the signals, which cues were decisive, what conflicted, what was unavailable, and the
+  tool version and SHA-256 of the inputs. Inconclusive is a first-class answer: an object added or removed
+  is symmetric from pixels alone, so no parent is claimed.
+- **Content Credentials.** C2PA manifests are read and validated, and generative-AI assertions are surfaced.
+- **We publish both numbers.** The calibration says how often a decision with this margin was right on our
+  synthetic edit chains; the second number says how often it was right on real web memes collected from
+  Imgflip and Know Your Meme. The lower number is the honest expectation for unknown files. We found the
+  gap by benchmarking, fixed what we could (registration recall on captioned images, a caption-side cue that
+  was right 30/30 times), and show the rest instead of hiding it.
+
+### Pitch line
+"Lineage does not guess. It measures, it shows its work, and when the pixels cannot tell, it says so."

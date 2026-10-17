@@ -194,3 +194,10 @@ Decisions in SPEC.md (v2 section). Images first; audio/video only after images w
       2 placed in the right family with the documented original, 2 honestly "no family" (pHash-only mode).
 - [x] Content Credentials: c2pa-python reads and validates manifests (tested on c2pa-rs fixtures: Valid,
       issuer, actions); shown as a metadata signal and, with generative-AI assertions, as an AI-edit indicator.
+- [x] Meme benchmark v2 (after ORB 4000 + SIFT fallback + caption_removed term, pHash-only, 563 pairs):
+      unrelated verdicts on captions 144 -> 58; abstained 62% -> 47%; direction 24% -> 31%; caption-side cue
+      95% (n=59). BUT wrong parent claimed 14% -> 23%, and the synthetic ">= 0.30" bucket observed 58% (n=281)
+      on web memes. Consequence: confidence now carries the same bucket's observed precision per corpus
+      (calibration.corpora, written by benchmark/write_corpus_calibration.py) and the UI shows both numbers.
+      Third pass running with family + "documented original is the smaller file" splits to separate ambiguous
+      truth from real direction errors.
