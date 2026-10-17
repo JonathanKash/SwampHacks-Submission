@@ -170,3 +170,9 @@ where to fix the engine: registration on captioned images and a caption-side cue
 - Generative edits (Gemini, 25 real-photo edits): before the re-rendered gate the system claimed a wrong parent 26% of
   the time; with it, 8%, abstaining 72% of the time. A re-rendered image (restyle, background swap, re-draw) aligns but
   every pixel differs, and that is now reported as a measured AI-edit indicator rather than guessed as a direction.
+
+## Try it live
+Public link during the event (a Cloudflare quick tunnel from the demo laptop; the address changes if the tunnel
+restarts, so replace it with the current one before submitting):
+https://roses-inner-cars-dealtime.trycloudflare.com  — start at /identify on a phone, /tree on a big screen,
+/compare and /audit for the evidence workflow, /method for the numbers.
