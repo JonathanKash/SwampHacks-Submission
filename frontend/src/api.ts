@@ -49,19 +49,27 @@ export interface PoolResponse {
   filters: FilterKind[];
 }
 
+export interface CalibrationCount {
+  correct: number;
+  n: number;
+}
+
+export interface CalibrationCorpus {
+  buckets: Record<string, CalibrationCount>;
+  generated_at: string;
+  source: string;
+  note?: string;
+}
+
 export interface CalibrationResponse {
-  generated_at: string | null;
+  generated_at: string;
   runs: string[];
-  decisions: number;
-  root_cost: number | null;
-  buckets: Array<{
-    bucket: string;
-    min_margin: number;
-    correct: number;
-    n: number;
-    precision: number | null;
-  }>;
-  per_edit: Record<string, { correct: number; n: number }>;
+  root_cost: number;
+  weights: Record<string, number>;
+  buckets: Record<string, CalibrationCount>;
+  per_edit?: Record<string, CalibrationCount>;
+  caption_side?: CalibrationCount & { source: string; meaning: string };
+  corpora?: Record<string, CalibrationCorpus>;
 }
 
 export type CompareVerdict = "parent-child" | "siblings" | "unrelated" | "inconclusive";

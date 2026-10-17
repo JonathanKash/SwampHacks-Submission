@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import NavBar from "./NavBar";
+import NumbersPanel from "./NumbersPanel";
 import { usePageTitle } from "./usePageTitle";
 
 const TERMS: Array<{ name: string; weight: string; measures: string; direction: string }> = [
@@ -114,6 +115,12 @@ export default function MethodPage() {
             </p>
           </li>
         </ol>
+      </section>
+
+      <section className="pipeline">
+        <p className="eyebrow">Evaluation</p>
+        <h2>Numbers</h2>
+        <NumbersPanel />
       </section>
 
       <section className="idea">

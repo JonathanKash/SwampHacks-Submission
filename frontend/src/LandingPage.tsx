@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { fetchCalibration, type CalibrationResponse } from "./api";
 import NavBar from "./NavBar";
+import NumbersPanel from "./NumbersPanel";
 import QrCode from "./QrCode";
 import { usePageTitle } from "./usePageTitle";
 import { useTreePolling } from "./useTreePolling";
@@ -11,24 +10,13 @@ function pct(value: number | null | undefined): string {
   return `${Number.isInteger(value) ? value.toFixed(0) : value.toFixed(1)}%`;
 }
 
-function ratioPct(value: number | null): string {
-  return value === null ? "—" : `${Math.round(value * 100)}%`;
-}
-
 /** The front door: what Lineage is, why it works, and how to join the live demo. */
 export default function LandingPage() {
   usePageTitle("Lineage");
 
   const { tree } = useTreePolling(5_000);
-  const [calibration, setCalibration] = useState<CalibrationResponse | null>(null);
   const nodes = tree?.nodes.length ?? 0;
   const roots = tree?.nodes.filter((node) => node.root).length ?? 0;
-
-  useEffect(() => {
-    const controller = new AbortController();
-    void fetchCalibration(controller.signal).then(setCalibration).catch(() => undefined);
-    return () => controller.abort();
-  }, []);
 
   return (
     <main className="landing">
@@ -138,59 +126,19 @@ export default function LandingPage() {
         </p>
       </section>
 
-      {calibration && (
-        <section className="calibration">
-          <p className="eyebrow">How sure is it?</p>
-          <h2>Confidence is measured, not guessed.</h2>
-          <p className="calibration-intro">
-            We ran the pipeline over synthetic edit chains with known answers and recorded how often decisions
-            with a given cost margin were right. Every confidence figure in the app is one of these numbers.
-          </p>
-          <p className="calibration-honesty">
-            <strong>We publish both numbers:</strong> one calibrated on synthetic edit chains and one measured on an
-            independent corpus of real web images. For an unknown file, the lower result is the honest expectation.
-          </p>
-          <div className="calibration-table-wrap">
-            <table className="calibration-table">
-              <caption>
-                Empirical precision by cost margin, {calibration.decisions} decisions over {calibration.runs.join(", ")}
-              </caption>
-              <thead>
-                <tr>
-                  <th scope="col">Cost margin</th>
-                  <th scope="col">Precision</th>
-                  <th scope="col">n</th>
-                </tr>
-              </thead>
-              <tbody>
-                {calibration.buckets.map((bucket) => {
-                  const width = Math.max(0, Math.min(1, bucket.precision ?? 0)) * 100;
-                  return (
-                    <tr key={bucket.bucket}>
-                      <th scope="row">{bucket.bucket}</th>
-                      <td className="calibration-precision">
-                        <span>{ratioPct(bucket.precision)}</span>
-                        <div className="calibration-bar" style={{ width: `${width}%` }} aria-hidden="true" />
-                      </td>
-                      <td>{bucket.n}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-          <div className="calibration-edits" aria-label="Accuracy by edit type">
-            {Object.entries(calibration.per_edit)
-              .filter(([edit]) => edit !== "root")
-              .map(([edit, result]) => (
-                <span key={edit}>
-                  {edit} {result.n === 0 ? "—" : `${Math.round((result.correct / result.n) * 100)}%`} ({result.correct}/
-                  {result.n})
-                </span>
-              ))}
-          </div>
-        </section>
-      )}
+      <section className="calibration">
+        <p className="eyebrow">How sure is it?</p>
+        <h2>Confidence is measured, not guessed.</h2>
+        <p className="calibration-intro">
+          We ran the pipeline over synthetic edit chains with known answers and recorded how often decisions
+          with a given cost margin were right. Every confidence figure in the app is one of these numbers.
+        </p>
+        <p className="calibration-honesty">
+          <strong>We publish both numbers:</strong> one calibrated on synthetic edit chains and one measured on an
+          independent corpus of real web images. For an unknown file, the lower result is the honest expectation.
+        </p>
+        <NumbersPanel compact />
+      </section>
 
       <section className="demo-how">
         <p className="eyebrow">Join the demo</p>

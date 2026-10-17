@@ -419,6 +419,102 @@ p a {
   font-weight: 700;
 }
 
+.numbers-panel {
+  max-width: 100%;
+}
+
+.numbers-panel--compact {
+  max-width: 920px;
+}
+
+.numbers-title {
+  margin: 0 0 10px;
+  color: #dce5e0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.numbers-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(17, 24, 23, 0.82);
+}
+
+.numbers-table {
+  width: 100%;
+  min-width: 620px;
+  border-collapse: collapse;
+  color: #dce5e0;
+  font-size: 0.86rem;
+  text-align: left;
+}
+
+.numbers-table caption {
+  padding: 11px 16px;
+  border-top: 1px solid var(--line);
+  caption-side: bottom;
+  color: var(--muted);
+  font-size: 0.74rem;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.numbers-table th,
+.numbers-table td {
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--line);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.numbers-table thead th {
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.02);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.numbers-table tbody th {
+  color: var(--green);
+  font-weight: 800;
+}
+
+.numbers-table tbody tr:last-child > * {
+  border-bottom: 0;
+}
+
+.numbers-panel--compact .numbers-table th,
+.numbers-panel--compact .numbers-table td {
+  padding-block: 9px;
+}
+
+.numbers-caption-cue {
+  margin: 12px 0 0;
+  color: #cfd8d2;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.numbers-edits {
+  display: flex;
+  margin-top: 10px;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.numbers-edits span {
+  padding: 5px 9px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: #cfd8d2;
+  background: rgba(17, 24, 23, 0.82);
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
 /* ---- guided edit flow ------------------------------------------------------ */
 .steps {
   display: flex;
