@@ -1192,3 +1192,28 @@ p a {
     display: none;
   }
 }
+
+/* ---- compare with any image --------------------------------------------- */
+.compare-with {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.compare-with label {
+  color: var(--green);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.compare-with select {
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--line-strong, #4c5d57);
+  border-radius: 12px;
+  color: var(--ink);
+  background: rgba(17, 24, 23, 0.9);
+  font: inherit;
+}

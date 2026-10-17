@@ -88,6 +88,10 @@ export default function AuditPage() {
   const [refreshToken, setRefreshToken] = useState(0);
   const [copied, setCopied] = useState(false);
   const [copiedHash, setCopiedHash] = useState(false);
+  const [compareWith, setCompareWith] = useState("");
+
+  // A new selection starts without a comparison target.
+  useEffect(() => setCompareWith(""), [selectedNodeId]);
   const copyResetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hashCopyResetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -421,6 +425,9 @@ export default function AuditPage() {
                   >
                     Open HTML report
                   </a>
+                  <a className="secondary-button" href={`/api/cases/${encodeURIComponent(selectedCase.id)}/report.csv`} download>
+                    CSV ledger
+                  </a>
                   <button className="secondary-button" type="button" onClick={() => void handleCopyLink()}>
                     {copied ? "Copied" : "Copy link"}
                   </button>
@@ -558,6 +565,36 @@ export default function AuditPage() {
                         key={`${selectedNode.id}-${tree.version}`}
                         src={`/api/cases/${encodeURIComponent(selectedCase.id)}/diff/${encodeURIComponent(selectedNode.id)}?t=${tree.version}`}
                       />
+                    )}
+                    {tree && tree.nodes.length > 1 && (
+                      <div className="compare-with">
+                        <label htmlFor="compare-with-select">Compare with any image</label>
+                        <select
+                          id="compare-with-select"
+                          value={compareWith}
+                          onChange={(event) => setCompareWith(event.target.value)}
+                        >
+                          <option value="">Choose an image…</option>
+                          {tree.nodes
+                            .filter((node) => node.id !== selectedNode.id)
+                            .map((node) => (
+                              <option key={node.id} value={node.id}>
+                                {String(node.params.filename ?? node.id)}
+                              </option>
+                            ))}
+                        </select>
+                        {compareWith && (
+                          <VisualDiff
+                            key={`${selectedNode.id}-vs-${compareWith}-${tree.version}`}
+                            src={`/api/cases/${encodeURIComponent(selectedCase.id)}/diff/${encodeURIComponent(selectedNode.id)}?other=${encodeURIComponent(compareWith)}&t=${tree.version}`}
+                            defaultShown
+                            showLabel="Show comparison"
+                            hideLabel="Hide comparison"
+                            caption="chosen image aligned onto this one · this image · residual after color fit"
+                            unavailableMessage="These two images do not align; they are not direct pixel relatives."
+                          />
+                        )}
+                      </div>
                     )}
                     {tree && !selectedNode.root && (
                       <div className="provenance">
