@@ -21,9 +21,11 @@ CHANGE_THRESHOLD = 0.12  # residual after color fit that counts as "changed"
 MIN_REGION = 0.002  # fraction of the frame; smaller regions give unstable statistics
 MAX_REGION = 0.6  # above this it is a restyle, not a local edit
 BREAK_RATIO = 1.6  # noise differs by this factor either way -> indicator
-CAPTION_MIN_ACHROMATIC = 0.9  # share of changed pixels within 40 levels of gray (white/black text, incl. anti-aliased grays)
-CAPTION_MIN_TONE = 0.2  # share that is dark (<70) and share that is bright (>185): text has both
-CAPTION_MIN_LUM_STD = 90  # luminance spread; captions ~110, pavement/fill/objects <= 72
+# Thresholds set from measurements on synthetic captions (run1-3), a Gemini caption, Gemini object
+# add/remove edits and the scene under a caption (see PLAN.md phase 8):
+CAPTION_MIN_ACHROMATIC = 0.95  # share of changed pixels within 40 levels of gray; captions 0.95-1.0, scene under a caption 0.93
+CAPTION_MIN_EXTREMES = 0.75  # share that is dark (<70) or bright (>185); captions 0.76-0.93, inpainted fill 0.34, scene 0.59
+CAPTION_MIN_LUM_STD = 75  # luminance spread; captions 75-116, scene under a caption 69, fills/objects <= 59
 
 
 def _two_tone(rgb: np.ndarray, mask: np.ndarray) -> tuple[float, np.ndarray, np.ndarray] | None:
@@ -60,7 +62,7 @@ def caption_likeness(rgb: np.ndarray, mask: np.ndarray) -> dict:
     dark, bright, spread = float((lum < 70).mean()), float((lum > 185).mean()), float(lum.std())
     return {"two_tone": round(tt[0], 3) if tt else None, "achromatic": round(achromatic, 2), "dark": round(dark, 2),
             "bright": round(bright, 2), "lum_std": round(spread, 1),
-            "caption_like": bool(achromatic >= CAPTION_MIN_ACHROMATIC and dark >= CAPTION_MIN_TONE and bright >= CAPTION_MIN_TONE
+            "caption_like": bool(achromatic >= CAPTION_MIN_ACHROMATIC and dark + bright >= CAPTION_MIN_EXTREMES
                                  and spread >= CAPTION_MIN_LUM_STD)}
 
 

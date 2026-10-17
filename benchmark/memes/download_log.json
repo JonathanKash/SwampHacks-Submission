@@ -1,0 +1,5592 @@
+{
+ "summary": {
+  "families_total": 38,
+  "families_complete": 38,
+  "images_ok": 612,
+  "images_failed": 5,
+  "pruned_stale_files": 0,
+  "run_utc": "2026-10-17T15:08:27Z"
+ },
+ "failures": [
+  {
+   "family": "expanding-brain",
+   "file": "expanding-brain/v03_lowres.png",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/022/266/brain.png",
+   "status": "failed",
+   "error": "http 403"
+  },
+  {
+   "family": "surprised-pikachu",
+   "file": "surprised-pikachu/v02_lowres.png",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/027/475/Screen_Shot_2018-10-25_at_11.02.15_AM.png",
+   "status": "failed",
+   "error": "http 403"
+  },
+  {
+   "family": "this-is-fine",
+   "file": "this-is-fine/v03_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/018/012/this_is_fine.jpeg",
+   "status": "failed",
+   "error": "http 403"
+  },
+  {
+   "family": "bernie-sanders-mittens",
+   "file": "bernie-sanders-mittens/v05_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/036/345/EsMANJkW4AYbmvv.jpeg",
+   "status": "failed",
+   "error": "http 403"
+  },
+  {
+   "family": "monkey-puppet",
+   "file": "monkey-puppet/v02_lowres.png",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/030/710/dd0.png",
+   "status": "failed",
+   "error": "http 403"
+  }
+ ],
+ "entries": [
+  {
+   "family": "distracted-boyfriend",
+   "file": "distracted-boyfriend/original.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/287/555/106.jpg",
+   "status": "cached",
+   "bytes": 55757,
+   "width": 880,
+   "height": 440
+  },
+  {
+   "family": "distracted-boyfriend",
+   "file": "distracted-boyfriend/v01_crop.jpg",
+   "url": "https://imgflip.com/s/meme/Distracted-Boyfriend.jpg",
+   "status": "cached",
+   "bytes": 96791,
+   "width": 1200,
+   "height": 800
+  },
+  {
+   "family": "distracted-boyfriend",
+   "file": "distracted-boyfriend/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/023/732/damngina.jpg",
+   "status": "cached",
+   "bytes": 59090,
+   "width": 782,
+   "height": 440
+  },
+  {
+   "family": "distracted-boyfriend",
+   "file": "distracted-boyfriend/v03_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/023/732/damngina.jpg",
+   "status": "cached",
+   "bytes": 61610,
+   "width": 782,
+   "height": 440
+  },
+  {
+   "family": "distracted-boyfriend",
+   "file": "distracted-boyfriend/v04_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/289/193/ff0.jpg",
+   "status": "cached",
+   "bytes": 32940,
+   "width": 600,
+   "height": 332
+  },
+  {
+   "family": "distracted-boyfriend",
+   "file": "distracted-boyfriend/v05_lowres.jpg",
+   "url": "https://upload.wikimedia.org/wikipedia/en/b/be/Disloyal_man_with_his_girlfriend_looking_at_another_girl.jpg",
+   "status": "cached",
+   "bytes": 72599,
+   "width": 387,
+   "height": 258
+  },
+  {
+   "family": "distracted-boyfriend",
+   "file": "distracted-boyfriend/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/996/425/4f7.jpeg",
+   "status": "cached",
+   "bytes": 48817,
+   "width": 714,
+   "height": 714
+  },
+  {
+   "family": "distracted-boyfriend",
+   "file": "distracted-boyfriend/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/256/820/6bc.jpeg",
+   "status": "cached",
+   "bytes": 56743,
+   "width": 750,
+   "height": 500
+  },
+  {
+   "family": "distracted-boyfriend",
+   "file": "distracted-boyfriend/v08_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/932/925/cb9",
+   "status": "cached",
+   "bytes": 1489439,
+   "width": 4096,
+   "height": 3166
+  },
+  {
+   "family": "distracted-boyfriend",
+   "file": "distracted-boyfriend/v09_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/170/304/2f3.jpeg",
+   "status": "cached",
+   "bytes": 47179,
+   "width": 640,
+   "height": 426
+  },
+  {
+   "family": "distracted-boyfriend",
+   "file": "distracted-boyfriend/v10_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/996/425/4f7.jpeg",
+   "status": "cached",
+   "bytes": 45791,
+   "width": 714,
+   "height": 714
+  },
+  {
+   "family": "distracted-boyfriend",
+   "file": "distracted-boyfriend/v11_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/003/256/820/6bc.jpeg",
+   "status": "cached",
+   "bytes": 51509,
+   "width": 716,
+   "height": 477
+  },
+  {
+   "family": "distracted-boyfriend",
+   "file": "distracted-boyfriend/v12_caption.jpg",
+   "url": "https://i.imgflip.com/b3je89.jpg",
+   "status": "cached",
+   "bytes": 83034,
+   "width": 750,
+   "height": 500
+  },
+  {
+   "family": "distracted-boyfriend",
+   "file": "distracted-boyfriend/v13_caption.jpg",
+   "url": "https://i.imgflip.com/b3ga1n.jpg",
+   "status": "cached",
+   "bytes": 88966,
+   "width": 750,
+   "height": 500
+  },
+  {
+   "family": "distracted-boyfriend",
+   "file": "distracted-boyfriend/v14_caption.jpg",
+   "url": "https://i.imgflip.com/b3inrw.jpg",
+   "status": "cached",
+   "bytes": 86459,
+   "width": 750,
+   "height": 500
+  },
+  {
+   "family": "distracted-boyfriend",
+   "file": "distracted-boyfriend/v15_caption.jpg",
+   "url": "https://i.imgflip.com/b2fqh4.jpg",
+   "status": "cached",
+   "bytes": 84915,
+   "width": 750,
+   "height": 500
+  },
+  {
+   "family": "disaster-girl",
+   "file": "disaster-girl/original.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/000/130/disaster-girl.jpg",
+   "status": "cached",
+   "bytes": 31636,
+   "width": 500,
+   "height": 375
+  },
+  {
+   "family": "disaster-girl",
+   "file": "disaster-girl/v01_crop.jpg",
+   "url": "https://imgflip.com/s/meme/Disaster-Girl.jpg",
+   "status": "cached",
+   "bytes": 28992,
+   "width": 500,
+   "height": 375
+  },
+  {
+   "family": "disaster-girl",
+   "file": "disaster-girl/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/000/043/dg1.jpg",
+   "status": "cached",
+   "bytes": 505098,
+   "width": 1280,
+   "height": 675
+  },
+  {
+   "family": "disaster-girl",
+   "file": "disaster-girl/v03_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/000/043/dg1.jpg",
+   "status": "cached",
+   "bytes": 121704,
+   "width": 1280,
+   "height": 675
+  },
+  {
+   "family": "disaster-girl",
+   "file": "disaster-girl/v04_lowres.jpg",
+   "url": "https://upload.wikimedia.org/wikipedia/en/1/11/Disaster_Girl.jpg",
+   "status": "cached",
+   "bytes": 68498,
+   "width": 388,
+   "height": 257
+  },
+  {
+   "family": "disaster-girl",
+   "file": "disaster-girl/v05_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/433/032/54e.jpg",
+   "status": "cached",
+   "bytes": 57361,
+   "width": 612,
+   "height": 408
+  },
+  {
+   "family": "disaster-girl",
+   "file": "disaster-girl/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/295/518/86c.jpeg",
+   "status": "cached",
+   "bytes": 106180,
+   "width": 750,
+   "height": 561
+  },
+  {
+   "family": "disaster-girl",
+   "file": "disaster-girl/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/949/308/69d.jpg",
+   "status": "cached",
+   "bytes": 226438,
+   "width": 1100,
+   "height": 824
+  },
+  {
+   "family": "disaster-girl",
+   "file": "disaster-girl/v08_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/946/805/d0c.png",
+   "status": "cached",
+   "bytes": 558602,
+   "width": 721,
+   "height": 541
+  },
+  {
+   "family": "disaster-girl",
+   "file": "disaster-girl/v09_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/455/211/0ed",
+   "status": "cached",
+   "bytes": 239045,
+   "width": 1800,
+   "height": 1350
+  },
+  {
+   "family": "disaster-girl",
+   "file": "disaster-girl/v10_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/433/032/54e.jpg",
+   "status": "cached",
+   "bytes": 56811,
+   "width": 612,
+   "height": 408
+  },
+  {
+   "family": "disaster-girl",
+   "file": "disaster-girl/v11_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/295/518/86c.jpeg",
+   "status": "cached",
+   "bytes": 37803,
+   "width": 680,
+   "height": 509
+  },
+  {
+   "family": "disaster-girl",
+   "file": "disaster-girl/v12_caption.jpg",
+   "url": "https://i.imgflip.com/b1owie.jpg",
+   "status": "cached",
+   "bytes": 65619,
+   "width": 577,
+   "height": 433
+  },
+  {
+   "family": "disaster-girl",
+   "file": "disaster-girl/v13_caption.jpg",
+   "url": "https://i.imgflip.com/b1u4ac.jpg",
+   "status": "cached",
+   "bytes": 65753,
+   "width": 577,
+   "height": 433
+  },
+  {
+   "family": "disaster-girl",
+   "file": "disaster-girl/v14_caption.jpg",
+   "url": "https://i.imgflip.com/b2cry6.jpg",
+   "status": "cached",
+   "bytes": 82978,
+   "width": 577,
+   "height": 433
+  },
+  {
+   "family": "disaster-girl",
+   "file": "disaster-girl/v15_caption.jpg",
+   "url": "https://i.imgflip.com/ay36pp.jpg",
+   "status": "cached",
+   "bytes": 69177,
+   "width": 577,
+   "height": 433
+  },
+  {
+   "family": "hide-the-pain-harold",
+   "file": "hide-the-pain-harold/original.jpg",
+   "url": "https://upload.wikimedia.org/wikipedia/en/a/a4/Hide_the_Pain_Harold_%28Andr%C3%A1s_Arat%C3%B3%29.jpg",
+   "status": "cached",
+   "bytes": 51702,
+   "width": 404,
+   "height": 247
+  },
+  {
+   "family": "hide-the-pain-harold",
+   "file": "hide-the-pain-harold/v01_other.jpg",
+   "url": "https://imgflip.com/s/meme/Hide-the-Pain-Harold.jpg",
+   "status": "cached",
+   "bytes": 30850,
+   "width": 480,
+   "height": 601
+  },
+  {
+   "family": "hide-the-pain-harold",
+   "file": "hide-the-pain-harold/v02_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/808/861/040.png",
+   "status": "cached",
+   "bytes": 301344,
+   "width": 750,
+   "height": 726
+  },
+  {
+   "family": "hide-the-pain-harold",
+   "file": "hide-the-pain-harold/v03_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/991/029/2ca.jpeg",
+   "status": "downloaded",
+   "bytes": 197379,
+   "width": 1167,
+   "height": 1462
+  },
+  {
+   "family": "hide-the-pain-harold",
+   "file": "hide-the-pain-harold/v04_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/892/235/104.png",
+   "status": "cached",
+   "bytes": 145424,
+   "width": 609,
+   "height": 579
+  },
+  {
+   "family": "hide-the-pain-harold",
+   "file": "hide-the-pain-harold/v05_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/143/002/01c.jpeg",
+   "status": "cached",
+   "bytes": 62999,
+   "width": 640,
+   "height": 801
+  },
+  {
+   "family": "hide-the-pain-harold",
+   "file": "hide-the-pain-harold/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/815/011/0aa.jpeg",
+   "status": "cached",
+   "bytes": 53942,
+   "width": 480,
+   "height": 601
+  },
+  {
+   "family": "hide-the-pain-harold",
+   "file": "hide-the-pain-harold/v07_lowres.png",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/808/861/040.png",
+   "status": "cached",
+   "bytes": 458338,
+   "width": 716,
+   "height": 693
+  },
+  {
+   "family": "hide-the-pain-harold",
+   "file": "hide-the-pain-harold/v08_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/991/029/2ca.jpeg",
+   "status": "downloaded",
+   "bytes": 60258,
+   "width": 716,
+   "height": 897
+  },
+  {
+   "family": "hide-the-pain-harold",
+   "file": "hide-the-pain-harold/v09_caption.jpg",
+   "url": "https://i.imgflip.com/b3jfwo.jpg",
+   "status": "cached",
+   "bytes": 76079,
+   "width": 500,
+   "height": 626
+  },
+  {
+   "family": "hide-the-pain-harold",
+   "file": "hide-the-pain-harold/v10_caption.jpg",
+   "url": "https://i.imgflip.com/b3bno4.jpg",
+   "status": "cached",
+   "bytes": 71158,
+   "width": 500,
+   "height": 626
+  },
+  {
+   "family": "hide-the-pain-harold",
+   "file": "hide-the-pain-harold/v11_caption.jpg",
+   "url": "https://i.imgflip.com/b2rxva.jpg",
+   "status": "cached",
+   "bytes": 70065,
+   "width": 500,
+   "height": 626
+  },
+  {
+   "family": "hide-the-pain-harold",
+   "file": "hide-the-pain-harold/v12_caption.jpg",
+   "url": "https://i.imgflip.com/avkngh.jpg",
+   "status": "cached",
+   "bytes": 81596,
+   "width": 500,
+   "height": 626
+  },
+  {
+   "family": "hide-the-pain-harold",
+   "file": "hide-the-pain-harold/v13_caption.jpg",
+   "url": "https://i.imgflip.com/b1zjag.jpg",
+   "status": "cached",
+   "bytes": 70228,
+   "width": 500,
+   "height": 626
+  },
+  {
+   "family": "hide-the-pain-harold",
+   "file": "hide-the-pain-harold/v14_caption.jpg",
+   "url": "https://i.imgflip.com/b1g74p.jpg",
+   "status": "cached",
+   "bytes": 70683,
+   "width": 500,
+   "height": 626
+  },
+  {
+   "family": "hide-the-pain-harold",
+   "file": "hide-the-pain-harold/related1.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/016/546/hidethepainharold.jpg",
+   "status": "cached",
+   "bytes": 145366,
+   "width": 1410,
+   "height": 793
+  },
+  {
+   "family": "hide-the-pain-harold",
+   "file": "hide-the-pain-harold/related2.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/839/197/f99.jpg",
+   "status": "cached",
+   "bytes": 22089,
+   "width": 400,
+   "height": 344
+  },
+  {
+   "family": "hide-the-pain-harold",
+   "file": "hide-the-pain-harold/related3.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/839/198/081.jpg",
+   "status": "cached",
+   "bytes": 27450,
+   "width": 316,
+   "height": 450
+  },
+  {
+   "family": "success-kid",
+   "file": "success-kid/original.jpg",
+   "url": "https://upload.wikimedia.org/wikipedia/en/f/ff/SuccessKid.jpg",
+   "status": "cached",
+   "bytes": 31315,
+   "width": 388,
+   "height": 258
+  },
+  {
+   "family": "success-kid",
+   "file": "success-kid/v01_crop.jpg",
+   "url": "https://imgflip.com/s/meme/Success-Kid.jpg",
+   "status": "cached",
+   "bytes": 8514,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "success-kid",
+   "file": "success-kid/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/000/745/success.jpg",
+   "status": "cached",
+   "bytes": 146241,
+   "width": 1920,
+   "height": 1080
+  },
+  {
+   "family": "success-kid",
+   "file": "success-kid/v03_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/000/745/success.jpg",
+   "status": "cached",
+   "bytes": 150252,
+   "width": 1920,
+   "height": 1080
+  },
+  {
+   "family": "success-kid",
+   "file": "success-kid/v04_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/185/885/SANDCASTLES.png?1318627593",
+   "status": "cached",
+   "bytes": 385582,
+   "width": 636,
+   "height": 423
+  },
+  {
+   "family": "success-kid",
+   "file": "success-kid/v05_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/530/624/90c.jpg",
+   "status": "cached",
+   "bytes": 73811,
+   "width": 400,
+   "height": 400
+  },
+  {
+   "family": "success-kid",
+   "file": "success-kid/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/297/242/109.jpg",
+   "status": "cached",
+   "bytes": 44414,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "success-kid",
+   "file": "success-kid/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/071/054/b60.jpg",
+   "status": "cached",
+   "bytes": 57748,
+   "width": 1024,
+   "height": 653
+  },
+  {
+   "family": "success-kid",
+   "file": "success-kid/v08_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/643/140/4ff.jpg",
+   "status": "cached",
+   "bytes": 10508,
+   "width": 318,
+   "height": 212
+  },
+  {
+   "family": "success-kid",
+   "file": "success-kid/v09_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/374/478/9ba.jpg",
+   "status": "cached",
+   "bytes": 81778,
+   "width": 800,
+   "height": 800
+  },
+  {
+   "family": "success-kid",
+   "file": "success-kid/v10_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/530/624/90c.jpg",
+   "status": "cached",
+   "bytes": 24612,
+   "width": 400,
+   "height": 400
+  },
+  {
+   "family": "success-kid",
+   "file": "success-kid/v11_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/297/242/109.jpg",
+   "status": "cached",
+   "bytes": 28756,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "success-kid",
+   "file": "success-kid/v12_caption.jpg",
+   "url": "https://i.imgflip.com/b2siwg.jpg",
+   "status": "cached",
+   "bytes": 38883,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "success-kid",
+   "file": "success-kid/v13_caption.jpg",
+   "url": "https://i.imgflip.com/awzs18.jpg",
+   "status": "cached",
+   "bytes": 22483,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "success-kid",
+   "file": "success-kid/v14_caption.jpg",
+   "url": "https://i.imgflip.com/9rhibx.jpg",
+   "status": "cached",
+   "bytes": 47322,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "success-kid",
+   "file": "success-kid/v15_caption.jpg",
+   "url": "https://i.imgflip.com/aot37t.jpg",
+   "status": "cached",
+   "bytes": 41677,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "woman-yelling-at-a-cat",
+   "file": "woman-yelling-at-a-cat/original.jpg",
+   "url": "https://imgflip.com/s/meme/Woman-Yelling-At-Cat.jpg",
+   "status": "cached",
+   "bytes": 32637,
+   "width": 680,
+   "height": 438
+  },
+  {
+   "family": "woman-yelling-at-a-cat",
+   "file": "woman-yelling-at-a-cat/v01_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/030/157/womanyellingcat.jpg",
+   "status": "cached",
+   "bytes": 49462,
+   "width": 683,
+   "height": 384
+  },
+  {
+   "family": "woman-yelling-at-a-cat",
+   "file": "woman-yelling-at-a-cat/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/030/157/womanyellingcat.jpg",
+   "status": "cached",
+   "bytes": 51202,
+   "width": 683,
+   "height": 384
+  },
+  {
+   "family": "woman-yelling-at-a-cat",
+   "file": "woman-yelling-at-a-cat/v03_screenshot.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/505/720/359.jpg",
+   "status": "cached",
+   "bytes": 124541,
+   "width": 855,
+   "height": 640
+  },
+  {
+   "family": "woman-yelling-at-a-cat",
+   "file": "woman-yelling-at-a-cat/v04_lowres.jpg",
+   "url": "https://upload.wikimedia.org/wikipedia/en/1/1f/WomanYellingAtACat_meme.jpg",
+   "status": "cached",
+   "bytes": 82481,
+   "width": 447,
+   "height": 223
+  },
+  {
+   "family": "woman-yelling-at-a-cat",
+   "file": "woman-yelling-at-a-cat/v05_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/323/095/9dd.jpeg",
+   "status": "cached",
+   "bytes": 86682,
+   "width": 1038,
+   "height": 877
+  },
+  {
+   "family": "woman-yelling-at-a-cat",
+   "file": "woman-yelling-at-a-cat/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/226/206/327.jpeg",
+   "status": "cached",
+   "bytes": 167218,
+   "width": 685,
+   "height": 435
+  },
+  {
+   "family": "woman-yelling-at-a-cat",
+   "file": "woman-yelling-at-a-cat/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/205/714/08a.jpeg",
+   "status": "cached",
+   "bytes": 189030,
+   "width": 1200,
+   "height": 972
+  },
+  {
+   "family": "woman-yelling-at-a-cat",
+   "file": "woman-yelling-at-a-cat/v08_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/141/403/43d.jpg",
+   "status": "cached",
+   "bytes": 164739,
+   "width": 1080,
+   "height": 1440
+  },
+  {
+   "family": "woman-yelling-at-a-cat",
+   "file": "woman-yelling-at-a-cat/v09_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/095/640/dc5.jpg",
+   "status": "cached",
+   "bytes": 77271,
+   "width": 1080,
+   "height": 607
+  },
+  {
+   "family": "woman-yelling-at-a-cat",
+   "file": "woman-yelling-at-a-cat/v10_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/003/323/095/9dd.jpeg",
+   "status": "cached",
+   "bytes": 50994,
+   "width": 716,
+   "height": 605
+  },
+  {
+   "family": "woman-yelling-at-a-cat",
+   "file": "woman-yelling-at-a-cat/v11_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/003/226/206/327.jpeg",
+   "status": "cached",
+   "bytes": 40895,
+   "width": 685,
+   "height": 435
+  },
+  {
+   "family": "woman-yelling-at-a-cat",
+   "file": "woman-yelling-at-a-cat/v12_caption.jpg",
+   "url": "https://i.imgflip.com/b2oipl.jpg",
+   "status": "cached",
+   "bytes": 56826,
+   "width": 680,
+   "height": 438
+  },
+  {
+   "family": "woman-yelling-at-a-cat",
+   "file": "woman-yelling-at-a-cat/v13_caption.jpg",
+   "url": "https://i.imgflip.com/b3h2j3.jpg",
+   "status": "cached",
+   "bytes": 59865,
+   "width": 680,
+   "height": 438
+  },
+  {
+   "family": "woman-yelling-at-a-cat",
+   "file": "woman-yelling-at-a-cat/v14_caption.jpg",
+   "url": "https://i.imgflip.com/b1yy6x.jpg",
+   "status": "cached",
+   "bytes": 63983,
+   "width": 680,
+   "height": 438
+  },
+  {
+   "family": "woman-yelling-at-a-cat",
+   "file": "woman-yelling-at-a-cat/v15_caption.jpg",
+   "url": "https://i.imgflip.com/b063hb.jpg",
+   "status": "cached",
+   "bytes": 69863,
+   "width": 680,
+   "height": 438
+  },
+  {
+   "family": "woman-yelling-at-a-cat",
+   "file": "woman-yelling-at-a-cat/component1.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/505/717/49b.jpg",
+   "status": "cached",
+   "bytes": 70154,
+   "width": 634,
+   "height": 504
+  },
+  {
+   "family": "woman-yelling-at-a-cat",
+   "file": "woman-yelling-at-a-cat/component2.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/505/718/136.jpg",
+   "status": "cached",
+   "bytes": 48150,
+   "width": 500,
+   "height": 366
+  },
+  {
+   "family": "drake-hotline-bling",
+   "file": "drake-hotline-bling/original.jpg",
+   "url": "https://imgflip.com/s/meme/Drake-Hotline-Bling.jpg",
+   "status": "cached",
+   "bytes": 92771,
+   "width": 1200,
+   "height": 1200
+  },
+  {
+   "family": "drake-hotline-bling",
+   "file": "drake-hotline-bling/v01_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/020/147/drake.jpg",
+   "status": "cached",
+   "bytes": 134689,
+   "width": 800,
+   "height": 450
+  },
+  {
+   "family": "drake-hotline-bling",
+   "file": "drake-hotline-bling/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/020/147/drake.jpg",
+   "status": "cached",
+   "bytes": 40109,
+   "width": 800,
+   "height": 450
+  },
+  {
+   "family": "drake-hotline-bling",
+   "file": "drake-hotline-bling/v03_lowres.webp",
+   "url": "https://upload.wikimedia.org/wikipedia/en/0/01/663255-hotline-edit_2206.webp",
+   "status": "cached",
+   "bytes": 29290,
+   "width": 317,
+   "height": 314
+  },
+  {
+   "family": "drake-hotline-bling",
+   "file": "drake-hotline-bling/v04_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/082/582/d0c.jpeg",
+   "status": "cached",
+   "bytes": 201420,
+   "width": 1920,
+   "height": 1920
+  },
+  {
+   "family": "drake-hotline-bling",
+   "file": "drake-hotline-bling/v05_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/171/151/5f1.jpg",
+   "status": "cached",
+   "bytes": 62052,
+   "width": 1200,
+   "height": 911
+  },
+  {
+   "family": "drake-hotline-bling",
+   "file": "drake-hotline-bling/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/021/093/177.jpeg",
+   "status": "cached",
+   "bytes": 92931,
+   "width": 1080,
+   "height": 1046
+  },
+  {
+   "family": "drake-hotline-bling",
+   "file": "drake-hotline-bling/v07_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/193/641/c83.png",
+   "status": "cached",
+   "bytes": 622958,
+   "width": 982,
+   "height": 844
+  },
+  {
+   "family": "drake-hotline-bling",
+   "file": "drake-hotline-bling/v08_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/245/196/ec2.png",
+   "status": "cached",
+   "bytes": 74574,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "drake-hotline-bling",
+   "file": "drake-hotline-bling/v09_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/003/082/582/d0c.jpeg",
+   "status": "cached",
+   "bytes": 48219,
+   "width": 716,
+   "height": 716
+  },
+  {
+   "family": "drake-hotline-bling",
+   "file": "drake-hotline-bling/v10_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/003/171/151/5f1.jpg",
+   "status": "cached",
+   "bytes": 30218,
+   "width": 716,
+   "height": 544
+  },
+  {
+   "family": "drake-hotline-bling",
+   "file": "drake-hotline-bling/v11_caption.jpg",
+   "url": "https://i.imgflip.com/b3nkbt.jpg",
+   "status": "cached",
+   "bytes": 50682,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "drake-hotline-bling",
+   "file": "drake-hotline-bling/v12_caption.jpg",
+   "url": "https://i.imgflip.com/b3ndvl.jpg",
+   "status": "cached",
+   "bytes": 54690,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "drake-hotline-bling",
+   "file": "drake-hotline-bling/v13_caption.jpg",
+   "url": "https://i.imgflip.com/b3nqr1.jpg",
+   "status": "cached",
+   "bytes": 166295,
+   "width": 1200,
+   "height": 1200
+  },
+  {
+   "family": "drake-hotline-bling",
+   "file": "drake-hotline-bling/v14_caption.jpg",
+   "url": "https://i.imgflip.com/b3gf1t.jpg",
+   "status": "cached",
+   "bytes": 52011,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "drake-hotline-bling",
+   "file": "drake-hotline-bling/v15_caption.jpg",
+   "url": "https://i.imgflip.com/b3ga13.jpg",
+   "status": "cached",
+   "bytes": 46594,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "expanding-brain",
+   "file": "expanding-brain/original.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/217/719/10a.jpg",
+   "status": "cached",
+   "bytes": 66554,
+   "width": 445,
+   "height": 629
+  },
+  {
+   "family": "expanding-brain",
+   "file": "expanding-brain/v01_crop.jpg",
+   "url": "https://imgflip.com/s/meme/Expanding-Brain.jpg",
+   "status": "cached",
+   "bytes": 107509,
+   "width": 857,
+   "height": 1202
+  },
+  {
+   "family": "expanding-brain",
+   "file": "expanding-brain/v02_crop.png",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/022/266/brain.png",
+   "status": "cached",
+   "bytes": 337124,
+   "width": 455,
+   "height": 278
+  },
+  {
+   "family": "expanding-brain",
+   "file": "expanding-brain/v03_lowres.png",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/022/266/brain.png",
+   "status": "failed",
+   "error": "http 403"
+  },
+  {
+   "family": "expanding-brain",
+   "file": "expanding-brain/v04_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/845/353/1f7.jpg",
+   "status": "cached",
+   "bytes": 131508,
+   "width": 680,
+   "height": 1388
+  },
+  {
+   "family": "expanding-brain",
+   "file": "expanding-brain/v05_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/846/758/291.png",
+   "status": "cached",
+   "bytes": 2504737,
+   "width": 1502,
+   "height": 1772
+  },
+  {
+   "family": "expanding-brain",
+   "file": "expanding-brain/v06_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/997/442/808.png",
+   "status": "cached",
+   "bytes": 369677,
+   "width": 428,
+   "height": 894
+  },
+  {
+   "family": "expanding-brain",
+   "file": "expanding-brain/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/001/783/1d3.jpg",
+   "status": "cached",
+   "bytes": 83552,
+   "width": 1116,
+   "height": 1576
+  },
+  {
+   "family": "expanding-brain",
+   "file": "expanding-brain/v08_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/986/033/f0c.jpg",
+   "status": "cached",
+   "bytes": 162123,
+   "width": 1080,
+   "height": 1158
+  },
+  {
+   "family": "expanding-brain",
+   "file": "expanding-brain/v09_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/845/353/1f7.jpg",
+   "status": "cached",
+   "bytes": 86213,
+   "width": 680,
+   "height": 1388
+  },
+  {
+   "family": "expanding-brain",
+   "file": "expanding-brain/v10_lowres.png",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/846/758/291.png",
+   "status": "cached",
+   "bytes": 758029,
+   "width": 716,
+   "height": 845
+  },
+  {
+   "family": "expanding-brain",
+   "file": "expanding-brain/v11_caption.jpg",
+   "url": "https://i.imgflip.com/b3nqrp.jpg",
+   "status": "cached",
+   "bytes": 102616,
+   "width": 500,
+   "height": 701
+  },
+  {
+   "family": "expanding-brain",
+   "file": "expanding-brain/v12_caption.jpg",
+   "url": "https://i.imgflip.com/b3kiw3.jpg",
+   "status": "cached",
+   "bytes": 103831,
+   "width": 500,
+   "height": 701
+  },
+  {
+   "family": "expanding-brain",
+   "file": "expanding-brain/v13_caption.jpg",
+   "url": "https://i.imgflip.com/b31uhw.jpg",
+   "status": "cached",
+   "bytes": 125328,
+   "width": 857,
+   "height": 1202
+  },
+  {
+   "family": "expanding-brain",
+   "file": "expanding-brain/v14_caption.jpg",
+   "url": "https://i.imgflip.com/b3aokd.jpg",
+   "status": "cached",
+   "bytes": 91789,
+   "width": 500,
+   "height": 701
+  },
+  {
+   "family": "expanding-brain",
+   "file": "expanding-brain/v15_caption.jpg",
+   "url": "https://i.imgflip.com/b2fc4r.jpg",
+   "status": "cached",
+   "bytes": 76159,
+   "width": 500,
+   "height": 701
+  },
+  {
+   "family": "two-buttons",
+   "file": "two-buttons/original.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/970/486/e2c.jpg",
+   "status": "cached",
+   "bytes": 56842,
+   "width": 480,
+   "height": 726
+  },
+  {
+   "family": "two-buttons",
+   "file": "two-buttons/v01_crop.jpg",
+   "url": "https://imgflip.com/s/meme/Two-Buttons.jpg",
+   "status": "cached",
+   "bytes": 64963,
+   "width": 600,
+   "height": 908
+  },
+  {
+   "family": "two-buttons",
+   "file": "two-buttons/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/019/571/dailystruggg.jpg",
+   "status": "cached",
+   "bytes": 62075,
+   "width": 800,
+   "height": 449
+  },
+  {
+   "family": "two-buttons",
+   "file": "two-buttons/v03_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/019/571/dailystruggg.jpg",
+   "status": "cached",
+   "bytes": 63488,
+   "width": 800,
+   "height": 449
+  },
+  {
+   "family": "two-buttons",
+   "file": "two-buttons/v04_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/913/017/f8c.png",
+   "status": "cached",
+   "bytes": 143957,
+   "width": 535,
+   "height": 833
+  },
+  {
+   "family": "two-buttons",
+   "file": "two-buttons/v05_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/771/741/263.jpeg",
+   "status": "cached",
+   "bytes": 89547,
+   "width": 500,
+   "height": 738
+  },
+  {
+   "family": "two-buttons",
+   "file": "two-buttons/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/948/945/3a0.jpeg",
+   "status": "cached",
+   "bytes": 53934,
+   "width": 500,
+   "height": 756
+  },
+  {
+   "family": "two-buttons",
+   "file": "two-buttons/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/054/524/f74.jpeg",
+   "status": "cached",
+   "bytes": 88199,
+   "width": 500,
+   "height": 756
+  },
+  {
+   "family": "two-buttons",
+   "file": "two-buttons/v08_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/021/962/d7e.png",
+   "status": "cached",
+   "bytes": 147234,
+   "width": 351,
+   "height": 504
+  },
+  {
+   "family": "two-buttons",
+   "file": "two-buttons/v09_lowres.png",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/913/017/f8c.png",
+   "status": "cached",
+   "bytes": 473998,
+   "width": 535,
+   "height": 833
+  },
+  {
+   "family": "two-buttons",
+   "file": "two-buttons/v10_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/771/741/263.jpeg",
+   "status": "cached",
+   "bytes": 54123,
+   "width": 500,
+   "height": 738
+  },
+  {
+   "family": "two-buttons",
+   "file": "two-buttons/v11_caption.jpg",
+   "url": "https://i.imgflip.com/b3kfte.jpg",
+   "status": "cached",
+   "bytes": 85178,
+   "width": 500,
+   "height": 757
+  },
+  {
+   "family": "two-buttons",
+   "file": "two-buttons/v12_caption.jpg",
+   "url": "https://i.imgflip.com/b3ga0b.jpg",
+   "status": "cached",
+   "bytes": 86912,
+   "width": 500,
+   "height": 757
+  },
+  {
+   "family": "two-buttons",
+   "file": "two-buttons/v13_caption.jpg",
+   "url": "https://i.imgflip.com/b3btlc.jpg",
+   "status": "cached",
+   "bytes": 80395,
+   "width": 500,
+   "height": 757
+  },
+  {
+   "family": "two-buttons",
+   "file": "two-buttons/v14_caption.jpg",
+   "url": "https://i.imgflip.com/b2tgh5.jpg",
+   "status": "cached",
+   "bytes": 83148,
+   "width": 500,
+   "height": 757
+  },
+  {
+   "family": "two-buttons",
+   "file": "two-buttons/v15_caption.jpg",
+   "url": "https://i.imgflip.com/b3dgmm.jpg",
+   "status": "cached",
+   "bytes": 80572,
+   "width": 500,
+   "height": 757
+  },
+  {
+   "family": "is-this-a-pigeon",
+   "file": "is-this-a-pigeon/original.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/017/299/DmbzJspWwAEprcQ.jpg",
+   "status": "cached",
+   "bytes": 54411,
+   "width": 1200,
+   "height": 675
+  },
+  {
+   "family": "is-this-a-pigeon",
+   "file": "is-this-a-pigeon/v01_crop.jpg",
+   "url": "https://imgflip.com/s/meme/Is-This-A-Pigeon.jpg",
+   "status": "cached",
+   "bytes": 220315,
+   "width": 1587,
+   "height": 1425
+  },
+  {
+   "family": "is-this-a-pigeon",
+   "file": "is-this-a-pigeon/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/017/299/DmbzJspWwAEprcQ.jpg",
+   "status": "cached",
+   "bytes": 54592,
+   "width": 1200,
+   "height": 675
+  },
+  {
+   "family": "is-this-a-pigeon",
+   "file": "is-this-a-pigeon/v03_screenshot.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/912/336/58c.png",
+   "status": "cached",
+   "bytes": 192856,
+   "width": 594,
+   "height": 563
+  },
+  {
+   "family": "is-this-a-pigeon",
+   "file": "is-this-a-pigeon/v04_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/040/884/221.jpeg",
+   "status": "cached",
+   "bytes": 63518,
+   "width": 1000,
+   "height": 600
+  },
+  {
+   "family": "is-this-a-pigeon",
+   "file": "is-this-a-pigeon/v05_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/734/378/517.png",
+   "status": "cached",
+   "bytes": 495422,
+   "width": 556,
+   "height": 500
+  },
+  {
+   "family": "is-this-a-pigeon",
+   "file": "is-this-a-pigeon/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/126/073/d09.jpeg",
+   "status": "cached",
+   "bytes": 47470,
+   "width": 640,
+   "height": 570
+  },
+  {
+   "family": "is-this-a-pigeon",
+   "file": "is-this-a-pigeon/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/949/101/09a.jpg",
+   "status": "cached",
+   "bytes": 125905,
+   "width": 650,
+   "height": 488
+  },
+  {
+   "family": "is-this-a-pigeon",
+   "file": "is-this-a-pigeon/v08_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/824/791/136.jpg",
+   "status": "cached",
+   "bytes": 488465,
+   "width": 556,
+   "height": 1000
+  },
+  {
+   "family": "is-this-a-pigeon",
+   "file": "is-this-a-pigeon/v09_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/003/040/884/221.jpeg",
+   "status": "cached",
+   "bytes": 38314,
+   "width": 716,
+   "height": 430
+  },
+  {
+   "family": "is-this-a-pigeon",
+   "file": "is-this-a-pigeon/v10_lowres.png",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/734/378/517.png",
+   "status": "cached",
+   "bytes": 380529,
+   "width": 556,
+   "height": 500
+  },
+  {
+   "family": "is-this-a-pigeon",
+   "file": "is-this-a-pigeon/v11_caption.jpg",
+   "url": "https://i.imgflip.com/b3j5cs.jpg",
+   "status": "cached",
+   "bytes": 54803,
+   "width": 557,
+   "height": 500
+  },
+  {
+   "family": "is-this-a-pigeon",
+   "file": "is-this-a-pigeon/v12_caption.jpg",
+   "url": "https://i.imgflip.com/b074d9.jpg",
+   "status": "cached",
+   "bytes": 60666,
+   "width": 557,
+   "height": 500
+  },
+  {
+   "family": "is-this-a-pigeon",
+   "file": "is-this-a-pigeon/v13_caption.jpg",
+   "url": "https://i.imgflip.com/ay8vyo.jpg",
+   "status": "cached",
+   "bytes": 59355,
+   "width": 557,
+   "height": 500
+  },
+  {
+   "family": "is-this-a-pigeon",
+   "file": "is-this-a-pigeon/v14_caption.jpg",
+   "url": "https://i.imgflip.com/b00r0p.jpg",
+   "status": "cached",
+   "bytes": 64357,
+   "width": 557,
+   "height": 500
+  },
+  {
+   "family": "is-this-a-pigeon",
+   "file": "is-this-a-pigeon/v15_caption.jpg",
+   "url": "https://i.imgflip.com/aregc4.jpg",
+   "status": "cached",
+   "bytes": 256502,
+   "width": 1587,
+   "height": 1425
+  },
+  {
+   "family": "surprised-pikachu",
+   "file": "surprised-pikachu/original.jpg",
+   "url": "https://imgflip.com/s/meme/Surprised-Pikachu.jpg",
+   "status": "cached",
+   "bytes": 82736,
+   "width": 1893,
+   "height": 1892
+  },
+  {
+   "family": "surprised-pikachu",
+   "file": "surprised-pikachu/v01_lowres.png",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/027/475/Screen_Shot_2018-10-25_at_11.02.15_AM.png",
+   "status": "cached",
+   "bytes": 889608,
+   "width": 1354,
+   "height": 784
+  },
+  {
+   "family": "surprised-pikachu",
+   "file": "surprised-pikachu/v02_lowres.png",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/027/475/Screen_Shot_2018-10-25_at_11.02.15_AM.png",
+   "status": "failed",
+   "error": "http 403"
+  },
+  {
+   "family": "surprised-pikachu",
+   "file": "surprised-pikachu/v03_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/424/530/0d7.jpg",
+   "status": "cached",
+   "bytes": 23076,
+   "width": 500,
+   "height": 487
+  },
+  {
+   "family": "surprised-pikachu",
+   "file": "surprised-pikachu/v04_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/921/812/dae.png",
+   "status": "cached",
+   "bytes": 276384,
+   "width": 684,
+   "height": 1076
+  },
+  {
+   "family": "surprised-pikachu",
+   "file": "surprised-pikachu/v05_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/914/754/d36.jpeg",
+   "status": "cached",
+   "bytes": 116827,
+   "width": 1200,
+   "height": 1908
+  },
+  {
+   "family": "surprised-pikachu",
+   "file": "surprised-pikachu/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/023/384/9b9.jpeg",
+   "status": "cached",
+   "bytes": 23984,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "surprised-pikachu",
+   "file": "surprised-pikachu/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/118/321/f82.jpeg",
+   "status": "cached",
+   "bytes": 39721,
+   "width": 640,
+   "height": 640
+  },
+  {
+   "family": "surprised-pikachu",
+   "file": "surprised-pikachu/v08_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/001/424/530/0d7.jpg",
+   "status": "cached",
+   "bytes": 22440,
+   "width": 500,
+   "height": 487
+  },
+  {
+   "family": "surprised-pikachu",
+   "file": "surprised-pikachu/v09_lowres.png",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/921/812/dae.png",
+   "status": "cached",
+   "bytes": 302729,
+   "width": 684,
+   "height": 1076
+  },
+  {
+   "family": "surprised-pikachu",
+   "file": "surprised-pikachu/v10_caption.jpg",
+   "url": "https://i.imgflip.com/b3dzjw.jpg",
+   "status": "cached",
+   "bytes": 37019,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "surprised-pikachu",
+   "file": "surprised-pikachu/v11_caption.jpg",
+   "url": "https://i.imgflip.com/b2guuh.jpg",
+   "status": "cached",
+   "bytes": 34270,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "surprised-pikachu",
+   "file": "surprised-pikachu/v12_caption.jpg",
+   "url": "https://i.imgflip.com/b2bgwu.jpg",
+   "status": "cached",
+   "bytes": 36319,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "surprised-pikachu",
+   "file": "surprised-pikachu/v13_caption.jpg",
+   "url": "https://i.imgflip.com/apfu65.jpg",
+   "status": "cached",
+   "bytes": 56921,
+   "width": 500,
+   "height": 625
+  },
+  {
+   "family": "surprised-pikachu",
+   "file": "surprised-pikachu/v14_caption.jpg",
+   "url": "https://i.imgflip.com/at9i7a.jpg",
+   "status": "cached",
+   "bytes": 41798,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "surprised-pikachu",
+   "file": "surprised-pikachu/v15_crop.png",
+   "url": "https://i.kym-cdn.com/entries/icons/medium/000/027/475/Screen_Shot_2018-10-25_at_11.02.15_AM.png",
+   "status": "cached",
+   "bytes": 56287,
+   "width": 200,
+   "height": 200
+  },
+  {
+   "family": "this-is-fine",
+   "file": "this-is-fine/original.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/962/640/658.png",
+   "status": "cached",
+   "bytes": 874268,
+   "width": 600,
+   "height": 887
+  },
+  {
+   "family": "this-is-fine",
+   "file": "this-is-fine/v01_crop.jpg",
+   "url": "https://imgflip.com/s/meme/This-Is-Fine.jpg",
+   "status": "cached",
+   "bytes": 51090,
+   "width": 580,
+   "height": 282
+  },
+  {
+   "family": "this-is-fine",
+   "file": "this-is-fine/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/018/012/this_is_fine.jpeg",
+   "status": "cached",
+   "bytes": 11174,
+   "width": 300,
+   "height": 168
+  },
+  {
+   "family": "this-is-fine",
+   "file": "this-is-fine/v03_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/018/012/this_is_fine.jpeg",
+   "status": "failed",
+   "error": "http 403"
+  },
+  {
+   "family": "this-is-fine",
+   "file": "this-is-fine/v04_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/565/653/f85.png",
+   "status": "cached",
+   "bytes": 2448550,
+   "width": 1368,
+   "height": 906
+  },
+  {
+   "family": "this-is-fine",
+   "file": "this-is-fine/v05_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/685/699/614.jpg",
+   "status": "cached",
+   "bytes": 42407,
+   "width": 640,
+   "height": 383
+  },
+  {
+   "family": "this-is-fine",
+   "file": "this-is-fine/v06_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/773/663/669.png",
+   "status": "cached",
+   "bytes": 186013,
+   "width": 720,
+   "height": 1013
+  },
+  {
+   "family": "this-is-fine",
+   "file": "this-is-fine/v07_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/769/442/d09.png",
+   "status": "cached",
+   "bytes": 511088,
+   "width": 540,
+   "height": 537
+  },
+  {
+   "family": "this-is-fine",
+   "file": "this-is-fine/v08_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/105/324/626.png",
+   "status": "cached",
+   "bytes": 1102027,
+   "width": 1050,
+   "height": 549
+  },
+  {
+   "family": "this-is-fine",
+   "file": "this-is-fine/v09_lowres.png",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/565/653/f85.png",
+   "status": "cached",
+   "bytes": 692609,
+   "width": 680,
+   "height": 450
+  },
+  {
+   "family": "this-is-fine",
+   "file": "this-is-fine/v10_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/685/699/614.jpg",
+   "status": "cached",
+   "bytes": 34299,
+   "width": 640,
+   "height": 383
+  },
+  {
+   "family": "this-is-fine",
+   "file": "this-is-fine/v11_caption.jpg",
+   "url": "https://i.imgflip.com/b3eobc.jpg",
+   "status": "cached",
+   "bytes": 93144,
+   "width": 717,
+   "height": 349
+  },
+  {
+   "family": "this-is-fine",
+   "file": "this-is-fine/v12_caption.jpg",
+   "url": "https://i.imgflip.com/b2tqxw.jpg",
+   "status": "cached",
+   "bytes": 99273,
+   "width": 717,
+   "height": 349
+  },
+  {
+   "family": "this-is-fine",
+   "file": "this-is-fine/v13_caption.jpg",
+   "url": "https://i.imgflip.com/b2jsvw.jpg",
+   "status": "cached",
+   "bytes": 92044,
+   "width": 717,
+   "height": 349
+  },
+  {
+   "family": "this-is-fine",
+   "file": "this-is-fine/v14_caption.jpg",
+   "url": "https://i.imgflip.com/b14zvy.jpg",
+   "status": "cached",
+   "bytes": 98267,
+   "width": 717,
+   "height": 349
+  },
+  {
+   "family": "this-is-fine",
+   "file": "this-is-fine/v15_caption.jpg",
+   "url": "https://i.imgflip.com/b0n112.jpg",
+   "status": "cached",
+   "bytes": 93558,
+   "width": 717,
+   "height": 349
+  },
+  {
+   "family": "roll-safe",
+   "file": "roll-safe/original.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/022/138/highresrollsafe.jpg",
+   "status": "cached",
+   "bytes": 37590,
+   "width": 650,
+   "height": 365
+  },
+  {
+   "family": "roll-safe",
+   "file": "roll-safe/v01_crop.jpg",
+   "url": "https://imgflip.com/s/meme/Roll-Safe-Think-About-It.jpg",
+   "status": "cached",
+   "bytes": 30728,
+   "width": 702,
+   "height": 395
+  },
+  {
+   "family": "roll-safe",
+   "file": "roll-safe/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/022/138/highresrollsafe.jpg",
+   "status": "cached",
+   "bytes": 38289,
+   "width": 650,
+   "height": 365
+  },
+  {
+   "family": "roll-safe",
+   "file": "roll-safe/v03_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/217/728/390.jpg",
+   "status": "cached",
+   "bytes": 43680,
+   "width": 574,
+   "height": 431
+  },
+  {
+   "family": "roll-safe",
+   "file": "roll-safe/v04_lowres.jpg",
+   "url": "https://upload.wikimedia.org/wikipedia/en/7/79/Roll_Safe_meme.jpg",
+   "status": "cached",
+   "bytes": 68970,
+   "width": 421,
+   "height": 236
+  },
+  {
+   "family": "roll-safe",
+   "file": "roll-safe/v05_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/618/700/776.png",
+   "status": "cached",
+   "bytes": 270933,
+   "width": 702,
+   "height": 395
+  },
+  {
+   "family": "roll-safe",
+   "file": "roll-safe/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/892/318/dcc.jpg",
+   "status": "cached",
+   "bytes": 41396,
+   "width": 711,
+   "height": 573
+  },
+  {
+   "family": "roll-safe",
+   "file": "roll-safe/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/858/982/b23.jpg",
+   "status": "cached",
+   "bytes": 32520,
+   "width": 402,
+   "height": 401
+  },
+  {
+   "family": "roll-safe",
+   "file": "roll-safe/v08_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/942/517/43a.jpg",
+   "status": "cached",
+   "bytes": 33400,
+   "width": 480,
+   "height": 523
+  },
+  {
+   "family": "roll-safe",
+   "file": "roll-safe/v09_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/990/506/865",
+   "status": "cached",
+   "bytes": 77206,
+   "width": 800,
+   "height": 457
+  },
+  {
+   "family": "roll-safe",
+   "file": "roll-safe/v10_lowres.png",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/618/700/776.png",
+   "status": "cached",
+   "bytes": 371745,
+   "width": 680,
+   "height": 383
+  },
+  {
+   "family": "roll-safe",
+   "file": "roll-safe/v11_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/001/892/318/dcc.jpg",
+   "status": "cached",
+   "bytes": 39497,
+   "width": 680,
+   "height": 548
+  },
+  {
+   "family": "roll-safe",
+   "file": "roll-safe/v12_caption.jpg",
+   "url": "https://i.imgflip.com/b0jtb6.jpg",
+   "status": "cached",
+   "bytes": 60365,
+   "width": 702,
+   "height": 395
+  },
+  {
+   "family": "roll-safe",
+   "file": "roll-safe/v13_caption.jpg",
+   "url": "https://i.imgflip.com/azj28o.jpg",
+   "status": "cached",
+   "bytes": 65575,
+   "width": 702,
+   "height": 395
+  },
+  {
+   "family": "roll-safe",
+   "file": "roll-safe/v14_caption.jpg",
+   "url": "https://i.imgflip.com/b2fv06.jpg",
+   "status": "cached",
+   "bytes": 62111,
+   "width": 702,
+   "height": 395
+  },
+  {
+   "family": "roll-safe",
+   "file": "roll-safe/v15_caption.jpg",
+   "url": "https://i.imgflip.com/az8whl.jpg",
+   "status": "cached",
+   "bytes": 63875,
+   "width": 702,
+   "height": 395
+  },
+  {
+   "family": "ancient-aliens",
+   "file": "ancient-aliens/original.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/007/973/b98.jpg",
+   "status": "cached",
+   "bytes": 215169,
+   "width": 1920,
+   "height": 1080
+  },
+  {
+   "family": "ancient-aliens",
+   "file": "ancient-aliens/v01_crop.jpg",
+   "url": "https://imgflip.com/s/meme/Ancient-Aliens.jpg",
+   "status": "cached",
+   "bytes": 23754,
+   "width": 500,
+   "height": 436
+  },
+  {
+   "family": "ancient-aliens",
+   "file": "ancient-aliens/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/005/848/Aliens.jpg",
+   "status": "cached",
+   "bytes": 38299,
+   "width": 522,
+   "height": 294
+  },
+  {
+   "family": "ancient-aliens",
+   "file": "ancient-aliens/v03_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/005/848/Aliens.jpg",
+   "status": "cached",
+   "bytes": 30050,
+   "width": 600,
+   "height": 338
+  },
+  {
+   "family": "ancient-aliens",
+   "file": "ancient-aliens/v04_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/846/158/ff0.jpg",
+   "status": "cached",
+   "bytes": 237054,
+   "width": 1600,
+   "height": 1400
+  },
+  {
+   "family": "ancient-aliens",
+   "file": "ancient-aliens/v05_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/001/846/158/ff0.jpg",
+   "status": "cached",
+   "bytes": 50964,
+   "width": 680,
+   "height": 595
+  },
+  {
+   "family": "ancient-aliens",
+   "file": "ancient-aliens/v06_caption.jpg",
+   "url": "https://i.imgflip.com/b2jciq.jpg",
+   "status": "cached",
+   "bytes": 55527,
+   "width": 535,
+   "height": 468
+  },
+  {
+   "family": "ancient-aliens",
+   "file": "ancient-aliens/v07_caption.jpg",
+   "url": "https://i.imgflip.com/b0ktfe.jpg",
+   "status": "cached",
+   "bytes": 59895,
+   "width": 535,
+   "height": 468
+  },
+  {
+   "family": "ancient-aliens",
+   "file": "ancient-aliens/v08_caption.jpg",
+   "url": "https://i.imgflip.com/b2g55k.jpg",
+   "status": "cached",
+   "bytes": 54340,
+   "width": 535,
+   "height": 468
+  },
+  {
+   "family": "ancient-aliens",
+   "file": "ancient-aliens/v09_caption.jpg",
+   "url": "https://i.imgflip.com/b23qaj.jpg",
+   "status": "cached",
+   "bytes": 46776,
+   "width": 535,
+   "height": 468
+  },
+  {
+   "family": "ancient-aliens",
+   "file": "ancient-aliens/v10_caption.jpg",
+   "url": "https://i.imgflip.com/azhaos.jpg",
+   "status": "cached",
+   "bytes": 63154,
+   "width": 535,
+   "height": 468
+  },
+  {
+   "family": "ancient-aliens",
+   "file": "ancient-aliens/v11_caption.jpg",
+   "url": "https://i.imgflip.com/b1g7pb.jpg",
+   "status": "cached",
+   "bytes": 53107,
+   "width": 535,
+   "height": 468
+  },
+  {
+   "family": "ancient-aliens",
+   "file": "ancient-aliens/v12_caption.jpg",
+   "url": "https://i.imgflip.com/ayzp10.jpg",
+   "status": "cached",
+   "bytes": 57227,
+   "width": 535,
+   "height": 468
+  },
+  {
+   "family": "ancient-aliens",
+   "file": "ancient-aliens/v13_caption.jpg",
+   "url": "https://i.imgflip.com/azixwv.jpg",
+   "status": "cached",
+   "bytes": 56289,
+   "width": 535,
+   "height": 468
+  },
+  {
+   "family": "ancient-aliens",
+   "file": "ancient-aliens/v14_caption.jpg",
+   "url": "https://i.imgflip.com/b1urz1.jpg",
+   "status": "cached",
+   "bytes": 59078,
+   "width": 535,
+   "height": 468
+  },
+  {
+   "family": "ancient-aliens",
+   "file": "ancient-aliens/v15_crop.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/medium/000/005/848/Aliens.jpg",
+   "status": "cached",
+   "bytes": 9408,
+   "width": 200,
+   "height": 200
+  },
+  {
+   "family": "bad-luck-brian",
+   "file": "bad-luck-brian/original.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/009/515/BadLuckBryan.jpg",
+   "status": "cached",
+   "bytes": 60701,
+   "width": 796,
+   "height": 448
+  },
+  {
+   "family": "bad-luck-brian",
+   "file": "bad-luck-brian/v01_crop.jpg",
+   "url": "https://imgflip.com/s/meme/Bad-Luck-Brian.jpg",
+   "status": "cached",
+   "bytes": 36269,
+   "width": 475,
+   "height": 562
+  },
+  {
+   "family": "bad-luck-brian",
+   "file": "bad-luck-brian/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/009/515/BadLuckBryan.jpg",
+   "status": "cached",
+   "bytes": 40565,
+   "width": 796,
+   "height": 448
+  },
+  {
+   "family": "bad-luck-brian",
+   "file": "bad-luck-brian/v03_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/271/309/cf1.jpg",
+   "status": "cached",
+   "bytes": 67543,
+   "width": 476,
+   "height": 561
+  },
+  {
+   "family": "bad-luck-brian",
+   "file": "bad-luck-brian/v04_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/271/189/e7d.jpg",
+   "status": "cached",
+   "bytes": 69570,
+   "width": 476,
+   "height": 561
+  },
+  {
+   "family": "bad-luck-brian",
+   "file": "bad-luck-brian/v05_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/592/875/32c.jpg",
+   "status": "cached",
+   "bytes": 175145,
+   "width": 1440,
+   "height": 980
+  },
+  {
+   "family": "bad-luck-brian",
+   "file": "bad-luck-brian/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/874/469/313.jpeg",
+   "status": "cached",
+   "bytes": 112373,
+   "width": 720,
+   "height": 830
+  },
+  {
+   "family": "bad-luck-brian",
+   "file": "bad-luck-brian/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/762/706/257.jpeg",
+   "status": "cached",
+   "bytes": 107354,
+   "width": 1014,
+   "height": 1200
+  },
+  {
+   "family": "bad-luck-brian",
+   "file": "bad-luck-brian/v08_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/994/172/7eb.jpeg",
+   "status": "cached",
+   "bytes": 76931,
+   "width": 500,
+   "height": 591
+  },
+  {
+   "family": "bad-luck-brian",
+   "file": "bad-luck-brian/v09_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/007/432/c0a.png",
+   "status": "cached",
+   "bytes": 1830782,
+   "width": 1016,
+   "height": 1207
+  },
+  {
+   "family": "bad-luck-brian",
+   "file": "bad-luck-brian/v10_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/592/875/32c.jpg",
+   "status": "cached",
+   "bytes": 50669,
+   "width": 680,
+   "height": 463
+  },
+  {
+   "family": "bad-luck-brian",
+   "file": "bad-luck-brian/v11_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/874/469/313.jpeg",
+   "status": "cached",
+   "bytes": 65504,
+   "width": 716,
+   "height": 825
+  },
+  {
+   "family": "bad-luck-brian",
+   "file": "bad-luck-brian/v12_caption.jpg",
+   "url": "https://i.imgflip.com/b3kpgn.jpg",
+   "status": "cached",
+   "bytes": 77707,
+   "width": 500,
+   "height": 592
+  },
+  {
+   "family": "bad-luck-brian",
+   "file": "bad-luck-brian/v13_caption.jpg",
+   "url": "https://i.imgflip.com/b0v28w.jpg",
+   "status": "cached",
+   "bytes": 75023,
+   "width": 500,
+   "height": 592
+  },
+  {
+   "family": "bad-luck-brian",
+   "file": "bad-luck-brian/v14_caption.jpg",
+   "url": "https://i.imgflip.com/b2ypvs.jpg",
+   "status": "cached",
+   "bytes": 81096,
+   "width": 500,
+   "height": 592
+  },
+  {
+   "family": "bad-luck-brian",
+   "file": "bad-luck-brian/v15_caption.jpg",
+   "url": "https://i.imgflip.com/b241my.jpg",
+   "status": "cached",
+   "bytes": 83645,
+   "width": 500,
+   "height": 592
+  },
+  {
+   "family": "overly-attached-girlfriend",
+   "file": "overly-attached-girlfriend/original.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/010/496/Overly_attached_GF.jpg",
+   "status": "cached",
+   "bytes": 115690,
+   "width": 1382,
+   "height": 778
+  },
+  {
+   "family": "overly-attached-girlfriend",
+   "file": "overly-attached-girlfriend/v01_crop.jpg",
+   "url": "https://imgflip.com/s/meme/Overly-Attached-Girlfriend.jpg",
+   "status": "cached",
+   "bytes": 24169,
+   "width": 500,
+   "height": 370
+  },
+  {
+   "family": "overly-attached-girlfriend",
+   "file": "overly-attached-girlfriend/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/010/496/Overly_attached_GF.jpg",
+   "status": "cached",
+   "bytes": 103384,
+   "width": 1382,
+   "height": 778
+  },
+  {
+   "family": "overly-attached-girlfriend",
+   "file": "overly-attached-girlfriend/v03_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/026/365/21c.jpg",
+   "status": "cached",
+   "bytes": 122141,
+   "width": 1001,
+   "height": 559
+  },
+  {
+   "family": "overly-attached-girlfriend",
+   "file": "overly-attached-girlfriend/v04_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/110/816/a66",
+   "status": "cached",
+   "bytes": 38177,
+   "width": 600,
+   "height": 400
+  },
+  {
+   "family": "overly-attached-girlfriend",
+   "file": "overly-attached-girlfriend/v05_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/026/398/ad0.jpg",
+   "status": "cached",
+   "bytes": 95943,
+   "width": 1000,
+   "height": 559
+  },
+  {
+   "family": "overly-attached-girlfriend",
+   "file": "overly-attached-girlfriend/v06_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/055/087/e7f.png",
+   "status": "cached",
+   "bytes": 275101,
+   "width": 581,
+   "height": 430
+  },
+  {
+   "family": "overly-attached-girlfriend",
+   "file": "overly-attached-girlfriend/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/026/307/bf1.jpg",
+   "status": "cached",
+   "bytes": 71465,
+   "width": 790,
+   "height": 562
+  },
+  {
+   "family": "overly-attached-girlfriend",
+   "file": "overly-attached-girlfriend/v08_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/026/365/21c.jpg",
+   "status": "cached",
+   "bytes": 34480,
+   "width": 680,
+   "height": 380
+  },
+  {
+   "family": "overly-attached-girlfriend",
+   "file": "overly-attached-girlfriend/v09_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/110/816/a66",
+   "status": "cached",
+   "bytes": 35314,
+   "width": 600,
+   "height": 400
+  },
+  {
+   "family": "overly-attached-girlfriend",
+   "file": "overly-attached-girlfriend/v10_caption.jpg",
+   "url": "https://i.imgflip.com/b0ya7t.jpg",
+   "status": "cached",
+   "bytes": 64393,
+   "width": 581,
+   "height": 430
+  },
+  {
+   "family": "overly-attached-girlfriend",
+   "file": "overly-attached-girlfriend/v11_caption.jpg",
+   "url": "https://i.imgflip.com/awxol0.jpg",
+   "status": "cached",
+   "bytes": 55389,
+   "width": 581,
+   "height": 430
+  },
+  {
+   "family": "overly-attached-girlfriend",
+   "file": "overly-attached-girlfriend/v12_caption.jpg",
+   "url": "https://i.imgflip.com/7hoxcr.jpg",
+   "status": "cached",
+   "bytes": 58725,
+   "width": 500,
+   "height": 555
+  },
+  {
+   "family": "overly-attached-girlfriend",
+   "file": "overly-attached-girlfriend/v13_caption.jpg",
+   "url": "https://i.imgflip.com/9dsf3k.jpg",
+   "status": "cached",
+   "bytes": 66415,
+   "width": 500,
+   "height": 556
+  },
+  {
+   "family": "overly-attached-girlfriend",
+   "file": "overly-attached-girlfriend/v14_caption.jpg",
+   "url": "https://i.imgflip.com/a6sif8.jpg",
+   "status": "cached",
+   "bytes": 69187,
+   "width": 581,
+   "height": 430
+  },
+  {
+   "family": "overly-attached-girlfriend",
+   "file": "overly-attached-girlfriend/v15_crop.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/medium/000/010/496/Overly_attached_GF.jpg",
+   "status": "cached",
+   "bytes": 13540,
+   "width": 200,
+   "height": 200
+  },
+  {
+   "family": "grumpy-cat",
+   "file": "grumpy-cat/original.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/406/325/b31.jpg",
+   "status": "cached",
+   "bytes": 298418,
+   "width": 973,
+   "height": 1200
+  },
+  {
+   "family": "grumpy-cat",
+   "file": "grumpy-cat/v01_crop.jpg",
+   "url": "https://imgflip.com/s/meme/Grumpy-Cat.jpg",
+   "status": "cached",
+   "bytes": 43375,
+   "width": 500,
+   "height": 616
+  },
+  {
+   "family": "grumpy-cat",
+   "file": "grumpy-cat/v02_caption.jpg",
+   "url": "https://i.imgflip.com/b1x9js.jpg",
+   "status": "cached",
+   "bytes": 77119,
+   "width": 500,
+   "height": 617
+  },
+  {
+   "family": "grumpy-cat",
+   "file": "grumpy-cat/v03_caption.jpg",
+   "url": "https://i.imgflip.com/amerg2.jpg",
+   "status": "downloaded",
+   "bytes": 138392,
+   "width": 500,
+   "height": 1140
+  },
+  {
+   "family": "grumpy-cat",
+   "file": "grumpy-cat/v04_caption.jpg",
+   "url": "https://i.imgflip.com/ahp88x.jpg",
+   "status": "downloaded",
+   "bytes": 78801,
+   "width": 500,
+   "height": 617
+  },
+  {
+   "family": "grumpy-cat",
+   "file": "grumpy-cat/v05_caption.jpg",
+   "url": "https://i.imgflip.com/9c6bob.jpg",
+   "status": "downloaded",
+   "bytes": 135140,
+   "width": 500,
+   "height": 924
+  },
+  {
+   "family": "grumpy-cat",
+   "file": "grumpy-cat/v06_caption.jpg",
+   "url": "https://i.imgflip.com/7bapzw.jpg",
+   "status": "downloaded",
+   "bytes": 76941,
+   "width": 500,
+   "height": 617
+  },
+  {
+   "family": "grumpy-cat",
+   "file": "grumpy-cat/v07_caption.jpg",
+   "url": "https://i.imgflip.com/9mciaw.jpg",
+   "status": "downloaded",
+   "bytes": 75729,
+   "width": 500,
+   "height": 617
+  },
+  {
+   "family": "grumpy-cat",
+   "file": "grumpy-cat/v08_caption.jpg",
+   "url": "https://i.imgflip.com/9a1d2d.jpg",
+   "status": "downloaded",
+   "bytes": 87378,
+   "width": 500,
+   "height": 739
+  },
+  {
+   "family": "grumpy-cat",
+   "file": "grumpy-cat/v09_caption.jpg",
+   "url": "https://i.imgflip.com/avb1ah.jpg",
+   "status": "downloaded",
+   "bytes": 80254,
+   "width": 500,
+   "height": 617
+  },
+  {
+   "family": "grumpy-cat",
+   "file": "grumpy-cat/v10_caption.jpg",
+   "url": "https://i.imgflip.com/abo54h.jpg",
+   "status": "downloaded",
+   "bytes": 88737,
+   "width": 500,
+   "height": 617
+  },
+  {
+   "family": "grumpy-cat",
+   "file": "grumpy-cat/v11_caption.jpg",
+   "url": "https://i.imgflip.com/8ah9ir.jpg",
+   "status": "downloaded",
+   "bytes": 72832,
+   "width": 500,
+   "height": 617
+  },
+  {
+   "family": "grumpy-cat",
+   "file": "grumpy-cat/v12_caption.jpg",
+   "url": "https://i.imgflip.com/aoyq6p.jpg",
+   "status": "downloaded",
+   "bytes": 71828,
+   "width": 500,
+   "height": 617
+  },
+  {
+   "family": "grumpy-cat",
+   "file": "grumpy-cat/v13_caption.jpg",
+   "url": "https://i.imgflip.com/8j3gve.jpg",
+   "status": "downloaded",
+   "bytes": 71465,
+   "width": 500,
+   "height": 617
+  },
+  {
+   "family": "grumpy-cat",
+   "file": "grumpy-cat/v14_caption.jpg",
+   "url": "https://i.imgflip.com/8awymt.jpg",
+   "status": "downloaded",
+   "bytes": 82397,
+   "width": 500,
+   "height": 617
+  },
+  {
+   "family": "grumpy-cat",
+   "file": "grumpy-cat/related1.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/406/346/fd3.jpg",
+   "status": "cached",
+   "bytes": 133986,
+   "width": 604,
+   "height": 640
+  },
+  {
+   "family": "grumpy-cat",
+   "file": "grumpy-cat/related2.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/011/365/GRUMPYCAT.jpg",
+   "status": "cached",
+   "bytes": 111804,
+   "width": 755,
+   "height": 425
+  },
+  {
+   "family": "doge",
+   "file": "doge/original.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/581/296/c09.jpg",
+   "status": "cached",
+   "bytes": 160431,
+   "width": 1280,
+   "height": 960
+  },
+  {
+   "family": "doge",
+   "file": "doge/v01_crop.jpg",
+   "url": "https://imgflip.com/s/meme/Doge.jpg",
+   "status": "cached",
+   "bytes": 27353,
+   "width": 620,
+   "height": 620
+  },
+  {
+   "family": "doge",
+   "file": "doge/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/013/564/doge.jpg",
+   "status": "cached",
+   "bytes": 70632,
+   "width": 959,
+   "height": 540
+  },
+  {
+   "family": "doge",
+   "file": "doge/v03_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/013/564/doge.jpg",
+   "status": "cached",
+   "bytes": 59380,
+   "width": 959,
+   "height": 540
+  },
+  {
+   "family": "doge",
+   "file": "doge/v04_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/masonry/000/581/296/c09.jpg",
+   "status": "cached",
+   "bytes": 5650,
+   "width": 200,
+   "height": 150
+  },
+  {
+   "family": "doge",
+   "file": "doge/v05_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/169/908/8ea.jpeg",
+   "status": "cached",
+   "bytes": 262797,
+   "width": 1440,
+   "height": 1923
+  },
+  {
+   "family": "doge",
+   "file": "doge/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/055/008/294.jpeg",
+   "status": "cached",
+   "bytes": 55332,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "doge",
+   "file": "doge/v07_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/003/169/908/8ea.jpeg",
+   "status": "cached",
+   "bytes": 101875,
+   "width": 716,
+   "height": 956
+  },
+  {
+   "family": "doge",
+   "file": "doge/v08_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/003/055/008/294.jpeg",
+   "status": "cached",
+   "bytes": 28237,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "doge",
+   "file": "doge/v09_caption.jpg",
+   "url": "https://i.imgflip.com/b3htx9.jpg",
+   "status": "cached",
+   "bytes": 49645,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "doge",
+   "file": "doge/v10_caption.jpg",
+   "url": "https://i.imgflip.com/ax7cho.jpg",
+   "status": "cached",
+   "bytes": 52403,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "doge",
+   "file": "doge/v11_caption.jpg",
+   "url": "https://i.imgflip.com/b12gx9.jpg",
+   "status": "cached",
+   "bytes": 50332,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "doge",
+   "file": "doge/v12_caption.jpg",
+   "url": "https://i.imgflip.com/ahai0q.jpg",
+   "status": "cached",
+   "bytes": 52399,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "doge",
+   "file": "doge/v13_caption.jpg",
+   "url": "https://i.imgflip.com/9vvyob.jpg",
+   "status": "cached",
+   "bytes": 50837,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "doge",
+   "file": "doge/v14_caption.jpg",
+   "url": "https://i.imgflip.com/7dcyym.jpg",
+   "status": "cached",
+   "bytes": 50886,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "doge",
+   "file": "doge/v15_crop.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/medium/000/013/564/doge.jpg",
+   "status": "cached",
+   "bytes": 9400,
+   "width": 200,
+   "height": 200
+  },
+  {
+   "family": "doge",
+   "file": "doge/related1.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/674/931/a5e.jpg",
+   "status": "cached",
+   "bytes": 71491,
+   "width": 640,
+   "height": 480
+  },
+  {
+   "family": "doge",
+   "file": "doge/related2.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/674/934/422.jpg",
+   "status": "cached",
+   "bytes": 133633,
+   "width": 640,
+   "height": 480
+  },
+  {
+   "family": "scumbag-steve",
+   "file": "scumbag-steve/original.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/093/953/c5b.jpg",
+   "status": "cached",
+   "bytes": 42597,
+   "width": 600,
+   "height": 604
+  },
+  {
+   "family": "scumbag-steve",
+   "file": "scumbag-steve/v01_crop.jpg",
+   "url": "https://imgflip.com/s/meme/Scumbag-Steve.jpg",
+   "status": "cached",
+   "bytes": 26341,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "scumbag-steve",
+   "file": "scumbag-steve/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/004/856/ScumbagSteve.jpg",
+   "status": "cached",
+   "bytes": 139738,
+   "width": 1820,
+   "height": 1024
+  },
+  {
+   "family": "scumbag-steve",
+   "file": "scumbag-steve/v03_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/004/856/ScumbagSteve.jpg",
+   "status": "cached",
+   "bytes": 137295,
+   "width": 1820,
+   "height": 1024
+  },
+  {
+   "family": "scumbag-steve",
+   "file": "scumbag-steve/v04_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/104/183/7f4.png",
+   "status": "cached",
+   "bytes": 529165,
+   "width": 610,
+   "height": 614
+  },
+  {
+   "family": "scumbag-steve",
+   "file": "scumbag-steve/v05_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/530/629/93a.png",
+   "status": "cached",
+   "bytes": 261251,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "scumbag-steve",
+   "file": "scumbag-steve/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/097/178/d58.jpg",
+   "status": "cached",
+   "bytes": 50867,
+   "width": 600,
+   "height": 604
+  },
+  {
+   "family": "scumbag-steve",
+   "file": "scumbag-steve/v07_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/425/586/9ec.png",
+   "status": "cached",
+   "bytes": 78103,
+   "width": 1280,
+   "height": 522
+  },
+  {
+   "family": "scumbag-steve",
+   "file": "scumbag-steve/v08_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/054/937/724.jpeg",
+   "status": "cached",
+   "bytes": 54748,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "scumbag-steve",
+   "file": "scumbag-steve/v09_lowres.png",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/104/183/7f4.png",
+   "status": "cached",
+   "bytes": 543129,
+   "width": 610,
+   "height": 614
+  },
+  {
+   "family": "scumbag-steve",
+   "file": "scumbag-steve/v10_lowres.png",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/530/629/93a.png",
+   "status": "cached",
+   "bytes": 350410,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "scumbag-steve",
+   "file": "scumbag-steve/v11_caption.jpg",
+   "url": "https://i.imgflip.com/adcmpp.jpg",
+   "status": "cached",
+   "bytes": 45824,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "scumbag-steve",
+   "file": "scumbag-steve/v12_caption.jpg",
+   "url": "https://i.imgflip.com/3q2yoq.jpg",
+   "status": "cached",
+   "bytes": 50831,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "scumbag-steve",
+   "file": "scumbag-steve/v13_caption.jpg",
+   "url": "https://i.imgflip.com/ajmjtm.jpg",
+   "status": "cached",
+   "bytes": 55576,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "scumbag-steve",
+   "file": "scumbag-steve/v14_caption.jpg",
+   "url": "https://i.imgflip.com/xbn4o.jpg",
+   "status": "cached",
+   "bytes": 57344,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "scumbag-steve",
+   "file": "scumbag-steve/v15_caption.jpg",
+   "url": "https://i.imgflip.com/2l97cy.jpg",
+   "status": "cached",
+   "bytes": 61986,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "first-world-problems",
+   "file": "first-world-problems/original.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/055/371/471.jpg",
+   "status": "cached",
+   "bytes": 128879,
+   "width": 900,
+   "height": 900
+  },
+  {
+   "family": "first-world-problems",
+   "file": "first-world-problems/v01_crop.jpg",
+   "url": "https://imgflip.com/s/meme/First-World-Problems.jpg",
+   "status": "cached",
+   "bytes": 19728,
+   "width": 552,
+   "height": 367
+  },
+  {
+   "family": "first-world-problems",
+   "file": "first-world-problems/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/006/236/1stWorld.jpg",
+   "status": "cached",
+   "bytes": 195941,
+   "width": 1853,
+   "height": 1042
+  },
+  {
+   "family": "first-world-problems",
+   "file": "first-world-problems/v03_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/006/236/1stWorld.jpg",
+   "status": "cached",
+   "bytes": 164325,
+   "width": 1853,
+   "height": 1042
+  },
+  {
+   "family": "first-world-problems",
+   "file": "first-world-problems/v04_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/438/149/191.png",
+   "status": "cached",
+   "bytes": 394491,
+   "width": 580,
+   "height": 387
+  },
+  {
+   "family": "first-world-problems",
+   "file": "first-world-problems/v05_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/530/623/d30.jpg",
+   "status": "cached",
+   "bytes": 38227,
+   "width": 613,
+   "height": 407
+  },
+  {
+   "family": "first-world-problems",
+   "file": "first-world-problems/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/297/259/75c.jpg",
+   "status": "cached",
+   "bytes": 71486,
+   "width": 613,
+   "height": 407
+  },
+  {
+   "family": "first-world-problems",
+   "file": "first-world-problems/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/282/689/f1d.jpg",
+   "status": "cached",
+   "bytes": 54494,
+   "width": 613,
+   "height": 407
+  },
+  {
+   "family": "first-world-problems",
+   "file": "first-world-problems/v08_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/014/712/418.jpg",
+   "status": "cached",
+   "bytes": 32536,
+   "width": 600,
+   "height": 397
+  },
+  {
+   "family": "first-world-problems",
+   "file": "first-world-problems/v09_lowres.png",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/438/149/191.png",
+   "status": "cached",
+   "bytes": 277279,
+   "width": 580,
+   "height": 387
+  },
+  {
+   "family": "first-world-problems",
+   "file": "first-world-problems/v10_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/530/623/d30.jpg",
+   "status": "cached",
+   "bytes": 37729,
+   "width": 613,
+   "height": 407
+  },
+  {
+   "family": "first-world-problems",
+   "file": "first-world-problems/v11_caption.jpg",
+   "url": "https://i.imgflip.com/b0y3fn.jpg",
+   "status": "cached",
+   "bytes": 47795,
+   "width": 552,
+   "height": 367
+  },
+  {
+   "family": "first-world-problems",
+   "file": "first-world-problems/v12_caption.jpg",
+   "url": "https://i.imgflip.com/b3kxy5.jpg",
+   "status": "cached",
+   "bytes": 75951,
+   "width": 613,
+   "height": 408
+  },
+  {
+   "family": "first-world-problems",
+   "file": "first-world-problems/v13_caption.jpg",
+   "url": "https://i.imgflip.com/aszurs.jpg",
+   "status": "cached",
+   "bytes": 57727,
+   "width": 613,
+   "height": 408
+  },
+  {
+   "family": "first-world-problems",
+   "file": "first-world-problems/v14_caption.jpg",
+   "url": "https://i.imgflip.com/avg98p.jpg",
+   "status": "cached",
+   "bytes": 64714,
+   "width": 613,
+   "height": 408
+  },
+  {
+   "family": "first-world-problems",
+   "file": "first-world-problems/v15_caption.jpg",
+   "url": "https://i.imgflip.com/areus5.jpg",
+   "status": "cached",
+   "bytes": 61746,
+   "width": 613,
+   "height": 408
+  },
+  {
+   "family": "first-world-problems",
+   "file": "first-world-problems/related1.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/055/372/824.jpg",
+   "status": "cached",
+   "bytes": 159573,
+   "width": 2100,
+   "height": 1400
+  },
+  {
+   "family": "first-world-problems",
+   "file": "first-world-problems/related2.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/055/373/43c.jpg",
+   "status": "cached",
+   "bytes": 306560,
+   "width": 2100,
+   "height": 1400
+  },
+  {
+   "family": "philosoraptor",
+   "file": "philosoraptor/original.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/145/724/Philosoraptor_Light_Blue_large.jpg",
+   "status": "cached",
+   "bytes": 114808,
+   "width": 480,
+   "height": 480
+  },
+  {
+   "family": "philosoraptor",
+   "file": "philosoraptor/v01_crop.jpg",
+   "url": "https://imgflip.com/s/meme/Philosoraptor.jpg",
+   "status": "cached",
+   "bytes": 20510,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "philosoraptor",
+   "file": "philosoraptor/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/000/106/Philoso.jpg",
+   "status": "cached",
+   "bytes": 105915,
+   "width": 1206,
+   "height": 678
+  },
+  {
+   "family": "philosoraptor",
+   "file": "philosoraptor/v03_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/000/106/Philoso.jpg",
+   "status": "cached",
+   "bytes": 94700,
+   "width": 1206,
+   "height": 678
+  },
+  {
+   "family": "philosoraptor",
+   "file": "philosoraptor/v04_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/145/724/Philosoraptor_Light_Blue_large.jpg?1310089141",
+   "status": "cached",
+   "bytes": 114808,
+   "width": 480,
+   "height": 480
+  },
+  {
+   "family": "philosoraptor",
+   "file": "philosoraptor/v05_crop.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/085/283/philosoraptor.jpg?1291090164",
+   "status": "cached",
+   "bytes": 19273,
+   "width": 400,
+   "height": 400
+  },
+  {
+   "family": "philosoraptor",
+   "file": "philosoraptor/v06_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/007/166/129.png",
+   "status": "cached",
+   "bytes": 203635,
+   "width": 720,
+   "height": 711
+  },
+  {
+   "family": "philosoraptor",
+   "file": "philosoraptor/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/949/585/aa4.jpg",
+   "status": "cached",
+   "bytes": 56292,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "philosoraptor",
+   "file": "philosoraptor/v08_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/077/803/17d.jpeg",
+   "status": "cached",
+   "bytes": 62618,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "philosoraptor",
+   "file": "philosoraptor/v09_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/055/500/ae4.jpeg",
+   "status": "cached",
+   "bytes": 65595,
+   "width": 400,
+   "height": 400
+  },
+  {
+   "family": "philosoraptor",
+   "file": "philosoraptor/v10_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/949/121/3b7.jpg",
+   "status": "cached",
+   "bytes": 57245,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "philosoraptor",
+   "file": "philosoraptor/v11_lowres.png",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/003/007/166/129.png",
+   "status": "cached",
+   "bytes": 616437,
+   "width": 716,
+   "height": 707
+  },
+  {
+   "family": "philosoraptor",
+   "file": "philosoraptor/v12_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/949/585/aa4.jpg",
+   "status": "cached",
+   "bytes": 37855,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "philosoraptor",
+   "file": "philosoraptor/v13_caption.jpg",
+   "url": "https://i.imgflip.com/b1p3ic.jpg",
+   "status": "cached",
+   "bytes": 75513,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "philosoraptor",
+   "file": "philosoraptor/v14_caption.jpg",
+   "url": "https://i.imgflip.com/b0om4s.jpg",
+   "status": "cached",
+   "bytes": 44416,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "philosoraptor",
+   "file": "philosoraptor/v15_caption.jpg",
+   "url": "https://i.imgflip.com/b2u679.jpg",
+   "status": "cached",
+   "bytes": 58329,
+   "width": 500,
+   "height": 500
+  },
+  {
+   "family": "mocking-spongebob",
+   "file": "mocking-spongebob/original.jpg",
+   "url": "https://imgflip.com/s/meme/Mocking-Spongebob.jpg",
+   "status": "cached",
+   "bytes": 41424,
+   "width": 502,
+   "height": 353
+  },
+  {
+   "family": "mocking-spongebob",
+   "file": "mocking-spongebob/v01_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/022/940/mockingspongebobbb.jpg",
+   "status": "cached",
+   "bytes": 42488,
+   "width": 800,
+   "height": 450
+  },
+  {
+   "family": "mocking-spongebob",
+   "file": "mocking-spongebob/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/022/940/mockingspongebobbb.jpg",
+   "status": "cached",
+   "bytes": 41859,
+   "width": 800,
+   "height": 450
+  },
+  {
+   "family": "mocking-spongebob",
+   "file": "mocking-spongebob/v03_screenshot.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/252/988/4af.jpg",
+   "status": "cached",
+   "bytes": 43384,
+   "width": 551,
+   "height": 397
+  },
+  {
+   "family": "mocking-spongebob",
+   "file": "mocking-spongebob/v04_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/869/024/900.png",
+   "status": "cached",
+   "bytes": 294434,
+   "width": 515,
+   "height": 520
+  },
+  {
+   "family": "mocking-spongebob",
+   "file": "mocking-spongebob/v05_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/883/535/774.jpg",
+   "status": "cached",
+   "bytes": 87443,
+   "width": 750,
+   "height": 694
+  },
+  {
+   "family": "mocking-spongebob",
+   "file": "mocking-spongebob/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/529/271/544.jpg",
+   "status": "cached",
+   "bytes": 34915,
+   "width": 526,
+   "height": 369
+  },
+  {
+   "family": "mocking-spongebob",
+   "file": "mocking-spongebob/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/046/403/d21",
+   "status": "cached",
+   "bytes": 108434,
+   "width": 800,
+   "height": 800
+  },
+  {
+   "family": "mocking-spongebob",
+   "file": "mocking-spongebob/v08_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/453/386/a14.jpg",
+   "status": "cached",
+   "bytes": 50517,
+   "width": 640,
+   "height": 576
+  },
+  {
+   "family": "mocking-spongebob",
+   "file": "mocking-spongebob/v09_lowres.png",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/001/869/024/900.png",
+   "status": "cached",
+   "bytes": 373738,
+   "width": 515,
+   "height": 520
+  },
+  {
+   "family": "mocking-spongebob",
+   "file": "mocking-spongebob/v10_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/001/883/535/774.jpg",
+   "status": "cached",
+   "bytes": 73416,
+   "width": 680,
+   "height": 629
+  },
+  {
+   "family": "mocking-spongebob",
+   "file": "mocking-spongebob/v11_caption.jpg",
+   "url": "https://i.imgflip.com/b2shbl.jpg",
+   "status": "cached",
+   "bytes": 68123,
+   "width": 596,
+   "height": 419
+  },
+  {
+   "family": "mocking-spongebob",
+   "file": "mocking-spongebob/v12_caption.jpg",
+   "url": "https://i.imgflip.com/b2imdh.jpg",
+   "status": "cached",
+   "bytes": 62122,
+   "width": 596,
+   "height": 419
+  },
+  {
+   "family": "mocking-spongebob",
+   "file": "mocking-spongebob/v13_caption.jpg",
+   "url": "https://i.imgflip.com/b23wdl.jpg",
+   "status": "cached",
+   "bytes": 65866,
+   "width": 596,
+   "height": 419
+  },
+  {
+   "family": "mocking-spongebob",
+   "file": "mocking-spongebob/v14_caption.jpg",
+   "url": "https://i.imgflip.com/b080wn.jpg",
+   "status": "cached",
+   "bytes": 58094,
+   "width": 596,
+   "height": 419
+  },
+  {
+   "family": "mocking-spongebob",
+   "file": "mocking-spongebob/v15_caption.jpg",
+   "url": "https://i.imgflip.com/aus8ib.jpg",
+   "status": "cached",
+   "bytes": 61318,
+   "width": 596,
+   "height": 419
+  },
+  {
+   "family": "change-my-mind",
+   "file": "change-my-mind/original.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/025/500/crowder.jpg",
+   "status": "cached",
+   "bytes": 351030,
+   "width": 800,
+   "height": 450
+  },
+  {
+   "family": "change-my-mind",
+   "file": "change-my-mind/v01_other.jpg",
+   "url": "https://imgflip.com/s/meme/Change-My-Mind.jpg",
+   "status": "cached",
+   "bytes": 80400,
+   "width": 482,
+   "height": 361
+  },
+  {
+   "family": "change-my-mind",
+   "file": "change-my-mind/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/025/500/crowder.jpg",
+   "status": "cached",
+   "bytes": 137384,
+   "width": 800,
+   "height": 450
+  },
+  {
+   "family": "change-my-mind",
+   "file": "change-my-mind/v03_screenshot.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/344/006/0cb.jpg",
+   "status": "cached",
+   "bytes": 571087,
+   "width": 885,
+   "height": 868
+  },
+  {
+   "family": "change-my-mind",
+   "file": "change-my-mind/v04_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/785/003/c6e.jpg",
+   "status": "cached",
+   "bytes": 145605,
+   "width": 1200,
+   "height": 899
+  },
+  {
+   "family": "change-my-mind",
+   "file": "change-my-mind/v05_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/977/772/a9c",
+   "status": "cached",
+   "bytes": 124088,
+   "width": 672,
+   "height": 680
+  },
+  {
+   "family": "change-my-mind",
+   "file": "change-my-mind/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/913/035/b10.jpg",
+   "status": "cached",
+   "bytes": 153153,
+   "width": 1200,
+   "height": 675
+  },
+  {
+   "family": "change-my-mind",
+   "file": "change-my-mind/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/105/752/32a.jpeg",
+   "status": "cached",
+   "bytes": 189712,
+   "width": 1080,
+   "height": 1221
+  },
+  {
+   "family": "change-my-mind",
+   "file": "change-my-mind/v08_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/109/813/13a.jpeg",
+   "status": "cached",
+   "bytes": 133132,
+   "width": 1080,
+   "height": 607
+  },
+  {
+   "family": "change-my-mind",
+   "file": "change-my-mind/v09_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/785/003/c6e.jpg",
+   "status": "cached",
+   "bytes": 66756,
+   "width": 716,
+   "height": 536
+  },
+  {
+   "family": "change-my-mind",
+   "file": "change-my-mind/v10_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/977/772/a9c",
+   "status": "cached",
+   "bytes": 106460,
+   "width": 672,
+   "height": 680
+  },
+  {
+   "family": "change-my-mind",
+   "file": "change-my-mind/v11_caption.jpg",
+   "url": "https://i.imgflip.com/b3mae8.jpg",
+   "status": "cached",
+   "bytes": 83857,
+   "width": 578,
+   "height": 433
+  },
+  {
+   "family": "change-my-mind",
+   "file": "change-my-mind/v12_caption.jpg",
+   "url": "https://i.imgflip.com/b3gg9z.jpg",
+   "status": "cached",
+   "bytes": 86698,
+   "width": 578,
+   "height": 433
+  },
+  {
+   "family": "change-my-mind",
+   "file": "change-my-mind/v13_caption.jpg",
+   "url": "https://i.imgflip.com/b3cx3i.jpg",
+   "status": "cached",
+   "bytes": 82554,
+   "width": 578,
+   "height": 433
+  },
+  {
+   "family": "change-my-mind",
+   "file": "change-my-mind/v14_caption.jpg",
+   "url": "https://i.imgflip.com/b12uxm.jpg",
+   "status": "cached",
+   "bytes": 81185,
+   "width": 578,
+   "height": 433
+  },
+  {
+   "family": "change-my-mind",
+   "file": "change-my-mind/v15_caption.jpg",
+   "url": "https://i.imgflip.com/b37nyv.jpg",
+   "status": "cached",
+   "bytes": 78034,
+   "width": 578,
+   "height": 433
+  },
+  {
+   "family": "arthur-fist",
+   "file": "arthur-fist/original.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/021/018/arthur.jpg",
+   "status": "cached",
+   "bytes": 82501,
+   "width": 800,
+   "height": 450
+  },
+  {
+   "family": "arthur-fist",
+   "file": "arthur-fist/v01_crop.jpg",
+   "url": "https://imgflip.com/s/meme/Arthur-Fist.jpg",
+   "status": "cached",
+   "bytes": 17731,
+   "width": 583,
+   "height": 328
+  },
+  {
+   "family": "arthur-fist",
+   "file": "arthur-fist/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/021/018/arthur.jpg",
+   "status": "cached",
+   "bytes": 36215,
+   "width": 800,
+   "height": 450
+  },
+  {
+   "family": "arthur-fist",
+   "file": "arthur-fist/v03_screenshot.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/154/398/eb5.jpg",
+   "status": "cached",
+   "bytes": 61114,
+   "width": 689,
+   "height": 773
+  },
+  {
+   "family": "arthur-fist",
+   "file": "arthur-fist/v04_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/085/352/eeb.jpg",
+   "status": "cached",
+   "bytes": 150479,
+   "width": 750,
+   "height": 604
+  },
+  {
+   "family": "arthur-fist",
+   "file": "arthur-fist/v05_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/872/608/e53.jpg",
+   "status": "cached",
+   "bytes": 41110,
+   "width": 640,
+   "height": 482
+  },
+  {
+   "family": "arthur-fist",
+   "file": "arthur-fist/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/008/214/ef8.jpg",
+   "status": "cached",
+   "bytes": 1349481,
+   "width": 2898,
+   "height": 2898
+  },
+  {
+   "family": "arthur-fist",
+   "file": "arthur-fist/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/593/041/ece.jpg",
+   "status": "cached",
+   "bytes": 64869,
+   "width": 583,
+   "height": 499
+  },
+  {
+   "family": "arthur-fist",
+   "file": "arthur-fist/v08_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/085/352/eeb.jpg",
+   "status": "cached",
+   "bytes": 44869,
+   "width": 680,
+   "height": 548
+  },
+  {
+   "family": "arthur-fist",
+   "file": "arthur-fist/v09_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/001/872/608/e53.jpg",
+   "status": "cached",
+   "bytes": 32801,
+   "width": 640,
+   "height": 482
+  },
+  {
+   "family": "arthur-fist",
+   "file": "arthur-fist/v10_caption.jpg",
+   "url": "https://i.imgflip.com/93pglg.jpg",
+   "status": "cached",
+   "bytes": 45486,
+   "width": 596,
+   "height": 419
+  },
+  {
+   "family": "arthur-fist",
+   "file": "arthur-fist/v11_caption.jpg",
+   "url": "https://i.imgflip.com/7xdgh7.jpg",
+   "status": "cached",
+   "bytes": 60237,
+   "width": 666,
+   "height": 375
+  },
+  {
+   "family": "arthur-fist",
+   "file": "arthur-fist/v12_caption.jpg",
+   "url": "https://i.imgflip.com/9rs0ac.jpg",
+   "status": "cached",
+   "bytes": 62093,
+   "width": 583,
+   "height": 476
+  },
+  {
+   "family": "arthur-fist",
+   "file": "arthur-fist/v13_caption.jpg",
+   "url": "https://i.imgflip.com/axqlcb.jpg",
+   "status": "cached",
+   "bytes": 46993,
+   "width": 667,
+   "height": 375
+  },
+  {
+   "family": "arthur-fist",
+   "file": "arthur-fist/v14_caption.jpg",
+   "url": "https://i.imgflip.com/4m5g83.jpg",
+   "status": "cached",
+   "bytes": 49991,
+   "width": 666,
+   "height": 375
+  },
+  {
+   "family": "arthur-fist",
+   "file": "arthur-fist/v15_crop.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/medium/000/021/018/arthur.jpg",
+   "status": "cached",
+   "bytes": 6809,
+   "width": 200,
+   "height": 200
+  },
+  {
+   "family": "evil-kermit",
+   "file": "evil-kermit/original.jpg",
+   "url": "https://imgflip.com/s/meme/Evil-Kermit.jpg",
+   "status": "cached",
+   "bytes": 133508,
+   "width": 700,
+   "height": 325
+  },
+  {
+   "family": "evil-kermit",
+   "file": "evil-kermit/v01_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/021/668/kermit.jpg",
+   "status": "cached",
+   "bytes": 47980,
+   "width": 800,
+   "height": 450
+  },
+  {
+   "family": "evil-kermit",
+   "file": "evil-kermit/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/021/668/kermit.jpg",
+   "status": "cached",
+   "bytes": 23625,
+   "width": 800,
+   "height": 450
+  },
+  {
+   "family": "evil-kermit",
+   "file": "evil-kermit/v03_screenshot.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/191/110/491.jpg",
+   "status": "cached",
+   "bytes": 54547,
+   "width": 728,
+   "height": 725
+  },
+  {
+   "family": "evil-kermit",
+   "file": "evil-kermit/v04_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/968/400/933.jpg",
+   "status": "cached",
+   "bytes": 46874,
+   "width": 700,
+   "height": 487
+  },
+  {
+   "family": "evil-kermit",
+   "file": "evil-kermit/v05_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/590/122/c38",
+   "status": "cached",
+   "bytes": 31078,
+   "width": 723,
+   "height": 336
+  },
+  {
+   "family": "evil-kermit",
+   "file": "evil-kermit/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/388/896/3f4.jpg",
+   "status": "cached",
+   "bytes": 19414,
+   "width": 720,
+   "height": 638
+  },
+  {
+   "family": "evil-kermit",
+   "file": "evil-kermit/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/509/526/93e.jpeg",
+   "status": "cached",
+   "bytes": 42791,
+   "width": 600,
+   "height": 508
+  },
+  {
+   "family": "evil-kermit",
+   "file": "evil-kermit/v08_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/750/636/b0a",
+   "status": "cached",
+   "bytes": 59793,
+   "width": 800,
+   "height": 902
+  },
+  {
+   "family": "evil-kermit",
+   "file": "evil-kermit/v09_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/001/968/400/933.jpg",
+   "status": "cached",
+   "bytes": 26152,
+   "width": 680,
+   "height": 473
+  },
+  {
+   "family": "evil-kermit",
+   "file": "evil-kermit/v10_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/001/590/122/c38",
+   "status": "cached",
+   "bytes": 23467,
+   "width": 680,
+   "height": 316
+  },
+  {
+   "family": "evil-kermit",
+   "file": "evil-kermit/v11_caption.jpg",
+   "url": "https://i.imgflip.com/b2c8mw.jpg",
+   "status": "cached",
+   "bytes": 44407,
+   "width": 734,
+   "height": 341
+  },
+  {
+   "family": "evil-kermit",
+   "file": "evil-kermit/v12_caption.jpg",
+   "url": "https://i.imgflip.com/ayvufh.jpg",
+   "status": "cached",
+   "bytes": 44133,
+   "width": 734,
+   "height": 341
+  },
+  {
+   "family": "evil-kermit",
+   "file": "evil-kermit/v13_caption.jpg",
+   "url": "https://i.imgflip.com/b0cpw8.jpg",
+   "status": "cached",
+   "bytes": 37330,
+   "width": 734,
+   "height": 341
+  },
+  {
+   "family": "evil-kermit",
+   "file": "evil-kermit/v14_caption.jpg",
+   "url": "https://i.imgflip.com/azpksa.jpg",
+   "status": "cached",
+   "bytes": 36926,
+   "width": 734,
+   "height": 341
+  },
+  {
+   "family": "evil-kermit",
+   "file": "evil-kermit/v15_caption.jpg",
+   "url": "https://i.imgflip.com/b1b0s7.jpg",
+   "status": "cached",
+   "bytes": 39687,
+   "width": 734,
+   "height": 341
+  },
+  {
+   "family": "leonardo-dicaprio-cheers",
+   "file": "leonardo-dicaprio-cheers/original.jpg",
+   "url": "https://imgflip.com/s/meme/Leonardo-Dicaprio-Cheers.jpg",
+   "status": "cached",
+   "bytes": 25419,
+   "width": 600,
+   "height": 400
+  },
+  {
+   "family": "leonardo-dicaprio-cheers",
+   "file": "leonardo-dicaprio-cheers/v01_crop.jpg",
+   "url": "https://i.imgflip.com/9pmzy.jpg",
+   "status": "cached",
+   "bytes": 22714,
+   "width": 620,
+   "height": 373
+  },
+  {
+   "family": "leonardo-dicaprio-cheers",
+   "file": "leonardo-dicaprio-cheers/v02_crop.jpg",
+   "url": "https://i.imgflip.com/145rlk.jpg",
+   "status": "cached",
+   "bytes": 64095,
+   "width": 1080,
+   "height": 1063
+  },
+  {
+   "family": "leonardo-dicaprio-cheers",
+   "file": "leonardo-dicaprio-cheers/v03_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/023/077/Leo_Toasting_meme_banner.jpg",
+   "status": "cached",
+   "bytes": 106022,
+   "width": 1600,
+   "height": 800
+  },
+  {
+   "family": "leonardo-dicaprio-cheers",
+   "file": "leonardo-dicaprio-cheers/v04_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/023/077/Leo_Toasting_meme_banner.jpg",
+   "status": "cached",
+   "bytes": 113994,
+   "width": 1600,
+   "height": 800
+  },
+  {
+   "family": "leonardo-dicaprio-cheers",
+   "file": "leonardo-dicaprio-cheers/v05_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/259/121/809.png",
+   "status": "cached",
+   "bytes": 147672,
+   "width": 381,
+   "height": 242
+  },
+  {
+   "family": "leonardo-dicaprio-cheers",
+   "file": "leonardo-dicaprio-cheers/v06_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/259/142/9f0.png",
+   "status": "cached",
+   "bytes": 230942,
+   "width": 474,
+   "height": 534
+  },
+  {
+   "family": "leonardo-dicaprio-cheers",
+   "file": "leonardo-dicaprio-cheers/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/259/124/5e8.jpg",
+   "status": "cached",
+   "bytes": 18585,
+   "width": 300,
+   "height": 219
+  },
+  {
+   "family": "leonardo-dicaprio-cheers",
+   "file": "leonardo-dicaprio-cheers/v08_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/259/123/7a0.jpg",
+   "status": "cached",
+   "bytes": 66292,
+   "width": 625,
+   "height": 351
+  },
+  {
+   "family": "leonardo-dicaprio-cheers",
+   "file": "leonardo-dicaprio-cheers/v09_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/430/401/917.jpg",
+   "status": "cached",
+   "bytes": 99181,
+   "width": 872,
+   "height": 960
+  },
+  {
+   "family": "leonardo-dicaprio-cheers",
+   "file": "leonardo-dicaprio-cheers/v10_lowres.png",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/001/259/121/809.png",
+   "status": "cached",
+   "bytes": 166129,
+   "width": 381,
+   "height": 242
+  },
+  {
+   "family": "leonardo-dicaprio-cheers",
+   "file": "leonardo-dicaprio-cheers/v11_lowres.png",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/001/259/142/9f0.png",
+   "status": "cached",
+   "bytes": 247408,
+   "width": 474,
+   "height": 534
+  },
+  {
+   "family": "leonardo-dicaprio-cheers",
+   "file": "leonardo-dicaprio-cheers/v12_caption.jpg",
+   "url": "https://i.imgflip.com/awnb0i.jpg",
+   "status": "cached",
+   "bytes": 61139,
+   "width": 612,
+   "height": 408
+  },
+  {
+   "family": "leonardo-dicaprio-cheers",
+   "file": "leonardo-dicaprio-cheers/v13_caption.jpg",
+   "url": "https://i.imgflip.com/b31dqu.jpg",
+   "status": "cached",
+   "bytes": 60173,
+   "width": 612,
+   "height": 408
+  },
+  {
+   "family": "leonardo-dicaprio-cheers",
+   "file": "leonardo-dicaprio-cheers/v14_caption.jpg",
+   "url": "https://i.imgflip.com/b38lmw.jpg",
+   "status": "cached",
+   "bytes": 63034,
+   "width": 612,
+   "height": 408
+  },
+  {
+   "family": "leonardo-dicaprio-cheers",
+   "file": "leonardo-dicaprio-cheers/v15_caption.jpg",
+   "url": "https://i.imgflip.com/abzwv7.jpg",
+   "status": "cached",
+   "bytes": 61635,
+   "width": 612,
+   "height": 408
+  },
+  {
+   "family": "boardroom-meeting-suggestion",
+   "file": "boardroom-meeting-suggestion/original.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/479/250/b5c.png",
+   "status": "cached",
+   "bytes": 85731,
+   "width": 497,
+   "height": 652
+  },
+  {
+   "family": "boardroom-meeting-suggestion",
+   "file": "boardroom-meeting-suggestion/v01_other.jpg",
+   "url": "https://imgflip.com/s/meme/Boardroom-Meeting-Suggestion.jpg",
+   "status": "cached",
+   "bytes": 58155,
+   "width": 500,
+   "height": 649
+  },
+  {
+   "family": "boardroom-meeting-suggestion",
+   "file": "boardroom-meeting-suggestion/v02_lowres.png",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/012/066/Boardroom_Suggestion_Icon.png",
+   "status": "cached",
+   "bytes": 22685,
+   "width": 235,
+   "height": 193
+  },
+  {
+   "family": "boardroom-meeting-suggestion",
+   "file": "boardroom-meeting-suggestion/v03_lowres.png",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/012/066/Boardroom_Suggestion_Icon.png",
+   "status": "cached",
+   "bytes": 134670,
+   "width": 600,
+   "height": 493
+  },
+  {
+   "family": "boardroom-meeting-suggestion",
+   "file": "boardroom-meeting-suggestion/v04_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/004/432/a90.jpg",
+   "status": "cached",
+   "bytes": 78131,
+   "width": 500,
+   "height": 649
+  },
+  {
+   "family": "boardroom-meeting-suggestion",
+   "file": "boardroom-meeting-suggestion/v05_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/697/101/375.png",
+   "status": "cached",
+   "bytes": 4669018,
+   "width": 4000,
+   "height": 5204
+  },
+  {
+   "family": "boardroom-meeting-suggestion",
+   "file": "boardroom-meeting-suggestion/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/612/756/c67.jpg",
+   "status": "cached",
+   "bytes": 117400,
+   "width": 500,
+   "height": 871
+  },
+  {
+   "family": "boardroom-meeting-suggestion",
+   "file": "boardroom-meeting-suggestion/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/844/639/9e5.jpg",
+   "status": "cached",
+   "bytes": 92230,
+   "width": 490,
+   "height": 636
+  },
+  {
+   "family": "boardroom-meeting-suggestion",
+   "file": "boardroom-meeting-suggestion/v08_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/604/548/a4d.jpg",
+   "status": "cached",
+   "bytes": 343058,
+   "width": 1217,
+   "height": 2208
+  },
+  {
+   "family": "boardroom-meeting-suggestion",
+   "file": "boardroom-meeting-suggestion/v09_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/003/004/432/a90.jpg",
+   "status": "cached",
+   "bytes": 61290,
+   "width": 500,
+   "height": 649
+  },
+  {
+   "family": "boardroom-meeting-suggestion",
+   "file": "boardroom-meeting-suggestion/v10_lowres.png",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/697/101/375.png",
+   "status": "cached",
+   "bytes": 459122,
+   "width": 716,
+   "height": 932
+  },
+  {
+   "family": "boardroom-meeting-suggestion",
+   "file": "boardroom-meeting-suggestion/v11_caption.jpg",
+   "url": "https://i.imgflip.com/b36qyc.jpg",
+   "status": "cached",
+   "bytes": 83494,
+   "width": 500,
+   "height": 649
+  },
+  {
+   "family": "boardroom-meeting-suggestion",
+   "file": "boardroom-meeting-suggestion/v12_caption.jpg",
+   "url": "https://i.imgflip.com/8dates.jpg",
+   "status": "cached",
+   "bytes": 78858,
+   "width": 500,
+   "height": 649
+  },
+  {
+   "family": "boardroom-meeting-suggestion",
+   "file": "boardroom-meeting-suggestion/v13_caption.jpg",
+   "url": "https://i.imgflip.com/b20pwj.jpg",
+   "status": "cached",
+   "bytes": 97464,
+   "width": 500,
+   "height": 649
+  },
+  {
+   "family": "boardroom-meeting-suggestion",
+   "file": "boardroom-meeting-suggestion/v14_caption.jpg",
+   "url": "https://i.imgflip.com/b09ln6.jpg",
+   "status": "cached",
+   "bytes": 78634,
+   "width": 500,
+   "height": 649
+  },
+  {
+   "family": "boardroom-meeting-suggestion",
+   "file": "boardroom-meeting-suggestion/v15_caption.jpg",
+   "url": "https://i.imgflip.com/b2bi0w.jpg",
+   "status": "cached",
+   "bytes": 79122,
+   "width": 500,
+   "height": 649
+  },
+  {
+   "family": "confused-math-lady",
+   "file": "confused-math-lady/original.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/021/464/14608107_1180665285312703_1558693314_n.jpg",
+   "status": "cached",
+   "bytes": 36644,
+   "width": 681,
+   "height": 445
+  },
+  {
+   "family": "confused-math-lady",
+   "file": "confused-math-lady/v01_crop.jpg",
+   "url": "https://i.imgflip.com/1c81c1.jpg",
+   "status": "cached",
+   "bytes": 35574,
+   "width": 681,
+   "height": 445
+  },
+  {
+   "family": "confused-math-lady",
+   "file": "confused-math-lady/v02_crop.jpg",
+   "url": "https://i.imgflip.com/1j9mu4.jpg",
+   "status": "cached",
+   "bytes": 179793,
+   "width": 1348,
+   "height": 880
+  },
+  {
+   "family": "confused-math-lady",
+   "file": "confused-math-lady/v03_crop.jpg",
+   "url": "https://i.imgflip.com/1tbys7.jpg",
+   "status": "cached",
+   "bytes": 35194,
+   "width": 656,
+   "height": 656
+  },
+  {
+   "family": "confused-math-lady",
+   "file": "confused-math-lady/v04_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/021/464/14608107_1180665285312703_1558693314_n.jpg",
+   "status": "cached",
+   "bytes": 42017,
+   "width": 681,
+   "height": 445
+  },
+  {
+   "family": "confused-math-lady",
+   "file": "confused-math-lady/v05_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/123/146/fb4.jpg",
+   "status": "cached",
+   "bytes": 98290,
+   "width": 700,
+   "height": 620
+  },
+  {
+   "family": "confused-math-lady",
+   "file": "confused-math-lady/v06_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/593/648/726.png",
+   "status": "cached",
+   "bytes": 459145,
+   "width": 592,
+   "height": 793
+  },
+  {
+   "family": "confused-math-lady",
+   "file": "confused-math-lady/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/092/419/e18.jpg",
+   "status": "cached",
+   "bytes": 88354,
+   "width": 800,
+   "height": 767
+  },
+  {
+   "family": "confused-math-lady",
+   "file": "confused-math-lady/v08_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/054/775/337",
+   "status": "cached",
+   "bytes": 9824,
+   "width": 278,
+   "height": 181
+  },
+  {
+   "family": "confused-math-lady",
+   "file": "confused-math-lady/v09_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/054/772/753.png",
+   "status": "cached",
+   "bytes": 207816,
+   "width": 500,
+   "height": 815
+  },
+  {
+   "family": "confused-math-lady",
+   "file": "confused-math-lady/v10_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/123/146/fb4.jpg",
+   "status": "cached",
+   "bytes": 68873,
+   "width": 680,
+   "height": 602
+  },
+  {
+   "family": "confused-math-lady",
+   "file": "confused-math-lady/v11_lowres.png",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/593/648/726.png",
+   "status": "cached",
+   "bytes": 542546,
+   "width": 592,
+   "height": 793
+  },
+  {
+   "family": "confused-math-lady",
+   "file": "confused-math-lady/v12_caption.jpg",
+   "url": "https://i.imgflip.com/arznp7.jpg",
+   "status": "cached",
+   "bytes": 90492,
+   "width": 612,
+   "height": 500
+  },
+  {
+   "family": "confused-math-lady",
+   "file": "confused-math-lady/v13_caption.jpg",
+   "url": "https://i.imgflip.com/6fnv07.jpg",
+   "status": "cached",
+   "bytes": 111579,
+   "width": 681,
+   "height": 668
+  },
+  {
+   "family": "confused-math-lady",
+   "file": "confused-math-lady/v14_caption.jpg",
+   "url": "https://i.imgflip.com/61riba.jpg",
+   "status": "cached",
+   "bytes": 108817,
+   "width": 681,
+   "height": 668
+  },
+  {
+   "family": "confused-math-lady",
+   "file": "confused-math-lady/v15_caption.jpg",
+   "url": "https://i.imgflip.com/5xpw09.jpg",
+   "status": "cached",
+   "bytes": 100211,
+   "width": 681,
+   "height": 779
+  },
+  {
+   "family": "side-eyeing-chloe",
+   "file": "side-eyeing-chloe/original.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/014/285/sideeyechloe.jpg",
+   "status": "cached",
+   "bytes": 117678,
+   "width": 1463,
+   "height": 823
+  },
+  {
+   "family": "side-eyeing-chloe",
+   "file": "side-eyeing-chloe/v01_crop.jpg",
+   "url": "https://i.imgflip.com/7h6g4.jpg",
+   "status": "cached",
+   "bytes": 25191,
+   "width": 620,
+   "height": 396
+  },
+  {
+   "family": "side-eyeing-chloe",
+   "file": "side-eyeing-chloe/v02_crop.jpg",
+   "url": "https://i.imgflip.com/ku8g5.jpg",
+   "status": "cached",
+   "bytes": 22901,
+   "width": 541,
+   "height": 345
+  },
+  {
+   "family": "side-eyeing-chloe",
+   "file": "side-eyeing-chloe/v03_crop.jpg",
+   "url": "https://i.imgflip.com/e4got.jpg",
+   "status": "cached",
+   "bytes": 21396,
+   "width": 599,
+   "height": 599
+  },
+  {
+   "family": "side-eyeing-chloe",
+   "file": "side-eyeing-chloe/v04_crop.jpg",
+   "url": "https://i.imgflip.com/fitpq.jpg",
+   "status": "cached",
+   "bytes": 25191,
+   "width": 620,
+   "height": 396
+  },
+  {
+   "family": "side-eyeing-chloe",
+   "file": "side-eyeing-chloe/v05_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/014/285/sideeyechloe.jpg",
+   "status": "cached",
+   "bytes": 108406,
+   "width": 1463,
+   "height": 823
+  },
+  {
+   "family": "side-eyeing-chloe",
+   "file": "side-eyeing-chloe/v06_lowres.jpg",
+   "url": "https://upload.wikimedia.org/wikipedia/en/4/45/Side_Eyeing_Chloe.jpg",
+   "status": "cached",
+   "bytes": 75562,
+   "width": 421,
+   "height": 237
+  },
+  {
+   "family": "side-eyeing-chloe",
+   "file": "side-eyeing-chloe/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/060/780/208.jpg",
+   "status": "cached",
+   "bytes": 125125,
+   "width": 624,
+   "height": 332
+  },
+  {
+   "family": "side-eyeing-chloe",
+   "file": "side-eyeing-chloe/v08_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/070/628/31f.png",
+   "status": "cached",
+   "bytes": 80009,
+   "width": 244,
+   "height": 211
+  },
+  {
+   "family": "side-eyeing-chloe",
+   "file": "side-eyeing-chloe/v09_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/787/486/f5d.jpg",
+   "status": "cached",
+   "bytes": 283982,
+   "width": 610,
+   "height": 733
+  },
+  {
+   "family": "side-eyeing-chloe",
+   "file": "side-eyeing-chloe/v10_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/001/060/780/208.jpg",
+   "status": "cached",
+   "bytes": 30137,
+   "width": 624,
+   "height": 332
+  },
+  {
+   "family": "side-eyeing-chloe",
+   "file": "side-eyeing-chloe/v11_lowres.png",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/001/070/628/31f.png",
+   "status": "cached",
+   "bytes": 94687,
+   "width": 244,
+   "height": 211
+  },
+  {
+   "family": "side-eyeing-chloe",
+   "file": "side-eyeing-chloe/v12_caption.jpg",
+   "url": "https://i.imgflip.com/ampt5d.jpg",
+   "status": "cached",
+   "bytes": 55825,
+   "width": 624,
+   "height": 400
+  },
+  {
+   "family": "side-eyeing-chloe",
+   "file": "side-eyeing-chloe/v13_caption.jpg",
+   "url": "https://i.imgflip.com/9p8hez.jpg",
+   "status": "cached",
+   "bytes": 62835,
+   "width": 624,
+   "height": 400
+  },
+  {
+   "family": "side-eyeing-chloe",
+   "file": "side-eyeing-chloe/v14_caption.jpg",
+   "url": "https://i.imgflip.com/7gsob8.jpg",
+   "status": "cached",
+   "bytes": 61094,
+   "width": 624,
+   "height": 400
+  },
+  {
+   "family": "side-eyeing-chloe",
+   "file": "side-eyeing-chloe/v15_caption.jpg",
+   "url": "https://i.imgflip.com/9eblk0.jpg",
+   "status": "cached",
+   "bytes": 54909,
+   "width": 624,
+   "height": 400
+  },
+  {
+   "family": "blinking-white-guy",
+   "file": "blinking-white-guy/original.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/022/255/Blinking_White_Guy_meme_banner.jpg",
+   "status": "cached",
+   "bytes": 159172,
+   "width": 800,
+   "height": 450
+  },
+  {
+   "family": "blinking-white-guy",
+   "file": "blinking-white-guy/v01_crop.jpg",
+   "url": "https://i.imgflip.com/1lunxj.jpg",
+   "status": "cached",
+   "bytes": 36586,
+   "width": 640,
+   "height": 394
+  },
+  {
+   "family": "blinking-white-guy",
+   "file": "blinking-white-guy/v02_crop.jpg",
+   "url": "https://i.imgflip.com/20k3t4.jpg",
+   "status": "cached",
+   "bytes": 49400,
+   "width": 750,
+   "height": 423
+  },
+  {
+   "family": "blinking-white-guy",
+   "file": "blinking-white-guy/v03_crop.jpg",
+   "url": "https://i.imgflip.com/3jdj4d.jpg",
+   "status": "cached",
+   "bytes": 32013,
+   "width": 768,
+   "height": 432
+  },
+  {
+   "family": "blinking-white-guy",
+   "file": "blinking-white-guy/v04_crop.jpg",
+   "url": "https://i.imgflip.com/3q029m.jpg",
+   "status": "cached",
+   "bytes": 77446,
+   "width": 900,
+   "height": 780
+  },
+  {
+   "family": "blinking-white-guy",
+   "file": "blinking-white-guy/v05_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/022/255/Blinking_White_Guy_meme_banner.jpg",
+   "status": "cached",
+   "bytes": 40803,
+   "width": 800,
+   "height": 450
+  },
+  {
+   "family": "blinking-white-guy",
+   "file": "blinking-white-guy/v06_screenshot.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/223/202/9e0.png",
+   "status": "cached",
+   "bytes": 888551,
+   "width": 928,
+   "height": 1162
+  },
+  {
+   "family": "blinking-white-guy",
+   "file": "blinking-white-guy/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/370/736/8cc.jpg",
+   "status": "cached",
+   "bytes": 57002,
+   "width": 680,
+   "height": 596
+  },
+  {
+   "family": "blinking-white-guy",
+   "file": "blinking-white-guy/v08_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/784/528/d80.jpeg",
+   "status": "cached",
+   "bytes": 128652,
+   "width": 1178,
+   "height": 1550
+  },
+  {
+   "family": "blinking-white-guy",
+   "file": "blinking-white-guy/v09_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/239/433/d1e.jpg",
+   "status": "cached",
+   "bytes": 657331,
+   "width": 1774,
+   "height": 1207
+  },
+  {
+   "family": "blinking-white-guy",
+   "file": "blinking-white-guy/v10_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/458/751/a78.jpg",
+   "status": "cached",
+   "bytes": 114479,
+   "width": 1076,
+   "height": 1223
+  },
+  {
+   "family": "blinking-white-guy",
+   "file": "blinking-white-guy/v11_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/571/158/4ac.jpg",
+   "status": "cached",
+   "bytes": 52598,
+   "width": 640,
+   "height": 640
+  },
+  {
+   "family": "blinking-white-guy",
+   "file": "blinking-white-guy/v12_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/370/736/8cc.jpg",
+   "status": "cached",
+   "bytes": 37580,
+   "width": 680,
+   "height": 596
+  },
+  {
+   "family": "blinking-white-guy",
+   "file": "blinking-white-guy/v13_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/784/528/d80.jpeg",
+   "status": "cached",
+   "bytes": 60383,
+   "width": 716,
+   "height": 942
+  },
+  {
+   "family": "blinking-white-guy",
+   "file": "blinking-white-guy/v14_caption.jpg",
+   "url": "https://i.imgflip.com/76i0ei.jpg",
+   "status": "cached",
+   "bytes": 55615,
+   "width": 640,
+   "height": 473
+  },
+  {
+   "family": "blinking-white-guy",
+   "file": "blinking-white-guy/v15_caption.jpg",
+   "url": "https://i.imgflip.com/a20gal.jpg",
+   "status": "cached",
+   "bytes": 43545,
+   "width": 640,
+   "height": 394
+  },
+  {
+   "family": "one-does-not-simply",
+   "file": "one-does-not-simply/original.jpg",
+   "url": "https://imgflip.com/s/meme/One-Does-Not-Simply.jpg",
+   "status": "cached",
+   "bytes": 30671,
+   "width": 568,
+   "height": 335
+  },
+  {
+   "family": "one-does-not-simply",
+   "file": "one-does-not-simply/v01_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/000/143/493654d6ef.jpg",
+   "status": "cached",
+   "bytes": 132335,
+   "width": 1874,
+   "height": 1054
+  },
+  {
+   "family": "one-does-not-simply",
+   "file": "one-does-not-simply/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/000/143/493654d6ef.jpg",
+   "status": "cached",
+   "bytes": 134630,
+   "width": 1874,
+   "height": 1054
+  },
+  {
+   "family": "one-does-not-simply",
+   "file": "one-does-not-simply/v03_screenshot.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/038/834/drive_into_mordor.png?1318992465",
+   "status": "cached",
+   "bytes": 906798,
+   "width": 870,
+   "height": 650
+  },
+  {
+   "family": "one-does-not-simply",
+   "file": "one-does-not-simply/v04_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/259/418/006.jpg",
+   "status": "cached",
+   "bytes": 63239,
+   "width": 651,
+   "height": 383
+  },
+  {
+   "family": "one-does-not-simply",
+   "file": "one-does-not-simply/v05_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/243/965/286.jpg",
+   "status": "cached",
+   "bytes": 104793,
+   "width": 1080,
+   "height": 540
+  },
+  {
+   "family": "one-does-not-simply",
+   "file": "one-does-not-simply/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/134/694/a69.jpg",
+   "status": "cached",
+   "bytes": 51559,
+   "width": 564,
+   "height": 567
+  },
+  {
+   "family": "one-does-not-simply",
+   "file": "one-does-not-simply/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/104/023/eba.jpg",
+   "status": "cached",
+   "bytes": 132335,
+   "width": 1874,
+   "height": 1054
+  },
+  {
+   "family": "one-does-not-simply",
+   "file": "one-does-not-simply/v08_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/436/563/a00.png",
+   "status": "cached",
+   "bytes": 158513,
+   "width": 1280,
+   "height": 714
+  },
+  {
+   "family": "one-does-not-simply",
+   "file": "one-does-not-simply/v09_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/259/418/006.jpg",
+   "status": "cached",
+   "bytes": 38359,
+   "width": 651,
+   "height": 383
+  },
+  {
+   "family": "one-does-not-simply",
+   "file": "one-does-not-simply/v10_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/243/965/286.jpg",
+   "status": "cached",
+   "bytes": 33316,
+   "width": 680,
+   "height": 340
+  },
+  {
+   "family": "one-does-not-simply",
+   "file": "one-does-not-simply/v11_caption.jpg",
+   "url": "https://i.imgflip.com/b3i9b5.jpg",
+   "status": "cached",
+   "bytes": 49293,
+   "width": 568,
+   "height": 335
+  },
+  {
+   "family": "one-does-not-simply",
+   "file": "one-does-not-simply/v12_caption.jpg",
+   "url": "https://i.imgflip.com/b0nk67.jpg",
+   "status": "cached",
+   "bytes": 62548,
+   "width": 651,
+   "height": 384
+  },
+  {
+   "family": "one-does-not-simply",
+   "file": "one-does-not-simply/v13_caption.jpg",
+   "url": "https://i.imgflip.com/b0kr0j.jpg",
+   "status": "cached",
+   "bytes": 70160,
+   "width": 651,
+   "height": 384
+  },
+  {
+   "family": "one-does-not-simply",
+   "file": "one-does-not-simply/v14_caption.jpg",
+   "url": "https://i.imgflip.com/b19ckf.jpg",
+   "status": "cached",
+   "bytes": 61475,
+   "width": 651,
+   "height": 384
+  },
+  {
+   "family": "one-does-not-simply",
+   "file": "one-does-not-simply/v15_caption.jpg",
+   "url": "https://i.imgflip.com/b1749t.jpg",
+   "status": "cached",
+   "bytes": 64071,
+   "width": 651,
+   "height": 384
+  },
+  {
+   "family": "bernie-sanders-mittens",
+   "file": "bernie-sanders-mittens/original.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/036/345/EsMANJkW4AYbmvv.jpeg",
+   "status": "cached",
+   "bytes": 580946,
+   "width": 4096,
+   "height": 2304
+  },
+  {
+   "family": "bernie-sanders-mittens",
+   "file": "bernie-sanders-mittens/v01_crop.jpg",
+   "url": "https://i.imgflip.com/4ulob7.jpg",
+   "status": "cached",
+   "bytes": 39433,
+   "width": 680,
+   "height": 464
+  },
+  {
+   "family": "bernie-sanders-mittens",
+   "file": "bernie-sanders-mittens/v02_other.webp",
+   "url": "https://i.imgflip.com/4ur1iv.png",
+   "status": "cached",
+   "bytes": 310618,
+   "width": 959,
+   "height": 719
+  },
+  {
+   "family": "bernie-sanders-mittens",
+   "file": "bernie-sanders-mittens/v03_other.webp",
+   "url": "https://i.imgflip.com/4uk92w.png",
+   "status": "cached",
+   "bytes": 370018,
+   "width": 936,
+   "height": 990
+  },
+  {
+   "family": "bernie-sanders-mittens",
+   "file": "bernie-sanders-mittens/v04_other.webp",
+   "url": "https://i.imgflip.com/4ujmrg.png",
+   "status": "cached",
+   "bytes": 148962,
+   "width": 680,
+   "height": 464
+  },
+  {
+   "family": "bernie-sanders-mittens",
+   "file": "bernie-sanders-mittens/v05_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/036/345/EsMANJkW4AYbmvv.jpeg",
+   "status": "failed",
+   "error": "http 403"
+  },
+  {
+   "family": "bernie-sanders-mittens",
+   "file": "bernie-sanders-mittens/v06_screenshot.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/997/039/4e4.png",
+   "status": "cached",
+   "bytes": 1209522,
+   "width": 1292,
+   "height": 1250
+  },
+  {
+   "family": "bernie-sanders-mittens",
+   "file": "bernie-sanders-mittens/v07_screenshot.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/997/040/fff.png",
+   "status": "cached",
+   "bytes": 1636729,
+   "width": 1302,
+   "height": 1384
+  },
+  {
+   "family": "bernie-sanders-mittens",
+   "file": "bernie-sanders-mittens/v08_screenshot.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/997/041/227.png",
+   "status": "cached",
+   "bytes": 1451676,
+   "width": 1302,
+   "height": 1196
+  },
+  {
+   "family": "bernie-sanders-mittens",
+   "file": "bernie-sanders-mittens/v09_lowres.jpg",
+   "url": "https://upload.wikimedia.org/wikipedia/en/0/0f/Bernie_Sanders_mittens.jpg",
+   "status": "cached",
+   "bytes": 13431,
+   "width": 139,
+   "height": 300
+  },
+  {
+   "family": "bernie-sanders-mittens",
+   "file": "bernie-sanders-mittens/v10_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/285/567/402.jpg",
+   "status": "cached",
+   "bytes": 229385,
+   "width": 1027,
+   "height": 1409
+  },
+  {
+   "family": "bernie-sanders-mittens",
+   "file": "bernie-sanders-mittens/v11_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/584/907/e62.jpeg",
+   "status": "cached",
+   "bytes": 273970,
+   "width": 1096,
+   "height": 818
+  },
+  {
+   "family": "bernie-sanders-mittens",
+   "file": "bernie-sanders-mittens/v12_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/671/910/62c.jpg",
+   "status": "cached",
+   "bytes": 79328,
+   "width": 760,
+   "height": 443
+  },
+  {
+   "family": "bernie-sanders-mittens",
+   "file": "bernie-sanders-mittens/v13_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/773/925/761.jpg",
+   "status": "cached",
+   "bytes": 253307,
+   "width": 1051,
+   "height": 1583
+  },
+  {
+   "family": "bernie-sanders-mittens",
+   "file": "bernie-sanders-mittens/v14_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/208/198/d21.jpeg",
+   "status": "cached",
+   "bytes": 502146,
+   "width": 1888,
+   "height": 2048
+  },
+  {
+   "family": "bernie-sanders-mittens",
+   "file": "bernie-sanders-mittens/v15_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/285/567/402.jpg",
+   "status": "cached",
+   "bytes": 105114,
+   "width": 680,
+   "height": 933
+  },
+  {
+   "family": "epic-handshake",
+   "file": "epic-handshake/original.jpg",
+   "url": "https://imgflip.com/s/meme/Epic-Handshake.jpg",
+   "status": "cached",
+   "bytes": 93130,
+   "width": 900,
+   "height": 645
+  },
+  {
+   "family": "epic-handshake",
+   "file": "epic-handshake/v01_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/012/468/shakeee.jpg",
+   "status": "cached",
+   "bytes": 70444,
+   "width": 900,
+   "height": 506
+  },
+  {
+   "family": "epic-handshake",
+   "file": "epic-handshake/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/012/468/shakeee.jpg",
+   "status": "cached",
+   "bytes": 73970,
+   "width": 900,
+   "height": 506
+  },
+  {
+   "family": "epic-handshake",
+   "file": "epic-handshake/v03_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/936/616/c86.jpg",
+   "status": "cached",
+   "bytes": 82226,
+   "width": 697,
+   "height": 500
+  },
+  {
+   "family": "epic-handshake",
+   "file": "epic-handshake/v04_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/297/002/16d.jpeg",
+   "status": "cached",
+   "bytes": 40581,
+   "width": 608,
+   "height": 436
+  },
+  {
+   "family": "epic-handshake",
+   "file": "epic-handshake/v05_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/973/945/a64.jpg",
+   "status": "cached",
+   "bytes": 80593,
+   "width": 697,
+   "height": 500
+  },
+  {
+   "family": "epic-handshake",
+   "file": "epic-handshake/v06_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/286/850/299.png",
+   "status": "cached",
+   "bytes": 543307,
+   "width": 900,
+   "height": 506
+  },
+  {
+   "family": "epic-handshake",
+   "file": "epic-handshake/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/290/202/de6.jpeg",
+   "status": "cached",
+   "bytes": 45421,
+   "width": 698,
+   "height": 500
+  },
+  {
+   "family": "epic-handshake",
+   "file": "epic-handshake/v08_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/936/616/c86.jpg",
+   "status": "cached",
+   "bytes": 43998,
+   "width": 697,
+   "height": 500
+  },
+  {
+   "family": "epic-handshake",
+   "file": "epic-handshake/v09_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/003/297/002/16d.jpeg",
+   "status": "cached",
+   "bytes": 37768,
+   "width": 608,
+   "height": 436
+  },
+  {
+   "family": "epic-handshake",
+   "file": "epic-handshake/v10_caption.jpg",
+   "url": "https://i.imgflip.com/b3js1v.jpg",
+   "status": "cached",
+   "bytes": 84982,
+   "width": 698,
+   "height": 500
+  },
+  {
+   "family": "epic-handshake",
+   "file": "epic-handshake/v11_caption.jpg",
+   "url": "https://i.imgflip.com/b08sqr.jpg",
+   "status": "cached",
+   "bytes": 83363,
+   "width": 698,
+   "height": 500
+  },
+  {
+   "family": "epic-handshake",
+   "file": "epic-handshake/v12_caption.jpg",
+   "url": "https://i.imgflip.com/azr98g.jpg",
+   "status": "cached",
+   "bytes": 77929,
+   "width": 698,
+   "height": 500
+  },
+  {
+   "family": "epic-handshake",
+   "file": "epic-handshake/v13_caption.jpg",
+   "url": "https://i.imgflip.com/b1v2zs.jpg",
+   "status": "cached",
+   "bytes": 78687,
+   "width": 698,
+   "height": 500
+  },
+  {
+   "family": "epic-handshake",
+   "file": "epic-handshake/v14_caption.jpg",
+   "url": "https://i.imgflip.com/b2i23l.jpg",
+   "status": "cached",
+   "bytes": 84706,
+   "width": 698,
+   "height": 500
+  },
+  {
+   "family": "epic-handshake",
+   "file": "epic-handshake/v15_crop.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/medium/000/012/468/shakeee.jpg",
+   "status": "cached",
+   "bytes": 10944,
+   "width": 200,
+   "height": 200
+  },
+  {
+   "family": "monkey-puppet",
+   "file": "monkey-puppet/original.jpg",
+   "url": "https://imgflip.com/s/meme/Monkey-Puppet.jpg",
+   "status": "cached",
+   "bytes": 66826,
+   "width": 923,
+   "height": 768
+  },
+  {
+   "family": "monkey-puppet",
+   "file": "monkey-puppet/v01_lowres.png",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/030/710/dd0.png",
+   "status": "cached",
+   "bytes": 235351,
+   "width": 680,
+   "height": 450
+  },
+  {
+   "family": "monkey-puppet",
+   "file": "monkey-puppet/v02_lowres.png",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/030/710/dd0.png",
+   "status": "failed",
+   "error": "http 403"
+  },
+  {
+   "family": "monkey-puppet",
+   "file": "monkey-puppet/v03_screenshot.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/135/517/deb.png",
+   "status": "cached",
+   "bytes": 363534,
+   "width": 549,
+   "height": 914
+  },
+  {
+   "family": "monkey-puppet",
+   "file": "monkey-puppet/v04_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/810/450/880.jpeg",
+   "status": "cached",
+   "bytes": 195563,
+   "width": 1000,
+   "height": 1200
+  },
+  {
+   "family": "monkey-puppet",
+   "file": "monkey-puppet/v05_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/840/760/80e.jpeg",
+   "status": "cached",
+   "bytes": 102150,
+   "width": 939,
+   "height": 939
+  },
+  {
+   "family": "monkey-puppet",
+   "file": "monkey-puppet/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/668/124/f4f.jpg",
+   "status": "cached",
+   "bytes": 240500,
+   "width": 1018,
+   "height": 1314
+  },
+  {
+   "family": "monkey-puppet",
+   "file": "monkey-puppet/v07_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/659/069/1e5.png",
+   "status": "cached",
+   "bytes": 619280,
+   "width": 720,
+   "height": 885
+  },
+  {
+   "family": "monkey-puppet",
+   "file": "monkey-puppet/v08_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/784/520/48f.jpeg",
+   "status": "cached",
+   "bytes": 83733,
+   "width": 939,
+   "height": 939
+  },
+  {
+   "family": "monkey-puppet",
+   "file": "monkey-puppet/v09_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/810/450/880.jpeg",
+   "status": "cached",
+   "bytes": 67093,
+   "width": 716,
+   "height": 859
+  },
+  {
+   "family": "monkey-puppet",
+   "file": "monkey-puppet/v10_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/840/760/80e.jpeg",
+   "status": "cached",
+   "bytes": 50047,
+   "width": 716,
+   "height": 716
+  },
+  {
+   "family": "monkey-puppet",
+   "file": "monkey-puppet/v11_caption.jpg",
+   "url": "https://i.imgflip.com/b33pzu.jpg",
+   "status": "cached",
+   "bytes": 75838,
+   "width": 601,
+   "height": 500
+  },
+  {
+   "family": "monkey-puppet",
+   "file": "monkey-puppet/v12_caption.jpg",
+   "url": "https://i.imgflip.com/b2bhqp.jpg",
+   "status": "cached",
+   "bytes": 66598,
+   "width": 601,
+   "height": 500
+  },
+  {
+   "family": "monkey-puppet",
+   "file": "monkey-puppet/v13_caption.jpg",
+   "url": "https://i.imgflip.com/b290jo.jpg",
+   "status": "cached",
+   "bytes": 117649,
+   "width": 923,
+   "height": 768
+  },
+  {
+   "family": "monkey-puppet",
+   "file": "monkey-puppet/v14_caption.jpg",
+   "url": "https://i.imgflip.com/avatj6.jpg",
+   "status": "cached",
+   "bytes": 61349,
+   "width": 601,
+   "height": 500
+  },
+  {
+   "family": "monkey-puppet",
+   "file": "monkey-puppet/v15_caption.jpg",
+   "url": "https://i.imgflip.com/aphd55.jpg",
+   "status": "cached",
+   "bytes": 63678,
+   "width": 601,
+   "height": 500
+  },
+  {
+   "family": "futurama-fry",
+   "file": "futurama-fry/original.jpg",
+   "url": "https://imgflip.com/s/meme/Futurama-Fry.jpg",
+   "status": "cached",
+   "bytes": 15810,
+   "width": 552,
+   "height": 414
+  },
+  {
+   "family": "futurama-fry",
+   "file": "futurama-fry/v01_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/006/026/NOTSUREIF.jpg",
+   "status": "cached",
+   "bytes": 640254,
+   "width": 9071,
+   "height": 5102
+  },
+  {
+   "family": "futurama-fry",
+   "file": "futurama-fry/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/006/026/NOTSUREIF.jpg",
+   "status": "cached",
+   "bytes": 1001982,
+   "width": 9071,
+   "height": 5102
+  },
+  {
+   "family": "futurama-fry",
+   "file": "futurama-fry/v03_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/131/393/ohoq9.jpg?1307465686",
+   "status": "cached",
+   "bytes": 36613,
+   "width": 600,
+   "height": 750
+  },
+  {
+   "family": "futurama-fry",
+   "file": "futurama-fry/v04_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/064/159/caf",
+   "status": "cached",
+   "bytes": 32449,
+   "width": 625,
+   "height": 630
+  },
+  {
+   "family": "futurama-fry",
+   "file": "futurama-fry/v05_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/228/943/958.jpg",
+   "status": "cached",
+   "bytes": 52251,
+   "width": 603,
+   "height": 452
+  },
+  {
+   "family": "futurama-fry",
+   "file": "futurama-fry/v06_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/795/699/3c9.png",
+   "status": "cached",
+   "bytes": 140692,
+   "width": 490,
+   "height": 367
+  },
+  {
+   "family": "futurama-fry",
+   "file": "futurama-fry/v07_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/977/981/d38.png",
+   "status": "cached",
+   "bytes": 414279,
+   "width": 603,
+   "height": 452
+  },
+  {
+   "family": "futurama-fry",
+   "file": "futurama-fry/v08_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/097/192/5ae.jpg",
+   "status": "cached",
+   "bytes": 72429,
+   "width": 960,
+   "height": 723
+  },
+  {
+   "family": "futurama-fry",
+   "file": "futurama-fry/v09_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/064/159/caf",
+   "status": "cached",
+   "bytes": 26772,
+   "width": 625,
+   "height": 630
+  },
+  {
+   "family": "futurama-fry",
+   "file": "futurama-fry/v10_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/228/943/958.jpg",
+   "status": "cached",
+   "bytes": 37143,
+   "width": 603,
+   "height": 452
+  },
+  {
+   "family": "futurama-fry",
+   "file": "futurama-fry/v11_caption.jpg",
+   "url": "https://i.imgflip.com/b248y2.jpg",
+   "status": "cached",
+   "bytes": 37559,
+   "width": 577,
+   "height": 433
+  },
+  {
+   "family": "futurama-fry",
+   "file": "futurama-fry/v12_caption.jpg",
+   "url": "https://i.imgflip.com/b1qhg7.jpg",
+   "status": "cached",
+   "bytes": 55738,
+   "width": 577,
+   "height": 433
+  },
+  {
+   "family": "futurama-fry",
+   "file": "futurama-fry/v13_caption.jpg",
+   "url": "https://i.imgflip.com/b2ein3.jpg",
+   "status": "cached",
+   "bytes": 42185,
+   "width": 533,
+   "height": 500
+  },
+  {
+   "family": "futurama-fry",
+   "file": "futurama-fry/v14_caption.jpg",
+   "url": "https://i.imgflip.com/76jz0s.jpg",
+   "status": "cached",
+   "bytes": 43414,
+   "width": 577,
+   "height": 433
+  },
+  {
+   "family": "futurama-fry",
+   "file": "futurama-fry/v15_caption.jpg",
+   "url": "https://i.imgflip.com/b3kl5s.jpg",
+   "status": "cached",
+   "bytes": 47193,
+   "width": 577,
+   "height": 433
+  },
+  {
+   "family": "batman-slapping-robin",
+   "file": "batman-slapping-robin/original.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/235/607/200.jpg",
+   "status": "cached",
+   "bytes": 51884,
+   "width": 311,
+   "height": 310
+  },
+  {
+   "family": "batman-slapping-robin",
+   "file": "batman-slapping-robin/v01_crop.jpg",
+   "url": "https://imgflip.com/s/meme/Batman-Slapping-Robin.jpg",
+   "status": "cached",
+   "bytes": 27801,
+   "width": 400,
+   "height": 387
+  },
+  {
+   "family": "batman-slapping-robin",
+   "file": "batman-slapping-robin/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/001/624/my_parents_are_deeaaaaaad.jpg",
+   "status": "cached",
+   "bytes": 38217,
+   "width": 320,
+   "height": 310
+  },
+  {
+   "family": "batman-slapping-robin",
+   "file": "batman-slapping-robin/v03_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/001/624/my_parents_are_deeaaaaaad.jpg",
+   "status": "cached",
+   "bytes": 98514,
+   "width": 600,
+   "height": 581
+  },
+  {
+   "family": "batman-slapping-robin",
+   "file": "batman-slapping-robin/v04_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/032/373/120345790360.jpg",
+   "status": "cached",
+   "bytes": 86265,
+   "width": 320,
+   "height": 310
+  },
+  {
+   "family": "batman-slapping-robin",
+   "file": "batman-slapping-robin/v05_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/011/836/bbe.png",
+   "status": "cached",
+   "bytes": 270767,
+   "width": 400,
+   "height": 387
+  },
+  {
+   "family": "batman-slapping-robin",
+   "file": "batman-slapping-robin/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/614/127/599.jpg",
+   "status": "cached",
+   "bytes": 62824,
+   "width": 640,
+   "height": 640
+  },
+  {
+   "family": "batman-slapping-robin",
+   "file": "batman-slapping-robin/v07_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/003/207/154/33f.jpeg",
+   "status": "cached",
+   "bytes": 55120,
+   "width": 508,
+   "height": 491
+  },
+  {
+   "family": "batman-slapping-robin",
+   "file": "batman-slapping-robin/v08_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/668/879/ea8.jpg",
+   "status": "cached",
+   "bytes": 83289,
+   "width": 508,
+   "height": 491
+  },
+  {
+   "family": "batman-slapping-robin",
+   "file": "batman-slapping-robin/v09_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/933/045/53a.jpeg",
+   "status": "cached",
+   "bytes": 116220,
+   "width": 1010,
+   "height": 984
+  },
+  {
+   "family": "batman-slapping-robin",
+   "file": "batman-slapping-robin/v10_lowres.png",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/003/011/836/bbe.png",
+   "status": "cached",
+   "bytes": 322981,
+   "width": 400,
+   "height": 387
+  },
+  {
+   "family": "batman-slapping-robin",
+   "file": "batman-slapping-robin/v11_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/614/127/599.jpg",
+   "status": "cached",
+   "bytes": 52796,
+   "width": 640,
+   "height": 640
+  },
+  {
+   "family": "batman-slapping-robin",
+   "file": "batman-slapping-robin/v12_caption.jpg",
+   "url": "https://i.imgflip.com/b3am71.jpg",
+   "status": "cached",
+   "bytes": 82634,
+   "width": 508,
+   "height": 491
+  },
+  {
+   "family": "batman-slapping-robin",
+   "file": "batman-slapping-robin/v13_caption.jpg",
+   "url": "https://i.imgflip.com/b223ib.jpg",
+   "status": "cached",
+   "bytes": 101285,
+   "width": 508,
+   "height": 491
+  },
+  {
+   "family": "batman-slapping-robin",
+   "file": "batman-slapping-robin/v14_caption.jpg",
+   "url": "https://i.imgflip.com/b06qo9.jpg",
+   "status": "cached",
+   "bytes": 79578,
+   "width": 508,
+   "height": 491
+  },
+  {
+   "family": "batman-slapping-robin",
+   "file": "batman-slapping-robin/v15_caption.jpg",
+   "url": "https://i.imgflip.com/b2ib1q.jpg",
+   "status": "cached",
+   "bytes": 80688,
+   "width": 508,
+   "height": 491
+  },
+  {
+   "family": "sad-keanu",
+   "file": "sad-keanu/original.jpg",
+   "url": "https://imgflip.com/s/meme/Sad-Keanu.jpg",
+   "status": "cached",
+   "bytes": 28066,
+   "width": 500,
+   "height": 346
+  },
+  {
+   "family": "sad-keanu",
+   "file": "sad-keanu/v01_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/002/862/SadKeanu.jpg",
+   "status": "cached",
+   "bytes": 158169,
+   "width": 1280,
+   "height": 720
+  },
+  {
+   "family": "sad-keanu",
+   "file": "sad-keanu/v02_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/002/862/SadKeanu.jpg",
+   "status": "cached",
+   "bytes": 127338,
+   "width": 1280,
+   "height": 720
+  },
+  {
+   "family": "sad-keanu",
+   "file": "sad-keanu/v03_screenshot.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/148/433/e1f.png",
+   "status": "cached",
+   "bytes": 250720,
+   "width": 848,
+   "height": 515
+  },
+  {
+   "family": "sad-keanu",
+   "file": "sad-keanu/v04_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/148/386/1275371232650.jpg?1310681121",
+   "status": "cached",
+   "bytes": 160754,
+   "width": 796,
+   "height": 1146
+  },
+  {
+   "family": "sad-keanu",
+   "file": "sad-keanu/v05_crop.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/000/053/379/Untitled-2.jpg",
+   "status": "cached",
+   "bytes": 80892,
+   "width": 500,
+   "height": 703
+  },
+  {
+   "family": "sad-keanu",
+   "file": "sad-keanu/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/386/268/7fc.jpg",
+   "status": "cached",
+   "bytes": 136467,
+   "width": 1200,
+   "height": 762
+  },
+  {
+   "family": "sad-keanu",
+   "file": "sad-keanu/v07_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/313/005/63e.png",
+   "status": "cached",
+   "bytes": 350678,
+   "width": 3300,
+   "height": 2550
+  },
+  {
+   "family": "sad-keanu",
+   "file": "sad-keanu/v08_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/431/423/257.jpg",
+   "status": "cached",
+   "bytes": 473069,
+   "width": 1005,
+   "height": 776
+  },
+  {
+   "family": "sad-keanu",
+   "file": "sad-keanu/v09_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/439/692/967.png",
+   "status": "cached",
+   "bytes": 1661994,
+   "width": 1280,
+   "height": 720
+  },
+  {
+   "family": "sad-keanu",
+   "file": "sad-keanu/v10_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/001/386/268/7fc.jpg",
+   "status": "cached",
+   "bytes": 45984,
+   "width": 680,
+   "height": 432
+  },
+  {
+   "family": "sad-keanu",
+   "file": "sad-keanu/v11_lowres.png",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/001/313/005/63e.png",
+   "status": "cached",
+   "bytes": 178337,
+   "width": 680,
+   "height": 525
+  },
+  {
+   "family": "sad-keanu",
+   "file": "sad-keanu/v12_caption.jpg",
+   "url": "https://i.imgflip.com/327ock.jpg",
+   "status": "cached",
+   "bytes": 60224,
+   "width": 601,
+   "height": 415
+  },
+  {
+   "family": "sad-keanu",
+   "file": "sad-keanu/v13_caption.jpg",
+   "url": "https://i.imgflip.com/83pyo6.jpg",
+   "status": "cached",
+   "bytes": 72232,
+   "width": 500,
+   "height": 519
+  },
+  {
+   "family": "sad-keanu",
+   "file": "sad-keanu/v14_caption.jpg",
+   "url": "https://i.imgflip.com/72b8ps.jpg",
+   "status": "cached",
+   "bytes": 60627,
+   "width": 537,
+   "height": 465
+  },
+  {
+   "family": "sad-keanu",
+   "file": "sad-keanu/v15_caption.jpg",
+   "url": "https://i.imgflip.com/846v4s.jpg",
+   "status": "cached",
+   "bytes": 60028,
+   "width": 601,
+   "height": 415
+  },
+  {
+   "family": "kombucha-girl",
+   "file": "kombucha-girl/original.webp",
+   "url": "https://i.imgflip.com/39osmx.png",
+   "status": "cached",
+   "bytes": 143576,
+   "width": 529,
+   "height": 452
+  },
+  {
+   "family": "kombucha-girl",
+   "file": "kombucha-girl/v01_crop.webp",
+   "url": "https://i.imgflip.com/3fldan.png",
+   "status": "cached",
+   "bytes": 246080,
+   "width": 1080,
+   "height": 926
+  },
+  {
+   "family": "kombucha-girl",
+   "file": "kombucha-girl/v02_crop.jpg",
+   "url": "https://i.imgflip.com/41qet2.jpg",
+   "status": "cached",
+   "bytes": 13510,
+   "width": 474,
+   "height": 473
+  },
+  {
+   "family": "kombucha-girl",
+   "file": "kombucha-girl/v03_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/030/781/kombuchaahh.jpg",
+   "status": "cached",
+   "bytes": 48212,
+   "width": 800,
+   "height": 450
+  },
+  {
+   "family": "kombucha-girl",
+   "file": "kombucha-girl/v04_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/030/781/kombuchaahh.jpg",
+   "status": "cached",
+   "bytes": 50935,
+   "width": 800,
+   "height": 450
+  },
+  {
+   "family": "kombucha-girl",
+   "file": "kombucha-girl/v05_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/891/389/628.jpg",
+   "status": "cached",
+   "bytes": 49557,
+   "width": 640,
+   "height": 610
+  },
+  {
+   "family": "kombucha-girl",
+   "file": "kombucha-girl/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/758/247/d15",
+   "status": "cached",
+   "bytes": 48638,
+   "width": 960,
+   "height": 960
+  },
+  {
+   "family": "kombucha-girl",
+   "file": "kombucha-girl/v07_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/504/313/33a.png",
+   "status": "cached",
+   "bytes": 416247,
+   "width": 600,
+   "height": 551
+  },
+  {
+   "family": "kombucha-girl",
+   "file": "kombucha-girl/v08_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/085/269/9b0",
+   "status": "cached",
+   "bytes": 59743,
+   "width": 800,
+   "height": 751
+  },
+  {
+   "family": "kombucha-girl",
+   "file": "kombucha-girl/v09_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/097/436/782",
+   "status": "cached",
+   "bytes": 35592,
+   "width": 640,
+   "height": 529
+  },
+  {
+   "family": "kombucha-girl",
+   "file": "kombucha-girl/v10_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/001/891/389/628.jpg",
+   "status": "cached",
+   "bytes": 42194,
+   "width": 640,
+   "height": 610
+  },
+  {
+   "family": "kombucha-girl",
+   "file": "kombucha-girl/v11_lowres.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/001/758/247/d15",
+   "status": "cached",
+   "bytes": 33152,
+   "width": 680,
+   "height": 680
+  },
+  {
+   "family": "kombucha-girl",
+   "file": "kombucha-girl/v12_caption.jpg",
+   "url": "https://i.imgflip.com/aph8ue.jpg",
+   "status": "cached",
+   "bytes": 64061,
+   "width": 541,
+   "height": 462
+  },
+  {
+   "family": "kombucha-girl",
+   "file": "kombucha-girl/v13_caption.jpg",
+   "url": "https://i.imgflip.com/amd8pm.jpg",
+   "status": "cached",
+   "bytes": 53613,
+   "width": 540,
+   "height": 462
+  },
+  {
+   "family": "kombucha-girl",
+   "file": "kombucha-girl/v14_caption.jpg",
+   "url": "https://i.imgflip.com/agurg9.jpg",
+   "status": "cached",
+   "bytes": 44031,
+   "width": 540,
+   "height": 462
+  },
+  {
+   "family": "kombucha-girl",
+   "file": "kombucha-girl/v15_caption.jpg",
+   "url": "https://i.imgflip.com/99k856.jpg",
+   "status": "cached",
+   "bytes": 55580,
+   "width": 540,
+   "height": 462
+  },
+  {
+   "family": "tuxedo-winnie-the-pooh",
+   "file": "tuxedo-winnie-the-pooh/original.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/original/000/029/060/cover3.jpg",
+   "status": "cached",
+   "bytes": 198990,
+   "width": 1138,
+   "height": 640
+  },
+  {
+   "family": "tuxedo-winnie-the-pooh",
+   "file": "tuxedo-winnie-the-pooh/v01_lowres.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/facebook/000/029/060/cover3.jpg",
+   "status": "cached",
+   "bytes": 54786,
+   "width": 1138,
+   "height": 640
+  },
+  {
+   "family": "tuxedo-winnie-the-pooh",
+   "file": "tuxedo-winnie-the-pooh/v02_crop.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/001/474/924/d0b.jpg",
+   "status": "cached",
+   "bytes": 704177,
+   "width": 1800,
+   "height": 1080
+  },
+  {
+   "family": "tuxedo-winnie-the-pooh",
+   "file": "tuxedo-winnie-the-pooh/v03_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/793/084/561.png",
+   "status": "cached",
+   "bytes": 129833,
+   "width": 720,
+   "height": 891
+  },
+  {
+   "family": "tuxedo-winnie-the-pooh",
+   "file": "tuxedo-winnie-the-pooh/v04_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/790/084/5d8.png",
+   "status": "cached",
+   "bytes": 1039029,
+   "width": 2750,
+   "height": 2500
+  },
+  {
+   "family": "tuxedo-winnie-the-pooh",
+   "file": "tuxedo-winnie-the-pooh/v05_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/759/927/3a2.jpeg",
+   "status": "cached",
+   "bytes": 49121,
+   "width": 680,
+   "height": 720
+  },
+  {
+   "family": "tuxedo-winnie-the-pooh",
+   "file": "tuxedo-winnie-the-pooh/v06_caption.jpg",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/948/937/eb2.jpeg",
+   "status": "cached",
+   "bytes": 34272,
+   "width": 687,
+   "height": 500
+  },
+  {
+   "family": "tuxedo-winnie-the-pooh",
+   "file": "tuxedo-winnie-the-pooh/v07_caption.png",
+   "url": "https://i.kym-cdn.com/photos/images/original/002/801/282/b29.png",
+   "status": "cached",
+   "bytes": 356127,
+   "width": 1080,
+   "height": 1233
+  },
+  {
+   "family": "tuxedo-winnie-the-pooh",
+   "file": "tuxedo-winnie-the-pooh/v08_lowres.png",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/793/084/561.png",
+   "status": "cached",
+   "bytes": 462677,
+   "width": 716,
+   "height": 886
+  },
+  {
+   "family": "tuxedo-winnie-the-pooh",
+   "file": "tuxedo-winnie-the-pooh/v09_lowres.png",
+   "url": "https://i.kym-cdn.com/photos/images/newsfeed/002/790/084/5d8.png",
+   "status": "cached",
+   "bytes": 243606,
+   "width": 716,
+   "height": 651
+  },
+  {
+   "family": "tuxedo-winnie-the-pooh",
+   "file": "tuxedo-winnie-the-pooh/v10_caption.jpg",
+   "url": "https://i.imgflip.com/ay59k3.jpg",
+   "status": "cached",
+   "bytes": 93001,
+   "width": 800,
+   "height": 582
+  },
+  {
+   "family": "tuxedo-winnie-the-pooh",
+   "file": "tuxedo-winnie-the-pooh/v11_caption.jpg",
+   "url": "https://i.imgflip.com/b1zze2.jpg",
+   "status": "cached",
+   "bytes": 37411,
+   "width": 687,
+   "height": 500
+  },
+  {
+   "family": "tuxedo-winnie-the-pooh",
+   "file": "tuxedo-winnie-the-pooh/v12_caption.jpg",
+   "url": "https://i.imgflip.com/b2nblj.jpg",
+   "status": "cached",
+   "bytes": 57521,
+   "width": 687,
+   "height": 500
+  },
+  {
+   "family": "tuxedo-winnie-the-pooh",
+   "file": "tuxedo-winnie-the-pooh/v13_caption.jpg",
+   "url": "https://i.imgflip.com/b2nib3.jpg",
+   "status": "cached",
+   "bytes": 62900,
+   "width": 800,
+   "height": 582
+  },
+  {
+   "family": "tuxedo-winnie-the-pooh",
+   "file": "tuxedo-winnie-the-pooh/v14_caption.jpg",
+   "url": "https://i.imgflip.com/b2np6f.jpg",
+   "status": "cached",
+   "bytes": 47834,
+   "width": 687,
+   "height": 500
+  },
+  {
+   "family": "tuxedo-winnie-the-pooh",
+   "file": "tuxedo-winnie-the-pooh/v15_crop.jpg",
+   "url": "https://i.kym-cdn.com/entries/icons/medium/000/029/060/cover3.jpg",
+   "status": "cached",
+   "bytes": 8903,
+   "width": 200,
+   "height": 200
+  }
+ ]
+}

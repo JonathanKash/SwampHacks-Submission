@@ -1,0 +1,868 @@
+{
+ "_doc": "Hand-curated provenance per family. 'original' picks the root image; 'kym_exclude' drops KYM gallery items that are not derivatives of the root (fan art, 'where are they now' photos, tweets about the subject); 'components' are ancestors of a composite root; 'related_not_derived' are same-shoot / same-subject photos that are NOT derived from the root (hard negatives). 'kym_exclude' also applies to Imgflip user memes; items are matched by substring of URL or title.",
+ "families": [
+  {
+   "id": "distracted-boyfriend",
+   "name": "Distracted Boyfriend",
+   "original": {
+    "url": "https://i.kym-cdn.com/photos/images/original/001/287/555/106.jpg",
+    "source_url": "https://www.istockphoto.com/photo/disloyal-man-with-his-girlfriend-looking-at-another-girl-gm493656728-77018851",
+    "source_note": "Stock photo 'Disloyal man with his girlfriend looking at another girl' by Antonio Guillem (Girona, Spain), uploaded to iStock/Shutterstock in Nov 2015. File used here is the comp-size copy archived on Know Your Meme (origin section); the licensed full-resolution file is paywalled. First captioned use: Turkish Facebook page 'Prog Dusmanlarina Verilen Muthis Cevaplar', 2017-01-30 (Phil Collins / pop / prog). KYM: https://knowyourmeme.com/memes/distracted-boyfriend ; Wikipedia: https://en.wikipedia.org/wiki/Distracted_boyfriend",
+    "date": "2015-11-02",
+    "is_true_source_photo": true
+   },
+   "kym_exclude": [
+    "Pedro Pascal",
+    "Cats and boxes",
+    "002/925/641/448",
+    "002/924/127/457",
+    "002/924/136/96f",
+    "002/929/783/c2e"
+   ],
+   "origin_kinds": {
+    "001/289/193/ff0": [
+     "caption",
+     "Phil Collins / pop / prog caption - earliest widely shared captioned version (Facebook, 2017-01-30), as archived on KYM"
+    ]
+   }
+  },
+  {
+   "id": "disaster-girl",
+   "name": "Disaster Girl",
+   "original": {
+    "url": "https://i.kym-cdn.com/photos/images/original/000/000/130/disaster-girl.jpg",
+    "source_url": "https://knowyourmeme.com/memes/disaster-girl",
+    "source_note": "Photo of Zoe Roth taken by her father Dave Roth in January 2005 during a controlled-burn fire-department drill in Mebane, North Carolina; titled 'Firestarter', first uploaded to Zooomr on 2007-01-02 and submitted to JPG Magazine's 'Emotion Capture' contest on 2007-11-29 (published 2008). File used here is the early copy archived on KYM (photo id 130); Dave Roth's own upload is no longer online. Wikipedia: https://en.wikipedia.org/wiki/Disaster_Girl",
+    "date": "2005-01",
+    "is_true_source_photo": true
+   },
+   "kym_exclude": [
+    "Disaster Japanese Masked Guy",
+    "Meme art theory",
+    "002/620/629/f2a",
+    "002/744/892/8d3",
+    "002/193/328/158"
+   ]
+  },
+  {
+   "id": "hide-the-pain-harold",
+   "name": "Hide the Pain Harold",
+   "original": {
+    "url": "https://upload.wikimedia.org/wikipedia/en/a/a4/Hide_the_Pain_Harold_%28Andr%C3%A1s_Arat%C3%B3%29.jpg",
+    "source_url": "https://knowyourmeme.com/memes/hide-the-pain-harold",
+    "source_note": "Stock photograph of Hungarian electrical engineer Andras Arato at a laptop with a coffee mug, from a series of stock shoots (c. 2010-2011) sold through Dreamstime. The licensed original is paywalled; root file is the low-resolution fair-use copy of that laptop photo on Wikipedia (the frame used by the Imgflip template and almost all macros). Earliest known attention: Facepunch forum thread, 2011-09-13 (user Greenen72 posted the Dreamstime-watermarked photos). The Know Your Meme entry icon is a DIFFERENT photo from the same shoot (Harold on the phone) and is kept as a hard negative. Wikipedia: https://en.wikipedia.org/wiki/Hide_the_Pain_Harold",
+    "date": "2011-09-13",
+    "is_true_source_photo": false
+   },
+   "kym_exclude": [
+    "Jessica Tarlov",
+    "002/654/469/499"
+   ],
+   "related_not_derived": [
+    {
+     "url": "https://i.kym-cdn.com/entries/icons/original/000/016/546/hidethepainharold.jpg",
+     "note": "Know Your Meme entry icon: Harold on the phone - a different photo from the same Dreamstime shoot, NOT derived from the laptop root"
+    },
+    {
+     "url": "https://i.kym-cdn.com/photos/images/original/000/839/197/f99.jpg",
+     "note": "Different photo from the same Dreamstime shoot (Harold in a suit on the phone, watermark visible) - same subject, NOT derived from the root"
+    },
+    {
+     "url": "https://i.kym-cdn.com/photos/images/original/000/839/198/081.jpg",
+     "note": "Different photo from the same Dreamstime shoot (Harold at a meeting, watermark visible) - same subject, NOT derived from the root"
+    }
+   ],
+   "skip_icon": true,
+   "template_kind": [
+    "other",
+    "Imgflip template: two stacked copies of the laptop photo (vertical two-panel composite)"
+   ],
+   "wiki_files": []
+  },
+  {
+   "id": "success-kid",
+   "name": "Success Kid",
+   "original": {
+    "url": "https://upload.wikimedia.org/wikipedia/en/f/ff/SuccessKid.jpg",
+    "source_url": "https://en.wikipedia.org/wiki/Success_Kid",
+    "source_note": "Photo of 11-month-old Sammy Griner taken by his mother Laney Griner on 2007-08-26 at a beach in Jacksonville, Florida, posted to her Flickr account (and later Getty Images, since removed). The meme template is a crop of that photo; this file is the low-resolution fair-use copy on Wikipedia. KYM: https://knowyourmeme.com/memes/success-kid-i-hate-sandcastles",
+    "date": "2007-08-26",
+    "is_true_source_photo": false
+   },
+   "kym_exclude": [
+    "Sam Griner now",
+    "Turned 18",
+    "never give permission",
+    "Lucky"
+   ],
+   "origin_kinds": {
+    "000/185/885/SANDCASTLES": [
+     "caption",
+     "'I hate sandcastles' - the 2008 captioned version that first spread the image (archived on KYM)"
+    ]
+   }
+  },
+  {
+   "id": "woman-yelling-at-a-cat",
+   "name": "Woman Yelling at a Cat",
+   "original": {
+    "url": "https://imgflip.com/s/meme/Woman-Yelling-At-Cat.jpg",
+    "source_url": "https://knowyourmeme.com/memes/woman-yelling-at-a-cat",
+    "source_note": "Composite meme. First paired on Twitter by @MISSINGEGIRL on 2019-05-01 ('These photos together is making me lose it'). Left panel: still of Taylor Armstrong (with Kyle Richards) from The Real Housewives of Beverly Hills S2E14 'Malibu Beach Party From Hell', aired 2011-12-05 (Bravo), widely circulated via a Daily Mail article on 2011-12-06. Right panel: photo of Smudge the cat posted to Tumblr by deadbefordeath on 2018-06-19. Root file here is the Imgflip template (the clean side-by-side composite); the two source photos are listed under 'components'. Wikipedia: https://en.wikipedia.org/wiki/Woman_Yelling_at_a_Cat",
+    "date": "2019-05-01",
+    "is_true_source_photo": false
+   },
+   "components": [
+    {
+     "url": "https://i.kym-cdn.com/photos/images/original/001/505/717/49b.jpg",
+     "note": "Left component: Taylor Armstrong crying/pointing, RHOBH S2E14 still (Bravo, 2011-12-05)"
+    },
+    {
+     "url": "https://i.kym-cdn.com/photos/images/original/001/505/718/136.jpg",
+     "note": "Right component: Smudge the cat at the dinner table, Tumblr (deadbefordeath), 2018-06-19"
+    }
+   ],
+   "origin_kinds": {
+    "001/505/720/359": [
+     "screenshot",
+     "Screenshot of the @MISSINGEGIRL tweet (2019-05-01) that first paired the two photos"
+    ]
+   },
+   "kym_exclude": [
+    "Adam Thomas",
+    "Rita and Stan",
+    "003/225/851/742",
+    "003/212/201/274"
+   ],
+   "wiki_files": [
+    "WomanYellingAtACat"
+   ]
+  },
+  {
+   "id": "drake-hotline-bling",
+   "name": "Drake Hotline Bling (Drakeposting)",
+   "original": {
+    "url": "https://imgflip.com/s/meme/Drake-Hotline-Bling.jpg",
+    "source_url": "https://www.youtube.com/watch?v=uxpDa-c-4Mc",
+    "source_note": "Two frames from Drake's 'Hotline Bling' music video (dir. Director X), released 2015-10-19. The meme root is the two-panel composite (disapprove / approve); this file is the Imgflip template. Earliest reaction-image use: 4chan /v/, 2015-10-31 (per KYM). KYM: https://knowyourmeme.com/memes/drakeposting",
+    "date": "2015-10-19",
+    "is_true_source_photo": false
+   },
+   "kym_exclude": [
+    "rariatoo",
+    "Picard",
+    "003/075/434/4b5",
+    "003/010/604/f94",
+    "003/021/795/f9f"
+   ],
+   "wiki_files": [
+    "663255-hotline-edit"
+   ]
+  },
+  {
+   "id": "expanding-brain",
+   "name": "Expanding Brain / Galaxy Brain",
+   "original": {
+    "url": "https://i.kym-cdn.com/photos/images/original/001/217/719/10a.jpg",
+    "source_url": "https://knowyourmeme.com/memes/galaxy-brain",
+    "source_note": "Earliest widely shared Expanding Brain image: the 'Whomst' four-panel posted to /r/dankmemes by janskishimanski on 2017-01-31 (archived on KYM). The brain panels are themselves stock/clip-art images of unknown provenance, so this root is the earliest meme instance, not a source photograph.",
+    "date": "2017-01-31",
+    "is_true_source_photo": false
+   },
+   "kym_exclude": [
+    "Iceberg",
+    "002/845/331/135"
+   ],
+   "icon_kind": [
+    "crop",
+    "Know Your Meme entry icon: single brain panel cropped out of the four-panel root"
+   ]
+  },
+  {
+   "id": "two-buttons",
+   "name": "Two Buttons (Daily Struggle)",
+   "original": {
+    "url": "https://i.kym-cdn.com/photos/images/original/000/970/486/e2c.jpg",
+    "source_url": "https://jake-clark.tumblr.com/",
+    "source_note": "Original comic by animator Jake Clark posted to his Tumblr on 2014-10-25 (character sweating over 'BE A DICK' / 'DON'T BE A DICK' buttons). File is the KYM-archived copy of the original comic. KYM: https://knowyourmeme.com/memes/daily-struggle-two-buttons",
+    "date": "2014-10-25",
+    "is_true_source_photo": true
+   },
+   "kym_exclude": [
+    "002/950/250/a51",
+    "002/939/221/d93"
+   ]
+  },
+  {
+   "id": "is-this-a-pigeon",
+   "name": "Is This a Pigeon?",
+   "original": {
+    "url": "https://i.kym-cdn.com/entries/icons/original/000/017/299/DmbzJspWwAEprcQ.jpg",
+    "source_url": "https://knowyourmeme.com/memes/is-this-a-pigeon",
+    "source_note": "Frame from The Brave Fighter of Sun Fighbird (Taiyou no Yuusha Fighbird), season 1 episode 3, first broadcast in Japan in February 1991, with English fansub caption. First posted to Tumblr on 2011-12-06. Root file is the KYM entry icon (a frame grab with subtitle, not a broadcast master). Wikipedia: https://en.wikipedia.org/wiki/Is_This_a_Pigeon%3F",
+    "date": "1991-02",
+    "is_true_source_photo": false
+   },
+   "kym_exclude": [
+    "Cringetober",
+    "Ami Ounki"
+   ],
+   "origin_kinds": {
+    "000/912/336/58c": [
+     "screenshot",
+     "Screenshot of the 2011-12-06 Tumblr post that first circulated the frame"
+    ]
+   }
+  },
+  {
+   "id": "surprised-pikachu",
+   "name": "Surprised Pikachu",
+   "original": {
+    "url": "https://imgflip.com/s/meme/Surprised-Pikachu.jpg",
+    "source_url": "https://knowyourmeme.com/memes/surprised-pikachu",
+    "source_note": "Frame from the Pokemon anime, season 1 episode 10 'Bulbasaur and the Hidden Village' (Japanese broadcast 1997-06-10), at about 3:05. First reaction-image use: Tumblr user popokko, 2018-09-26. Root file is the Imgflip template (low-resolution frame grab), not a broadcast master.",
+    "date": "1997-06-10",
+    "is_true_source_photo": false
+   },
+   "kym_exclude": [
+    "Felt like drawing",
+    "Pumpkachu",
+    "002/880/832/f4c",
+    "003/099/494/8c6"
+   ]
+  },
+  {
+   "id": "this-is-fine",
+   "name": "This Is Fine",
+   "original": {
+    "url": "https://i.kym-cdn.com/photos/images/original/000/962/640/658.png",
+    "source_url": "https://gunshowcomic.com/648",
+    "source_note": "KC Green's Gunshow comic #648 'On Fire' (a.k.a. 'The Pills Are Working'), published 2013-01-09. Root file is the KYM-archived copy of the full six-panel strip; the meme is a crop of the first two panels. Wikipedia: https://en.wikipedia.org/wiki/This_Is_Fine",
+    "date": "2013-01-09",
+    "is_true_source_photo": true
+   },
+   "kym_exclude": [
+    "002/695/956/406",
+    "002/580/787/12f",
+    "001/392/843/769"
+   ],
+   "template_kind": [
+    "crop",
+    "Imgflip template: two-panel crop of the original strip"
+   ],
+   "wiki_files": [
+    "__none__"
+   ]
+  },
+  {
+   "id": "roll-safe",
+   "name": "Roll Safe",
+   "original": {
+    "url": "https://i.kym-cdn.com/entries/icons/original/000/022/138/highresrollsafe.jpg",
+    "source_url": "https://knowyourmeme.com/memes/roll-safe",
+    "source_note": "Frame of actor Kayode Ewumi as 'Roll Safe' (Reece Simpson) in the BBC Three mini-documentary on Hood Documentary, uploaded to YouTube 2016-06-01. Meme began with a @FootyHumor tweet on 2016-11-15. Root file is a high-resolution frame grab (KYM entry icon), not the broadcast master. Wikipedia: https://en.wikipedia.org/wiki/Roll_Safe",
+    "date": "2016-06-01",
+    "is_true_source_photo": false
+   },
+   "kym_exclude": [
+    "Kayode Ewumi now",
+    "001/967/844/f1a"
+   ]
+  },
+  {
+   "id": "ancient-aliens",
+   "name": "Ancient Aliens (Giorgio Tsoukalos)",
+   "original": {
+    "url": "https://i.kym-cdn.com/photos/images/original/002/007/973/b98.jpg",
+    "source_url": "https://knowyourmeme.com/memes/ancient-aliens",
+    "source_note": "Still of Giorgio A. Tsoukalos from the History Channel series Ancient Aliens (premiered 2010-04-20). Root file is the 'HD Ancient Aliens Template' frame grab hosted on KYM; the earliest meme macros (2010-2011) used a lower-resolution grab of the same shot.",
+    "date": "2010-04-20",
+    "is_true_source_photo": false
+   },
+   "kym_exclude": [
+    "at the mic",
+    "Unimportant Mysteries",
+    "Anubis",
+    "Crypto-137",
+    "HD Ancient Aliens Template",
+    "001/492/522/703",
+    "001/644/938/bf9",
+    "002/256/459/af8"
+   ]
+  },
+  {
+   "id": "bad-luck-brian",
+   "name": "Bad Luck Brian",
+   "original": {
+    "url": "https://i.kym-cdn.com/entries/icons/original/000/009/515/BadLuckBryan.jpg",
+    "source_url": "https://knowyourmeme.com/memes/bad-luck-brian",
+    "source_note": "School yearbook photo of Kyle Craven (Ohio, c. 2005-2006; he deliberately pulled the face). First macro posted to Reddit by his friend Ian Davies on 2012-01-23 ('Takes driving test... gets first DUI'). Root file is the uncaptioned template copy (KYM entry icon), a scan/crop of the yearbook print. Wikipedia: https://en.wikipedia.org/wiki/Bad_Luck_Brian",
+    "date": "2012-01-23",
+    "is_true_source_photo": false
+   },
+   "kym_exclude": [
+    "grandpa"
+   ],
+   "origin_kinds": {
+    "000/271/309/cf1": [
+     "caption",
+     "First Bad Luck Brian macro (Reddit, 2012-01-23, quickmeme watermark)"
+    ],
+    "000/271/189/e7d": [
+     "caption",
+     "Second macro from 2012-01-23 that reached the /r/AdviceAnimals front page"
+    ]
+   },
+   "wiki_files": [
+    "Bad Luck Brian.jpg"
+   ]
+  },
+  {
+   "id": "overly-attached-girlfriend",
+   "name": "Overly Attached Girlfriend",
+   "original": {
+    "url": "https://i.kym-cdn.com/entries/icons/original/000/010/496/Overly_attached_GF.jpg",
+    "source_url": "https://www.youtube.com/watch?v=Yh0AhrY9GjA",
+    "source_note": "Frame of Laina Morris from her webcam video 'JB Fanvideo' (YouTube user wzr0713), uploaded 2012-06-06 for Justin Bieber's 'Girlfriend' sing-off. Root file is the frame grab used as template (KYM entry icon). Wikipedia: https://en.wikipedia.org/wiki/Overly_Attached_Girlfriend ; KYM: https://knowyourmeme.com/memes/overly-attached-girlfriend",
+    "date": "2012-06-06",
+    "is_true_source_photo": false
+   },
+   "kym_exclude": [
+    "AI generated",
+    "002/026/361/bb9",
+    "002/026/230/b04",
+    "002/643/141/59f"
+   ]
+  },
+  {
+   "id": "grumpy-cat",
+   "name": "Grumpy Cat",
+   "original": {
+    "url": "https://i.kym-cdn.com/photos/images/original/000/406/325/b31.jpg",
+    "source_url": "https://www.reddit.com/r/pics/comments/10bu17/grumpy_cat/",
+    "source_note": "Photo of Tardar Sauce ('Grumpy Cat') taken by Bryan Bundesen (brother of owner Tabatha Bundesen) and posted to /r/pics on 2012-09-22/23. Root file is the KYM-archived copy of that original photo. Wikipedia: https://en.wikipedia.org/wiki/Grumpy_Cat ; KYM: https://knowyourmeme.com/memes/grumpy-cat Note: Grumpy Cat has two widely used source photos; this family is rooted at the Reddit original (pillow/hand shot, used by the Imgflip template). The blue-eyed close-up is a different photo and is kept as a hard negative.",
+    "date": "2012-09-22",
+    "is_true_source_photo": true
+   },
+   "kym_exclude": [
+    "R.I.P",
+    "RIP",
+    "in the past now",
+    "Lushsux",
+    "no dignity",
+    "Come join us",
+    "Grumpy Face For Grumpy",
+    "Grumpy Cat's Secret",
+    "000/025/917",
+    "000/269/723",
+    "000/279/772",
+    "002/375/173/84c",
+    "Meme Facts",
+    "ay6jm4"
+   ],
+   "related_not_derived": [
+    {
+     "url": "https://i.kym-cdn.com/photos/images/original/000/406/346/fd3.jpg",
+     "note": "Second photo from the same 2012-09-22 Reddit post (lesser-used original) - same subject, NOT derived from the root"
+    },
+    {
+     "url": "https://i.kym-cdn.com/entries/icons/original/000/011/365/GRUMPYCAT.jpg",
+     "note": "Know Your Meme entry icon: the blue-eyed close-up of Tardar Sauce - a different, later photo (2012-2013) widely used as a second template, NOT derived from the Reddit root"
+    }
+   ],
+   "skip_icon": true
+  },
+  {
+   "id": "doge",
+   "name": "Doge",
+   "original": {
+    "url": "https://i.kym-cdn.com/photos/images/original/000/581/296/c09.jpg",
+    "source_url": "https://kabosu112.exblog.jp/9944144/",
+    "source_note": "Photo of Kabosu the Shiba Inu taken by her owner, kindergarten teacher Atsuko Sato, posted to her blog on 2010-02-13. Root file is the KYM-archived copy ('Doge - The Original Image'). Wikipedia: https://en.wikipedia.org/wiki/Doge_(meme) ; KYM: https://knowyourmeme.com/memes/doge",
+    "date": "2010-02-13",
+    "is_true_source_photo": true
+   },
+   "kym_exclude": [
+    "loving memory",
+    "Tweet About",
+    "Passed Away",
+    "Reunited",
+    "Warehouse",
+    "Pig's face",
+    "Ruh roh",
+    "much heaven",
+    "000/674/931/a5e",
+    "000/674/934/422"
+   ],
+   "related_not_derived": [
+    {
+     "url": "https://i.kym-cdn.com/photos/images/original/000/674/931/a5e.jpg",
+     "note": "Kabosu with a visitor on the couch, another photo from Atsuko Sato's 2010-02-13 blog post - same session, NOT derived from the root"
+    },
+    {
+     "url": "https://i.kym-cdn.com/photos/images/original/000/674/934/422.jpg",
+     "note": "Kabosu yawning, another photo from the same 2010-02-13 blog post - same session, NOT derived from the root"
+    }
+   ]
+  },
+  {
+   "id": "scumbag-steve",
+   "name": "Scumbag Steve",
+   "original": {
+    "url": "https://i.kym-cdn.com/photos/images/original/000/093/953/c5b.jpg",
+    "source_url": "https://knowyourmeme.com/memes/scumbag-steve",
+    "source_note": "Photo of Blake Boston ('Weezy B') taken by his mother (c. 2006) in a hallway, later used on the cover of Beantown Mafia's 'Ma Gangsta'. First macros compiled on Reddit on 2011-01-21. Root file is the KYM-archived copy of the uncropped photo. Wikipedia: https://en.wikipedia.org/wiki/Scumbag_Steve",
+    "date": "2011-01-21",
+    "is_true_source_photo": true
+   },
+   "kym_exclude": [
+    "NFT Tweet",
+    "With Doge",
+    "002/375/192/e24",
+    "002/620/653/eab"
+   ],
+   "origin_kinds": {
+    "000/094/528/l_66e4d209": [
+     "crop",
+     "'Ma Gangsta' album cover (Beantown Mafia) using the photo"
+    ]
+   }
+  },
+  {
+   "id": "first-world-problems",
+   "name": "First World Problems",
+   "original": {
+    "url": "https://i.kym-cdn.com/photos/images/original/002/055/371/471.jpg",
+    "source_url": "https://knowyourmeme.com/memes/first-world-problems",
+    "source_note": "Stock photo of Italian actress/model Silvia Bottini crying (iStock, photographer not identified by KYM; shoot date unknown, pre-2011). The licensed original is paywalled; root file is the 'First World Problems Template' crop hosted on KYM. The macro series took off in 2011 (Reddit, Quickmeme).",
+    "date": "2011",
+    "is_true_source_photo": false
+   },
+   "kym_exclude": [
+    "First World Problems Template",
+    "shoot 1",
+    "shoot 2",
+    "headshot 2"
+   ],
+   "related_not_derived": [
+    {
+     "url": "https://i.kym-cdn.com/photos/images/original/002/055/372/824.jpg",
+     "note": "Silvia Bottini, different frame from the same stock shoot - NOT derived from the root"
+    },
+    {
+     "url": "https://i.kym-cdn.com/photos/images/original/002/055/373/43c.jpg",
+     "note": "Silvia Bottini, different frame from the same stock shoot - NOT derived from the root"
+    }
+   ]
+  },
+  {
+   "id": "philosoraptor",
+   "name": "Philosoraptor",
+   "original": {
+    "url": "https://i.kym-cdn.com/photos/images/original/000/145/724/Philosoraptor_Light_Blue_large.jpg",
+    "source_url": "https://www.lonelydinosaur.com/",
+    "source_note": "Original 'Philosoraptor' illustration by Sam Smith, released 2008-10-08 as a T-shirt design on Lonely Dinosaur (copyrighted; later licensed to Quickmeme). Root file is the Lonely Dinosaur product image of the design as archived on KYM; the single-colour template used by meme generators is a re-render of this artwork. KYM: https://knowyourmeme.com/memes/philosoraptor",
+    "date": "2008-10-08",
+    "is_true_source_photo": true
+   },
+   "kym_exclude": [
+    "002/908/174/42b",
+    "003/052/679/16b"
+   ],
+   "origin_kinds": {
+    "000/085/283/philosoraptor": [
+     "crop",
+     "Quickmeme-era blank template (blue gradient background) re-rendered from the T-shirt artwork"
+    ],
+    "000/145/709/4a7cc7dbe": [
+     "caption",
+     "Early 'PLATO' Philosoraptor caption (GIF)"
+    ]
+   }
+  },
+  {
+   "id": "mocking-spongebob",
+   "name": "Mocking SpongeBob",
+   "original": {
+    "url": "https://imgflip.com/s/meme/Mocking-Spongebob.jpg",
+    "source_url": "https://knowyourmeme.com/memes/mocking-spongebob",
+    "source_note": "Frame from SpongeBob SquarePants episode 'Little Yellow Book' (aired 2012-11-25) in which SpongeBob imitates a chicken. First used as a meme by Twitter user @OGBEARD on 2017-05-04. Root file is the Imgflip template frame grab. Wikipedia: https://en.wikipedia.org/wiki/Mocking_SpongeBob",
+    "date": "2012-11-25",
+    "is_true_source_photo": false
+   },
+   "kym_exclude": [
+    "figurine",
+    "crossed into the real world",
+    "001/989/496/234"
+   ],
+   "origin_kinds": {
+    "001/252/988/4af": [
+     "screenshot",
+     "Screenshot of the @OGBEARD tweet (2017-05-04) that started the meme"
+    ]
+   }
+  },
+  {
+   "id": "change-my-mind",
+   "name": "Change My Mind",
+   "original": {
+    "url": "https://i.kym-cdn.com/entries/icons/original/000/025/500/crowder.jpg",
+    "source_url": "https://twitter.com/scrowder/status/964577508447449088",
+    "source_note": "Photo of Steven Crowder behind a 'Male privilege is a myth / Change my mind' sign at Texas Christian University, tweeted by Crowder on 2018-02-16 (photo by his production team). Root file is the KYM entry-icon copy of the tweeted photo. KYM: https://knowyourmeme.com/memes/steven-crowders-change-my-mind-campus-sign",
+    "date": "2018-02-16",
+    "is_true_source_photo": true
+   },
+   "kym_exclude": [
+    "002/783/325/138",
+    "002/963/518/975",
+    "002/939/595/381"
+   ],
+   "origin_kinds": {
+    "001/344/006/0cb": [
+     "screenshot",
+     "Screenshot of the original @scrowder tweet (2018-02-16)"
+    ]
+   },
+   "template_kind": [
+    "other",
+    "Imgflip template: sign text digitally removed (blank sign) - an edit, not a plain crop"
+   ]
+  },
+  {
+   "id": "arthur-fist",
+   "name": "Arthur's Fist",
+   "original": {
+    "url": "https://i.kym-cdn.com/entries/icons/original/000/021/018/arthur.jpg",
+    "source_url": "https://knowyourmeme.com/memes/arthurs-fist",
+    "source_note": "Frame from Arthur season 4 episode 1 'Arthur's Big Hit' (PBS, aired 1999-09-06): Arthur clenching his fist before hitting D.W. Meme started with a @AlmostJT tweet on 2016-07-27. Root file is the KYM entry-icon frame grab.",
+    "date": "1999-09-06",
+    "is_true_source_photo": false
+   },
+   "kym_exclude": [
+    "Lebron",
+    "Tiegen",
+    "Halloween",
+    "Compilation",
+    "It should have been Wah",
+    "001/408/403/bf5"
+   ],
+   "origin_kinds": {
+    "001/154/398/eb5": [
+     "screenshot",
+     "Screenshot of the @AlmostJT tweet (2016-07-27) that started the meme"
+    ]
+   }
+  },
+  {
+   "id": "evil-kermit",
+   "name": "Evil Kermit",
+   "original": {
+    "url": "https://imgflip.com/s/meme/Evil-Kermit.jpg",
+    "source_url": "https://knowyourmeme.com/memes/evil-kermit",
+    "source_note": "Frame from the film Muppets Most Wanted (Disney, released 2014-03-21): Kermit confronted by his hooded doppelganger Constantine. Meme started with a @aaannnnyyyyaaaa tweet on 2016-11-06 ('me: sees a fluffy dog / me to me: steal him'). Root file is the Imgflip template frame grab.",
+    "date": "2014-03-21",
+    "is_true_source_photo": false
+   },
+   "kym_exclude": [
+    "padorus",
+    "002/099/124/911"
+   ],
+   "origin_kinds": {
+    "001/191/110/491": [
+     "screenshot",
+     "Screenshot of the 2016-11-06 tweet that started the meme"
+    ]
+   }
+  },
+  {
+   "id": "leonardo-dicaprio-cheers",
+   "name": "Leonardo DiCaprio Cheers",
+   "original": {
+    "url": "https://imgflip.com/s/meme/Leonardo-Dicaprio-Cheers.jpg",
+    "source_url": "https://knowyourmeme.com/memes/great-gatsby-reaction-leonardo-dicaprio-toast",
+    "source_note": "Frame of Leonardo DiCaprio as Jay Gatsby raising a glass, from The Great Gatsby (Warner Bros., 2013; first seen in the second trailer released 2012-12-20). Root file is the Imgflip template frame grab.",
+    "date": "2012-12-20",
+    "is_true_source_photo": false
+   },
+   "kym_exclude": []
+  },
+  {
+   "id": "boardroom-meeting-suggestion",
+   "name": "Boardroom Meeting Suggestion",
+   "original": {
+    "url": "https://i.kym-cdn.com/photos/images/original/000/479/250/b5c.png",
+    "source_url": "https://hejibits.com/",
+    "source_note": "Original four-panel comic 'Outlook Oust' from the webcomic Hejibits (John Kleckner), posted 2012-12-24, depicting a Nintendo Wii U boardroom meeting. Root file is the KYM-archived copy of the original comic. KYM: https://knowyourmeme.com/memes/boardroom-suggestion",
+    "date": "2012-12-24",
+    "is_true_source_photo": true
+   },
+   "kym_exclude": [],
+   "template_kind": [
+    "other",
+    "Imgflip template: speech-bubble text removed from the original comic (edit, not a plain crop)"
+   ]
+  },
+  {
+   "id": "confused-math-lady",
+   "name": "Confused Math Lady (Nazare Tedesco)",
+   "original": {
+    "url": "https://i.kym-cdn.com/entries/icons/original/000/021/464/14608107_1180665285312703_1558693314_n.jpg",
+    "source_url": "https://knowyourmeme.com/memes/confused-math-lady",
+    "source_note": "Composite of a frame of actress Renata Sorrah as Nazare Tedesco in the Brazilian telenovela Senhora do Destino (TV Globo, 2004-2005) with overlaid math equations; the four-frame GIF circulated from 2013-10-31 (UKMix) and the math-overlay version spread in October 2016 (KYM icon filename is an Instagram download from that period). Root file is the KYM entry-icon copy of the math composite; the un-overlaid broadcast frame is not separately archived.",
+    "date": "2016-10",
+    "is_true_source_photo": false
+   },
+   "kym_exclude": [
+    "Chaeyoung",
+    "Math Floof",
+    "Math Steiner"
+   ]
+  },
+  {
+   "id": "side-eyeing-chloe",
+   "name": "Side-Eyeing Chloe",
+   "original": {
+    "url": "https://i.kym-cdn.com/entries/icons/original/000/014/285/sideeyechloe.jpg",
+    "source_url": "https://www.youtube.com/watch?v=NGhuLkjl4iI",
+    "source_note": "Frame of Chloe Clem from the YouTube video 'Lily's Disneyland Surprise... AGAIN!' (channel KAftC, uploaded 2013-09-12). Root file is the KYM entry-icon frame grab. Wikipedia: https://en.wikipedia.org/wiki/Side_Eyeing_Chloe ; KYM: https://knowyourmeme.com/memes/side-eyeing-chloe",
+    "date": "2013-09-12",
+    "is_true_source_photo": false
+   },
+   "kym_exclude": [
+    "Visits Google",
+    "looks like now",
+    "Left Shark",
+    "Emoji Version",
+    "001/184/222/5d9",
+    "000/795/868/eb1"
+   ]
+  },
+  {
+   "id": "blinking-white-guy",
+   "name": "Blinking White Guy (Drew Scanlon)",
+   "original": {
+    "url": "https://i.kym-cdn.com/entries/icons/original/000/022/255/Blinking_White_Guy_meme_banner.jpg",
+    "source_url": "https://knowyourmeme.com/memes/blinking-white-guy",
+    "source_note": "Frame of Giant Bomb producer Drew Scanlon from the 'Unprofessional Fridays' livestream of 2013-12-06 (the double-take GIF). Earliest known GIF use: NeoGAF, 2015-07-27; went viral on Twitter in February 2017. Root file is the KYM entry-icon frame grab. Wikipedia: https://en.wikipedia.org/wiki/Blinking_White_Guy",
+    "date": "2013-12-06",
+    "is_true_source_photo": false
+   },
+   "kym_exclude": [
+    "Cells",
+    "Undertaker"
+   ],
+   "origin_kinds": {
+    "001/223/202/9e0": [
+     "screenshot",
+     "Screenshot of the 2015-07-27 NeoGAF post, earliest known use of the GIF"
+    ]
+   }
+  },
+  {
+   "id": "one-does-not-simply",
+   "name": "One Does Not Simply",
+   "original": {
+    "url": "https://imgflip.com/s/meme/One-Does-Not-Simply.jpg",
+    "source_url": "https://knowyourmeme.com/memes/one-does-not-simply-walk-into-mordor",
+    "source_note": "Frame of Sean Bean as Boromir at the Council of Elrond, The Lord of the Rings: The Fellowship of the Ring (New Line, released 2001-12-19). Phrase memes date to 2004 (YTMND); the advice-animal macro spread on Quickmeme in 2011. Root file is the Imgflip template frame grab. Replaces 'Galaxy Brain' from the requested list, which is the same family as Expanding Brain.",
+    "date": "2001-12-19",
+    "is_true_source_photo": false
+   },
+   "kym_exclude": [
+    "001/592/716/9b6"
+   ],
+   "origin_kinds": {
+    "000/038/834/drive_into_mordor": [
+     "screenshot",
+     "Screenshot of a 2004 forum post ('One does not simply drive into Mordor'), earliest archived image edit"
+    ]
+   }
+  },
+  {
+   "id": "bernie-sanders-mittens",
+   "name": "Bernie Sanders Mittens",
+   "original": {
+    "url": "https://i.kym-cdn.com/entries/icons/original/000/036/345/EsMANJkW4AYbmvv.jpeg",
+    "source_url": "https://knowyourmeme.com/memes/bernie-sanders-wearing-mittens-sitting-in-a-chair",
+    "source_note": "Photo of Senator Bernie Sanders seated at the inauguration of Joe Biden, 2021-01-20, by Brendan Smialowski (AFP via Getty Images). Root file is a Twitter-hosted copy of the AFP photo (KYM entry icon; filename is a pbs.twimg.com media id). Wikipedia: https://en.wikipedia.org/wiki/Bernie_Sanders_mittens_meme",
+    "date": "2021-01-20",
+    "is_true_source_photo": true
+   },
+   "kym_exclude": [
+    "Jim Jordan",
+    "What was funny",
+    "4 Years Later"
+   ],
+   "origin_kinds": {
+    "001/997/039/4e4": [
+     "screenshot",
+     "Screenshot of Rachel Syme's tweet (2021-01-20) sharing the photo"
+    ],
+    "001/997/040/fff": [
+     "screenshot",
+     "Screenshot of Ruby Cramer's tweet about the mittens (2021-01-20)"
+    ],
+    "001/997/041/227": [
+     "screenshot",
+     "Screenshot of a 2021-01-20 tweet joking about the jacket"
+    ]
+   },
+   "imgflip_template_kinds": {
+    "4ur1iv": [
+     "other",
+     "Imgflip template: Bernie cut out from background (PNG with transparency)"
+    ],
+    "4uk92w": [
+     "other",
+     "Imgflip template: Bernie cut out from background (PNG with transparency)"
+    ],
+    "4ujmrg": [
+     "other",
+     "Imgflip template: Bernie cut out from background (PNG)"
+    ]
+   },
+   "wiki_files": [
+    "Bernie Sanders mittens.jpg"
+   ]
+  },
+  {
+   "id": "epic-handshake",
+   "name": "Epic Handshake",
+   "original": {
+    "url": "https://imgflip.com/s/meme/Epic-Handshake.jpg",
+    "source_url": "https://knowyourmeme.com/memes/epic-handshake",
+    "source_note": "Frame from Predator (20th Century Fox, released 1987-06-12): Dutch (Arnold Schwarzenegger) and Dillon (Carl Weathers) handshake. Root file is the Imgflip template frame grab; the labelled-arms exploitable spread on Reddit around 2016-2018.",
+    "date": "1987-06-12",
+    "is_true_source_photo": false
+   },
+   "kym_exclude": []
+  },
+  {
+   "id": "monkey-puppet",
+   "name": "Awkward Look Monkey Puppet",
+   "original": {
+    "url": "https://imgflip.com/s/meme/Monkey-Puppet.jpg",
+    "source_url": "https://knowyourmeme.com/memes/awkward-look-monkey-puppet",
+    "source_note": "Two frames of the puppet Kento ('Pedro' in the Spanish dub) from the Japanese children's series Okiku Naru Ko (NHK, 1959-1988), with the eyes in the second frame photoshopped to look at the camera. Created and posted to Facebook by Daniel Flores on 2016-05-05. Root file is the Imgflip two-panel template; the original Facebook post screenshot is a variant.",
+    "date": "2016-05-05",
+    "is_true_source_photo": false
+   },
+   "kym_exclude": [
+    "Building",
+    "sunbear",
+    "002/545/406/55d",
+    "002/812/056/c94"
+   ],
+   "origin_kinds": {
+    "002/135/517/deb": [
+     "screenshot",
+     "Screenshot of the original 2016-05-05 Facebook post by Daniel Flores"
+    ]
+   }
+  },
+  {
+   "id": "futurama-fry",
+   "name": "Futurama Fry (Not Sure If)",
+   "original": {
+    "url": "https://imgflip.com/s/meme/Futurama-Fry.jpg",
+    "source_url": "https://knowyourmeme.com/memes/futurama-fry-not-sure-if",
+    "source_note": "Frame of Fry squinting from Futurama season 2 episode 6 'The Lesser of Two Evils' (Fox, aired 2000-02-20). Used as an 'I see what you did there' image from c. 2010 and as the 'Not sure if' macro from 2011. Root file is the Imgflip template frame grab.",
+    "date": "2000-02-20",
+    "is_true_source_photo": false
+   },
+   "kym_exclude": [
+    "002/062/180/70a"
+   ],
+   "origin_kinds": {
+    "000/131/393/ohoq9": [
+     "caption",
+     "Early 'OH! I see what you did there' caption (pre-'Not sure if')"
+    ]
+   }
+  },
+  {
+   "id": "batman-slapping-robin",
+   "name": "Batman Slapping Robin",
+   "original": {
+    "url": "https://i.kym-cdn.com/photos/images/original/000/235/607/200.jpg",
+    "source_url": "https://knowyourmeme.com/memes/my-parents-are-dead-batman-slapping-robin",
+    "source_note": "Panel from World's Finest #153 (DC Comics, November 1965; art by Curt Swan / George Klein), in an imaginary story where Batman slaps Robin. First edit ('My parents are dead') posted to SFWChan on 2008-06-10. Root file is the KYM-archived scan of the original panel with original dialogue.",
+    "date": "1965-11",
+    "is_true_source_photo": true
+   },
+   "kym_exclude": [
+    "BatmanDay",
+    "Ashley"
+   ],
+   "origin_kinds": {
+    "000/032/373/120345790360": [
+     "caption",
+     "First known edit of the panel ('My parents are dead', SFWChan 2008-06-10)"
+    ]
+   }
+  },
+  {
+   "id": "sad-keanu",
+   "name": "Sad Keanu",
+   "original": {
+    "url": "https://imgflip.com/s/meme/Sad-Keanu.jpg",
+    "source_url": "https://knowyourmeme.com/memes/sad-keanu",
+    "source_note": "Paparazzi photo of Keanu Reeves eating a sandwich on a New York bench, taken in May 2010 by Ron Asadorian (Splash News). Root file is the uncaptioned full-frame copy that Imgflip hosts as its blank template (a resized copy of the Splash News photo); photoshop threads began 2010-05-23 (4chan /tv/) and the Reddit thread on 2010-06-03. Wikipedia: https://en.wikipedia.org/wiki/Sad_Keanu",
+    "date": "2010-05",
+    "is_true_source_photo": true
+   },
+   "kym_exclude": [
+    "Happy Keanu",
+    "HK416",
+    "Kickstarter",
+    "JOJO",
+    "Kahgarak",
+    "Sad harry"
+   ],
+   "origin_kinds": {
+    "000/053/379/Untitled-2": [
+     "crop",
+     "Blank Sad Keanu template cut-out (Keanu isolated for photoshops)"
+    ],
+    "000/148/386/1275371232650": [
+     "caption",
+     "Early 2010 4chan /a/ photoshop edit"
+    ],
+    "000/148/433/e1f": [
+     "screenshot",
+     "Screenshot of the 2010-06-01 4chan /a/ thread that reposted the photo (early spread)"
+    ]
+   }
+  },
+  {
+   "id": "kombucha-girl",
+   "name": "Kombucha Girl",
+   "original": {
+    "url": "https://i.imgflip.com/39osmx.png",
+    "source_url": "https://www.tiktok.com/@brittany_broski/video/6722234609188310277",
+    "source_note": "Two frames of Brittany Tomlinson (Brittany Broski) from her TikTok 'Me trying Kombucha for the first time', posted 2019-08-06 (@brittanyt445). Root file is the two-panel Imgflip template (frame grabs), not the video itself. KYM: https://knowyourmeme.com/memes/kombucha-girl-trying-kombucha-for-the-first-time",
+    "date": "2019-08-06",
+    "is_true_source_photo": false
+   },
+   "kym_exclude": []
+  },
+  {
+   "id": "tuxedo-winnie-the-pooh",
+   "name": "Tuxedo Winnie the Pooh",
+   "original": {
+    "url": "https://i.kym-cdn.com/entries/icons/original/000/029/060/cover3.jpg",
+    "source_url": "https://knowyourmeme.com/memes/tuxedo-winnie-the-pooh",
+    "source_note": "Two-panel composite: a frame of Winnie the Pooh in a chair from the featurette Winnie the Pooh and Tigger Too (Disney, released 1974-12-20) paired with a photoshopped tuxedo version; the format spread on 4chan from 2013 and Reddit in 2019. Root file is the KYM entry-icon copy of the two-panel template.",
+    "date": "1974-12-20",
+    "is_true_source_photo": false
+   },
+   "kym_exclude": [],
+   "origin_kinds": {
+    "001/474/924/d0b": [
+     "crop",
+     "Single-frame 'apathetic Pooh' template (one half of the composite)"
+    ]
+   }
+  }
+ ]
+}

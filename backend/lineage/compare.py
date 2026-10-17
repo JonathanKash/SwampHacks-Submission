@@ -34,6 +34,17 @@ def _similarity(a: ImageData, b: ImageData) -> tuple[str, float]:
     return "phash_bits_equal", 64 - (a.phash ^ b.phash).bit_count()
 
 
+def wilson_lower(correct: int, n: int, z: float = 1.96) -> float | None:
+    """Lower bound of the 95% Wilson interval: what we can claim from n trials, not the raw ratio."""
+    if n <= 0:
+        return None
+    p = correct / n
+    denom = 1 + z * z / n
+    centre = p + z * z / (2 * n)
+    spread = z * ((p * (1 - p) + z * z / (4 * n)) / n) ** 0.5
+    return round(max(0.0, (centre - spread) / denom), 3)
+
+
 def _weights_hash() -> str:
     return hashlib.sha256(json.dumps(config.WEIGHTS, sort_keys=True).encode()).hexdigest()[:12]
 
@@ -48,6 +59,7 @@ def compare(a: ImageData, b: ImageData, meta_a: dict | None = None, meta_b: dict
     sim_kind, sim = _similarity(a, b)
     registered = not ab.semantic and not ba.semantic
     signals: list[dict[str, Any]] = []
+    override_confidence: dict | None = None
     conflicts: list[str] = []
     unavailable: list[str] = []
     decisive: list[str] = []
@@ -113,13 +125,25 @@ def compare(a: ImageData, b: ImageData, meta_a: dict | None = None, meta_b: dict
                            "Compression history or a third version would settle it.")
                 parent = child = None
             elif caption_side == parent and len(decisive) <= 1:
-                # The side the cost calls the parent is the one carrying caption-like content the
-                # other lacks, and the cost direction hangs on one cue: do not claim it.
-                verdict, relation = "inconclusive", f"{parent} carries caption-like content {child} lacks, against a one-cue cost direction"
-                summary = (f"The pixel cost prefers {parent}→{child} by a single cue ({decisive[0] if decisive else 'small margin'}), but "
-                           f"{parent} has two-tone, high-contrast text-like content in the changed region that {child} does not. "
-                           "Captions are added far more often than removed, so the two readings conflict and no parent is claimed.")
-                parent = child = None
+                # The side the cost calls the parent carries caption-like content the other lacks,
+                # and the cost direction hangs on one cue. The caption-side cue has its own
+                # benchmark record; if that record exists the cue decides, otherwise no claim.
+                cue = calibration.get("caption_side") or {}
+                conflicts.append(f"Pixel cost preferred {parent}→{child} by a single cue ({decisive[0] if decisive else 'small margin'}); "
+                                 f"overridden by the caption-side cue (captions are added, rarely removed).")
+                if cue.get("n"):
+                    parent, child = child, parent
+                    verdict, relation = "parent-child", f"{parent} is the parent of {child} (caption-side cue)"
+                    override_confidence = {"bucket": "caption-side cue", "precision": wilson_lower(cue["correct"], cue["n"]), "n": cue["n"],
+                                           "observed": round(cue["correct"] / cue["n"], 3), "source": cue.get("source")}
+                    summary = (f"{child} carries achromatic, high-contrast text-like content in the changed region that {parent} does not. "
+                               f"On the benchmark this cue pointed to the derived copy {cue['correct']}/{cue['n']} times; the pixel cost "
+                               f"preferred the other direction by one weak cue, so the caption-side reading is used.")
+                else:
+                    verdict, relation = "inconclusive", f"{parent} carries caption-like content {child} lacks, against a one-cue cost direction"
+                    summary = (f"The pixel cost prefers {parent}→{child} by a single cue, but {parent} has text-like content {child} lacks. "
+                               "The readings conflict and the caption-side cue has no benchmark record yet, so no parent is claimed.")
+                    parent = child = None
             else:
                 verdict, relation = "parent-child", f"{parent} is the parent of {child}"
                 summary = (f"Producing {child} from {parent} costs {cheap.total:.3f}; producing {parent} from {child} would cost "
@@ -205,6 +229,8 @@ def compare(a: ImageData, b: ImageData, meta_a: dict | None = None, meta_b: dict
             ai_indicators.append(f"{label} carries a C2PA manifest; many AI tools attach one. Verify the signature with a C2PA tool.")
 
     confidence = confidence_for(margin, calibration) if (margin is not None and verdict == "parent-child") else {"bucket": None, "precision": None, "n": 0}
+    if override_confidence is not None:
+        confidence = override_confidence
     detected_edit = None
     if registered and parent:
         cheap = ab if parent == "A" else ba
