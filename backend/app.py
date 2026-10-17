@@ -146,10 +146,11 @@ def upload_case_items(case_id: str, files: list[UploadFile] = File(...)) -> dict
     case = _case_pool(case_id)
     if len(files) > 40:
         raise HTTPException(400, "at most 40 images per upload")
-    images: list[tuple[Image.Image, str]] = []
+    images: list[tuple[Image.Image, str, bytes]] = []
     for upload in files:
         try:
-            images.append((Image.open(io.BytesIO(upload.file.read())), upload.filename or "image"))
+            raw = upload.file.read()
+            images.append((Image.open(io.BytesIO(raw)), upload.filename or "image", raw))
         except Exception as exc:
             raise HTTPException(400, f"could not decode {upload.filename}: {exc}") from exc
     added = case.add_images(images)
@@ -344,11 +345,12 @@ def demo_report_html():
 @app.post("/api/items")
 def upload(file: UploadFile = File(...), parent_id: str | None = Form(None),
            edit: str | None = Form(None), params: str | None = Form(None)) -> dict:
+    raw = file.file.read()
     try:
-        img = Image.open(io.BytesIO(file.file.read()))
+        img = Image.open(io.BytesIO(raw))
     except Exception as exc:  # not an image
         raise HTTPException(400, f"could not decode image: {exc}") from exc
-    return pool.add_image(img, parent_id or None, edit, json.loads(params) if params else {})
+    return pool.add_image(img, parent_id or None, edit, json.loads(params) if params else {}, raw=raw)
 
 
 @app.post("/api/edit")

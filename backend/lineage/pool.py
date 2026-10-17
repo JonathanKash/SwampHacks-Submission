@@ -31,6 +31,16 @@ THUMB_SIDE = 220
 _EXIF_TAGS = {v: k for k, v in ExifTags.TAGS.items()}
 
 
+def c2pa_present(raw: bytes | None) -> bool:
+    """Presence check for a C2PA/Content Credentials manifest in the uploaded bytes:
+    a JUMBF box ("jumb") carrying a "c2pa" label, in a JPEG APP11 segment or a PNG caBX
+    chunk. Presence only; signatures are not verified here."""
+    if not raw:
+        return False
+    head = raw[: 4 * 1024 * 1024]
+    return b"jumb" in head and b"c2pa" in head
+
+
 def exif_hints(img: Image.Image) -> dict:
     """Metadata hints: useful context, but easy to strip or forge, so never evidence."""
     try:
@@ -87,10 +97,12 @@ class Pool:
 
     # ---- mutations --------------------------------------------------------------
     def add_image(self, img: Image.Image, true_parent: str | None, edit: str | None,
-                  params: dict | None = None, source: str = "upload", rebuild: bool = True) -> dict:
-        """Store a new version, fingerprint it, and (by default) rebuild the tree."""
+                  params: dict | None = None, source: str = "upload", rebuild: bool = True,
+                  raw: bytes | None = None) -> dict:
+        """Store a new version, fingerprint it, and (by default) rebuild the tree.
+        `raw` is the uploaded file as received (for metadata/manifest hints)."""
         params = dict(params or {})
-        params.setdefault("metadata", exif_hints(img))
+        params.setdefault("metadata", {**exif_hints(img), "c2pa_manifest": c2pa_present(raw)})
         # Tamper-evident footprint of what was received, before any resizing.
         raw = io.BytesIO()
         img.save(raw, format="PNG")
@@ -115,10 +127,11 @@ class Pool:
                 self._rebuild()
         return self.public_item(item)
 
-    def add_images(self, images: list[tuple[Image.Image, str]]) -> list[dict]:
+    def add_images(self, images: list[tuple[Image.Image, str] | tuple[Image.Image, str, bytes]]) -> list[dict]:
         """Batch upload (audit mode): add everything, then rebuild once."""
-        added = [self.add_image(img, None, None, {"filename": name}, source="audit", rebuild=False)
-                 for img, name in images]
+        added = [self.add_image(entry[0], None, None, {"filename": entry[1]}, source="audit", rebuild=False,
+                                raw=entry[2] if len(entry) > 2 else None)
+                 for entry in images]
         with self.lock:
             self._rebuild()
         return added
