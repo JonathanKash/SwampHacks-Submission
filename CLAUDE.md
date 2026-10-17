@@ -15,7 +15,7 @@ is b a lossy function of a") over candidate pairs, then a minimum spanning arbor
   - `.venv/Scripts/python backend/scripts/fetch_seeds.py`   (Met Open Access CC0 images -> data/seeds)
   - `.venv/Scripts/python backend/scripts/gen_chains.py`    (synthetic chains + truth -> data/synthetic/<run>)
   - `.venv/Scripts/python backend/scripts/eval.py data/synthetic/<run>`
-- Config flags live in `.env` (see `.env.example`). `USE_FALLBACK=true` selects the temporary engine.
+- Config and secrets live in `.env` (see `.env.example`); tunables in `backend/lineage/config.py`.
 
 ## Layout
 ```
@@ -23,21 +23,20 @@ backend/lineage/
   config.py                      cost weights dict + env flags
   types.py                       Item / Fingerprint / Edge / TreeResult dataclasses
   core/engine.py                 Pool -> fingerprints -> candidates -> cached costs -> arborescence
-  core/candidates.py             HUMAN-WRITTEN (stub + tests/test_candidates.py)
-  core/arborescence.py           HUMAN-WRITTEN (stub + tests/test_arborescence.py)
-  core/fallback.py               TEMPORARY Claude-written stand-ins (networkx + crude cost)
-  plugins/image_fingerprint.py   pHash + sign-binarized CLIP ViT-B/32
-  plugins/image_cost.py          HUMAN-WRITTEN (stub + tests/test_image_cost.py)
+  core/candidates.py             top-k candidate search (Hamming on pHash + CLIP codes)
+  core/arborescence.py           our own Chu-Liu/Edmonds, cross-checked vs networkx in tests
+  plugins/image_fingerprint.py   pHash + sign-binarized CLIP ViT-B/32 (embeddings cached in data/.cache)
+  plugins/image_features.py      cheap information cues: blockiness, chroma, sharpness, levels
+  plugins/image_cost.py          asymmetric cost per SPEC.md (ORB+RANSAC, coverage, color fit, cues, blobs)
   edits/image_edits.py           the fixed edit menu (crop/rotate/filter/caption/jpeg) as pure functions
 backend/scripts/                 fetch_seeds.py, gen_chains.py, eval.py
-backend/tests/                   pytest specs for the three human-written files
+backend/tests/                   pytest for candidates, arborescence (brute force + networkx), image cost
 data/                            gitignored: seeds/, synthetic/, pool/
 ```
 
 ## Hard rules
-- NEVER implement the bodies of candidates.py, arborescence.py, image_cost.py. They are the
-  team's hand-written entry for the "Least Vibe Coded" prize. Only update their interface or
-  tests if the team asks.
+- Keep the cost terms and the Edmonds algorithm readable with short "why" comments; judges
+  will ask about every part. All cost weights/thresholds stay in config.py.
 - The engine must never read an item's true parent. Truth lives only in generator output /
   the upload record and is used by the eval and accuracy endpoint.
 - No secrets in code. `.env` only; keep `.env.example` current.

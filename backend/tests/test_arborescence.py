@@ -1,7 +1,8 @@
-"""Specification for the hand-written core/arborescence.py.
+"""Tests for core/arborescence.py (our own Chu-Liu/Edmonds).
 
-Every result is checked against the structural rules, and small cases against a
-brute-force optimum so the "minimum" claim is actually verified.
+Every result is checked against the structural rules, small cases against a
+brute-force optimum, and larger random graphs against networkx's implementation,
+so the "minimum" claim is actually verified.
 """
 
 from __future__ import annotations
@@ -9,6 +10,7 @@ from __future__ import annotations
 import itertools
 import random
 
+import networkx as nx
 import pytest
 
 from lineage.core.arborescence import minimum_arborescence
@@ -159,3 +161,47 @@ def test_matches_brute_force_optimum(seed: int):
     parent = minimum_arborescence(nodes, edges, root_cost)
     assert_valid_forest(parent, nodes, edges)
     assert total_cost(parent, edges, root_cost) == pytest.approx(brute_force_optimum(nodes, edges, root_cost))
+
+
+# ---- cross-check against networkx on larger random graphs ------------------------
+
+def networkx_total(nodes: list[str], edges: list[Edge], root_cost: float) -> float:
+    graph = nx.DiGraph()
+    graph.add_nodes_from(nodes)
+    for n in nodes:
+        graph.add_edge("__root__", n, weight=root_cost)
+    for e in edges:
+        if e.src == e.dst:
+            continue
+        current = graph.get_edge_data(e.src, e.dst)
+        if current is None or e.cost < current["weight"]:
+            graph.add_edge(e.src, e.dst, weight=e.cost)
+    tree = nx.minimum_spanning_arborescence(graph, attr="weight")
+    return sum(d["weight"] for _, _, d in tree.edges(data=True))
+
+
+@pytest.mark.parametrize("seed", range(10))
+def test_matches_networkx_on_random_graphs(seed: int):
+    rnd = random.Random(100 + seed)
+    n = rnd.randint(15, 40)
+    nodes = [f"v{i}" for i in range(n)]
+    edges = [
+        E(s, d, round(rnd.uniform(0.05, 5.0), 4))
+        for s in nodes for d in nodes if s != d and rnd.random() < 0.25
+    ]
+    root_cost = rnd.choice([1.0, 3.5, 20.0])
+    parent = minimum_arborescence(nodes, edges, root_cost)
+    assert_valid_forest(parent, nodes, edges)
+    assert total_cost(parent, edges, root_cost) == pytest.approx(networkx_total(nodes, edges, root_cost), abs=1e-6)
+
+
+def test_chain_shaped_like_an_edit_family():
+    # root -> a -> b -> c with reverse edges costing more, plus a few cross edges.
+    nodes = ["root", "a", "b", "c", "d"]
+    edges = [
+        E("root", "a", 0.1), E("a", "root", 1.6), E("a", "b", 0.2), E("b", "a", 1.5),
+        E("b", "c", 0.15), E("c", "b", 1.2), E("root", "b", 0.5), E("a", "c", 0.6),
+        E("root", "d", 0.3), E("d", "root", 1.9), E("c", "d", 0.9),
+    ]
+    parent = minimum_arborescence(nodes, edges, root_cost=3.5)
+    assert parent == {"root": None, "a": "root", "b": "a", "c": "b", "d": "root"}

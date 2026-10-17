@@ -41,6 +41,7 @@ class ImageData:
     gray: np.ndarray  # (H, W) uint8
     embedding: np.ndarray | None  # unit-norm CLIP embedding or None
     phash: int
+    content_key: str = ""  # hash of the pixels; filled lazily, used for per-image caches
 
 
 @dataclass

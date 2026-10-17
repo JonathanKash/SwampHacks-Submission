@@ -1,8 +1,8 @@
 """Specification for the hand-written plugins/image_cost.py.
 
 Images come from the fixtures (no CLIP; embedding is None, so the semantic
-fallback must use the pHash distance). Each edit is produced by the same
-edit menu the demo uses.
+fallback uses the pHash distance). Each edit is produced by the same edit menu
+the demo uses.
 """
 
 from __future__ import annotations
@@ -59,7 +59,7 @@ def test_cost_result_is_finite_nonnegative_with_terms(photo, rng):
     result = cost(to_image_data("a", photo), child)
     assert math.isfinite(result.total) and result.total >= 0
     assert result.semantic is False
-    assert set(result.terms) >= {"coverage", "color_residual", "blockiness", "resolution", "blobs"}
+    assert set(result.terms) >= {"coverage", "color_residual", "blockiness", "resolution", "chroma", "levels", "blobs", "edit_ops"}
     assert all(v >= 0 for v in result.terms.values())
     assert result.total == pytest.approx(sum(result.terms.values()))
 
@@ -97,10 +97,11 @@ def test_jpeg_direction_is_driven_by_blockiness(photo, rng):
 
 
 def test_caption_direction_is_driven_by_blobs(photo, rng):
+    # Removing the caption (child -> parent) is the expensive direction.
     parent = to_image_data("p", photo)
     child = to_image_data("c", image_edits.caption(photo, rng, text="SWAMPHACKS")[0])
-    assert cost(child, parent).terms["blobs"] < cost(parent, child).terms["blobs"] or \
-        cost(parent, child).total < cost(child, parent).total
+    assert cost(parent, child).terms["blobs"] == pytest.approx(0.0, abs=1e-6)
+    assert cost(child, parent).terms["blobs"] > 0
 
 
 def test_two_step_child_still_closer_to_parent_than_to_stranger(photo, other_photo, rng):
@@ -152,3 +153,28 @@ def test_features_describe_color_change(photo, rng):
     dark = to_image_data("d", image_edits.color_filter(photo, rng, kind="darker")[0])
     gain = cost(parent, dark).features["color_gain"]
     assert len(gain) == 3 and all(g < 0.9 for g in gain)
+
+
+# ---- edit-op detection (description length prior) ----------------------------------
+
+@pytest.mark.parametrize("edit,expected_op", [
+    ("crop", "crop"), ("rotate", "rotate"), ("jpeg", "jpeg"), ("caption", "caption"),
+    ("filter:grayscale", "grayscale"), ("filter:darker", "color"), ("filter:contrast", "color"),
+])
+def test_detects_the_edit_that_was_applied(photo, rng, edit, expected_op):
+    parent = to_image_data("p", photo)
+    child = to_image_data("c", make_child(photo, edit, rng))
+    assert expected_op in cost(parent, child).features["ops"]
+
+
+def test_identical_images_have_no_ops(photo):
+    assert cost(to_image_data("a", photo), to_image_data("a2", photo)).features["ops"] == []
+
+
+def test_direct_parent_beats_grandparent(photo, rng):
+    # grandparent -> parent (crop) -> child (darker). The child must prefer its parent.
+    grand = to_image_data("g", photo)
+    parent_img = image_edits.crop(photo, rng, fraction=0.7)[0]
+    parent = to_image_data("p", parent_img)
+    child = to_image_data("c", image_edits.color_filter(parent_img, rng, kind="darker")[0])
+    assert cost(parent, child).total < cost(grand, child).total

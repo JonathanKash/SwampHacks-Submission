@@ -64,18 +64,15 @@ explain(a -> b): area ratio -> "cropped to N%"; homography angle -> "rotated N d
 color transform -> warm/cool/brighter/darker/grayscale; blobs -> "caption added"; blockiness
 jump -> "re-saved as low-quality JPEG"; semantic edge -> "AI restyle (matched by meaning)".
 
-## Human-written core ("Least Vibe Coded" prize)
-These three files are written by the team, NOT by Claude. Claude creates the interface,
-docstrings, type hints and a pytest spec; bodies are `raise NotImplementedError`:
-- backend/lineage/core/candidates.py     top-k candidate search (Hamming on pHash + codes)
-- backend/lineage/core/arborescence.py   Chu-Liu/Edmonds minimum spanning arborescence, forest-capable
-- backend/lineage/plugins/image_cost.py  cost() per the spec above
-
-Until then the app runs on a TEMPORARY fallback (networkx arborescence + crude cost) behind
-USE_FALLBACK=true.
+## Core implementation notes
+- core/arborescence.py is our own Chu-Liu/Edmonds, readable and commented, cross-checked
+  against networkx.minimum_spanning_arborescence in the tests (networkx is a test-only dep).
+- core/candidates.py: top-k by Hamming distance on pHash + binarized CLIP codes.
+- plugins/image_cost.py: the cost spec above, with weights in config.WEIGHTS.
 
 ## Phases (stop and report at each gate)
-- Phase 0: synthetic chain generator + eval script -> tree accuracy overall and per edit type. GO/NO-GO.
+- Phase 0: synthetic chain generator; cost, candidate search, arborescence with pytest;
+  eval script -> tree accuracy overall and per edit type. GO/NO-GO.
 - Phase 1: backend API, SQLite schema, fingerprints, candidate search, incremental tree.
 - Phase 2: /edit tablet page incl. Gemini restyle.
 - Phase 3: /tree live view with thumbnails, edge labels, accuracy counter, newest-node highlight.
@@ -84,5 +81,6 @@ USE_FALLBACK=true.
 
 ## Working rules
 - Commit after every working step. Keep CLAUDE.md and PLAN.md updated.
-- README: what it is, how to run, architecture, AI disclosure (Claude vs hand-written), credits.
+- README: what it is, how to run, architecture, AI disclosure (Claude wrote the code under our
+  direction), credits for every library/API.
 - Simple readable code. No hardcoded secrets (.env + .env.example).

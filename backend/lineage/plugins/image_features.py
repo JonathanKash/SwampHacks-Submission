@@ -1,10 +1,8 @@
 """Cheap per-image "information content" statistics.
 
-These are the raw information-loss cues from the cost spec (step 4) plus a chroma
-cue. They are used by:
-- the TEMPORARY fallback cost (core/fallback.py),
-- the Phase 0 eval's per-cue direction table,
-- optionally by the hand-written cost (the team may call or rewrite them).
+These are the raw information-loss cues from the cost spec (step 4) plus chroma
+and distinct-levels cues. Used by plugins/image_cost.py and by the Phase 0
+eval's per-cue direction table.
 """
 
 from __future__ import annotations
@@ -21,6 +19,7 @@ class ImageStats:
     blockiness: float  # JPEG 8x8 grid energy (0 = none), max over grid offsets
     chroma: float  # mean colorfulness in [0, 1]; 0 for grayscale
     sharpness: float  # variance of the Laplacian
+    levels: int  # distinct intensity values summed over R, G, B (max 768)
 
 
 def blockiness(gray: np.ndarray) -> float:
@@ -47,10 +46,17 @@ def sharpness(gray: np.ndarray) -> float:
     return float(cv2.Laplacian(gray, cv2.CV_32F).var())
 
 
+def levels(rgb: np.ndarray) -> int:
+    """Distinct values per channel, summed. Brightness/contrast changes with
+    rounding and clipping can only reduce this; it is a cheap entropy proxy."""
+    return int(sum(len(np.unique(rgb[:, :, c])) for c in range(3)))
+
+
 def image_stats(rgb: np.ndarray, gray: np.ndarray) -> ImageStats:
     return ImageStats(
         pixels=int(gray.shape[0] * gray.shape[1]),
         blockiness=float(blockiness(gray)),
         chroma=chroma(rgb),
         sharpness=sharpness(gray),
+        levels=levels(rgb),
     )

@@ -47,19 +47,13 @@ See `CLAUDE.md` for the file layout and `SPEC.md` for the full specification.
 
 ## AI disclosure
 
-We are entering the "Least Vibe Coded" prize, so this section is precise.
-
-Hand-written by the team (Claude provided only the function signatures, docstrings and the
-pytest specifications in `backend/tests/`):
-- `backend/lineage/core/candidates.py` (top-k candidate search by Hamming distance)
-- `backend/lineage/core/arborescence.py` (Chu-Liu/Edmonds minimum spanning arborescence)
-- `backend/lineage/plugins/image_cost.py` (ORB + RANSAC registration, coverage, color fit,
-  information-loss cues, blob detection, semantic fallback)
-
-Written with Claude Code (Anthropic, Claude Fable 5.1), reviewed by the team:
-- everything else in `backend/` (edit menu, fingerprints, cheap image statistics, engine
-  plumbing, scripts, the temporary fallback in `core/fallback.py`), the docs and this README.
-- Phase 0 evaluation numbers reported in PLAN.md were produced by the temporary fallback.
+The code in this repository was written by Claude Code (Anthropic, Claude Fable 5.1) under
+our direction during the event: we designed the approach (asymmetric information-loss cost,
+candidate search, minimum spanning arborescence, the plug-in architecture, the demo flow and
+the evaluation protocol), specified each component, reviewed the output, and drove the
+tuning from the evaluation numbers. The Chu-Liu/Edmonds implementation in
+`backend/lineage/core/arborescence.py` is our own code (not a library call) and is
+cross-checked against networkx in the tests. Seed images are CC0 works from The Met.
 
 ## Credits
 

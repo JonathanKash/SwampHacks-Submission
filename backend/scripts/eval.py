@@ -32,15 +32,13 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("run", type=Path)
     parser.add_argument("--no-clip", action="store_true", help="skip CLIP (faster, pHash only)")
-    parser.add_argument("--real", action="store_true", help="use the hand-written core instead of the fallback")
+    parser.add_argument("--k", type=int, default=config.CANDIDATE_K, help="candidates per item")
     parser.add_argument("--root-cost", type=float, default=config.ROOT_COST, help="cost of declaring an item a root")
     args = parser.parse_args()
 
     truth = json.loads((args.run / "truth.json").read_text())["items"]
-    use_fallback = False if args.real else config.USE_FALLBACK
-    engine = Engine(use_fallback=use_fallback, use_clip=not args.no_clip, root_cost=args.root_cost)
-    print(f"engine: {'TEMPORARY FALLBACK' if use_fallback else 'hand-written core'}, "
-          f"clip={'off' if args.no_clip else 'on'}, root_cost={args.root_cost}, items={len(truth)}")
+    engine = Engine(use_clip=not args.no_clip, root_cost=args.root_cost, k=args.k)
+    print(f"engine: clip={'off' if args.no_clip else 'on'}, k={args.k}, root_cost={args.root_cost}, items={len(truth)}")
 
     t0 = time.time()
     for item in truth:
@@ -49,7 +47,7 @@ def main() -> None:
     tree = engine.build_tree()
     t2 = time.time()
     print(f"timing: fingerprints {t1 - t0:.1f}s, costs+tree {t2 - t1:.1f}s "
-          f"({len(engine.cost_cache)} pair costs)")
+          f"({len(engine.results)} pair costs)")
 
     # ---- 1. tree accuracy ----------------------------------------------------
     correct_by_edit: dict[str, list[int]] = defaultdict(lambda: [0, 0])
@@ -67,6 +65,13 @@ def main() -> None:
     for key in sorted(correct_by_edit):
         c, n = correct_by_edit[key]
         print(f"  {key:<18} {pct(c, n)}  [{c}/{n}]")
+
+    from lineage.core.candidates import top_k_candidates
+    near = top_k_candidates(engine.fingerprints, engine.k)
+    in_cand = sum(i["parent"] in near[i["id"]] or i["id"] in near[i["parent"]] for i in non_root)
+    semantic_edges = sum(e.semantic for e in tree.edges.values())
+    print(f"  true parent within top-{engine.k} candidates: {pct(in_cand, len(non_root))}; "
+          f"semantic edges chosen: {semantic_edges}")
 
     # Where did wrong nodes attach? (same family vs other family vs root)
     by_id = {i["id"]: i for i in truth}
@@ -102,6 +107,7 @@ def main() -> None:
         "chroma (child <= parent)": lambda p, c: (c.chroma < p.chroma - 0.01) - (c.chroma > p.chroma + 0.01),
         "sharpness (child <= parent)": lambda p, c: (c.sharpness < p.sharpness * 0.95)
         - (c.sharpness > p.sharpness * 1.05),
+        "levels (child <= parent)": lambda p, c: (c.levels < p.levels) - (c.levels > p.levels),
     }
     edits = sorted({(i["edit"] if i["edit"] != "filter" else f"filter:{i['params'].get('kind')}")
                     for i in non_root})
