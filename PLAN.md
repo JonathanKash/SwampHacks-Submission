@@ -201,3 +201,11 @@ Decisions in SPEC.md (v2 section). Images first; audio/video only after images w
       (calibration.corpora, written by benchmark/write_corpus_calibration.py) and the UI shows both numbers.
       Third pass running with family + "documented original is the smaller file" splits to separate ambiguous
       truth from real direction errors.
+- [x] Two numbers everywhere (2026-10-17 ~12:45): calibration.corpora["web-memes"] from benchmark pass 2
+      (>=0.30: 163/281 = 58%; 0.05-0.30: 8/15; 0.02-0.05: 1/3); confidence carries by_corpus; shared ConfidenceChip
+      shows "92% on synthetic chains · 58% on web memes"; NumbersPanel on landing and method pages renders the live
+      /api/calibration table (synthetic vs web memes, caption-side 30/30, per-edit chips).
+- [x] Big-screen extras: Fool Lineage scoreboard (edits that fooled it / placed correctly) and an edit-history
+      Replay overlay for the largest family (Codex). Health exposes web_search / identify_ready capability flags.
+- [ ] Antigravity image quota resets ~15:40 ET: finish benchmark/nanobanana (make_corpus.py is idempotent).
+- [ ] Third meme benchmark pass with family splits was stopped to free CPU; rerun when idle CPU is available.
