@@ -33,13 +33,14 @@ def main() -> None:
     parser.add_argument("run", type=Path)
     parser.add_argument("--no-clip", action="store_true", help="skip CLIP (faster, pHash only)")
     parser.add_argument("--real", action="store_true", help="use the hand-written core instead of the fallback")
+    parser.add_argument("--root-cost", type=float, default=config.ROOT_COST, help="cost of declaring an item a root")
     args = parser.parse_args()
 
     truth = json.loads((args.run / "truth.json").read_text())["items"]
     use_fallback = False if args.real else config.USE_FALLBACK
-    engine = Engine(use_fallback=use_fallback, use_clip=not args.no_clip)
+    engine = Engine(use_fallback=use_fallback, use_clip=not args.no_clip, root_cost=args.root_cost)
     print(f"engine: {'TEMPORARY FALLBACK' if use_fallback else 'hand-written core'}, "
-          f"clip={'off' if args.no_clip else 'on'}, items={len(truth)}")
+          f"clip={'off' if args.no_clip else 'on'}, root_cost={args.root_cost}, items={len(truth)}")
 
     t0 = time.time()
     for item in truth:

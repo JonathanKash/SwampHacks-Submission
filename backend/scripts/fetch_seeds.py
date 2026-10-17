@@ -20,6 +20,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from lineage import config  # noqa: E402
 
 API = "https://collectionapi.metmuseum.org/public/collection/v1"
+# search moved to v1.1 (paginated) on 2026-10-01; object lookups stay on v1.
+SEARCH_API = "https://collectionapi.metmuseum.org/public/collection/v1.1"
 # Varied, colourful, detailed subjects work best for ORB and CLIP.
 QUERIES = ("landscape painting", "portrait", "still life", "cityscape", "garden", "animals")
 
@@ -32,9 +34,11 @@ def fetch(count: int, out: Path) -> None:
         if len(credits) >= count:
             break
         search = requests.get(
-            f"{API}/search", params={"q": query, "isPublicDomain": "true", "hasImages": "true"}, timeout=30
+            f"{SEARCH_API}/search",
+            params={"q": query, "isPublicDomain": "true", "hasImages": "true", "limit": 40, "offset": 0},
+            timeout=30,
         ).json()
-        for object_id in (search.get("objectIDs") or [])[:40]:
+        for object_id in search.get("objectIDs") or []:
             if len(credits) >= count or object_id in seen:
                 continue
             seen.add(object_id)

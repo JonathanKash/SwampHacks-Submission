@@ -10,6 +10,8 @@ downscaled pixels.
 
 from __future__ import annotations
 
+import hashlib
+import os
 from pathlib import Path
 
 import cv2
@@ -18,6 +20,8 @@ from PIL import Image
 
 from lineage import config
 from lineage.types import Fingerprint, ImageData
+
+os.environ.setdefault("HF_HUB_DISABLE_SYMLINKS_WARNING", "1")
 
 
 def load_rgb(path: Path | str, max_side: int = config.MAX_SIDE) -> np.ndarray:
@@ -87,10 +91,26 @@ def binarize(embedding: np.ndarray) -> np.ndarray:
     return np.packbits(embedding > 0)
 
 
+def _cached_embedding(path: Path, rgb: np.ndarray, embedder: ClipEmbedder) -> np.ndarray | None:
+    """Embeddings are deterministic per file, so cache them on disk keyed by path+mtime+size.
+    This makes repeated eval runs (cost tuning) take seconds instead of minutes."""
+    stat = path.stat()
+    key = hashlib.sha1(f"{path.resolve()}|{stat.st_mtime_ns}|{stat.st_size}".encode()).hexdigest()
+    cache_file = config.DATA_DIR / ".cache" / "clip" / f"{key}.npy"
+    if cache_file.exists():
+        return np.load(cache_file)
+    embedding = embedder.embed(rgb)
+    if embedding is not None:
+        cache_file.parent.mkdir(parents=True, exist_ok=True)
+        np.save(cache_file, embedding)
+    return embedding
+
+
 def load_image_data(item_id: str, path: Path | str, embedder: ClipEmbedder | None) -> ImageData:
+    path = Path(path)
     rgb = load_rgb(path)
     gray = cv2.cvtColor(rgb, cv2.COLOR_RGB2GRAY)
-    embedding = embedder.embed(rgb) if embedder is not None else None
+    embedding = _cached_embedding(path, rgb, embedder) if embedder is not None else None
     return ImageData(id=item_id, rgb=rgb, gray=gray, embedding=embedding, phash=phash(gray))
 
 
