@@ -1908,12 +1908,19 @@ p a {
   font-weight: 600;
   color: var(--ink);
   word-break: normal;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal; /* the host has hyphens to wrap at; never split a word */
 }
 
 .qr-join figcaption .qr-host b {
   color: var(--green);
   font-weight: 700;
+  white-space: nowrap;
+}
+
+.tree-header .fool-score p + p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .tree-header .fool-score { min-width: 0; flex-shrink: 1; }
