@@ -32,9 +32,15 @@ export default function NewestOverlay({ tree }: { tree: TreeResponse | null }) {
     const edge = tree.edges.find((e) => e.dst === id) ?? null;
     const parent = tree.nodes.find((n) => n.id === node.predicted_parent) ?? null;
     setArrival({ node, parent, edge });
+  }, [tree, seen]);
+
+  // Dismiss timer lives in its own effect: the detection effect above re-runs when
+  // `seen` changes and would otherwise cancel the timer it just started.
+  useEffect(() => {
+    if (!arrival) return;
     const timer = window.setTimeout(() => setArrival(null), SHOW_MS);
     return () => window.clearTimeout(timer);
-  }, [tree, seen]);
+  }, [arrival]);
 
   if (!arrival) return null;
   const { node, parent, edge } = arrival;
