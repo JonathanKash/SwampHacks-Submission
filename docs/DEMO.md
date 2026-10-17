@@ -72,3 +72,13 @@ found; 28 of 30 parents correct against the hidden truth (93%).
    measured AI-edit indicators, limitations and the reproducibility block (tool version, weights hash, SHA-256).
 4. The same button sits in the audit and tree side panels for any derived copy.
 5. CLI equivalent: `python backend/lineage_cli.py compare A.jpg B.jpg --json`.
+
+
+## Identify a meme (audience participation)
+
+1. Before the demo: `.venv\Scripts\python backend\scriptsuild_meme_case.py --no-clip` (about 2 minutes; the
+   case appears in Audit as "Meme originals · 38 families").
+2. Visitors open `/identify` from the QR code, upload any meme from their phone, press Identify.
+3. Talk track: the family card is the documented original with its date and source; "Your copy" shows the
+   measured edit; "Why?" opens the same evidence report as everywhere else. If it says "No family matched",
+   say so: it means nothing aligned pixel for pixel, and that is the honest answer.

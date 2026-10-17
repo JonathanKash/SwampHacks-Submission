@@ -61,6 +61,14 @@ Evaluation and tests:
 .venv\Scripts\python -m pytest backend\tests -q                  # 116 tests
 ```
 
+## Identify a meme: "which meme is this, and where did it come from?"
+
+`/identify` places one uploaded image against a knowledge-base case built from the 38 documented meme
+originals (`python backend/scripts/build_meme_case.py`). It returns the family, the documented original
+with its source note, date and links, the edit that separates your copy from it, and the full evidence
+report. Weak or meaning-only matches are reported as "no family matched" rather than guessed.
+`POST /api/identify` (field `file`) is the API; `IDENTIFY_CASE` selects a different case.
+
 ## Compare two files: "Why is this the parent?"
 
 `POST /api/compare` (two files, or two item ids from the pool or a case) returns a verdict of

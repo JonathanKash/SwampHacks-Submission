@@ -188,3 +188,9 @@ Decisions in SPEC.md (v2 section). Images first; audio/video only after images w
       0.02–0.05 observed 64% (n=11, over-claims; more data needed)
 - [ ] Web candidates (reverse-image provider behind an env key) + add-by-URL for cases
 - [ ] Audio, then video (after images work fully; internet samples)
+- [x] Identify (2026-10-17 ~12:00): `Pool.place` (non-persisting placement: pHash candidates -> min cost parent,
+      root walk, late-original check), `POST /api/identify`, knowledge-base case from the meme corpus
+      (109 items: 38 originals + 2 variants each), `/identify` page (Codex). Live check on 4 unseen captions:
+      2 placed in the right family with the documented original, 2 honestly "no family" (pHash-only mode).
+- [x] Content Credentials: c2pa-python reads and validates manifests (tested on c2pa-rs fixtures: Valid,
+      issuer, actions); shown as a metadata signal and, with generative-AI assertions, as an AI-edit indicator.
