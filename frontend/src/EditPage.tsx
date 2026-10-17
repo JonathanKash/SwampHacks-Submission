@@ -324,6 +324,7 @@ export default function EditPage() {
                     type="button"
                     key={kind.id}
                     onClick={() => setFilter(kind.id)}
+                    aria-pressed={filter === kind.id}
                   >
                     {kind.label}
                     <small>{kind.hint}</small>
@@ -345,7 +346,13 @@ export default function EditPage() {
               />
               <div className="quick-picks" aria-label="Quick caption picks">
                 {CAPTIONS.slice(0, 5).map((text) => (
-                  <button className="choice-chip" type="button" key={text} onClick={() => setCaption(text)}>
+                  <button
+                    className="choice-chip"
+                    type="button"
+                    key={text}
+                    onClick={() => setCaption(text)}
+                    aria-pressed={caption === text}
+                  >
                     {text}
                   </button>
                 ))}
@@ -363,6 +370,7 @@ export default function EditPage() {
                     type="button"
                     key={kind}
                     onClick={() => setStyle(kind)}
+                    aria-pressed={style === kind}
                   >
                     {titleCase(kind)}
                   </button>

@@ -9,6 +9,7 @@
   --surface: #111817;
   --surface-raised: #17201e;
   --line: #2b3935;
+  --line-strong: #4c5d57;
   --green: #62e6a6;
   --green-deep: #1aa96d;
   --orange: #ff8a3d;
@@ -33,7 +34,8 @@ body {
 }
 
 button,
-input {
+input,
+textarea {
   color: inherit;
   font: inherit;
 }
@@ -44,6 +46,7 @@ button {
 
 button:focus-visible,
 input:focus-visible,
+textarea:focus-visible,
 .tree-node:focus-visible {
   outline: 3px solid #9ff5ca;
   outline-offset: 3px;
@@ -99,7 +102,7 @@ input:focus-visible,
 }
 
 .secondary-button {
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-strong);
   color: var(--ink);
   background: rgba(17, 24, 23, 0.92);
 }
@@ -285,7 +288,7 @@ button:disabled {
 .edit-choice {
   min-height: 86px;
   padding: 15px 16px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-strong);
   border-radius: 17px;
   color: var(--ink);
   background: rgba(20, 29, 27, 0.88);
@@ -341,7 +344,7 @@ button:disabled {
 .choice-chip {
   min-height: 48px;
   padding: 10px 15px;
-  border: 1px solid #33443f;
+  border: 1px solid var(--line-strong);
   border-radius: 999px;
   color: #dce4df;
   background: #17201e;
@@ -361,7 +364,7 @@ button:disabled {
   min-height: 58px;
   margin-bottom: 12px;
   padding: 0 16px;
-  border: 1px solid #41544e;
+  border: 1px solid var(--line-strong);
   border-radius: 14px;
   color: var(--ink);
   background: #0c1211;
@@ -762,7 +765,8 @@ button:disabled {
 }
 
 .edge-label.is-wrong rect {
-  stroke: rgba(255, 101, 120, 0.7);
+  fill: var(--red);
+  stroke: var(--red);
 }
 
 .edge-label.is-sure rect {
@@ -770,7 +774,8 @@ button:disabled {
 }
 
 .edge-label.is-unsure rect {
-  stroke: rgba(228, 170, 84, 0.78);
+  fill: var(--orange);
+  stroke: var(--orange);
 }
 
 .edge-label text {
@@ -778,6 +783,11 @@ button:disabled {
   font-family: inherit;
   font-size: 11px;
   font-weight: 720;
+}
+
+.edge-label.is-wrong text,
+.edge-label.is-unsure text {
+  fill: #06100b;
 }
 
 .tree-node {
@@ -802,6 +812,11 @@ button:disabled {
   stroke-width: 2;
   pointer-events: none;
   vector-effect: non-scaling-stroke;
+}
+
+g.tree-node:focus-visible .node-border {
+  stroke: #62e6a6;
+  stroke-width: 3;
 }
 
 .tree-node:hover .node-border,
@@ -885,7 +900,7 @@ button:disabled {
   width: 48px;
   height: 48px;
   place-items: center;
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-strong);
   border-radius: 50%;
   color: #cad4cf;
   background: #17201e;
@@ -1031,7 +1046,10 @@ button:disabled {
   }
 
   .source-image.is-loading::before,
-  .tree-loading-card::after {
+  .tree-loading-card::after,
+  .node-card.pop-in,
+  .poll-dot::after,
+  .tree-node.is-newest .node-glow {
     animation: none !important;
     opacity: 0.35;
     transform: none;
@@ -1039,6 +1057,7 @@ button:disabled {
 }
 
 /* Industry provenance audit */
+.sr-only,
 .visually-hidden {
   position: absolute !important;
   width: 1px !important;
@@ -1129,7 +1148,7 @@ button:disabled {
   min-width: 0;
   min-height: 58px;
   padding: 0 12px;
-  border: 1px solid #3b4d47;
+  border: 1px solid var(--line-strong);
   border-radius: 13px;
   color: var(--ink);
   background: #0b1110;
@@ -1374,7 +1393,7 @@ button:disabled {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  border: 1px dashed #486159;
+  border: 1px dashed var(--line-strong);
   border-radius: 17px;
   color: #dce5e0;
   background: rgba(98, 230, 166, 0.035);
@@ -1387,6 +1406,11 @@ button:disabled {
 .audit-dropzone.is-dragging {
   border-color: var(--green);
   background: rgba(98, 230, 166, 0.1);
+}
+
+.audit-dropzone:focus-within {
+  outline: 3px solid #9ff5ca;
+  outline-offset: 3px;
 }
 
 .audit-dropzone.is-dragging {
@@ -1627,8 +1651,10 @@ button:disabled {
 }
 
 .footprint-hash button {
+  min-width: 24px;
+  min-height: 24px;
   padding: 2px 7px;
-  border: 1px solid #3a4a45;
+  border: 1px solid var(--line-strong);
   border-radius: 7px;
   color: var(--green);
   background: #17201e;

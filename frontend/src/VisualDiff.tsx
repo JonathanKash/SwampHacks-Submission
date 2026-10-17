@@ -39,6 +39,7 @@ export default function VisualDiff({
         className="secondary-button visual-diff-toggle"
         type="button"
         onClick={toggle}
+        aria-pressed={shown}
         aria-expanded={shown}
       >
         {shown ? hideLabel : showLabel}

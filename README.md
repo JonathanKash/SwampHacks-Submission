@@ -94,6 +94,16 @@ is 71% and 81% (83% on the run used for tuning); roots are found 6/6 on every ru
 See `CLAUDE.md` for the file layout, `SPEC.md` for the specification and `PLAN.md` for the
 evaluation history including rejected experiments.
 
+## Accessibility
+
+Reviewed against WCAG 2.2 AA (see `docs/research/accessibility-review.md`): text and pill contrast
+pass (dark text on green, orange and red pills; interactive borders at 3:1), every tree node is a
+keyboard-operable button with a visible focus ring, opening a node moves focus to its details
+panel and back, edges carry descriptive labels and do not rely on color alone (wrong-parent pills
+are prefixed with ×, semantic ones with ≈), the live accuracy counter and newest-image callout are
+ARIA live regions, the audit upload has a keyboard-reachable file input, and all animations
+honor `prefers-reduced-motion`.
+
 ## AI disclosure
 
 The code in this repository was written with AI coding agents under our direction during the

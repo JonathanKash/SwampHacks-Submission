@@ -1,6 +1,7 @@
 import { hierarchy, select, tree as d3Tree } from "d3";
 import { useLayoutEffect, useRef, useState } from "react";
 import type { TreeEdge, TreeNode, TreeResponse } from "./api";
+import { reliabilityTier } from "./EvidenceList";
 
 const NODE_SIZE = 96;
 const NODE_HALF = NODE_SIZE / 2;
@@ -43,7 +44,7 @@ interface TooltipState {
 interface TreeViewProps {
   data: TreeResponse;
   selectedId: string | null;
-  onSelect: (node: TreeNode) => void;
+  onSelect: (node: TreeNode, target: SVGGElement) => void;
   colorBy?: "truth" | "confidence";
   rootLabel?: string;
   rootTitle?: string;
@@ -130,6 +131,25 @@ function labelWidth(label: string): number {
   return Math.min(196, Math.max(56, labelText(label).length * 7.2 + 22));
 }
 
+function edgePillText(edge: LayoutEdge, colorBy: "truth" | "confidence"): string {
+  const prefixes = [];
+  if (colorBy === "truth" && !edge.correct) prefixes.push("×");
+  if (edge.semantic) prefixes.push("≈");
+  return [...prefixes, edge.label].join(" ");
+}
+
+function edgeAriaLabel(edge: LayoutEdge, colorBy: "truth" | "confidence"): string {
+  const precision = edge.evidence.confidence.precision;
+  const precisionText = precision === null
+    ? "empirical precision unavailable"
+    : `${Math.round(precision * 100)}% empirical precision`;
+  if (colorBy === "confidence") {
+    const tier = precision === null ? "unrated" : reliabilityTier(precision);
+    return `derived via ${edge.label}, ${precisionText}, ${tier} tier`;
+  }
+  return `derived via ${edge.label}, ${edge.correct ? "correct" : "wrong"} parent, ${precisionText}`;
+}
+
 export default function TreeView({
   data,
   selectedId,
@@ -162,6 +182,9 @@ export default function TreeView({
     if (!svgElement || size.width === 0 || size.height === 0 || data.nodes.length === 0) return;
 
     const layout = buildLayout(data);
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const transitionMs = reduceMotion ? 0 : TRANSITION_MS;
+    const exitTransitionMs = reduceMotion ? 0 : 240;
     // Caption each node with what was done to it; ids mean nothing to a viewer.
     const captions = new Map(data.edges.map((edge) => [edge.dst, edge.label]));
     const svg = select(svgElement).attr("viewBox", `0 0 ${size.width} ${size.height}`);
@@ -183,7 +206,7 @@ export default function TreeView({
     const translateY = top - layout.minY * scale;
     stage
       .transition()
-      .duration(TRANSITION_MS)
+      .duration(transitionMs)
       .attr("transform", `translate(${translateX},${translateY}) scale(${scale})`);
 
     const clips = clipsLayer
@@ -205,7 +228,7 @@ export default function TreeView({
     const edgeJoin = linksLayer
       .selectAll<SVGGElement, LayoutEdge>("g.tree-edge")
       .data(layout.edges, (edge) => `${edge.src}-${edge.dst}`);
-    edgeJoin.exit().transition().duration(240).style("opacity", "0").remove();
+    edgeJoin.exit().transition().duration(exitTransitionMs).style("opacity", "0").remove();
     const edgeEnter = edgeJoin.enter().append("g").attr("class", "tree-edge").style("opacity", "0");
     edgeEnter.append("path").attr("class", "edge-line");
     edgeEnter.append("path").attr("class", "edge-hit");
@@ -221,6 +244,8 @@ export default function TreeView({
           : precision !== null && precision >= 0.85 ? "is-sure" : "is-unsure";
         return `tree-edge ${tone}${edge.semantic ? " is-semantic" : ""}`;
       })
+      .attr("role", "img")
+      .attr("aria-label", (edge) => edgeAriaLabel(edge, colorBy))
       .on("pointerenter", (event: PointerEvent, edge) => {
         const bounds = containerRef.current?.getBoundingClientRect();
         if (!bounds) return;
@@ -233,19 +258,24 @@ export default function TreeView({
       })
       .on("pointerleave", () => setTooltip(null))
       .transition()
-      .duration(TRANSITION_MS)
+      .duration(transitionMs)
       .style("opacity", "1");
     edgeMerged
       .selectAll<SVGPathElement, LayoutEdge>("path")
       .transition()
-      .duration(TRANSITION_MS)
+      .duration(transitionMs)
       .attr("d", linkPath);
 
     const labelJoin = labelsLayer
       .selectAll<SVGGElement, LayoutEdge>("g.edge-label")
       .data(layout.edges, (edge) => `${edge.src}-${edge.dst}`);
-    labelJoin.exit().transition().duration(240).style("opacity", "0").remove();
-    const labelEnter = labelJoin.enter().append("g").attr("class", "edge-label").style("opacity", "0");
+    labelJoin.exit().transition().duration(exitTransitionMs).style("opacity", "0").remove();
+    const labelEnter = labelJoin
+      .enter()
+      .append("g")
+      .attr("class", "edge-label")
+      .attr("aria-hidden", "true")
+      .style("opacity", "0");
     labelEnter.append("rect").attr("y", -13).attr("height", 26).attr("rx", 13);
     labelEnter.append("text").attr("dy", "0.35em").attr("text-anchor", "middle");
     const labelMerged = labelEnter.merge(labelJoin);
@@ -258,12 +288,12 @@ export default function TreeView({
         return `edge-label ${tone}`;
       })
       .select("rect")
-      .attr("x", (edge) => -labelWidth(edge.label) / 2)
-      .attr("width", (edge) => labelWidth(edge.label));
-    labelMerged.select("text").text((edge) => labelText(edge.label));
+      .attr("x", (edge) => -labelWidth(edgePillText(edge, colorBy)) / 2)
+      .attr("width", (edge) => labelWidth(edgePillText(edge, colorBy)));
+    labelMerged.select("text").text((edge) => labelText(edgePillText(edge, colorBy)));
     labelMerged
       .transition()
-      .duration(TRANSITION_MS)
+      .duration(transitionMs)
       .style("opacity", "1")
       .attr("transform", (edge) => {
         const position = labelPosition(edge);
@@ -273,7 +303,7 @@ export default function TreeView({
     const nodeJoin = nodesLayer
       .selectAll<SVGGElement, LayoutNode>("g.tree-node")
       .data(layout.nodes, (node) => node.item.id);
-    nodeJoin.exit().transition().duration(240).style("opacity", "0").remove();
+    nodeJoin.exit().transition().duration(exitTransitionMs).style("opacity", "0").remove();
 
     const nodeEnter = nodeJoin
       .enter()
@@ -305,12 +335,12 @@ export default function TreeView({
       .attr("aria-label", (node) => `Open image ${node.item.id}`)
       .on("click", (event: MouseEvent, node) => {
         event.stopPropagation();
-        onSelect(node.item);
+        onSelect(node.item, event.currentTarget as SVGGElement);
       })
       .on("keydown", (event: KeyboardEvent, node) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
-          onSelect(node.item);
+          onSelect(node.item, event.currentTarget as SVGGElement);
         }
       });
     nodeEnter
@@ -329,7 +359,7 @@ export default function TreeView({
         : `${node.item.edit ? `${node.item.edit} · ` : ""}${node.item.id}`);
     nodeMerged
       .transition()
-      .duration(TRANSITION_MS)
+      .duration(transitionMs)
       .style("opacity", "1")
       .attr("transform", (node) => `translate(${node.x},${node.y})`);
 

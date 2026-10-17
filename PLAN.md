@@ -105,7 +105,10 @@ are, and an exportable report.
 - [x] Smoke test extended to diff + HTML report + footprint
 - [x] C2PA manifest presence recorded at ingest (unverified hint)
 - [x] HTML report embeds a visual diff exhibit per derived copy; verdict page shows the evidence picture (Codex)
-- [ ] Accessibility pass (contrast, focus, SVG tree semantics) after Gemini research
+- [x] Accessibility pass (Codex, from Gemini's WCAG review): pill/border contrast, focus rings + focus
+      management, aria-pressed toggles, live regions, labelled edges with non-color prefixes, keyboard
+      file input, reduced motion; verified headlessly
+- [x] Research notes archived in docs/research/ with provenance
 
 ## Phase 5 — second media type: text (started 2026-10-17 ~02:30 ET)
 - [x] Media plug-in interface (lineage/media.py); Engine takes any plug-in; evidence accepts plug-in reasons

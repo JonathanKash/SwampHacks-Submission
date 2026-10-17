@@ -90,6 +90,8 @@ export default function AuditPage() {
   const [copiedHash, setCopiedHash] = useState(false);
   const copyResetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hashCopyResetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const returnFocusRef = useRef<SVGGElement | null>(null);
   const selectedCaseId = searchParams.get("case");
 
   const selectCase = useCallback((id: string | null) => {
@@ -174,6 +176,10 @@ export default function AuditPage() {
       setSelectedNodeId(null);
     }
   }, [selectedNodeId, tree]);
+
+  useEffect(() => {
+    if (selectedNodeId) closeButtonRef.current?.focus();
+  }, [selectedNodeId]);
 
   const selectedCase = useMemo(
     () => cases.find((auditCase) => auditCase.id === selectedCaseId) ?? null,
@@ -262,7 +268,15 @@ export default function AuditPage() {
     void uploadFiles(event.dataTransfer.files);
   };
 
-  const selectNode = useCallback((node: TreeNode) => setSelectedNodeId(node.id), []);
+  const selectNode = useCallback((node: TreeNode, target: SVGGElement) => {
+    returnFocusRef.current = target;
+    setSelectedNodeId(node.id);
+  }, []);
+
+  const closeDetails = useCallback(() => {
+    setSelectedNodeId(null);
+    window.requestAnimationFrame(() => returnFocusRef.current?.focus());
+  }, []);
 
   const handleAnalystChange = (value: string) => {
     setAnalyst(value);
@@ -348,10 +362,10 @@ export default function AuditPage() {
                     type="button"
                     className="audit-case-delete"
                     onClick={() => void handleDelete(auditCase)}
-                    aria-label={`Delete ${auditCase.name}`}
                     title="Delete case"
                   >
-                    ×
+                    <span aria-hidden="true">×</span>
+                    <span className="sr-only">Delete {auditCase.name}</span>
                   </button>
                 </div>
               ))}
@@ -416,7 +430,12 @@ export default function AuditPage() {
                 </div>
               </header>
 
-              <dl className="audit-summary" aria-label="Case summary">
+              <dl
+                className="audit-summary"
+                aria-label="Case summary"
+                aria-live="polite"
+                aria-atomic="true"
+              >
                 <div><dt>images</dt><dd>{summary.images}</dd></div>
                 <div><dt>families</dt><dd>{summary.families}</dd></div>
                 <div><dt>mean empirical precision</dt><dd>{formatPrecision(summary.mean_precision)}</dd></div>
@@ -440,7 +459,7 @@ export default function AuditPage() {
               >
                 <input
                   id="audit-files"
-                  className="visually-hidden"
+                  className="sr-only"
                   type="file"
                   accept="image/*"
                   multiple
@@ -506,7 +525,8 @@ export default function AuditPage() {
                     <button
                       className="panel-close"
                       type="button"
-                      onClick={() => setSelectedNodeId(null)}
+                      ref={closeButtonRef}
+                      onClick={closeDetails}
                       aria-label="Close details"
                     >
                       ×

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import type { TreeNode } from "./api";
 import EvidenceList from "./EvidenceList";
@@ -19,7 +19,16 @@ export default function TreePage() {
 
   const { tree, loading, fetching, error } = useTreePolling();
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const selectNode = useCallback((node: TreeNode) => setSelectedId(node.id), []);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const returnFocusRef = useRef<SVGGElement | null>(null);
+  const selectNode = useCallback((node: TreeNode, target: SVGGElement) => {
+    returnFocusRef.current = target;
+    setSelectedId(node.id);
+  }, []);
+  const closeDetails = useCallback(() => {
+    setSelectedId(null);
+    window.requestAnimationFrame(() => returnFocusRef.current?.focus());
+  }, []);
 
   const selectedNode = useMemo(
     () => tree?.nodes.find((node) => node.id === selectedId) ?? null,
@@ -42,6 +51,10 @@ export default function TreePage() {
     }
   }, [selectedId, tree]);
 
+  useEffect(() => {
+    if (selectedId) closeButtonRef.current?.focus();
+  }, [selectedId]);
+
   const accuracy = tree?.accuracy;
 
   return (
@@ -54,8 +67,8 @@ export default function TreePage() {
             <h1>Lineage</h1>
           </div>
         </Link>
-        <div className="scoreboard" aria-live="polite">
-          <div className="score-main">
+        <div className="scoreboard">
+          <div className="score-main" aria-live="polite" aria-atomic="true">
             <span className="score-label">tree accuracy</span>
             <strong>{accuracy ? `${formatPercent(accuracy.pct)}%` : "—"}</strong>
             <span className="score-sub">
@@ -116,7 +129,10 @@ export default function TreePage() {
             <TreeView data={tree} selectedId={selectedId} onSelect={selectNode} />
 
             {newest && (
-              <div className={`newest-callout ${newest.node.root ? "" : newest.node.correct ? "is-ok" : "is-bad"}`}>
+              <div
+                className={`newest-callout ${newest.node.root ? "" : newest.node.correct ? "is-ok" : "is-bad"}`}
+                role="status"
+              >
                 <img src={newest.node.thumb} alt="" />
                 <div>
                   <p className="eyebrow">Newest image</p>
@@ -148,7 +164,13 @@ export default function TreePage() {
 
             {selectedNode && (
               <aside className="node-panel" aria-label="Image details">
-                <button className="panel-close" type="button" onClick={() => setSelectedId(null)} aria-label="Close details">
+                <button
+                  className="panel-close"
+                  type="button"
+                  ref={closeButtonRef}
+                  onClick={closeDetails}
+                  aria-label="Close details"
+                >
                   ×
                 </button>
                 <p className="eyebrow">{selectedNode.root ? "Original" : "Edited copy"}</p>

@@ -227,7 +227,7 @@
 }
 
 .idea-arrow.bad {
-  color: #fff;
+  color: #06100b;
   background: var(--red);
 }
 
@@ -237,6 +237,11 @@
   color: #d4ddd7;
   font-size: 1.08rem;
   line-height: 1.55;
+}
+
+p a {
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
 }
 
 .stages {
@@ -949,7 +954,7 @@
 .text-version textarea {
   width: 100%;
   padding: 12px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-strong);
   border-radius: 14px;
   color: var(--ink);
   background: rgba(17, 24, 23, 0.9);
@@ -980,7 +985,7 @@
   width: 100%;
   margin: 6px 0;
   padding: 10px 14px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-strong);
   border-radius: 14px;
   color: var(--ink);
   background: rgba(17, 24, 23, 0.85);

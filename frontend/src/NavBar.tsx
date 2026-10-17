@@ -27,6 +27,7 @@ export default function NavBar({ compact = false }: { compact?: boolean }) {
         <button
           className="secondary-button nav-menu-button"
           type="button"
+          aria-pressed={menuOpen}
           aria-expanded={menuOpen}
           aria-controls="main-navigation"
           onClick={() => setMenuOpen((open) => !open)}
