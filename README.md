@@ -112,9 +112,10 @@ Why some edits have no direction in the pixels, and what we do about it: [docs/r
 ## Benchmark corpora (not redistributed)
 
 - `benchmark/nanobanana/`: eight openly licensed photographs from Wikimedia Commons (see
-  `sources/credits.json` for titles, authors and licenses) plus Met CC0 seeds, each edited by Gemini
+  `sources/credits.json` for titles, authors and licenses) plus Met CC0 seeds, edited by Gemini
   through the Antigravity CLI with six instructions (object add, object remove, background swap,
-  watercolor restyle, subtle retouch, meme caption). Ground truth: the source is the parent.
+  watercolor restyle, subtle retouch, meme caption); 25 edits so far (four photos complete), the rest
+  blocked by the image quota. Ground truth: the source is the parent.
   `make_corpus.py` regenerates it; the images themselves are git-ignored.
 - `benchmark/memes/`: 30 meme families with a documented original/template and variants collected
   from the web by a download script; manifest and credits are tracked, images are not.

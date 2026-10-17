@@ -53,6 +53,8 @@ Reviewed against WCAG 2.2 AA: contrast fixed on pills and interactive borders, e
 Information loss is a strong signal for roots and direction, but it is weaker for choosing the immediate ancestor among several valid ancestors. A small, interpretable prior can settle near-ties more reliably than another large visual heuristic. We also learned that evidence is part of the product: forward and reverse costs, rejected circular choices, margins, and calibration make a result reviewable instead of merely plausible. Finally, held-out evaluation caught problems that a good-looking live demo would not have revealed.
 
 ## What's next
+Audio and video with the same evidence and abstention rules (Chromaprint-style fingerprints, keyframe hashing); internet originals through a reverse-image provider; finishing the generative-edit corpus and calibrating the object add/remove case if a measurable asymmetry appears.
+
 
 We want to add a web mode that brings in candidates from reverse-image providers, double-JPEG detection for compression chains (our first attempt, an AC-sparsity cue, lost accuracy and was reverted), more media plug-ins on the same core, and C2PA ingestion so signed provenance can complement pixel-based inference.
 

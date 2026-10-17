@@ -219,7 +219,8 @@ Decisions in SPEC.md (v2 section). Images first; audio/video only after images w
       precision; tree view zoom/pan with fit controls (223-item case readable); method page: decides vs informs,
       symmetry limitation, caption-removed row; deploy notes + Dockerfile copy benchmark/; CLAUDE.md refreshed.
 - [x] Identify on 378 held-out meme copies (knowledge base: 223 items, pHash-only mode): 293 correct family (77.5%), 85 abstained, 0 wrong family; median 4.13 s, p90 5.3 s. By kind: crop 31/45, caption 255/314, other 5/6, screenshot 2/13.
-- [~] Gemini edit corpus resumed 15:50 local after the quota reset (16 edits so far; driver running, 12 per pass).
+- [x] Gemini edit corpus: 25 edits (4 photos x 6 instructions + Met object_add); the image quota ran out again at 16:30
+      (src05-src08 pending; `make_corpus.py` resumes where it left off).
 - [x] Meme benchmark pass 3 (family splits, 563 pairs, pHash-only): when the documented "original" is a SMALLER
       file than its variant (287 pairs, ambiguous truth) wrong parent claimed 31%, direction 20%, abstained 49%;
       when the documented original is at least as large (276 pairs, clean truth) wrong parent claimed 13%,
@@ -239,3 +240,10 @@ Decisions in SPEC.md (v2 section). Images first; audio/video only after images w
       Synthetic pairwise: direction 89 / 84 / 79, wrong parent 6 / 4 / 2 %, abstained 6 / 11 / 19 %.
       Decisive-cue audit on synthetic claims: several cues 99% (n=145), blockiness 100% (39), entropy 84% (32),
       caption_removed 90% (10); edit_ops-only never occurs.
+
+## What's next (after the hackathon)
+- Audio (Chromaprint-style constellation fingerprints; trim/bandwidth/added-content costs) and video (keyframe
+  hashing + per-keyframe image cost), both with internet samples and the same evidence/abstention rules.
+- Internet originals: reverse-image provider behind SERPAPI_KEY (code and UI are in place, no key).
+- Finish the Gemini edit corpus (quota) and re-measure per edit type; calibrate the "object add/remove" case if a
+  measurable asymmetry appears (noise consistency showed ratio 1.5-2.3 on the first examples).
