@@ -20,6 +20,7 @@ from pathlib import Path
 from PIL import ExifTags, Image
 
 from lineage import config
+from lineage.c2pa_check import inspect_c2pa
 from lineage.core.engine import Engine
 from lineage.edits import image_edits
 from lineage.evidence import build_evidence, load_calibration
@@ -128,7 +129,7 @@ class Pool:
         """Store a new version, fingerprint it, and (by default) rebuild the tree.
         `raw` is the uploaded file as received (for metadata/manifest hints)."""
         params = dict(params or {})
-        params.setdefault("metadata", {**exif_hints(img), "c2pa_manifest": c2pa_present(raw)})
+        params.setdefault("metadata", {**exif_hints(img), "c2pa_manifest": c2pa_present(raw), "c2pa": inspect_c2pa(raw) if raw else None})
         # Tamper-evident footprint of what was received, before any resizing. The hash is of
         # the uploaded bytes when we have them, else of a lossless re-encode.
         raw_bytes = raw

@@ -23,6 +23,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from lineage.c2pa_check import inspect_c2pa  # noqa: E402
 from lineage.compare import compare  # noqa: E402
 from lineage.core.engine import Engine  # noqa: E402
 from lineage.evidence import build_evidence, load_calibration  # noqa: E402
@@ -46,7 +47,7 @@ def _meta(path: Path) -> dict:
     img = Image.open(io.BytesIO(raw))
     return {"footprint": {"sha256": hashlib.sha256(raw).hexdigest(), "width": img.size[0], "height": img.size[1],
                           "bytes": len(raw), "jpeg_quality": jpeg_quality_estimate(raw)},
-            "metadata": {**exif_hints(img), "c2pa_manifest": c2pa_present(raw)}}
+            "metadata": {**exif_hints(img), "c2pa_manifest": c2pa_present(raw), "c2pa": inspect_c2pa(raw)}}
 
 
 def _images(folder: Path) -> list[Path]:

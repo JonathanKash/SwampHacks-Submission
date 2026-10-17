@@ -381,7 +381,9 @@ def _upload_data_and_meta(upload: UploadFile, label: str) -> tuple:
     raw = upload.file.read()
     try:
         img = Image.open(io.BytesIO(raw))
-        hints = {**exif_hints(img), "c2pa_manifest": c2pa_present(raw)}
+        from lineage.c2pa_check import inspect_c2pa
+
+        hints = {**exif_hints(img), "c2pa_manifest": c2pa_present(raw), "c2pa": inspect_c2pa(raw)}
         width, height = img.size
     except Exception as exc:
         raise HTTPException(400, f"could not decode {upload.filename}: {exc}") from exc

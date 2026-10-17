@@ -187,8 +187,15 @@ def compare(a: ImageData, b: ImageData, meta_a: dict | None = None, meta_b: dict
         add("stored dimensions", f"A {fa_px['width']}×{fa_px['height']}, B {fb_px['width']}×{fb_px['height']}", "hint only", "hint", "metadata")
     for label, meta in (("A", meta_a), ("B", meta_b)):
         md = meta.get("metadata") or {}
-        if md.get("c2pa_manifest"):
-            add("C2PA manifest", f"present on {label} (signature not verified here)", "signed provenance exists", "hint", "metadata")
+        c2 = md.get("c2pa")
+        if c2 and c2.get("present"):
+            state = c2.get("validation_state") or "unknown"
+            who = c2.get("issuer") or c2.get("claim_generator") or "unknown signer"
+            add("Content Credentials (C2PA)", f"{label}: manifest {state}, signed by {who}" + (f" at {c2['signed_at']}" if c2.get("signed_at") else "")
+                + (f"; actions: {', '.join(c2['actions'][:5])}" if c2.get("actions") else ""),
+                "signed edit history" if state == "Valid" else "manifest present but not valid: treat as untrusted", "hint", "metadata")
+        elif md.get("c2pa_manifest"):
+            add("C2PA manifest", f"present on {label} (could not be parsed)", "signed provenance may exist", "hint", "metadata")
         if md.get("software"):
             add("EXIF software tag", f"{label}: {md['software']}", "hint only", "hint", "metadata")
     if registered and parent and len(decisive) == 1:
@@ -225,8 +232,12 @@ def compare(a: ImageData, b: ImageData, meta_a: dict | None = None, meta_b: dict
     if not registered and related_by_meaning:
         ai_indicators.append("Same subject, no pixel alignment: typical of generative re-rendering or heavy restyling. Not proof of AI use.")
     for label, meta in (("A", meta_a), ("B", meta_b)):
-        if (meta.get("metadata") or {}).get("c2pa_manifest"):
-            ai_indicators.append(f"{label} carries a C2PA manifest; many AI tools attach one. Verify the signature with a C2PA tool.")
+        c2 = (meta.get("metadata") or {}).get("c2pa") or {}
+        if c2.get("generative_ai_assertions"):
+            ai_indicators.append(f"{label} carries a {c2.get('validation_state', 'unverified')} Content Credentials manifest declaring "
+                                 f"{', '.join(c2['generative_ai_assertions'])} (signed by {c2.get('issuer') or 'unknown'}).")
+        elif c2.get("present"):
+            ai_indicators.append(f"{label} carries a Content Credentials manifest ({c2.get('validation_state', 'unverified')}) with no generative-AI assertion.")
 
     confidence = confidence_for(margin, calibration) if (margin is not None and verdict == "parent-child") else {"bucket": None, "precision": None, "n": 0}
     if override_confidence is None and decisive == ["caption_removed"] and (calibration.get("caption_side") or {}).get("n"):
