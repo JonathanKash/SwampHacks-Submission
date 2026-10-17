@@ -123,6 +123,8 @@ are, and an exportable report.
 - [x] Low-memory mode widens candidates to k=16 (pHash-only search missed a true parent at k=8)
 - [x] Moderation: delete an image (demo pool or case) with child re-linking; documented in the runbook; UI control
       in the audit panel (and on /tree?admin=1) with an admin-token prompt; low-memory mode badge from /api/health
+- [x] Per-client cooldown on /api/edit (EDIT_COOLDOWN_S) against tap spam from phones
+- [x] /method page: every cost term with weight and direction logic, pipeline, evidence/calibration, limitations
 
 ## Phase 5 — second media type: text (started 2026-10-17 ~02:30 ET)
 - [x] Media plug-in interface (lineage/media.py); Engine takes any plug-in; evidence accepts plug-in reasons
