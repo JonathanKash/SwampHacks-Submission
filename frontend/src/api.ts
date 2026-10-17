@@ -251,6 +251,20 @@ export interface CaseItemsResponse {
   items: PoolItem[];
 }
 
+export interface UrlFailure {
+  url: string;
+  error: string;
+}
+
+export interface AddCaseItemsByUrlResponse {
+  items: TreeNode[];
+  failed: UrlFailure[];
+}
+
+export interface WebSearchCaseItemResponse extends AddCaseItemsByUrlResponse {
+  candidates: number;
+}
+
 export interface EditRequest {
   parent_id: string;
   edit: EditKind;
@@ -394,6 +408,33 @@ export async function uploadCaseFiles(
   });
 }
 
+export function addCaseItemsByUrl(
+  caseId: string,
+  urls: string[],
+  signal?: AbortSignal,
+): Promise<AddCaseItemsByUrlResponse> {
+  return requestJson<AddCaseItemsByUrlResponse>(
+    `/api/cases/${encodeURIComponent(caseId)}/items/urls`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ urls }),
+      signal,
+    },
+  );
+}
+
+export function webSearchCaseItem(
+  caseId: string,
+  itemId: string,
+  signal?: AbortSignal,
+): Promise<WebSearchCaseItemResponse> {
+  return requestJson<WebSearchCaseItemResponse>(
+    `/api/cases/${encodeURIComponent(caseId)}/web-search/${encodeURIComponent(itemId)}?limit=10`,
+    { method: "POST", signal },
+  );
+}
+
 export async function fetchCaseTree(
   id: string,
   since?: number,
@@ -464,6 +505,8 @@ export interface HealthResponse {
   version: number;
   clip: boolean;
   lan_url: string | null;
+  web_search: boolean;
+  identify_ready: boolean;
 }
 
 export function fetchHealth(signal?: AbortSignal): Promise<HealthResponse> {

@@ -10,11 +10,14 @@ import {
 } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
+  type AddCaseItemsByUrlResponse,
   ApiError,
   type AuditCase,
   type CompareReportResponse,
   type TreeNode,
   type TreeResponse,
+  type WebSearchCaseItemResponse,
+  addCaseItemsByUrl,
   compareIds,
   createCase,
   createSampleCase,
@@ -25,6 +28,7 @@ import {
   htmlReportUrl,
   reportUrl,
   uploadCaseFiles,
+  webSearchCaseItem,
 } from "./api";
 import CompareReport from "./CompareReport";
 import ConfidenceChip from "./ConfidenceChip";
@@ -34,6 +38,7 @@ import { provenancePath, provenanceSentence } from "./provenance";
 import ModeBadge from "./ModeBadge";
 import RemoveButton from "./RemoveButton";
 import TreeView from "./TreeView";
+import { useHealth } from "./useHealth";
 import { usePageTitle } from "./usePageTitle";
 import VisualDiff from "./VisualDiff";
 
@@ -61,6 +66,10 @@ function formatBytes(value: number): string {
   return `${new Intl.NumberFormat().format(value)} bytes`;
 }
 
+function truncateUrl(value: string, maxLength = 58): string {
+  return value.length > maxLength ? `${value.slice(0, maxLength - 1)}…` : value;
+}
+
 function storedAnalyst(): string {
   try {
     return window.localStorage.getItem("lineage.analyst") ?? "";
@@ -77,6 +86,7 @@ function isImage(file: File): boolean {
 /** Industry workspace: unknown ground truth, so decisions are presented by empirical precision. */
 export default function AuditPage() {
   usePageTitle("Audit · Lineage");
+  const health = useHealth();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [cases, setCases] = useState<AuditCase[]>([]);
@@ -90,6 +100,10 @@ export default function AuditPage() {
   const [sampleError, setSampleError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadCount, setUploadCount] = useState(0);
+  const [urlInput, setUrlInput] = useState("");
+  const [addingUrls, setAddingUrls] = useState(false);
+  const [urlResult, setUrlResult] = useState<AddCaseItemsByUrlResponse | null>(null);
+  const [urlError, setUrlError] = useState<string | null>(null);
   const [treeLoading, setTreeLoading] = useState(false);
   const [treeFetching, setTreeFetching] = useState(false);
   const [dragging, setDragging] = useState(false);
@@ -103,6 +117,9 @@ export default function AuditPage() {
   const [parentReportOpen, setParentReportOpen] = useState(false);
   const [parentReportLoading, setParentReportLoading] = useState(false);
   const [parentReportError, setParentReportError] = useState<string | null>(null);
+  const [webSearching, setWebSearching] = useState(false);
+  const [webSearchResult, setWebSearchResult] = useState<WebSearchCaseItemResponse | null>(null);
+  const [webSearchError, setWebSearchError] = useState<string | null>(null);
   const [verifyVerdict, setVerifyVerdict] = useState<string | null>(null);
   const [originalToast, setOriginalToast] = useState<{ caseId: string; count: number } | null>(null);
 
@@ -128,20 +145,36 @@ export default function AuditPage() {
   const copyResetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hashCopyResetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const compareRequestRef = useRef<AbortController | null>(null);
+  const urlRequestRef = useRef<AbortController | null>(null);
+  const webSearchRequestRef = useRef<AbortController | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const returnFocusRef = useRef<SVGGElement | null>(null);
   const takeoverCheckCaseRef = useRef<string | null>(null);
   const selectedCaseId = searchParams.get("case");
+  const selectedCaseIdRef = useRef(selectedCaseId);
+  selectedCaseIdRef.current = selectedCaseId;
 
   // A new selection starts without comparison state from the prior image.
   useEffect(() => {
     compareRequestRef.current?.abort();
+    webSearchRequestRef.current?.abort();
     setCompareWith("");
     setParentReport(null);
     setParentReportOpen(false);
     setParentReportLoading(false);
     setParentReportError(null);
+    setWebSearching(false);
+    setWebSearchResult(null);
+    setWebSearchError(null);
   }, [selectedNodeId]);
+
+  useEffect(() => {
+    urlRequestRef.current?.abort();
+    setUrlInput("");
+    setAddingUrls(false);
+    setUrlResult(null);
+    setUrlError(null);
+  }, [selectedCaseId]);
 
   const selectCase = useCallback((id: string | null) => {
     setSearchParams((current) => {
@@ -156,6 +189,14 @@ export default function AuditPage() {
     const response = await fetchCases(signal);
     setCases(response.cases);
   }, []);
+
+  const refreshCaseData = useCallback(async (caseId: string, signal?: AbortSignal) => {
+    const [nextTree] = await Promise.all([
+      fetchCaseTree(caseId, undefined, signal),
+      loadCases(signal),
+    ]);
+    if (nextTree && selectedCaseIdRef.current === caseId) setTree(nextTree);
+  }, [loadCases]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -175,6 +216,8 @@ export default function AuditPage() {
     if (copyResetTimer.current !== null) clearTimeout(copyResetTimer.current);
     if (hashCopyResetTimer.current !== null) clearTimeout(hashCopyResetTimer.current);
     compareRequestRef.current?.abort();
+    urlRequestRef.current?.abort();
+    webSearchRequestRef.current?.abort();
   }, []);
 
   useEffect(() => {
@@ -255,6 +298,13 @@ export default function AuditPage() {
   const selectedNode = useMemo(
     () => tree?.nodes.find((node) => node.id === selectedNodeId) ?? null,
     [selectedNodeId, tree],
+  );
+  const sourceUrl = typeof selectedNode?.params.source_url === "string"
+    ? selectedNode.params.source_url
+    : null;
+  const urlEntries = useMemo(
+    () => urlInput.split(/\r?\n/).map((url) => url.trim()).filter(Boolean),
+    [urlInput],
   );
   const incomingEdge = useMemo(
     () => tree?.edges.find((edge) => edge.dst === selectedNodeId) ?? null,
@@ -352,6 +402,36 @@ export default function AuditPage() {
     void uploadFiles(event.dataTransfer.files);
   };
 
+  const handleAddUrls = async (event: FormEvent) => {
+    event.preventDefault();
+    if (!selectedCaseId || addingUrls) return;
+    if (urlEntries.length === 0 || urlEntries.length > 40) {
+      setUrlError("Enter 1 to 40 URLs, one per line.");
+      return;
+    }
+
+    const caseId = selectedCaseId;
+    const controller = new AbortController();
+    urlRequestRef.current?.abort();
+    urlRequestRef.current = controller;
+    setAddingUrls(true);
+    setUrlResult(null);
+    setUrlError(null);
+    try {
+      const result = await addCaseItemsByUrl(caseId, urlEntries, controller.signal);
+      if (controller.signal.aborted) return;
+      setUrlResult(result);
+      setUrlInput(result.failed.map((failure) => failure.url).join("\n"));
+      await refreshCaseData(caseId, controller.signal);
+    } catch (addError) {
+      if (!(addError instanceof DOMException && addError.name === "AbortError")) {
+        setUrlError(messageFrom(addError));
+      }
+    } finally {
+      if (!controller.signal.aborted) setAddingUrls(false);
+    }
+  };
+
   const selectNode = useCallback((node: TreeNode, target: SVGGElement) => {
     returnFocusRef.current = target;
     setSelectedNodeId(node.id);
@@ -422,6 +502,32 @@ export default function AuditPage() {
       }
     } finally {
       if (!controller.signal.aborted) setParentReportLoading(false);
+    }
+  };
+
+  const handleWebSearch = async () => {
+    if (!selectedCaseId || !selectedNode || webSearching || !health?.web_search) return;
+
+    const caseId = selectedCaseId;
+    const itemId = selectedNode.id;
+    const controller = new AbortController();
+    webSearchRequestRef.current?.abort();
+    webSearchRequestRef.current = controller;
+    setWebSearching(true);
+    setWebSearchResult(null);
+    setWebSearchError(null);
+    try {
+      const result = await webSearchCaseItem(caseId, itemId, controller.signal);
+      if (controller.signal.aborted) return;
+      setWebSearchResult(result);
+      await refreshCaseData(caseId, controller.signal);
+    } catch (searchError) {
+      if (!(searchError instanceof DOMException && searchError.name === "AbortError")) {
+        // ApiError preserves the server's 503 detail for actionable setup guidance.
+        setWebSearchError(messageFrom(searchError));
+      }
+    } finally {
+      if (!controller.signal.aborted) setWebSearching(false);
     }
   };
 
@@ -599,39 +705,98 @@ export default function AuditPage() {
                 />
               </dl>
 
-              <label
-                className={`audit-dropzone ${dragging ? "is-dragging" : ""} ${uploading ? "is-uploading" : ""}`}
-                htmlFor="audit-files"
-                onDragEnter={(event) => { event.preventDefault(); setDragging(true); }}
-                onDragOver={(event) => event.preventDefault()}
-                onDragLeave={(event) => {
-                  if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setDragging(false);
-                }}
-                onDrop={handleDrop}
-              >
-                <input
-                  id="audit-files"
-                  className="sr-only"
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  disabled={uploading}
-                  onChange={handleFileInput}
-                />
-                {uploading ? (
-                  <>
-                    <span className="spinner large" aria-hidden="true" />
-                    <strong>Analysing {uploadCount} {uploadCount === 1 ? "image" : "images"}…</strong>
-                    <span>Reconstructing likely parents and calibrating each decision.</span>
-                  </>
-                ) : (
-                  <>
-                    <span className="audit-upload-mark" aria-hidden="true">＋</span>
-                    <strong>Drop image versions here, or click to choose</strong>
-                    <span>Upload multiple images together. Originals and copies can be mixed.</span>
-                  </>
-                )}
-              </label>
+              <div className="audit-ingest">
+                <label
+                  className={`audit-dropzone ${dragging ? "is-dragging" : ""} ${uploading ? "is-uploading" : ""}`}
+                  htmlFor="audit-files"
+                  onDragEnter={(event) => { event.preventDefault(); setDragging(true); }}
+                  onDragOver={(event) => event.preventDefault()}
+                  onDragLeave={(event) => {
+                    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setDragging(false);
+                  }}
+                  onDrop={handleDrop}
+                >
+                  <input
+                    id="audit-files"
+                    className="sr-only"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    disabled={uploading}
+                    onChange={handleFileInput}
+                  />
+                  {uploading ? (
+                    <>
+                      <span className="spinner large" aria-hidden="true" />
+                      <strong>Analysing {uploadCount} {uploadCount === 1 ? "image" : "images"}…</strong>
+                      <span>Reconstructing likely parents and calibrating each decision.</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="audit-upload-mark" aria-hidden="true">＋</span>
+                      <strong>Drop image versions here, or click to choose</strong>
+                      <span>Upload multiple images together. Originals and copies can be mixed.</span>
+                    </>
+                  )}
+                </label>
+                <details className="audit-url-import">
+                  <summary>Add from URLs</summary>
+                  <form onSubmit={(event) => void handleAddUrls(event)}>
+                    <label htmlFor="audit-urls">One image URL per line</label>
+                    <textarea
+                      id="audit-urls"
+                      value={urlInput}
+                      rows={4}
+                      placeholder={"https://example.com/image-one.jpg\nhttps://example.com/image-two.png"}
+                      aria-describedby="audit-url-limit"
+                      disabled={addingUrls}
+                      onChange={(event) => {
+                        setUrlInput(event.target.value);
+                        setUrlResult(null);
+                        setUrlError(null);
+                      }}
+                    />
+                    <div className="audit-url-actions">
+                      <small id="audit-url-limit" className={urlEntries.length > 40 ? "has-error" : ""}>
+                        {urlEntries.length} / 40 URLs
+                      </small>
+                      <button
+                        className="secondary-button"
+                        type="submit"
+                        disabled={addingUrls || urlEntries.length === 0 || urlEntries.length > 40}
+                      >
+                        {addingUrls ? (
+                          <>
+                            <span className="spinner" aria-hidden="true" />
+                            Fetching…
+                          </>
+                        ) : (
+                          "Fetch and add"
+                        )}
+                      </button>
+                    </div>
+                  </form>
+                  {urlResult && (
+                    <div className="url-import-result" role="status" aria-live="polite">
+                      <p>Added {urlResult.items.length} · failed {urlResult.failed.length}</p>
+                      {urlResult.failed.length > 0 && (
+                        <details className="url-failures">
+                          <summary>Failed URLs</summary>
+                          <ul>
+                            {urlResult.failed.map((failure, index) => (
+                              <li key={`${failure.url}-${index}`}>
+                                <code title={failure.url}>{truncateUrl(failure.url)}</code>
+                                <span>{failure.error}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </details>
+                      )}
+                    </div>
+                  )}
+                  {urlError && <p className="compare-inline-error" role="alert">{urlError}</p>}
+                </details>
+              </div>
 
               <div className={`audit-tree-area ${selectedNode ? "has-panel" : ""}`}>
                 {treeLoading && !tree && (
@@ -688,6 +853,61 @@ export default function AuditPage() {
                     </p>
                     <h2>{incomingEdge?.label ?? "root of its family"}</h2>
                     <img src={selectedNode.url} alt={`Full-size audit image ${selectedNode.id}`} />
+                    {sourceUrl && (
+                      <p className="node-source">
+                        Source:{" "}
+                        <a href={sourceUrl} title={sourceUrl} target="_blank" rel="noopener noreferrer">
+                          {truncateUrl(sourceUrl)}
+                        </a>
+                      </p>
+                    )}
+                    <div className="web-search-control">
+                      {health?.web_search ? (
+                        <button
+                          className="secondary-button"
+                          type="button"
+                          disabled={webSearching}
+                          onClick={() => void handleWebSearch()}
+                        >
+                          {webSearching ? (
+                            <>
+                              <span className="spinner" aria-hidden="true" />
+                              Finding copies…
+                            </>
+                          ) : (
+                            "Find copies on the web"
+                          )}
+                        </button>
+                      ) : (
+                        <p className="web-search-unavailable">
+                          Web search needs a provider key on the server (SERPAPI_KEY + PUBLIC_URL)
+                        </p>
+                      )}
+                      {webSearchResult && (
+                        <div className="url-import-result" role="status" aria-live="polite">
+                          <p>
+                            Found {webSearchResult.candidates} · added {webSearchResult.items.length} · failed{" "}
+                            {webSearchResult.failed.length}
+                          </p>
+                          {webSearchResult.failed.length > 0 && (
+                            <details className="url-failures">
+                              <summary>Failed web copies</summary>
+                              <ul>
+                                {webSearchResult.failed.map((failure, index) => (
+                                  <li key={`${failure.url}-${index}`}>
+                                    <code title={failure.url}>{truncateUrl(failure.url)}</code>
+                                    <span>{failure.error}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </details>
+                          )}
+                        </div>
+                      )}
+                      {webSearchError && (
+                        <p className="compare-inline-error" role="alert">{webSearchError}</p>
+                      )}
+                    </div>
                     {selectedNode.root && selectedNode.explains.length > 0 && (
                       <div className="candidate-original-callout" role="note">
                         <strong>
