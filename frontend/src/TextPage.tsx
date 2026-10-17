@@ -82,6 +82,10 @@ export default function TextPage() {
           same candidate search, asymmetric cost and arborescence rebuild the family tree, with the image
           plug-ins swapped for text ones: MinHash fingerprints, a word-loss cost, and explanations in words.
         </p>
+        <p className="hint">
+          One honest caveat: deleting words is cheap and inventing them is expensive, so the most complete
+          version is treated as the original. An expanded copy will sit above the text it was expanded from.
+        </p>
       </section>
 
       <section className="text-inputs">

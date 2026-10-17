@@ -16,15 +16,15 @@
 ### Phase 0 numbers (2026-10-16, k=8, root_cost=3.5)
 Weights were tuned by hand on run1; run2 (different seed) is held out.
 
-| edit     | run1 (tuned)  | run2 (held out) |
-|----------|---------------|-----------------|
-| overall  | 83.0% (73/88) | 71.1% (64/90)   |
-| crop     | 82.6%         | 62.5%           |
-| rotate   | 81.2%         | 89.5%           |
-| caption  | 86.7%         | 71.4%           |
-| jpeg     | 70.0%         | 58.3%           |
-| filters  | 14/14         | 13/17           |
-| roots    | 6/6           | 6/6             |
+| edit     | run1 (tuned)  | run2 (held out) | run3 (held out) |
+|----------|---------------|-----------------|-----------------|
+| overall  | 83.0% (73/88) | 71.1% (64/90)   | 81.1% (73/90)   |
+| crop     | 82.6%         | 62.5%           | 81.0%           |
+| rotate   | 81.2%         | 89.5%           | 87.5%           |
+| caption  | 86.7%         | 71.4%           | 78.9%           |
+| jpeg     | 70.0%         | 58.3%           | 73.7%           |
+| filters  | 14/14         | 13/17           | 13/15           |
+| roots    | 6/6           | 6/6             | 6/6             |
 
 Error kinds (run1): grandparent 10, other relative 4, flipped 1.
 Timing: 40-90 ms per pair cost on CPU; about 16 new pair costs per upload with k=8.
@@ -92,5 +92,9 @@ are, and an exportable report.
 - [x] README AI disclosure covers Claude Code, Codex and Gemini (Antigravity) usage
 - [ ] Web mode (reverse-image candidates via TinEye/SerpApi) if a provider key is available
 
-## Phase 5 — stretch
-- [ ] Text plug-ins (MinHash / word loss / explain)
+## Phase 5 — second media type: text (started 2026-10-17 ~02:30 ET)
+- [x] Media plug-in interface (lineage/media.py); Engine takes any plug-in; evidence accepts plug-in reasons
+- [x] Stateless POST /api/text/tree and a /text page (paste versions, see the tree + evidence)
+- [ ] plugins/text_media.py (Codex, in progress): SimHash/MinHash fingerprints, word-loss cost, explain
+- [ ] Known limitation (images): a caption painted over an existing caption can attach to the sibling;
+      a "replaced content" blob rule was tried and reverted (it lowered run1/run2 accuracy)
