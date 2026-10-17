@@ -787,6 +787,8 @@ p a {
   display: grid;
   gap: 3px;
   padding: 9px 14px;
+  min-width: 0;
+  overflow: hidden; /* the hint line ellipsizes instead of running under the next control */
   border: 1px solid rgba(98, 230, 166, 0.32);
   border-radius: 16px;
   background: rgba(98, 230, 166, 0.06);
