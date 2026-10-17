@@ -66,6 +66,27 @@ const TERMS: Array<{ name: string; weight: string; measures: string; direction: 
   },
 ];
 
+const DECISIVE_CUES: Array<{ name: string; direction: string }> = [
+  { name: "coverage", direction: "less scene area points to the copy" },
+  { name: "colour fit", direction: "the direction with the smaller post-fit residual is cheaper" },
+  { name: "blockiness", direction: "extra JPEG grid loss points to the copy" },
+  { name: "resolution", direction: "fewer real pixels points to the copy" },
+  { name: "chroma", direction: "colour can become gray; gray cannot recover colour" },
+  { name: "entropy", direction: "rounding and clipping lose entropy; they do not recreate it" },
+  { name: "compact content difference", direction: "erased source detail costs more than added copy detail" },
+  { name: "caption removed", direction: "caption-like content points toward the captioned copy" },
+  { name: "number of edit operations", direction: "the direction needing fewer edit primitives wins" },
+];
+
+const INFORMATIVE_CUES = [
+  "compression history (JPEG quality)",
+  "stored dimensions",
+  "EXIF",
+  "Content Credentials",
+  "noise consistency",
+  "semantic similarity",
+];
+
 /** The method, in one page, for judges and industry readers. */
 export default function MethodPage() {
   usePageTitle("Method · Lineage");
@@ -152,6 +173,33 @@ export default function MethodPage() {
       </section>
 
       <section className="pipeline">
+        <p className="eyebrow">Signal roles</p>
+        <h2>What decides, what only informs</h2>
+        <div className="idea-grid">
+          <div className="idea-card">
+            <span className="idea-arrow ok">decides</span>
+            <ul className="method-list">
+              {DECISIVE_CUES.map((cue) => (
+                <li key={cue.name}>
+                  <strong>{cue.name}</strong> — {cue.direction}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="idea-card">
+            <span className="idea-arrow">informs only</span>
+            <ul className="method-list">
+              {INFORMATIVE_CUES.map((cue) => <li key={cue}>{cue}</li>)}
+            </ul>
+          </div>
+        </div>
+        <p className="idea-note">
+          Every verdict names the cues it rested on; a verdict that rests on a single symmetric cue is downgraded
+          to inconclusive.
+        </p>
+      </section>
+
+      <section className="pipeline">
         <p className="eyebrow">Evidence and confidence</p>
         <h2>Nothing is a guess.</h2>
         <div className="idea-grid">
@@ -170,7 +218,9 @@ export default function MethodPage() {
               We ran the pipeline over synthetic edit chains with known answers (three runs, six CC0 seeds, 276
               decisions) and recorded how often decisions with a given cost margin were right. That table is the
               only source of the precision figures shown in the app; text decisions show raw margins because the
-              table was calibrated on images.
+              table was calibrated on images. We publish two numbers for every claim: the calibration on synthetic
+              edit chains and the same bucket re-measured on real web memes. The lower one is the honest expectation
+              for unknown files.
             </p>
           </div>
         </div>
@@ -186,6 +236,9 @@ export default function MethodPage() {
         <ul className="method-list">
           <li>A crop of a crop is also one crop from the grandparent; the edit-op prior resolves many of these, not all.</li>
           <li>A JPEG of a JPEG is also one JPEG from the clean original. Double-compression traces were tried (AC-coefficient sparsity) and rejected because they lowered held-out accuracy.</li>
+          <li>
+            Some edits have <a href="https://github.com/JonathanKash/SwampHacks-Submission/blob/main/docs/research/symmetry.md" target="_blank" rel="noopener">no direction in the pixels</a>. If two images differ only inside one compact region, 'object added' and 'object removed' are the same evidence. We return inconclusive unless a measured cue breaks the tie (caption-like content on one side, a signed Content Credentials history, or a third version of the image).
+          </li>
           <li>A caption painted over an existing caption can attach to the sibling rather than the source.</li>
           <li>Two identical edits applied to the same source produce near-identical siblings that may attach to each other.</li>
           <li>The tree is built from the images supplied: "candidate original" means earliest within the corpus, and an earlier version outside it may exist.</li>
