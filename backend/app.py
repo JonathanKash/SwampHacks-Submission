@@ -190,7 +190,7 @@ class TextTreeRequest(BaseModel):
 def text_tree(req: TextTreeRequest) -> dict:
     """Same core, different plug-in: paste several versions of a paragraph, get the tree."""
     from lineage.core.engine import Engine
-    from lineage.evidence import build_evidence, load_calibration
+    from lineage.evidence import build_evidence
     from lineage.plugins.text_media import TextMedia
 
     versions = [v for v in req.versions if v.text.strip()]
@@ -222,7 +222,9 @@ def text_tree(req: TextTreeRequest) -> dict:
                 stack.extend(children[n])
         return out
 
-    calibration = load_calibration()
+    # The precision table was calibrated on IMAGE edit chains; it does not transfer to
+    # text margins, so text decisions show their raw margin instead of a precision.
+    calibration = {"buckets": {}}
     nodes, edges = [], []
     for item_id, v in zip(ids, versions):
         pred = result.parent.get(item_id)
@@ -236,7 +238,8 @@ def text_tree(req: TextTreeRequest) -> dict:
             edges.append({"src": pred, "dst": item_id, "label": short, "explain": full,
                           "cost": round(res.total, 4), "semantic": res.semantic, "evidence": ev})
     return {"mode": "text", "nodes": nodes, "edges": edges,
-            "summary": {"versions": len(ids), "families": sum(1 for n in nodes if n["root"])}}
+            "summary": {"versions": len(ids), "families": sum(1 for n in nodes if n["root"])},
+            "note": "confidence is shown as the raw cost margin; the precision table is calibrated on image chains only"}
 
 
 # ---- demo pool ---------------------------------------------------------------------
