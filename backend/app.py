@@ -478,6 +478,19 @@ def _warm_identify_on_start() -> None:
         pass
 
 
+@app.get("/api/identify/stats")
+def identify_stats() -> dict:
+    """The last held-out evaluation of identify (benchmark/identify_eval.py), so the page can say
+    how often this feature answers and how often it was right when it did."""
+    path = Path(__file__).resolve().parents[1] / "benchmark" / "identify_results.json"
+    if not path.exists():
+        return {"available": False}
+    data = json.loads(path.read_text(encoding="utf-8"))
+    keys = ("knowledge_base", "items", "queries", "correct", "abstained", "wrong_family", "family_accuracy",
+            "wrong_family_rate", "median_latency_s", "p90_latency_s", "generated_at")
+    return {"available": True, **{k: data.get(k) for k in keys}}
+
+
 @app.post("/api/identify")
 def identify(file: UploadFile = File(...), case: str | None = Form(None)) -> dict:
     """Place one uploaded image against the knowledge-base case (default: the meme originals)

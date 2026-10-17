@@ -271,3 +271,14 @@ def test_identify_places_a_copy_in_the_knowledge_base(tmp_path, monkeypatch):
     assert body["report"]["verdict"] in ("parent-child", "inconclusive")
     unrelated = client.post("/api/identify", files={"file": ("x.png", png_bytes(synthetic_photo(33)), "image/png")}).json()
     assert unrelated["matched"] is False
+
+
+def test_identify_stats_endpoint_reads_the_benchmark_file():
+    import app as app_module
+    from fastapi.testclient import TestClient
+
+    client = TestClient(app_module.app)
+    body = client.get("/api/identify/stats").json()
+    assert "available" in body
+    if body["available"]:
+        assert body["queries"] > 0 and 0 <= body["family_accuracy"] <= 1 and body["wrong_family"] >= 0
