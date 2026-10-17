@@ -52,6 +52,7 @@ def compare(a: ImageData, b: ImageData, meta_a: dict | None = None, meta_b: dict
     unavailable: list[str] = []
     decisive: list[str] = []
     noise_report: dict | None = None
+    caption_side: str | None = None
     if a.embedding is None or b.embedding is None:
         unavailable.append("CLIP embeddings (server in low-memory mode): semantic similarity falls back to pHash")
     for label, meta in (("A", meta_a), ("B", meta_b)):
@@ -99,6 +100,8 @@ def compare(a: ImageData, b: ImageData, meta_a: dict | None = None, meta_b: dict
                     decisive.append(key)
             noise_report = noise.noise_consistency(a if forward else b, b if forward else a)
             caption_like = bool(noise_report and noise_report.get("caption_like"))
+            cap_on = (noise_report or {}).get("caption_on")  # "copy" = child side, "source" = parent side
+            caption_side = (child if cap_on == "copy" else parent) if cap_on else None
             if decisive == ["blobs"] and not caption_like:
                 # A compact region of content that one image has and the other lacks is symmetric:
                 # an object added to the parent, or an object removed from it. Only a two-tone
@@ -108,6 +111,14 @@ def compare(a: ImageData, b: ImageData, meta_a: dict | None = None, meta_b: dict
                            f"Reading it as content added gives {cheap.total:.3f} for {parent}→{child}; reading it as content removed gives "
                            f"{dear.total:.3f} the other way. Our calibration covers captions, not object add/remove, so no parent is claimed. "
                            "Compression history or a third version would settle it.")
+                parent = child = None
+            elif caption_side == parent and len(decisive) <= 1:
+                # The side the cost calls the parent is the one carrying caption-like content the
+                # other lacks, and the cost direction hangs on one cue: do not claim it.
+                verdict, relation = "inconclusive", f"{parent} carries caption-like content {child} lacks, against a one-cue cost direction"
+                summary = (f"The pixel cost prefers {parent}→{child} by a single cue ({decisive[0] if decisive else 'small margin'}), but "
+                           f"{parent} has two-tone, high-contrast text-like content in the changed region that {child} does not. "
+                           "Captions are added far more often than removed, so the two readings conflict and no parent is claimed.")
                 parent = child = None
             else:
                 verdict, relation = "parent-child", f"{parent} is the parent of {child}"
@@ -169,6 +180,9 @@ def compare(a: ImageData, b: ImageData, meta_a: dict | None = None, meta_b: dict
     ai_indicators: list[str] = []
     if registered and noise_report is not None:
         who = child or "the derived copy"
+        if caption_side:
+            add("caption-like content on one side only", f"{caption_side} has two-tone, achromatic, high-contrast content in the changed region; the other image does not",
+                f"{caption_side} is the derived copy (captions are added, rarely removed)", "indicator")
         if noise_report.get("two_tone") is not None:
             add("changed-region colour structure", f"{noise_report['two_tone']:.0%} of the changed pixels fall in two colours"
                 + (" (caption-like)" if noise_report.get("caption_like") else " (natural content)"), "indicator only", "indicator")
@@ -215,6 +229,7 @@ def compare(a: ImageData, b: ImageData, meta_a: dict | None = None, meta_b: dict
         "ai_edit_indicators": ai_indicators,
         "noise": noise_report,
         "decisive_cues": decisive,
+        "caption_side": caption_side,
         "limitations": [
             "Verdicts come from pixel measurements between these two files only; an earlier version outside them may exist.",
             "Near-lossless edits (small crops, mild filters) can leave the direction within the margin we do not trust; the report then says inconclusive.",

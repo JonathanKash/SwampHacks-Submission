@@ -78,6 +78,9 @@ def pairwise_corpus(pairs: list[tuple[Path, Path, str]], embedder, tally: Tally,
             tally.add(key, "wrong_parent_claimed", wrong_claim)
             tally.add(key, "abstained", rep["verdict"] != "parent-child")
         tally.add(f"{label}/{kind}", f"verdict={rep['verdict']}", True)
+        if rep.get("caption_side"):  # the caption-side cue scored on its own: is the caption on the child?
+            for key in (f"{label}/{kind}", f"{label}/_all"):
+                tally.add(key, "caption_side_cue", rep["caption_side"] == "B")
         prec = rep["confidence"]["precision"]
         if rep["verdict"] == "parent-child" and rep["costs"]["margin"] is not None:
             b = tally.calib[bucket_for(rep["costs"]["margin"])]

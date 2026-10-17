@@ -126,6 +126,7 @@ def test_caption_stays_decided_but_object_edit_is_inconclusive(photo, other_phot
     captioned = image_edits.caption(photo, rng, text="HELLO WORLD")[0]
     rep = compare(to_image_data("A", photo), to_image_data("B", captioned), calibration={"buckets": {}})
     assert rep["verdict"] == "parent-child" and rep["parent"] == "A", rep["summary"]
+    assert rep["caption_side"] == "B"
     # a natural-texture patch pasted in (object added) or the same pair read backwards (object
     # removed) is symmetric from pixels alone: no parent is claimed
     import numpy as np

@@ -21,10 +21,9 @@ CHANGE_THRESHOLD = 0.12  # residual after color fit that counts as "changed"
 MIN_REGION = 0.002  # fraction of the frame; smaller regions give unstable statistics
 MAX_REGION = 0.6  # above this it is a restyle, not a local edit
 BREAK_RATIO = 1.6  # noise differs by this factor either way -> indicator
-CAPTION_TWO_TONE = 0.7  # at least this fraction of the strongly-changed pixels in two colours
-# (synthetic captions measure ~0.83 after anti-aliasing; pasted natural patches ~0.10)
-CAPTION_MAX_SATURATION = 40  # both colour centres within 40 levels of gray (white/black text)
-CAPTION_MIN_CONTRAST = 100  # luminance gap between the two centres; a flat inpainted patch has none
+CAPTION_MIN_ACHROMATIC = 0.9  # share of changed pixels within 40 levels of gray (white/black text, incl. anti-aliased grays)
+CAPTION_MIN_TONE = 0.2  # share that is dark (<70) and share that is bright (>185): text has both
+CAPTION_MIN_LUM_STD = 90  # luminance spread; captions ~110, pavement/fill/objects <= 72
 
 
 def _two_tone(rgb: np.ndarray, mask: np.ndarray) -> tuple[float, np.ndarray, np.ndarray] | None:
@@ -47,18 +46,22 @@ def _two_tone(rgb: np.ndarray, mask: np.ndarray) -> tuple[float, np.ndarray, np.
 
 
 def caption_likeness(rgb: np.ndarray, mask: np.ndarray) -> dict:
-    """Is the changed content in `rgb` caption-like? Three measured conditions, all required:
-    two-tone (>= CAPTION_TWO_TONE of pixels near one of two colours), both colours nearly
-    achromatic (text is typically white/black), and strong contrast between them (an
-    inpainted flat patch is also two-tone, but its two centres are close together)."""
-    tt = _two_tone(rgb, mask)
-    if tt is None:
+    """Is the changed content in `rgb` caption-like? Measured on the region's pixels, robust to
+    anti-aliasing (which turns two-tone text into grays): nearly all pixels achromatic, a real
+    share both dark and bright, and a wide luminance spread. On our cases: real and synthetic
+    captions measure achromatic >= 0.96, dark/bright >= 0.30, std >= 109; pasted objects,
+    inpainted fills and the scene under a caption stay below std 72 or fail achromatic."""
+    px = rgb[mask].astype(np.float32)
+    if len(px) < 50:
         return {"two_tone": None, "caption_like": False}
-    frac, c1, c2 = tt
-    sat = max(float(c1.max() - c1.min()), float(c2.max() - c2.min()))
-    contrast = abs(float(c1.mean() - c2.mean()))
-    return {"two_tone": round(frac, 3), "achromatic": sat < CAPTION_MAX_SATURATION, "contrast": round(contrast, 1),
-            "caption_like": bool(frac >= CAPTION_TWO_TONE and sat < CAPTION_MAX_SATURATION and contrast >= CAPTION_MIN_CONTRAST)}
+    tt = _two_tone(rgb, mask)
+    achromatic = float(((px.max(axis=1) - px.min(axis=1)) < 40).mean())
+    lum = px.mean(axis=1)
+    dark, bright, spread = float((lum < 70).mean()), float((lum > 185).mean()), float(lum.std())
+    return {"two_tone": round(tt[0], 3) if tt else None, "achromatic": round(achromatic, 2), "dark": round(dark, 2),
+            "bright": round(bright, 2), "lum_std": round(spread, 1),
+            "caption_like": bool(achromatic >= CAPTION_MIN_ACHROMATIC and dark >= CAPTION_MIN_TONE and bright >= CAPTION_MIN_TONE
+                                 and spread >= CAPTION_MIN_LUM_STD)}
 
 
 def _highpass_std(gray: np.ndarray, mask: np.ndarray) -> float | None:
@@ -99,6 +102,17 @@ def noise_consistency(source: ImageData, copy: ImageData) -> dict | None:
     # Is the content the copy gained in that region caption-like (text/outline) or natural?
     cap = caption_likeness(copy.rgb, strong)
     two_tone = cap["two_tone"] if cap["two_tone"] is not None else 0.0
+    # Caption-like content on exactly one side is directional: captions get added, rarely removed.
+    # Measure the source side in its own frame (warping resamples text strokes into grays).
+    hs, ws = source.gray.shape
+    try:
+        mask_src = cv2.warpPerspective(strong.astype(np.uint8), np.linalg.inv(H), (ws, hs), flags=cv2.INTER_NEAREST) > 0
+        cap_src = caption_likeness(source.rgb, mask_src)
+    except np.linalg.LinAlgError:
+        cap_src = {"two_tone": None, "caption_like": False}
+    cap["caption_on"] = ("copy" if cap["caption_like"] and not cap_src["caption_like"]
+                         else "source" if cap_src["caption_like"] and not cap["caption_like"] else None)
+    cap["source_two_tone"] = cap_src["two_tone"]
     unchanged = covered & ~changed
     # Erode the unchanged area away from the boundary so blur halos do not leak in.
     unchanged = cv2.erode(unchanged.astype(np.uint8), np.ones((9, 9), np.uint8)) > 0
