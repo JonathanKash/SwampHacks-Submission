@@ -62,15 +62,14 @@ function buildLayout(data: TreeResponse): LayoutResult {
     else roots.push(record);
   }
 
+  // Oldest first so the layout is stable as uploads arrive; created_at is a unix timestamp.
+  const byAge = (left: HierarchyDatum, right: HierarchyDatum) =>
+    (left.item?.created_at ?? 0) - (right.item?.created_at ?? 0) || left.id.localeCompare(right.id);
   const sortBranch = (branch: HierarchyDatum) => {
-    branch.children.sort((left, right) =>
-      (left.item?.created_at ?? left.id).localeCompare(right.item?.created_at ?? right.id),
-    );
+    branch.children.sort(byAge);
     branch.children.forEach(sortBranch);
   };
-  roots.sort((left, right) =>
-    (left.item?.created_at ?? left.id).localeCompare(right.item?.created_at ?? right.id),
-  );
+  roots.sort(byAge);
   roots.forEach(sortBranch);
 
   const virtualRoot: HierarchyDatum = { id: "__forest__", children: roots };

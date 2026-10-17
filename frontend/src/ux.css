@@ -722,3 +722,98 @@
 .evidence li + li {
   margin-top: 6px;
 }
+
+/* ---- provenance path -------------------------------------------------------- */
+.provenance {
+  margin-top: 16px;
+}
+
+.provenance h3 {
+  margin: 0 0 8px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--green);
+}
+
+.provenance ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.provenance li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0 6px 2px;
+  color: #d4ddd7;
+  font-size: 0.88rem;
+}
+
+.provenance li + li::before {
+  position: absolute;
+  top: -8px;
+  left: 19px;
+  width: 2px;
+  height: 14px;
+  background: var(--line);
+  content: "";
+}
+
+.provenance li img {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+
+.provenance li.is-current span {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.provenance-sentence {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+/* ---- fixes from visual QA --------------------------------------------------- */
+.source-panel .section-heading {
+  align-items: center;
+}
+
+.source-panel .another-button {
+  flex: 0 0 auto;
+  min-height: 46px;
+  padding: 0 16px;
+  font-size: 0.92rem;
+}
+
+.source-panel .section-heading h2,
+.controls-panel .section-heading h2 {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.error-boundary {
+  display: grid;
+  min-height: 100dvh;
+  place-items: center;
+  padding: 24px;
+  color: var(--ink);
+  background: #090e0d;
+  text-align: center;
+}
+
+.error-boundary pre {
+  max-width: 60rem;
+  overflow: auto;
+  color: var(--muted);
+  font-size: 0.8rem;
+  text-align: left;
+}

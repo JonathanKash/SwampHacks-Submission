@@ -59,13 +59,24 @@ See `CLAUDE.md` for the file layout and `SPEC.md` for the full specification.
 
 ## AI disclosure
 
-The code in this repository was written by Claude Code (Anthropic, Claude Fable 5.1) under
-our direction during the event: we designed the approach (asymmetric information-loss cost,
-candidate search, minimum spanning arborescence, the plug-in architecture, the demo flow and
-the evaluation protocol), specified each component, reviewed the output, and drove the
-tuning from the evaluation numbers. The Chu-Liu/Edmonds implementation in
-`backend/lineage/core/arborescence.py` is our own code (not a library call) and is
-cross-checked against networkx in the tests. Seed images are CC0 works from The Met.
+The code in this repository was written with AI coding agents under our direction during the
+event. We designed the approach (asymmetric information-loss cost, candidate search, minimum
+spanning arborescence, the plug-in architecture, the demo flow, the evidence and calibration
+protocol and the industry audit mode), specified each component, reviewed the output, and drove
+the tuning from the evaluation numbers. Specifically:
+
+- Claude Code (Anthropic, Claude Fable 5.1): the backend (cost function, candidate search, the
+  Chu-Liu/Edmonds arborescence, engine, evidence and calibration, API, scripts, tests), the
+  landing page, the guided edit flow and evidence UI, the docs.
+- OpenAI Codex (via the Codex CLI): the explain plug-in (`plugins/image_explain.py` and its
+  tests), the initial React frontend scaffold (API client, polling hook, D3 tree view, first
+  versions of the edit and tree pages) and the audit workspace page.
+- Google Gemini (via the Antigravity CLI): research of the current Gemini image-editing API and
+  a browser-based visual QA pass of the UI.
+
+The Chu-Liu/Edmonds implementation in `backend/lineage/core/arborescence.py` is written from
+scratch (not a library call) and is cross-checked against networkx in the tests. Seed images
+are CC0 works from The Met.
 
 ## Credits
 

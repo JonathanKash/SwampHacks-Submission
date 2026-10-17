@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import type { TreeNode } from "./api";
 import EvidenceList from "./EvidenceList";
+import { provenancePath } from "./provenance";
 import TreeView from "./TreeView";
 import { useTreePolling } from "./useTreePolling";
 
@@ -146,6 +147,17 @@ export default function TreePage() {
                       {incomingEdge.semantic && <span>matched by meaning</span>}
                     </div>
                     <EvidenceList evidence={incomingEdge.evidence} compact />
+                    <div className="provenance">
+                      <h3>Provenance path</h3>
+                      <ol>
+                        {provenancePath(tree, selectedNode.id).map((step) => (
+                          <li key={step.node.id} className={step.node.id === selectedNode.id ? "is-current" : ""}>
+                            <img src={step.node.thumb} alt="" />
+                            <span>{step.edge ? step.edge.explain : "original"}</span>
+                          </li>
+                        ))}
+                      </ol>
+                    </div>
                   </div>
                 ) : (
                   <div className="root-details">

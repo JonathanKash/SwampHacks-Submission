@@ -68,7 +68,7 @@ for tuning, k=12.
 
 ## Phase 4 — ship
 - [x] Pre-seed script with known chains
-- [ ] Vultr VM + Caddy HTTPS + domain
+- [ ] Vultr VM + Caddy HTTPS + domain (assets ready in deploy/; needs a VM IP + domain from the team)
 - [x] Pushed to github.com/JonathanKash/SwampHacks-Submission (2026-10-17)
 - [ ] README: run, architecture, AI disclosure, credits (frontend + deploy sections still to finish)
 
@@ -83,8 +83,13 @@ are, and an exportable report.
       root reasons state that every relative is cheaper to derive from the original
 - [x] /audit page (Codex): case list, drag-and-drop batch upload, confidence-colored tree, evidence +
       metadata panel, report download, print summary; landing "For industry" section; nav link
-- [ ] Live end-to-end check of the audit flow on the running server
-- [ ] Visual QA via Antigravity browser pass
+- [x] Live end-to-end check of the audit flow on the running server (6 shuffled versions -> correct 2-family tree, report OK)
+- [x] Visual QA: Antigravity CLI has no browser, so Playwright screenshots (scratchpad/qa) reviewed by Claude.
+      Found and fixed: /tree and /audit crashed to a black page (created_at number vs string in the D3 sort);
+      added an ErrorBoundary; tightened the tablet header. Landing/edit/tree/audit all render correctly now.
+- [x] Provenance path (original -> edit -> edit) in the tree and audit details panels
+- [x] Deploy assets: deploy/Dockerfile (multi-stage node+python), docker-compose with Caddy auto-HTTPS, deploy/README.md
+- [x] README AI disclosure covers Claude Code, Codex and Gemini (Antigravity) usage
 - [ ] Web mode (reverse-image candidates via TinEye/SerpApi) if a provider key is available
 
 ## Phase 5 — stretch

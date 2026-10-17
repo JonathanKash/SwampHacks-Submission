@@ -1,0 +1,12 @@
+# Automatic HTTPS for $DOMAIN (set DOMAIN in the shell or a .env next to docker-compose.yml).
+{$DOMAIN} {
+	encode zstd gzip
+	request_body {
+		max_size 64MB
+	}
+	reverse_proxy lineage:8010 {
+		transport http {
+			read_timeout 300s
+		}
+	}
+}

@@ -27,7 +27,7 @@ export interface PoolItem {
   edit: string | null;
   params: EditParams;
   source: string;
-  created_at: string;
+  created_at: number; // unix seconds (float) from the server
   metadata?: {
     software?: string;
     datetime?: string;

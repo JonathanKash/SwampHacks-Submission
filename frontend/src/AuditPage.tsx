@@ -21,6 +21,7 @@ import {
 } from "./api";
 import EvidenceList from "./EvidenceList";
 import NavBar from "./NavBar";
+import { provenancePath, provenanceSentence } from "./provenance";
 import TreeView from "./TreeView";
 
 const AUDIT_USES = [
@@ -419,6 +420,20 @@ export default function AuditPage() {
                       </p>
                       <EvidenceList evidence={incomingEdge?.evidence ?? selectedNode.evidence} compact />
                     </div>
+                    {tree && !selectedNode.root && (
+                      <div className="provenance">
+                        <h3>Provenance path</h3>
+                        <ol>
+                          {provenancePath(tree, selectedNode.id).map((step) => (
+                            <li key={step.node.id} className={step.node.id === selectedNode.id ? "is-current" : ""}>
+                              <img src={step.node.thumb} alt="" />
+                              <span>{step.edge ? step.edge.explain : "original"}</span>
+                            </li>
+                          ))}
+                        </ol>
+                        <p className="provenance-sentence">{provenanceSentence(provenancePath(tree, selectedNode.id))}</p>
+                      </div>
+                    )}
                     <div className="metadata-hints">
                       <h3>Metadata hints <small>(unverified, easily stripped)</small></h3>
                       {selectedNode.metadata?.has_exif ? (
