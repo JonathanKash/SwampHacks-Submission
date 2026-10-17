@@ -228,3 +228,40 @@ export async function fetchCaseTree(
 export function reportUrl(id: string): string {
   return `/api/cases/${encodeURIComponent(id)}/report`;
 }
+
+
+// ---- text media (second plug-in) ---------------------------------------------
+export interface TextNode {
+  id: string;
+  text: string;
+  words: number;
+  predicted_parent: string | null;
+  root: boolean;
+  evidence: Evidence;
+}
+
+export interface TextEdge {
+  src: string;
+  dst: string;
+  label: string;
+  explain: string;
+  cost: number;
+  semantic: boolean;
+  evidence: Evidence;
+}
+
+export interface TextTreeResponse {
+  mode: "text";
+  nodes: TextNode[];
+  edges: TextEdge[];
+  summary: { versions: number; families: number };
+}
+
+export function buildTextTree(versions: Array<{ id?: string; text: string }>, signal?: AbortSignal): Promise<TextTreeResponse> {
+  return requestJson<TextTreeResponse>("/api/text/tree", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ versions }),
+    signal,
+  });
+}

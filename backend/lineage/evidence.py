@@ -87,7 +87,22 @@ def build_evidence(
 
     reasons: list[str] = []
     measurements: dict[str, float | int | str | list[float]] = {}
-    if chosen is not None:
+    if chosen is not None and isinstance(chosen.features.get("reasons"), list):
+        # Non-image media plug-ins supply their own measurement sentences.
+        reasons.extend(str(r) for r in chosen.features["reasons"])
+        for key in ("len_a", "len_b", "jaccard_words", "jaccard_shingles"):
+            if key in chosen.features:
+                measurements[key] = chosen.features[key]
+        if reverse is not None:
+            measurements["cost_parent_to_child"] = round(chosen.total, 4)
+            measurements["cost_child_to_parent"] = round(reverse.total, 4)
+            ratio = reverse.total / chosen.total if chosen.total > 1e-6 else float("inf")
+            reasons.append(
+                f"Producing this version from the parent costs {chosen.total:.3f}; producing the parent from this "
+                f"version would cost {reverse.total:.3f}"
+                + (f" ({ratio:.1f}× more)." if ratio != float("inf") else " (the forward cost is essentially zero).")
+            )
+    elif chosen is not None:
         f, t = chosen.features, chosen.terms
         w = config.WEIGHTS
         if chosen.semantic:

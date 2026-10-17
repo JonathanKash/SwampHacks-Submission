@@ -1,17 +1,18 @@
 """The shared core: pool -> fingerprints -> candidates -> cached costs -> arborescence.
 
-Identical for every media type; media-specific behaviour comes from the plug-ins.
-The engine never sees true parents.
+Identical for every media type; media-specific behaviour comes from the plug-in
+object (lineage/media.py). The engine never sees true parents.
 """
 
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
 
 from lineage import config
 from lineage.core import arborescence, candidates
-from lineage.plugins import image_cost, image_features, image_fingerprint
-from lineage.types import CostResult, Edge, Fingerprint, ImageData, Item, TreeResult
+from lineage.plugins import image_fingerprint
+from lineage.types import CostResult, Edge, Fingerprint, Item, TreeResult
 
 
 class Engine:
@@ -21,35 +22,47 @@ class Engine:
         root_cost: float = config.ROOT_COST,
         use_clip: bool = True,
         embedder: image_fingerprint.ClipEmbedder | None = None,
+        media: Any | None = None,
     ) -> None:
         self.k = k
         self.root_cost = root_cost
-        # One CLIP model can be shared by many engines (one per case) to save RAM.
-        self.embedder = embedder if embedder is not None else (image_fingerprint.ClipEmbedder() if use_clip else None)
+        if media is None:
+            from lineage.media import ImageMedia  # default media type: images
+
+            # One CLIP model can be shared by many engines (one per case) to save RAM.
+            embedder = embedder if embedder is not None else (image_fingerprint.ClipEmbedder() if use_clip else None)
+            media = ImageMedia(embedder)
+        self.media = media
+        self.embedder = getattr(media, "embedder", None)
         self.items: dict[str, Item] = {}
-        self.data: dict[str, ImageData] = {}
+        self.data: dict[str, Any] = {}
         self.fingerprints: dict[str, Fingerprint] = {}
-        self.stats: dict[str, image_features.ImageStats] = {}
+        self.stats: dict[str, Any] = {}
         # Costs are cached per directed pair, which is what makes recomputation
         # after an upload incremental: only the new item's pairs are computed.
         self.results: dict[tuple[str, str], CostResult] = {}
 
     # ---- pool -------------------------------------------------------------
-    def add_item(self, item_id: str, path: Path | str) -> None:
+    def add_item(self, item_id: str, source: Any) -> None:
         """Decode, fingerprint and cache one new item. Costs are computed lazily."""
-        item = Item(id=item_id, path=Path(path))
-        data = image_fingerprint.load_image_data(item_id, item.path, self.embedder)
-        self.items[item_id] = item
+        data = self.media.load(item_id, source)
+        path = Path(source) if isinstance(source, Path) else Path("")  # text items have no file
+        self.items[item_id] = Item(id=item_id, path=path, media=self.media.name)
         self.data[item_id] = data
-        self.fingerprints[item_id] = image_fingerprint.fingerprint(data)
-        self.stats[item_id] = image_features.image_stats(data.rgb, data.gray)
+        self.fingerprints[item_id] = self.media.fingerprint(data)
+        stats = getattr(self.media, "stats", None)
+        if stats is not None:
+            self.stats[item_id] = stats(data)
 
     # ---- plug-ins ----------------------------------------------------------
     def cost(self, src: str, dst: str) -> CostResult:
         key = (src, dst)
         if key not in self.results:
-            self.results[key] = image_cost.cost(self.data[src], self.data[dst])
+            self.results[key] = self.media.cost(self.data[src], self.data[dst])
         return self.results[key]
+
+    def explain(self, result: CostResult) -> tuple[str, str]:
+        return self.media.explain(result)
 
     # ---- tree -------------------------------------------------------------
     def build_tree(self) -> TreeResult:

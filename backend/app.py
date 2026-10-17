@@ -176,6 +176,69 @@ def case_thumb(case_id: str, file: str):
     return FileResponse(path)
 
 
+# ---- text media (stateless demo of the second plug-in) -------------------------------
+class TextVersion(BaseModel):
+    id: str | None = None
+    text: str
+
+
+class TextTreeRequest(BaseModel):
+    versions: list[TextVersion]
+
+
+@app.post("/api/text/tree")
+def text_tree(req: TextTreeRequest) -> dict:
+    """Same core, different plug-in: paste several versions of a paragraph, get the tree."""
+    from lineage.core.engine import Engine
+    from lineage.evidence import build_evidence, load_calibration
+    from lineage.plugins.text_media import TextMedia
+
+    versions = [v for v in req.versions if v.text.strip()]
+    if len(versions) < 2:
+        raise HTTPException(400, "give at least two non-empty versions")
+    if len(versions) > 40:
+        raise HTTPException(400, "at most 40 versions")
+    engine = Engine(media=TextMedia(), use_clip=False)
+    ids: list[str] = []
+    for i, v in enumerate(versions):
+        item_id = (v.id or f"t{i + 1}")[:40]
+        ids.append(item_id)
+        engine.add_item(item_id, v.text)
+    result = engine.build_tree()
+    incoming: dict[str, dict] = {i: {} for i in ids}
+    for (src, dst), res in engine.results.items():
+        incoming[dst][src] = res
+    children: dict[str, list[str]] = {i: [] for i in ids}
+    for node, parent in result.parent.items():
+        if parent:
+            children[parent].append(node)
+
+    def descendants(node: str) -> set[str]:
+        out, stack = set(), list(children[node])
+        while stack:
+            n = stack.pop()
+            if n not in out:
+                out.add(n)
+                stack.extend(children[n])
+        return out
+
+    calibration = load_calibration()
+    nodes, edges = [], []
+    for item_id, v in zip(ids, versions):
+        pred = result.parent.get(item_id)
+        reverse = engine.results.get((item_id, pred)) if pred else None
+        ev = build_evidence(item_id, pred, incoming[item_id], reverse, engine.root_cost, calibration, descendants(item_id))
+        nodes.append({"id": item_id, "text": v.text, "words": len(engine.data[item_id].words),
+                      "predicted_parent": pred, "root": pred is None, "evidence": ev})
+        if pred:
+            res = engine.results[(pred, item_id)]
+            short, full = engine.explain(res)
+            edges.append({"src": pred, "dst": item_id, "label": short, "explain": full,
+                          "cost": round(res.total, 4), "semantic": res.semantic, "evidence": ev})
+    return {"mode": "text", "nodes": nodes, "edges": edges,
+            "summary": {"versions": len(ids), "families": sum(1 for n in nodes if n["root"])}}
+
+
 # ---- demo pool ---------------------------------------------------------------------
 class EditRequest(BaseModel):
     parent_id: str

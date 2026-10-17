@@ -21,6 +21,9 @@ export default function NavBar({ compact = false }: { compact?: boolean }) {
         <NavLink to="/audit" className={({ isActive }) => (isActive ? "is-active" : "")}>
           Audit
         </NavLink>
+        <NavLink to="/text" className={({ isActive }) => (isActive ? "is-active" : "")}>
+          Text
+        </NavLink>
       </div>
     </nav>
   );

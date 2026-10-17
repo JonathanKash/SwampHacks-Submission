@@ -25,22 +25,8 @@ from lineage.plugins.image_fingerprint import ClipEmbedder
 from lineage.store import Store
 from lineage.types import CostResult
 
-try:  # explain() is a separate plug-in; the pool still works without it
-    from lineage.plugins import image_explain
-except ImportError:  # pragma: no cover
-    image_explain = None  # type: ignore[assignment]
-
 THUMB_SIDE = 220
 _EXIF_TAGS = {v: k for k, v in ExifTags.TAGS.items()}
-
-
-def _label(result: CostResult) -> tuple[str, str]:
-    """(short edge label, full sentence) for a chosen edge."""
-    if image_explain is not None:
-        return image_explain.short_label(result), image_explain.explain(result)
-    ops = result.features.get("ops", [])
-    text = "AI restyle (matched by meaning)" if result.semantic else (", ".join(ops) or "near-identical copy")
-    return text[:28], text
 
 
 def exif_hints(img: Image.Image) -> dict:
@@ -202,7 +188,7 @@ class Pool:
                           "root": is_root, "evidence": evidence})
             if pred is not None:
                 res = self.engine.results[(pred, item["id"])]
-                short, full = _label(res)
+                short, full = self.engine.explain(res)
                 edges.append({"src": pred, "dst": item["id"], "label": short, "explain": full,
                               "cost": round(res.total, 4), "semantic": res.semantic, "correct": hit,
                               "evidence": evidence})
