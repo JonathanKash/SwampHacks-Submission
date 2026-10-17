@@ -12,3 +12,4 @@ pytest
 fastapi
 uvicorn[standard]
 python-multipart
+c2pa-python>=0.38  # Content Credentials (C2PA) manifest reading and validation

@@ -170,6 +170,7 @@ scratch (not a library call) and is cross-checked against networkx in the tests.
 are CC0 works from The Met.
 
 ## Credits
+- [c2pa-python](https://github.com/contentauth/c2pa-python) (Content Authenticity Initiative) reads and validates Content Credentials manifests; test fixtures from c2pa-rs.
 
 Libraries: NumPy, OpenCV (opencv-python-headless), Pillow, NetworkX, PyTorch, open_clip
 (OpenCLIP, ViT-B/32 weights by OpenAI), requests, python-dotenv, pytest, Playwright (QA only).
