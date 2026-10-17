@@ -1,0 +1,161 @@
+import { Link } from "react-router-dom";
+import NavBar from "./NavBar";
+import { useTreePolling } from "./useTreePolling";
+
+function pct(value: number | null | undefined): string {
+  if (value === null || value === undefined) return "—";
+  return `${Number.isInteger(value) ? value.toFixed(0) : value.toFixed(1)}%`;
+}
+
+/** The front door: what Lineage is, why it works, and how to join the live demo. */
+export default function LandingPage() {
+  const { tree } = useTreePolling(5_000);
+  const nodes = tree?.nodes.length ?? 0;
+  const roots = tree?.nodes.filter((node) => node.root).length ?? 0;
+
+  return (
+    <main className="landing">
+      <NavBar />
+
+      <section className="hero">
+        <p className="eyebrow">SwampHacks XII · live demo</p>
+        <h1>
+          Every edited image has a family tree.
+          <br />
+          <span className="accent">Lineage rebuilds it.</span>
+        </h1>
+        <p className="lede">
+          Hand it a pile of edited copies of a picture and it works out which one is the original, who was
+          derived from whom, and what edit produced each child. No metadata, no timestamps, no file names.
+          Just pixels.
+        </p>
+        <div className="hero-actions">
+          <Link to="/edit" className="primary-button cta">
+            Make an edit
+            <small>tablet · 30 seconds</small>
+          </Link>
+          <Link to="/tree" className="secondary-button cta">
+            Watch the tree
+            <small>big screen · updates live</small>
+          </Link>
+        </div>
+        <dl className="live-stats" aria-label="Live demo statistics">
+          <div>
+            <dt>images in the pool</dt>
+            <dd>{nodes}</dd>
+          </div>
+          <div>
+            <dt>families found</dt>
+            <dd>{roots}</dd>
+          </div>
+          <div>
+            <dt>tree accuracy</dt>
+            <dd>{pct(tree?.accuracy.pct)}</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section className="idea">
+        <p className="eyebrow">The one idea</p>
+        <h2>Edits destroy information, and information only flows one way.</h2>
+        <div className="idea-grid">
+          <div className="idea-card">
+            <span className="idea-arrow ok">cheap</span>
+            <p>
+              A crop is easy to explain from the full picture: <em>“the big one, minus the edges.”</em> A JPEG
+              re-save is <em>“the sharp one, blurred into 8×8 blocks.”</em>
+            </p>
+          </div>
+          <div className="idea-card">
+            <span className="idea-arrow bad">expensive</span>
+            <p>
+              The reverse never works. You cannot explain the full picture from the crop: the edges are
+              gone. You cannot un-blur the blocks. The missing information has to be invented.
+            </p>
+          </div>
+        </div>
+        <p className="idea-note">
+          So for every pair of images we ask: <strong>how cheaply can B be made from A?</strong> The cheap
+          direction is parent → child. Chain those answers together and the whole tree falls out.
+        </p>
+      </section>
+
+      <section className="pipeline">
+        <p className="eyebrow">How it works</p>
+        <h2>Three stages, each one plain enough to explain in a sentence.</h2>
+        <ol className="stages">
+          <li>
+            <span className="stage-number">1</span>
+            <h3>Fingerprint</h3>
+            <p>
+              Each image gets a 64-bit perceptual hash and a 512-bit CLIP code. Hamming distance finds the
+              8 most likely relatives, so we never compare everything with everything.
+            </p>
+          </li>
+          <li>
+            <span className="stage-number">2</span>
+            <h3>Asymmetric cost</h3>
+            <p>
+              Align A onto B with ORB keypoints and a RANSAC homography, then charge for what B has that A
+              cannot supply: uncovered area, unexplained color, lost JPEG grid, erased detail. When
+              alignment fails (an AI restyle), fall back to meaning via CLIP.
+            </p>
+          </li>
+          <li>
+            <span className="stage-number">3</span>
+            <h3>Minimum spanning arborescence</h3>
+            <p>
+              Chu-Liu/Edmonds picks one parent per image so the total cost is as small as possible. A
+              virtual root lets unrelated pictures become separate trees.
+            </p>
+          </li>
+        </ol>
+      </section>
+
+      <section className="demo-how">
+        <p className="eyebrow">Join the demo</p>
+        <h2>You edit. It guesses. The screen keeps score.</h2>
+        <div className="demo-steps">
+          <div className="demo-card">
+            <h3>On the tablet</h3>
+            <p>
+              Pick any image from the pool and apply <strong>one</strong> edit: crop, rotate, a color
+              filter, a caption, a crunchy JPEG re-save, or an AI restyle.
+            </p>
+          </div>
+          <div className="demo-card">
+            <h3>Behind the scenes</h3>
+            <p>
+              The server remembers which image you started from, but the engine is never told. It has to
+              work out the parent from pixels alone.
+            </p>
+          </div>
+          <div className="demo-card">
+            <h3>On the big screen</h3>
+            <p>
+              Your image drops into the tree within a couple of seconds. Green edge: it guessed your parent
+              right. Red edge: it was fooled. The accuracy counter is the live scoreboard.
+            </p>
+          </div>
+        </div>
+        <div className="legend" aria-label="How to read the tree">
+          <span className="legend-item"><i className="swatch ok" /> correct parent</span>
+          <span className="legend-item"><i className="swatch bad" /> wrong parent</span>
+          <span className="legend-item"><i className="swatch dashed" /> matched by meaning (restyle)</span>
+          <span className="legend-item"><i className="swatch new" /> newest image</span>
+        </div>
+      </section>
+
+      <footer className="landing-footer">
+        <p>
+          Built at SwampHacks XII (University of Florida, October 2026). Python, FastAPI, OpenCV, OpenCLIP,
+          React, D3, Gemini. Seed images are CC0 works from The Met Open Access collection.
+        </p>
+        <p>
+          AI disclosure: the code was written with Claude Code under the team's direction; the approach,
+          cost design and evaluation protocol are ours. Details in the README.
+        </p>
+      </footer>
+    </main>
+  );
+}

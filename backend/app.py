@@ -121,7 +121,17 @@ def reset(x_admin_token: str | None = Header(None)) -> dict:
     return {"ok": True}
 
 
-# Serve the built frontend (frontend/dist) at / when it exists; the API stays under /api.
+# Serve the built frontend (frontend/dist) when it exists; the API stays under /api.
+# Deep links (/edit, /tree) must return index.html so the React router can take over.
 _dist = Path(__file__).resolve().parents[1] / "frontend" / "dist"
 if _dist.exists():
-    app.mount("/", StaticFiles(directory=_dist, html=True), name="frontend")
+    from fastapi.responses import FileResponse
+
+    app.mount("/assets", StaticFiles(directory=_dist / "assets"), name="assets")
+
+    @app.get("/{path:path}", include_in_schema=False)
+    def spa(path: str):
+        candidate = _dist / path
+        if path and candidate.is_file():
+            return FileResponse(candidate)
+        return FileResponse(_dist / "index.html")

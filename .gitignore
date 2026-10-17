@@ -16,3 +16,5 @@ frontend/dist/
 # os
 .DS_Store
 Thumbs.db
+# local Claude Code permissions
+.claude/settings.local.json

@@ -16,6 +16,9 @@ is b a lossy function of a") over candidate pairs, then a minimum spanning arbor
   - `.venv/Scripts/python backend/scripts/gen_chains.py`    (synthetic chains + truth -> data/synthetic/<run>)
   - `.venv/Scripts/python backend/scripts/eval.py data/synthetic/<run>`
 - Config and secrets live in `.env` (see `.env.example`); tunables in `backend/lineage/config.py`.
+- Run the API: `.venv/Scripts/python -m uvicorn app:app --app-dir backend --port 8010` (8000 is taken on
+  the dev machine). Frontend: `cd frontend && npm run dev` (proxies to 8010) or `npm run build`, after
+  which FastAPI serves `frontend/dist` at `/` with SPA deep links.
 
 ## Layout
 ```
