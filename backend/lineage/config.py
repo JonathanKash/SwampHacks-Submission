@@ -45,11 +45,13 @@ WEIGHTS: dict[str, float] = {
     "blockiness": 1.0,  # JPEG 8x8 grid energy lost (only when geometry is unchanged)
     "resolution": 0.5,  # log pixel-count gain
     "chroma": 2.0,  # colorfulness gained from a grayscale source
-    "levels": 0.5,  # log gain in distinct intensity levels (only when a color change was detected)
+    "entropy": 0.5,  # histogram entropy gained, bits (only when a color change was detected)
     # step 5: compact residual blobs where a has detail that b lacks (content removed).
     "blobs": 10.0,
     # step 7: description length, charged once per detected edit primitive.
     "edit_op": 0.05,
+    # step 8: tie-breaker toward the most specific ancestor. Keep far below edit_op.
+    "specificity": 0.01,
     # step 6: semantic fallback = semantic_offset + semantic_scale * (1 - cos).
     # The offset guarantees a semantic edge always costs more than a good registration.
     "semantic_offset": 2.0,

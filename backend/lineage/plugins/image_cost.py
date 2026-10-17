@@ -19,8 +19,8 @@ Steps (SPEC.md "Image cost spec"):
      rotating or rescaling destroys the grid legitimately.
    - resolution (pixel count).
    - chroma, only when a is grayscale: color cannot be recreated from gray.
-   - levels (distinct intensity values), only when a brightness/contrast change
-     was detected: scaling with rounding and clipping can only lose levels.
+   - histogram entropy, only when a brightness/contrast change was detected:
+     scaling with rounding and clipping can only lose entropy.
 5. blobs: compact regions of large residual where a has MORE edge energy than b.
    Content that exists in a but not in b must have been removed (expensive),
    whereas a caption that exists only in b was simply added (cheap).
@@ -31,6 +31,8 @@ Steps (SPEC.md "Image cost spec"):
    edit from its parent but two from its grandparent, so when residuals tie
    (which they do, edits are nearly lossless to the eye) the shorter
    explanation wins. This is what keeps chains in order.
+8. specificity (tiny): among equally good explanations prefer the most specific
+   ancestor, the candidate with the least surplus pixels/compression headroom.
 
 Weights live in config.WEIGHTS. `features` in the result feeds explain().
 """
@@ -184,10 +186,18 @@ def cost(a: ImageData, b: ImageData, weights: dict[str, float] = config.WEIGHTS)
     a_is_gray = stats_a.chroma < config.GRAYSCALE_CHROMA
     chroma_term = max(0.0, stats_b.chroma - stats_a.chroma) if a_is_gray else 0.0
     jpeg_detected = stats_b.blockiness - stats_a.blockiness > config.JPEG_MIN_BLOCKINESS_JUMP
-    # Levels only mean something for a pure color edit: JPEG ringing and
-    # interpolation legitimately create new intensity values.
+    # Histogram entropy only means something for a pure color edit: a
+    # brightness/contrast change with rounding and clipping can only lose it,
+    # whereas JPEG ringing and interpolation legitimately add some.
     pure_color_edit = color_changed and geometry_unchanged and not jpeg_detected
-    levels_term = max(0.0, math.log(stats_b.levels / max(1, stats_a.levels))) if pure_color_edit else 0.0
+    entropy_term = max(0.0, stats_b.entropy - stats_a.entropy) if pure_color_edit else 0.0
+
+    # Specificity tie-breaker (tiny weight): among candidates that explain b
+    # equally well, prefer the one with the least surplus information, i.e. the
+    # most specific ancestor (a crop of a crop is also one crop from the root).
+    specificity = max(0.0, math.log(stats_a.pixels / max(1, stats_b.pixels))) + max(
+        0.0, stats_b.blockiness - stats_a.blockiness
+    )
 
     # --- 5. blobs: content present in a but missing from b ----------------------
     removed_fraction, added_fraction = _blob_fractions(warped, b.rgb, covered, residual)
@@ -217,9 +227,10 @@ def cost(a: ImageData, b: ImageData, weights: dict[str, float] = config.WEIGHTS)
         "blockiness": weights["blockiness"] * blockiness_term,
         "resolution": weights["resolution"] * resolution_term,
         "chroma": weights["chroma"] * chroma_term,
-        "levels": weights["levels"] * levels_term,
+        "entropy": weights["entropy"] * entropy_term,
         "blobs": weights["blobs"] * removed_fraction,
         "edit_ops": weights["edit_op"] * len(ops),
+        "specificity": weights["specificity"] * specificity,
     }
     return CostResult(total=float(sum(terms.values())), semantic=False, terms=terms, features=features)
 
@@ -257,8 +268,8 @@ def _blob_fractions(
             continue
         region = labels == label
         e_src, e_dst = float(edges_src[region].mean()), float(edges_dst[region].mean())
-        if e_src > 1.2 * e_dst:
+        if e_src > 1.5 * e_dst:
             removed_area += area
-        elif e_dst > 1.2 * e_src:
+        elif e_dst > 1.5 * e_src:
             added_area += area
     return removed_area / overlap_px, added_area / overlap_px

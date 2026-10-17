@@ -59,7 +59,7 @@ def test_cost_result_is_finite_nonnegative_with_terms(photo, rng):
     result = cost(to_image_data("a", photo), child)
     assert math.isfinite(result.total) and result.total >= 0
     assert result.semantic is False
-    assert set(result.terms) >= {"coverage", "color_residual", "blockiness", "resolution", "chroma", "levels", "blobs", "edit_ops"}
+    assert set(result.terms) >= {"coverage", "color_residual", "blockiness", "resolution", "chroma", "entropy", "blobs", "edit_ops", "specificity"}
     assert all(v >= 0 for v in result.terms.values())
     assert result.total == pytest.approx(sum(result.terms.values()))
 

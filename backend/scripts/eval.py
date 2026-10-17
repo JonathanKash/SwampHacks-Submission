@@ -108,6 +108,7 @@ def main() -> None:
         "sharpness (child <= parent)": lambda p, c: (c.sharpness < p.sharpness * 0.95)
         - (c.sharpness > p.sharpness * 1.05),
         "levels (child <= parent)": lambda p, c: (c.levels < p.levels) - (c.levels > p.levels),
+        "entropy (child <= parent)": lambda p, c: (c.entropy < p.entropy - 0.02) - (c.entropy > p.entropy + 0.02),
     }
     edits = sorted({(i["edit"] if i["edit"] != "filter" else f"filter:{i['params'].get('kind')}")
                     for i in non_root})
