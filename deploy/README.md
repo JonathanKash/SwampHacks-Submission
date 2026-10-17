@@ -31,3 +31,16 @@ Updating: `git pull && docker compose -f deploy/docker-compose.yml up -d --build
 
 Resetting the demo pool during the event: `curl -X POST -H "X-Admin-Token: $ADMIN_TOKEN"
 https://$DOMAIN/api/reset`, then run `seed_pool.py` again.
+
+
+## After the first deploy (Oct 17 features)
+
+- **Identify knowledge base.** The meme images are not in the repo (licensing). On the VM, run the downloader and
+  the case builder once inside the container or venv:
+  `python benchmark/memes/download.py && python backend/scripts/build_meme_case.py --no-clip --variants 5`.
+  `/api/health` then reports `identify_ready: true`. Without it, `/identify` shows a clear "not built" message.
+- **Content Credentials.** `c2pa-python` is in `backend/requirements.txt`; no extra system packages are needed.
+- **Web search (optional).** Set `SERPAPI_KEY` and `PUBLIC_URL=https://<your domain>` to enable "Find copies on
+  the web" in the audit workspace; the provider must be able to fetch the image by URL.
+- **Calibration.** `backend/lineage/calibration.json` ships in the repo (synthetic chains + web-memes column).
+  Regenerate with `backend/scripts/calibrate.py` only after changing cost terms.
