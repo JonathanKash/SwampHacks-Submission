@@ -56,17 +56,14 @@ export default function QrCode({ path = "/edit", size = 132, label = "scan to ad
   return (
     <figure className="qr-join">
       <img src={src} width={size} height={size} alt={`QR code linking to ${url}`} />
-      <figcaption>
-        {label}
+      <figcaption className={publicOrigin ? "qr-public" : undefined}>
+        {publicOrigin ? "scan to identify a meme or add an edit" : label}
         {publicOrigin ? (
-          <>
-            <span style={{ fontFamily: "ui-monospace, SFMono-Regular, Consolas, monospace", fontSize: "1rem" }}>
-              {publicHost}
-            </span>
-            <span style={{ color: "var(--green)", fontFamily: "ui-monospace, SFMono-Regular, Consolas, monospace", fontSize: "1rem" }}>
-              /identify
-            </span>
-          </>
+          // Typed by people who cannot scan: host on one line, path in the accent colour.
+          <span className="qr-host">
+            {publicHost}
+            <b>/identify</b>
+          </span>
         ) : (
           <span>{url.replace(/^https?:\/\//, "")}</span>
         )}
