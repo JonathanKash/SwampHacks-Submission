@@ -104,6 +104,8 @@ are, and an exportable report.
       HTML report links, how-to-read explainer (Codex)
 - [x] Smoke test extended to diff + HTML report + footprint
 - [x] C2PA manifest presence recorded at ingest (unverified hint)
+- [x] HTML report embeds a visual diff exhibit per derived copy; verdict page shows the evidence picture (Codex)
+- [ ] Accessibility pass (contrast, focus, SVG tree semantics) after Gemini research
 
 ## Phase 5 — second media type: text (started 2026-10-17 ~02:30 ET)
 - [x] Media plug-in interface (lineage/media.py); Engine takes any plug-in; evidence accepts plug-in reasons
