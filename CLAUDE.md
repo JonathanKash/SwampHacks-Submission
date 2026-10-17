@@ -11,7 +11,7 @@ arborescence. Every decision carries evidence and an empirically calibrated prec
 
 ## Stack and commands
 - Python 3.13 backend in `backend/`, venv at `.venv/` (Windows: `.venv/Scripts/python`).
-- Tests: `.venv/Scripts/python -m pytest backend/tests -q` (116)
+- Tests: `.venv/Scripts/python -m pytest backend/tests -q` (128); frontend `npm --prefix frontend run test -- --run` (9)
 - Eval: `backend/scripts/gen_chains.py --name runN --seed S`, `backend/scripts/eval.py data/synthetic/runN`,
   `backend/scripts/calibrate.py <runs...>` (writes `backend/lineage/calibration.json`).
 - API: `.venv/Scripts/python -m uvicorn app:app --app-dir backend --port 8010` (8000 is taken on the dev
@@ -38,13 +38,22 @@ backend/lineage/
   plugins/image_features.py      cheap information cues: blockiness, chroma, sharpness, levels, entropy
   plugins/image_cost.py          asymmetric image cost per SPEC.md (+ edit-op MDL prior, specificity)
   plugins/image_explain.py       labels/sentences from CostResult.features (Codex)
+  plugins/caption.py             caption-likeness of a changed region (achromatic, dark+bright, luminance spread)
+  plugins/noise.py               noise-consistency indicator + caption-on-which-side for a registered pair
+  compare.py                     pairwise verdict: parent-child / siblings / unrelated / inconclusive + evidence report
+  c2pa_check.py                  Content Credentials read + validation (c2pa-python)
+  web_candidates.py              add-by-URL fetch + SerpApi reverse-image search (SERPAPI_KEY, PUBLIC_URL)
   plugins/gemini_restyle.py      Gemini image edit with model fallbacks; OpenCV local fallback in image_edits
   plugins/text_media.py          second media type: SimHash/MinHash, word-loss cost, worded explain (Codex)
   edits/image_edits.py           the fixed edit menu as pure functions + restyle_local
-backend/scripts/                 fetch_seeds, gen_chains, eval, calibrate, seed_pool
-backend/tests/                   116 tests (core, image cost, explain, restyle, pool/API, cases, text)
-frontend/src/                    LandingPage, EditPage (guided flow + verdict), TreePage + TreeView (D3),
-                                 AuditPage, TextPage, EvidenceList, NavBar, ErrorBoundary, api.ts
+backend/scripts/                 fetch_seeds, gen_chains, eval, calibrate, seed_pool, smoke, build_meme_case
+backend/lineage_cli.py           CLI: compare, tree FOLDER, place IMAGE --against FOLDER, batch-compare
+benchmark/                       run_benchmark.py (per corpus/edit metrics), identify_eval.py, write_corpus_calibration.py,
+                                 memes/ (38 families, manifest + downloader; images git-ignored), nanobanana/ (Gemini edits via agy)
+backend/tests/                   128 tests (core, image cost, explain, restyle, pool/API, cases, text, compare, noise)
+frontend/src/                    LandingPage, EditPage, TreePage + TreeView (D3) + ReplayOverlay, AuditPage, IdentifyPage,
+                                 ComparePage + CompareReport, TextPage, MethodPage, EvidenceList, ConfidenceChip,
+                                 NumbersPanel, NavBar, ErrorBoundary, api.ts
 docs/                            DEVPOST.md (submission + pitch script), DEMO.md (runbook)
 data/                            gitignored: seeds/, synthetic/, pool/, thumbs/, cases/, lineage.sqlite
 ```
@@ -55,7 +64,9 @@ data/                            gitignored: seeds/, synthetic/, pool/, thumbs/,
 - The engine must never read an item's true parent. Truth lives only in generator output /
   the upload record and is used by the eval and accuracy endpoint.
 - Verdicts are never "guesses": every decision ships with evidence and a margin; precision
-  claims come only from calibration.json (image chains). Do not present it for text.
+  claims come only from calibration.json (synthetic chains + per-corpus "web-memes" column: show both
+  numbers). Pairwise verdicts return "inconclusive" when the direction rests on a symmetric cue.
+  Do not present precision for text.
 - Measure before keeping a cost change: eval on run1 (tuned) AND run2/run3 (held out); revert
   anything that lowers held-out accuracy. Record rejected experiments in PLAN.md.
 - No secrets in code. `.env` only; keep `.env.example` current.
