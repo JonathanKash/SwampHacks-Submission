@@ -169,18 +169,24 @@ def run_memes(embedder, tally: Tally) -> None:
             orig = base / "images" / fam["original"]["file"]
         variants = []
         kinds = {}
+        orig_px = (fam["original"].get("width") or 0) * (fam["original"].get("height") or 0)
         for v in fam.get("variants", []):
             p = base / v["file"]
             if not p.exists():
                 p = base / "images" / v["file"]
             if p.exists():
                 variants.append(p)
-                kinds[p.name] = v.get("kind", "variant")
+                # When the documented original is a smaller copy than the variant, the pixel truth
+                # is genuinely ambiguous (the variant may be closer to the real source): score it apart.
+                v_px = (v.get("width") or 0) * (v.get("height") or 0)
+                suffix = "/orig-smaller" if orig_px and v_px > orig_px else ""
+                kinds[p.name] = v.get("kind", "variant") + suffix
         if not orig.exists() or not variants:
             continue
         fams += 1
-        pairwise_corpus([(orig, v, kinds[v.name]) for v in variants], embedder, tally, "memes")
-        tree_family([orig] + variants, orig, embedder, tally, "memes", kinds)
+        label = "memes-true-source" if fam["original"].get("is_true_source_photo") else "memes-template"
+        pairwise_corpus([(orig, v, kinds[v.name]) for v in variants], embedder, tally, label)
+        tree_family([orig] + variants, orig, embedder, tally, label, kinds)
     print(f"memes: {fams} families evaluated")
 
 

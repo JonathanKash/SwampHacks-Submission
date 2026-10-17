@@ -167,7 +167,18 @@ Decisions in SPEC.md (v2 section). Images first; audio/video only after images w
       inconclusive; object_add inconclusive; background_swap correct; watercolor restyle inconclusive.
 - [x] Noise-consistency indicator (high-pass std inside vs outside the changed region) as a measured AI-edit
       indicator, never a verdict input
-- [ ] Meme corpus: 30 families with documented originals (dedicated agent, in progress) -> benchmark/memes/
+- [x] Meme corpus (agent): 38 families, 612 images (365 caption, 139 lowres, 45 crop, 13 screenshot), 13 rooted at
+      a copy of the true source photo, the rest at the earliest template; manifest.resolved.json + README + tools.
+- [x] Meme benchmark v1 (pHash-only, before fixes, 563 pairs): direction 24%, abstained 62%, WRONG PARENT CLAIMED 14%
+      (crop 36%), root recovered 24% of families; calibration did NOT transfer: claimed >=0.30 bucket observed 66%.
+      Diagnosis: (a) 205/563 pairs did not register: ORB at 1500 features spends them on the caption and leaves
+      1-3 inliers for the photo (4000 features give 100+), and small/soft frames (Evil Kermit 325px) have almost no
+      corners; (b) in 48/75 wrong claims the documented "original" has FEWER pixels than the variant (e.g. Distracted
+      Boyfriend: KYM comp 880x440 vs Imgflip 1200x800), so the pixel truth is ambiguous; (c) the caption-side cue was
+      92% right (n=53) on its own.
+      Fixes: ORB 4000 + SIFT fallback; caption_removed cost term; harness now splits memes-true-source vs
+      memes-template and tags pairs where the original is the smaller file. Synthetic regression after the fixes
+      (pHash-only): 75.0 / 66.7 / 73.3 vs 76.1 / 67.8 / 73.3 before (within one item per run).
 - [ ] Real-photo -> Gemini-edit corpus through Antigravity (driver benchmark/nanobanana/make_corpus.py;
       capability verified 10:37: Antigravity returned a genuine Gemini edit) -> parent/child benchmark per edit type
 - [x] Benchmark harness v2 (benchmark/run_benchmark.py): per corpus and edit type: direction accuracy, wrong-parent-claimed,
