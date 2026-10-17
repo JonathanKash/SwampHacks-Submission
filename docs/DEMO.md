@@ -5,6 +5,9 @@ and TV are on the same network (or the Vultr deployment at your domain).
 
 ## 30 minutes before
 
+Shortcut: `.\start.ps1` from the repo root builds the frontend if needed, seeds an empty pool and
+starts the server. The manual steps:
+
 ```
 # fresh pool with three known families (stop the server first if it is running)
 .venv\Scripts\python backend\scripts\seed_pool.py --families 3 --chains 2 --reset
