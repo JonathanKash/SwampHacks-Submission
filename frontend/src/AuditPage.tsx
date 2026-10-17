@@ -5,8 +5,10 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   ApiError,
   type AuditCase,
@@ -48,8 +50,8 @@ function isImage(file: File): boolean {
 
 /** Industry workspace: unknown ground truth, so decisions are presented by empirical precision. */
 export default function AuditPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [cases, setCases] = useState<AuditCase[]>([]);
-  const [selectedCaseId, setSelectedCaseId] = useState<string | null>(null);
   const [caseName, setCaseName] = useState("");
   const [tree, setTree] = useState<TreeResponse | null>(null);
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
@@ -63,6 +65,18 @@ export default function AuditPage() {
   const [error, setError] = useState<string | null>(null);
   const [treeError, setTreeError] = useState<string | null>(null);
   const [refreshToken, setRefreshToken] = useState(0);
+  const [copied, setCopied] = useState(false);
+  const copyResetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const selectedCaseId = searchParams.get("case");
+
+  const selectCase = useCallback((id: string | null) => {
+    setSearchParams((current) => {
+      const next = new URLSearchParams(current);
+      if (id) next.set("case", id);
+      else next.delete("case");
+      return next;
+    }, { replace: true });
+  }, [setSearchParams]);
 
   const loadCases = useCallback(async (signal?: AbortSignal) => {
     const response = await fetchCases(signal);
@@ -82,6 +96,10 @@ export default function AuditPage() {
       });
     return () => controller.abort();
   }, [loadCases]);
+
+  useEffect(() => () => {
+    if (copyResetTimer.current !== null) clearTimeout(copyResetTimer.current);
+  }, []);
 
   useEffect(() => {
     if (!selectedCaseId) {
@@ -161,7 +179,7 @@ export default function AuditPage() {
     try {
       const created = await createCase(name);
       setCases((current) => [...current, created]);
-      setSelectedCaseId(created.id);
+      selectCase(created.id);
       setCaseName("");
     } catch (createError) {
       setError(messageFrom(createError));
@@ -176,7 +194,7 @@ export default function AuditPage() {
     try {
       await deleteCase(auditCase.id);
       setCases((current) => current.filter((candidate) => candidate.id !== auditCase.id));
-      if (selectedCaseId === auditCase.id) setSelectedCaseId(null);
+      if (selectedCaseId === auditCase.id) selectCase(null);
     } catch (deleteError) {
       setError(messageFrom(deleteError));
     }
@@ -221,6 +239,17 @@ export default function AuditPage() {
 
   const selectNode = useCallback((node: TreeNode) => setSelectedNodeId(node.id), []);
 
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      if (copyResetTimer.current !== null) clearTimeout(copyResetTimer.current);
+      copyResetTimer.current = setTimeout(() => setCopied(false), 1_500);
+    } catch (copyError) {
+      setError(messageFrom(copyError));
+    }
+  };
+
   return (
     <main className="audit-page">
       <div className="audit-screen">
@@ -257,7 +286,7 @@ export default function AuditPage() {
                   className={`audit-case-row ${selectedCaseId === auditCase.id ? "is-selected" : ""}`}
                   key={auditCase.id}
                 >
-                  <button type="button" className="audit-case-select" onClick={() => setSelectedCaseId(auditCase.id)}>
+                  <button type="button" className="audit-case-select" onClick={() => selectCase(auditCase.id)}>
                     <strong>{auditCase.name}</strong>
                     <span>{auditCase.items} {auditCase.items === 1 ? "image" : "images"}</span>
                   </button>
@@ -305,6 +334,9 @@ export default function AuditPage() {
                   <a className="secondary-button" href={reportUrl(selectedCase.id)} download>
                     Download report (JSON)
                   </a>
+                  <button className="secondary-button" type="button" onClick={() => void handleCopyLink()}>
+                    {copied ? "Copied" : "Copy link"}
+                  </button>
                   <button className="secondary-button" type="button" onClick={() => window.print()}>
                     Print summary
                   </button>

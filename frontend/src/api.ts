@@ -254,6 +254,7 @@ export interface TextTreeResponse {
   mode: "text";
   nodes: TextNode[];
   edges: TextEdge[];
+  note?: string;
   summary: { versions: number; families: number };
 }
 

@@ -61,6 +61,9 @@ export default function TreePage() {
           <div className="score-side">
             <span>{tree?.nodes.length ?? 0} images</span>
             <span>{tree?.nodes.filter((node) => node.root).length ?? 0} families</span>
+            <a className="secondary-button tree-report-link" href="/api/report" download>
+              Download report
+            </a>
             <span
               className={`poll-dot ${fetching ? "is-fetching" : ""} ${error ? "has-error" : ""}`}
               title={error ?? "Checking for new images every 2 seconds"}

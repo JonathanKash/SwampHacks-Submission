@@ -129,6 +129,7 @@ export default function TextPage() {
             {result.summary.families === 1 ? "One family" : `${result.summary.families} families`} ·{" "}
             {result.summary.versions} versions
           </h2>
+          {result.note && <p className="hint">{result.note}</p>}
           <div className="text-result-grid">
             <ul className="text-tree">{renderBranch(null, 0)}</ul>
             <aside className="text-detail">

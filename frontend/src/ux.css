@@ -533,6 +533,17 @@
   font-weight: 700;
 }
 
+.score-side .tree-report-link {
+  display: inline-grid;
+  min-height: 36px;
+  padding: 0 11px;
+  place-items: center;
+  border-radius: 10px;
+  font-size: 0.76rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
 .newest-callout {
   position: absolute;
   left: 20px;
@@ -840,6 +851,10 @@
 .text-inputs-head h2,
 .text-result h2 {
   margin: 0 0 14px;
+}
+
+.text-result > .hint {
+  margin: -6px 0 14px;
 }
 
 .text-inputs-actions {
