@@ -147,6 +147,24 @@ class Pool:
         item = self.store.get_item(item_id)
         return (self.images / item["file"]).read_bytes()
 
+    def remove(self, item_id: str) -> bool:
+        """Moderation: drop one image from the pool (files, row, cached costs) and rebuild."""
+        with self.lock:
+            item = self.store.delete_item(item_id)
+            if item is None:
+                return False
+            for path in (self.images / item["file"], self.thumbs / f"{item_id}.jpg"):
+                if path.exists():
+                    path.unlink()
+            for store in (self.engine.items, self.engine.data, self.engine.fingerprints, self.engine.stats):
+                store.pop(item_id, None)
+            self.engine.results = {k: v for k, v in self.engine.results.items() if item_id not in k}
+            if self.newest_id == item_id:
+                remaining = self.store.list_items()
+                self.newest_id = remaining[-1]["id"] if remaining else None
+            self._rebuild()
+        return True
+
     def reset(self) -> None:
         with self.lock:
             self.store.clear()

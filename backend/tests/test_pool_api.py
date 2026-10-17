@@ -43,6 +43,14 @@ def test_pool_builds_tree_and_scores_accuracy(pool: Pool):
     # no true parent anywhere in the public payload
     assert all("true_parent" not in n for n in tree["nodes"])
 
+    # moderation: removing the middle image re-links its child to the root and rebuilds
+    assert pool.remove(child["id"]) is True
+    assert pool.remove("nope") is False
+    tree = pool.tree
+    assert [n["id"] for n in tree["nodes"]] == [root["id"], grandchild["id"]]
+    assert tree["accuracy"]["total"] == 1 and tree["nodes"][1]["predicted_parent"] == root["id"]
+    assert not (pool.images / f"{child['id']}.png").exists()
+
 
 def test_pool_persists_and_reloads(tmp_path):
     pool = Pool(tmp_path, use_clip=False)

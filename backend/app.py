@@ -437,6 +437,29 @@ def edit(req: EditRequest) -> dict:
     return pool.add_image(out, req.parent_id, req.edit, params)
 
 
+def _check_admin(token: str | None) -> None:
+    expected = os.getenv("ADMIN_TOKEN")
+    if expected and token != expected:
+        raise HTTPException(403, "bad admin token")
+
+
+@app.delete("/api/items/{item_id}")
+def delete_item(item_id: str, x_admin_token: str | None = Header(None)) -> dict:
+    """Moderation: remove an image from the demo pool (needs ADMIN_TOKEN header if set)."""
+    _check_admin(x_admin_token)
+    if not pool.remove(item_id):
+        raise HTTPException(404, "unknown item")
+    return {"ok": True, "items": len(pool.engine.items)}
+
+
+@app.delete("/api/cases/{case_id}/items/{item_id}")
+def delete_case_item(case_id: str, item_id: str, x_admin_token: str | None = Header(None)) -> dict:
+    _check_admin(x_admin_token)
+    if not _case_pool(case_id).remove(item_id):
+        raise HTTPException(404, "unknown item")
+    return {"ok": True}
+
+
 @app.post("/api/reset")
 def reset(x_admin_token: str | None = Header(None)) -> dict:
     expected = os.getenv("ADMIN_TOKEN")

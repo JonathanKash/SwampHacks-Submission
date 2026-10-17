@@ -63,6 +63,19 @@ class Store:
         rows = self.conn.execute("select * from items order by created_at, id").fetchall()
         return [self._item(r) for r in rows]
 
+    def delete_item(self, item_id: str) -> dict | None:
+        """Remove one item. Its children are re-linked to its true parent so the accuracy
+        counter keeps a sensible ground truth; cached costs touching it are dropped."""
+        row = self.conn.execute("select * from items where id = ?", (item_id,)).fetchone()
+        if row is None:
+            return None
+        item = self._item(row)
+        self.conn.execute("update items set true_parent = ? where true_parent = ?", (item["true_parent"], item_id))
+        self.conn.execute("delete from costs where src = ? or dst = ?", (item_id, item_id))
+        self.conn.execute("delete from items where id = ?", (item_id,))
+        self.conn.commit()
+        return item
+
     def clear(self) -> None:
         self.conn.executescript("delete from items; delete from costs;")
         self.conn.commit()
