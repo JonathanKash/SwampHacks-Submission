@@ -89,6 +89,26 @@ export default function AuditPage() {
   const [copied, setCopied] = useState(false);
   const [copiedHash, setCopiedHash] = useState(false);
   const [compareWith, setCompareWith] = useState("");
+  const [verifyVerdict, setVerifyVerdict] = useState<string | null>(null);
+
+  // Re-check a previously downloaded JSON report against the server's hash/signature.
+  const handleVerifyReport = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    try {
+      const report: unknown = JSON.parse(await file.text());
+      const response = await fetch("/api/verify-report", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(report),
+      });
+      const result = (await response.json()) as { verdict?: string };
+      setVerifyVerdict(result.verdict ?? "Could not verify this file.");
+    } catch {
+      setVerifyVerdict("Not a readable Lineage report (expected the downloaded JSON).");
+    }
+  };
 
   // A new selection starts without a comparison target.
   useEffect(() => setCompareWith(""), [selectedNodeId]);
@@ -412,6 +432,11 @@ export default function AuditPage() {
                   <p className="eyebrow">Active case</p>
                   <h2>{selectedCase.name}</h2>
                   {selectedCase.analyst && <p className="audit-case-analyst">Analyst · {selectedCase.analyst}</p>}
+                  {verifyVerdict && (
+                    <p className="verify-verdict" role="status">
+                      Report check: <strong>{verifyVerdict}</strong>
+                    </p>
+                  )}
                 </div>
                 <div className="audit-actions">
                   <a className="secondary-button" href={reportUrl(selectedCase.id)} download>
@@ -431,6 +456,10 @@ export default function AuditPage() {
                   <button className="secondary-button" type="button" onClick={() => void handleCopyLink()}>
                     {copied ? "Copied" : "Copy link"}
                   </button>
+                  <label className="secondary-button verify-report">
+                    Verify a report
+                    <input type="file" accept="application/json,.json" className="sr-only" onChange={(event) => void handleVerifyReport(event)} />
+                  </label>
                   <button className="secondary-button" type="button" onClick={() => window.print()}>
                     Print summary
                   </button>

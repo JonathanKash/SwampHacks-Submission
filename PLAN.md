@@ -113,6 +113,9 @@ are, and an exportable report.
       view for text decisions (Codex finished these just before hitting its usage limit, ~01:00 ET; reset ~02:41)
 - [x] CSV decision ledger export (/api/report.csv, per case) with UI link; "compare with any image" diff in the
       audit panel; frontend unit tests (vitest: text diff, provenance path)
+- [x] Tamper-evident JSON reports (sha256 stamp + optional HMAC via REPORT_SIGNING_KEY), POST /api/verify-report,
+      "Verify a report" control on the audit page
+- [x] Fixed DATA_DIR resolving against the shell cwd (server launched from another folder saw an empty pool)
 
 ## Phase 5 — second media type: text (started 2026-10-17 ~02:30 ET)
 - [x] Media plug-in interface (lineage/media.py); Engine takes any plug-in; evidence accepts plug-in reasons
