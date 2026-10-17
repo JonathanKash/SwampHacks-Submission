@@ -84,3 +84,33 @@ jump -> "re-saved as low-quality JPEG"; semantic edge -> "AI restyle (matched by
 - README: what it is, how to run, architecture, AI disclosure (Claude wrote the code under our
   direction), credits for every library/API.
 - Simple readable code. No hardcoded secrets (.env + .env.example).
+
+
+---
+
+# Spec v2 (2026-10-17): media provenance + parent/child detection
+
+Goal: given two or more pieces of media, determine (1) whether they share a lineage, (2) which is the
+PARENT and which the CHILD, (3) whether an item is AI-generated/AI-edited vs a real capture, where that
+can be measured. Images first, then audio and video (only after images work fully; internet samples,
+not synthetic). Also GIFs, screenshots of images, screen recordings of video.
+
+Decisions (user, 2026-10-17 morning):
+- Build the feasible parts first, then a continuous loop adds to it.
+- Gemini edits: try Antigravity; if it cannot return edited images, skip Nano Banana (no billed key).
+- Source photos: anything (a user's own photo, an internet original, a company's copyrighted image).
+- Meme corpus: 30 families, built extensively by a dedicated agent; downloads are acceptable for a
+  non-redistributed test corpus.
+- "Original" = candidate original (highest-fidelity ancestor within the supplied set). If a user later
+  uploads the true original it must be recognized and presented as the original.
+- AI-edited: report only what is measured (semantic-only registration, C2PA manifests, noise breaks in
+  edited regions); no black-box detector verdicts.
+- CLI: usable at scale; compare across an existing lineage (case or pool), not just two files.
+- Codex for frontend until it fails, then Claude takes over; Gemini (Antigravity) for research/vision.
+
+Report accuracy rules (non-negotiable): every claim traces to a measured signal; return "inconclusive"
+rather than guess; show the benchmark accuracy for that media/edit type next to the verdict; reports are
+reproducible (tool version + input hashes recorded).
+
+Deliverables: image pipeline (then audio, video); benchmark harness with corpora and a results report;
+comparison UI with the "Why is this the parent?" evidence button; README with signals and limitations.
