@@ -32,7 +32,7 @@ def main(base: str) -> None:
     c = httpx.Client(base_url=base, timeout=300)
     h = c.get("/api/health").json()
     check(h.get("ok") is True, f"health ({h.get('items')} items)")
-    for path in ["/", "/edit", "/tree", "/audit", "/text"]:
+    for path in ["/", "/edit", "/tree", "/audit", "/text", "/identify", "/compare", "/method"]:
         r = c.get(path)
         check(r.status_code == 200 and "<div id=\"root\">" in r.text, f"SPA route {path}")
 
@@ -87,6 +87,18 @@ def main(base: str) -> None:
     ]}).json()
     parents = {n["id"]: n["predicted_parent"] for n in t["nodes"]}
     check(parents == {"long": None, "short": "long", "reworded": "short"}, f"text tree {parents}")
+    # pairwise compare: the synthetic original vs its crop must come out parent-child with A as parent
+    crop_img = base_img.crop((60, 40, 420, 320))
+    rep = c.post("/api/compare", files=[("a", png(base_img, "a.png")[1]), ("b", png(crop_img, "b.png")[1])]).json()
+    check(rep.get("verdict") == "parent-child" and rep.get("parent") == "A", f"compare verdict {rep.get('verdict')} parent {rep.get('parent')}")
+    check(rep.get("plates", {}).get("a_to_b", {}).get("png", "").startswith("data:image/png"), "compare diff plates inline")
+    cal = c.get("/api/calibration").json()
+    check("buckets" in cal and "corpora" in cal and "caption_side" in cal, f"calibration with corpora {list(cal.get('corpora', {}))}")
+    if h.get("identify_ready"):
+        ident = c.post("/api/identify", files=[("file", png(base_img, "q.png")[1])]).json()
+        check("matched" in ident, f"identify answered (matched={ident.get('matched')})")
+    else:
+        print("skip identify (no knowledge-base case)")
     print("ALL OK")
 
 
