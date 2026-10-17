@@ -32,6 +32,16 @@ type SampleNode = {
   params: Record<string, unknown>;
 };
 
+type ResizeSummary = {
+  originalWidth: number;
+  originalHeight: number;
+  width: number;
+  height: number;
+};
+
+const MAX_UPLOAD_BYTES = 4 * 1024 * 1024;
+const MAX_UPLOAD_SIDE = 1600;
+
 function messageFrom(error: unknown): string {
   if (error instanceof ApiError || error instanceof Error) return error.message;
   return "Something went wrong. Please try again.";
@@ -39,6 +49,59 @@ function messageFrom(error: unknown): string {
 
 function isImage(file: File): boolean {
   return file.type.startsWith("image/") || /\.(avif|bmp|gif|heic|heif|jpe?g|png|tiff?|webp)$/i.test(file.name);
+}
+
+function loadImage(file: File): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const image = new Image();
+    image.onload = () => {
+      URL.revokeObjectURL(url);
+      resolve(image);
+    };
+    image.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("Could not read the selected image."));
+    };
+    image.src = url;
+  });
+}
+
+async function prepareUpload(file: File): Promise<{ file: File; resize: ResizeSummary | null }> {
+  const image = await loadImage(file);
+  const originalWidth = image.naturalWidth;
+  const originalHeight = image.naturalHeight;
+  const longestSide = Math.max(originalWidth, originalHeight);
+
+  if (file.size <= MAX_UPLOAD_BYTES && longestSide <= 2000) {
+    return { file, resize: null };
+  }
+
+  const scale = Math.min(1, MAX_UPLOAD_SIDE / longestSide);
+  const width = Math.max(1, Math.round(originalWidth * scale));
+  const height = Math.max(1, Math.round(originalHeight * scale));
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const context = canvas.getContext("2d");
+  if (!context) throw new Error("Could not resize the selected image.");
+  context.drawImage(image, 0, 0, width, height);
+
+  const sourceIsPng = file.type === "image/png" || /\.png$/i.test(file.name);
+  const keepPng = sourceIsPng && file.size < MAX_UPLOAD_BYTES;
+  const type = keepPng ? "image/png" : "image/jpeg";
+  const blob = await new Promise<Blob>((resolve, reject) => {
+    canvas.toBlob(
+      (nextBlob) => nextBlob ? resolve(nextBlob) : reject(new Error("Could not resize the selected image.")),
+      type,
+      keepPng ? undefined : 0.9,
+    );
+  });
+
+  return {
+    file: new File([blob], file.name, { type, lastModified: file.lastModified }),
+    resize: { originalWidth, originalHeight, width, height },
+  };
 }
 
 function usePreview(file: File | null): string | null {
@@ -201,6 +264,7 @@ export default function IdentifyPage() {
   const [sampleError, setSampleError] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [unavailable, setUnavailable] = useState(false);
+  const [resizeSummary, setResizeSummary] = useState<ResizeSummary | null>(null);
   const [result, setResult] = useState<IdentifyResponse | null>(null);
   const [stats, setStats] = useState<IdentifyStatsResponse | null>(null);
   const preview = usePreview(file);
@@ -223,6 +287,7 @@ export default function IdentifyPage() {
     setSampleError(null);
     setResult(null);
     setUnavailable(false);
+    setResizeSummary(null);
     setError(null);
   };
 
@@ -238,14 +303,17 @@ export default function IdentifyPage() {
   };
 
   const identify = async (nextFile: File) => {
-    const body = new FormData();
-    body.append("file", nextFile);
-    setFile(nextFile);
     setLoading(true);
     setError(null);
     setUnavailable(false);
+    setResizeSummary(null);
     setResult(null);
     try {
+      const prepared = await prepareUpload(nextFile);
+      const body = new FormData();
+      body.append("file", prepared.file);
+      setFile(prepared.file);
+      setResizeSummary(prepared.resize);
       setResult(await identifyImage(body));
     } catch (identifyError) {
       if (identifyError instanceof ApiError && identifyError.status === 503) {
@@ -351,6 +419,11 @@ export default function IdentifyPage() {
                 </small>
               )}
               <strong>{file.name}</strong>
+              {resizeSummary && (
+                <small className="identify-sample-caption">
+                  Resized for upload: {resizeSummary.originalWidth}×{resizeSummary.originalHeight} → {resizeSummary.width}×{resizeSummary.height}
+                </small>
+              )}
               <span id="identify-file-help">Click or drop to replace</span>
             </>
           ) : (
