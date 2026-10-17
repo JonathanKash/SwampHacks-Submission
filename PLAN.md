@@ -251,3 +251,7 @@ Decisions in SPEC.md (v2 section). Images first; audio/video only after images w
       audit reviewed flags + analyst notes (browser-local, outside the signed report); text page example + legend;
       edit page Fool Lineage hints + outcome lines; method page gates section; navbar phone collapse (in progress).
       Backend: 132 tests green, smoke ALL OK; JPEG re-save regression test for the re-render gate.
+- [x] Meme benchmark pass 5 (current verdict rules, pHash-only, 563 pairs): template families wrong parent claimed
+      16% (was 24%), abstained 68%; true-source families wrong 10% (was 20%),
+      abstained 64%. Top-bucket observed precision: all pairs 97/172,
+      clean truth 71/97. calibration.json corpora columns refreshed from this pass.
