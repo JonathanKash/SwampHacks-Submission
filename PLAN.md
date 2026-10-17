@@ -125,6 +125,9 @@ are, and an exportable report.
       in the audit panel (and on /tree?admin=1) with an admin-token prompt; low-memory mode badge from /api/health
 - [x] Per-client cooldown on /api/edit (EDIT_COOLDOWN_S) against tap spam from phones
 - [x] /method page: every cost term with weight and direction logic, pipeline, evidence/calibration, limitations
+- [x] "Load a sample case" (POST /api/cases/sample cuts one demo family into a case); tablet shows a live cooldown
+      countdown on 429 and scrolls to the verdict (Codex, quota back ~03:40)
+- [x] README screenshots refreshed from the current UI
 
 ## Phase 5 — second media type: text (started 2026-10-17 ~02:30 ET)
 - [x] Media plug-in interface (lineage/media.py); Engine takes any plug-in; evidence accepts plug-in reasons
