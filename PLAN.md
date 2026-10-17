@@ -92,6 +92,17 @@ are, and an exportable report.
 - [x] README AI disclosure covers Claude Code, Codex and Gemini (Antigravity) usage
 - [ ] Web mode (reverse-image candidates via TinEye/SerpApi) if a provider key is available
 
+## Phase 7 — overnight pass (2026-10-17, from ~00:30 ET)
+- [x] USE_CLIP=false low-memory mode (pHash-only candidates) so the server runs in ~400 MB; health reports `clip`
+- [x] UX research via Gemini (InVID, TinEye, C2PA Verify, Relativity): vocabulary "candidate original", "derived
+      copy", "empirical precision" with reliability tiers; tamper-evident footprint; visual diff plates; report contents
+- [x] Visual diff plates: /api/diff/{id} and /api/cases/{id}/diff/{id} (source aligned onto copy | copy | residual)
+- [x] Footprint per item (SHA-256, dimensions, bytes, pHash); analyst on cases; tool version in reports
+- [x] Self-contained HTML report with inventory table, how-to-read, method and limitations (/api/report.html, per case)
+- [x] UI polish (Codex): favicon + titles, inline SVG icons, compact mobile nav, shimmer loading, button consistency
+- [ ] Frontend: diff toggle in panels, auditor vocabulary, footprint block, analyst field, HTML report links (Codex, in progress)
+- [ ] Smoke test extended to diff + HTML report endpoints
+
 ## Phase 5 — second media type: text (started 2026-10-17 ~02:30 ET)
 - [x] Media plug-in interface (lineage/media.py); Engine takes any plug-in; evidence accepts plug-in reasons
 - [x] Stateless POST /api/text/tree and a /text page (paste versions, see the tree + evidence)

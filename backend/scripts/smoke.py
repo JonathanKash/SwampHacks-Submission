@@ -72,7 +72,12 @@ def main(base: str) -> None:
     by = {n["params"]["filename"]: n for n in tree["nodes"]}
     check(by["a.png"]["root"] and by["b.png"]["predicted_parent"] == by["a.png"]["id"]
           and by["c.png"]["predicted_parent"] == by["b.png"]["id"], "audit tree a -> b -> c")
-    check(c.get(f"/api/cases/{case['id']}/report").status_code == 200, "audit report")
+    check(c.get(f"/api/cases/{case['id']}/report").status_code == 200, "audit report (JSON)")
+    page = c.get(f"/api/cases/{case['id']}/report.html")
+    check(page.status_code == 200 and "Evidence inventory" in page.text, "audit report (HTML)")
+    diff = c.get(f"/api/cases/{case['id']}/diff/{by['b.png']['id']}")
+    check(diff.status_code == 200 and diff.headers.get("x-diff-registered") == "true", "visual diff plate")
+    check(by["a.png"]["footprint"] and len(by["a.png"]["footprint"]["sha256"]) == 64, "tamper-evident footprint")
     check(c.delete(f"/api/cases/{case['id']}").json().get("ok") is True, "audit case deleted")
 
     t = c.post("/api/text/tree", json={"versions": [
