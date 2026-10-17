@@ -79,6 +79,53 @@ function storedAnalyst(): string {
   }
 }
 
+function storedReviewed(caseId: string | null): string[] {
+  if (!caseId) return [];
+  try {
+    const value = window.localStorage.getItem(`lineage.reviewed.${caseId}`);
+    if (!value) return [];
+    const parsed: unknown = JSON.parse(value);
+    return Array.isArray(parsed)
+      ? parsed.filter((itemId): itemId is string => typeof itemId === "string")
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function storedNotes(caseId: string | null): Record<string, string> {
+  if (!caseId) return {};
+  try {
+    const value = window.localStorage.getItem(`lineage.notes.${caseId}`);
+    if (!value) return {};
+    const parsed: unknown = JSON.parse(value);
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return {};
+    const notes: Record<string, string> = {};
+    Object.entries(parsed).forEach(([itemId, text]) => {
+      if (typeof text === "string") notes[itemId] = text.slice(0, 500);
+    });
+    return notes;
+  } catch {
+    return {};
+  }
+}
+
+function storeReviewed(caseId: string, itemIds: string[]): void {
+  try {
+    window.localStorage.setItem(`lineage.reviewed.${caseId}`, JSON.stringify(itemIds));
+  } catch {
+    // Review state remains available for this session when storage is unavailable.
+  }
+}
+
+function storeNotes(caseId: string, notes: Record<string, string>): void {
+  try {
+    window.localStorage.setItem(`lineage.notes.${caseId}`, JSON.stringify(notes));
+  } catch {
+    // Notes remain available for this session when storage is unavailable.
+  }
+}
+
 function isImage(file: File): boolean {
   return file.type.startsWith("image/") || /\.(avif|bmp|gif|heic|heif|jpe?g|png|tiff?|webp)$/i.test(file.name);
 }
@@ -94,6 +141,8 @@ export default function AuditPage() {
   const [analyst, setAnalyst] = useState(storedAnalyst);
   const [tree, setTree] = useState<TreeResponse | null>(null);
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
+  const [reviewedIds, setReviewedIds] = useState<string[]>([]);
+  const [notes, setNotes] = useState<Record<string, string>>({});
   const [casesLoading, setCasesLoading] = useState(true);
   const [creating, setCreating] = useState(false);
   const [sampleLoading, setSampleLoading] = useState(false);
@@ -153,6 +202,11 @@ export default function AuditPage() {
   const selectedCaseId = searchParams.get("case");
   const selectedCaseIdRef = useRef(selectedCaseId);
   selectedCaseIdRef.current = selectedCaseId;
+
+  useEffect(() => {
+    setReviewedIds(storedReviewed(selectedCaseId));
+    setNotes(storedNotes(selectedCaseId));
+  }, [selectedCaseId]);
 
   // A new selection starts without comparison state from the prior image.
   useEffect(() => {
@@ -318,6 +372,12 @@ export default function AuditPage() {
     mean_precision: null,
     low_confidence: 0,
   };
+  const reviewedCount = tree
+    ? reviewedIds.filter((itemId) => tree.nodes.some((node) => node.id === itemId)).length
+    : reviewedIds.length;
+  const reviewedTotal = tree?.nodes.length ?? summary.images;
+  const selectedNodeReviewed = selectedNode ? reviewedIds.includes(selectedNode.id) : false;
+  const selectedNodeNote = selectedNode ? notes[selectedNode.id] ?? "" : "";
 
   const handleCreate = async (event: FormEvent) => {
     event.preventDefault();
@@ -449,6 +509,25 @@ export default function AuditPage() {
     } catch {
       // The form still works when storage is unavailable.
     }
+  };
+
+  const handleToggleReviewed = () => {
+    if (!selectedCaseId || !selectedNode) return;
+    const next = selectedNodeReviewed
+      ? reviewedIds.filter((itemId) => itemId !== selectedNode.id)
+      : [...reviewedIds, selectedNode.id];
+    setReviewedIds(next);
+    storeReviewed(selectedCaseId, next);
+  };
+
+  const handleNoteChange = (value: string) => {
+    if (!selectedCaseId || !selectedNode) return;
+    const next = { ...notes };
+    const note = value.slice(0, 500);
+    if (note) next[selectedNode.id] = note;
+    else delete next[selectedNode.id];
+    setNotes(next);
+    storeNotes(selectedCaseId, next);
   };
 
   const handleCopyLink = async () => {
@@ -698,6 +777,9 @@ export default function AuditPage() {
                 <div><dt>families</dt><dd>{summary.families}</dd></div>
                 <div><dt>mean empirical precision</dt><dd>{formatPrecision(summary.mean_precision)}</dd></div>
                 <div><dt>low-reliability decisions (&lt; 80%)</dt><dd>{summary.low_confidence}</dd></div>
+                <div aria-label={`Reviewed ${reviewedCount} of ${reviewedTotal}`}>
+                  <dt>reviewed</dt><dd>{reviewedCount} of {reviewedTotal}</dd>
+                </div>
                 <span
                   className={`poll-dot ${treeFetching ? "is-fetching" : ""} ${treeError ? "has-error" : ""}`}
                   title={treeError ?? "Checking for changes every 3 seconds"}
@@ -848,10 +930,21 @@ export default function AuditPage() {
                     >
                       ×
                     </button>
-                    <p className="eyebrow" title={selectedNode.root ? CANDIDATE_ORIGINAL_TITLE : undefined}>
-                      {selectedNode.root ? "Candidate original" : "Derived copy"}
-                    </p>
+                    <div className="audit-node-heading">
+                      <p className="eyebrow" title={selectedNode.root ? CANDIDATE_ORIGINAL_TITLE : undefined}>
+                        {selectedNode.root ? "Candidate original" : "Derived copy"}
+                      </p>
+                      {selectedNodeReviewed && <span className="reviewed-badge">✓ Reviewed</span>}
+                    </div>
                     <h2>{incomingEdge?.label ?? "root of its family"}</h2>
+                    <button
+                      className={`secondary-button audit-review-toggle ${selectedNodeReviewed ? "is-reviewed" : ""}`}
+                      type="button"
+                      aria-pressed={selectedNodeReviewed}
+                      onClick={handleToggleReviewed}
+                    >
+                      {selectedNodeReviewed ? "Reviewed ✓ (click to undo)" : "Mark as reviewed"}
+                    </button>
                     <img src={selectedNode.url} alt={`Full-size audit image ${selectedNode.id}`} />
                     {sourceUrl && (
                       <p className="node-source">
@@ -943,6 +1036,24 @@ export default function AuditPage() {
                       </p>
                       <EvidenceList evidence={incomingEdge?.evidence ?? selectedNode.evidence} compact />
                     </div>
+                    <section className="analyst-note" aria-labelledby="audit-analyst-note-label">
+                      <div>
+                        <label id="audit-analyst-note-label" htmlFor="audit-analyst-note">Analyst note</label>
+                        <span>{selectedNodeNote.length} / 500</span>
+                      </div>
+                      <textarea
+                        id="audit-analyst-note"
+                        value={selectedNodeNote}
+                        maxLength={500}
+                        rows={4}
+                        placeholder="Add context, follow-up questions, or a review decision…"
+                        aria-describedby="audit-analyst-note-privacy"
+                        onChange={(event) => handleNoteChange(event.target.value)}
+                      />
+                      <p id="audit-analyst-note-privacy">
+                        Notes stay in this browser; they are not part of the signed report.
+                      </p>
+                    </section>
                     {!selectedNode.root && tree && (
                       <VisualDiff
                         key={`${selectedNode.id}-${tree.version}`}
