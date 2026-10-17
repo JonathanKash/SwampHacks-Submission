@@ -431,6 +431,35 @@ def compare_pair(a: UploadFile | None = File(None), b: UploadFile | None = File(
     return report
 
 
+# ---- identify: which family does this image belong to, and where did it come from? ------
+def _identify_case() -> tuple[str, Pool]:
+    wanted = os.getenv("IDENTIFY_CASE")
+    index = _read_index()
+    if wanted and wanted in index:
+        return wanted, _case_pool(wanted)
+    memes = [(meta.get("items", 0), cid) for cid, meta in index.items() if "meme" in meta.get("name", "").lower()]
+    if not memes:
+        raise HTTPException(503, "no identification case is built (run backend/scripts/build_meme_case.py)")
+    cid = max(memes)[1]
+    return cid, _case_pool(cid)
+
+
+@app.post("/api/identify")
+def identify(file: UploadFile = File(...), case: str | None = Form(None)) -> dict:
+    """Place one uploaded image against the knowledge-base case (default: the meme originals)
+    and return the family, the documented original with its provenance, and the evidence."""
+    from lineage.compare import compare
+
+    case_id, target = (case, _case_pool(case)) if case else _identify_case()
+    data, meta = _upload_data_and_meta(file, "Q")
+    placed = target.place(data)
+    out = {"case": case_id, **placed, "footprint": meta["footprint"], "metadata": meta["metadata"]}
+    if placed.get("matched"):
+        pdata, pmeta = _item_data_and_meta(target, placed["parent"]["id"])
+        out["report"] = compare(pdata, data, pmeta, meta, tool_version=TOOL_VERSION)
+    return out
+
+
 # ---- text media (stateless demo of the second plug-in) -------------------------------
 class TextVersion(BaseModel):
     id: str | None = None

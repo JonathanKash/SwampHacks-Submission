@@ -281,6 +281,42 @@ class Pool:
             "calibration": {"runs": self.calibration.get("runs", []), "generated_at": self.calibration.get("generated_at")},
         }
 
+    def place(self, data, k: int | None = None) -> dict:
+        """Where would this image land if it were added? Nothing is persisted. Returns the best
+        parent among the pool's items (min cost parent -> query), the family root reached by
+        walking predicted parents, the reverse cost, and whether the query would be a better
+        parent for its match than the match's current parent (a late original)."""
+        from lineage.core.candidates import top_k_candidates
+
+        with self.lock:
+            fps = {**self.engine.fingerprints, "__query__": self.engine.media.fingerprint(data)}
+            cands = top_k_candidates(fps, k or self.engine.k).get("__query__", [])
+            if not cands:
+                return {"matched": False, "reason": "empty pool"}
+            best = None
+            for cid in cands:
+                res = self.engine.media.cost(self.engine.data[cid], data)
+                if best is None or res.total < best[1].total:
+                    best = (cid, res)
+            parent_id, forward = best
+            if forward.total >= self.engine.root_cost:
+                return {"matched": False, "reason": "no item explains this image more cheaply than being a new original",
+                        "nearest": parent_id, "cost": round(forward.total, 4)}
+            reverse = self.engine.media.cost(data, self.engine.data[parent_id])
+            nodes = {n["id"]: n for n in self.tree["nodes"]}
+            root_id, seen = parent_id, set()
+            while nodes.get(root_id, {}).get("predicted_parent") and root_id not in seen:
+                seen.add(root_id)
+                root_id = nodes[root_id]["predicted_parent"]
+            current_parent = nodes.get(parent_id, {}).get("predicted_parent")
+            current_cost = self.engine.results.get((current_parent, parent_id)).total if current_parent else self.engine.root_cost
+            short, full = self.engine.explain(forward)
+            return {"matched": True, "parent": nodes.get(parent_id), "root": nodes.get(root_id), "edit": short, "explain": full,
+                    "cost": round(forward.total, 4), "reverse_cost": round(reverse.total, 4),
+                    "semantic_only": forward.semantic,
+                    "would_be_better_parent": reverse.total < current_cost and reverse.total < forward.total,
+                    "depth_below_root": len(seen)}
+
     # ---- read ---------------------------------------------------------------------
     def public_item(self, item: dict) -> dict:
         params = dict(item["params"])

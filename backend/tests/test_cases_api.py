@@ -14,6 +14,12 @@ from PIL import Image
 from tests.conftest import synthetic_photo
 
 
+def png_bytes(img: Image.Image) -> bytes:
+    buf = io.BytesIO()
+    img.save(buf, format="PNG")
+    return buf.getvalue()
+
+
 def png(img: Image.Image, name: str) -> tuple[str, tuple[str, bytes, str]]:
 
     buf = io.BytesIO()
@@ -231,3 +237,37 @@ def test_add_by_url_and_web_search_guards(tmp_path, monkeypatch):
     monkeypatch.setenv("PUBLIC_URL", "https://lineage.example.com")
     monkeypatch.delenv("SERPAPI_KEY", raising=False)
     assert client.post(f"/api/cases/{cid}/web-search/{item_id}").status_code == 503
+
+
+def test_identify_places_a_copy_in_the_knowledge_base(tmp_path, monkeypatch):
+    import importlib
+    import random
+
+    from lineage import config
+    from lineage.edits import image_edits
+
+    monkeypatch.setenv("DATA_DIR", str(tmp_path))
+    importlib.reload(config)
+    import app as app_module
+
+    importlib.reload(app_module)
+    app_module.pool = Pool(tmp_path, use_clip=False)
+    monkeypatch.setattr(app_module, "CASES_DIR", tmp_path / "cases")
+    monkeypatch.setattr(app_module, "CASES_INDEX", tmp_path / "cases" / "index.json")
+    app_module._case_pools.clear()
+    from fastapi.testclient import TestClient
+
+    client = TestClient(app_module.app)
+    assert client.post("/api/identify", files={"file": ("q.png", png_bytes(synthetic_photo(30)), "image/png")}).status_code == 503
+    cid = client.post("/api/cases", json={"name": "Meme originals test"}).json()["id"]
+    originals = [synthetic_photo(31), synthetic_photo(32)]
+    files = [("files", (f"o{i}.png", png_bytes(img), "image/png")) for i, img in enumerate(originals)]
+    client.post(f"/api/cases/{cid}/items", files=files)
+    query = image_edits.caption(image_edits.crop(originals[1], random.Random(1), fraction=0.7)[0], random.Random(1), text="LOL")[0]
+    r = client.post("/api/identify", files={"file": ("meme.png", png_bytes(query), "image/png")})
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body["matched"] is True and body["root"]["params"]["filename"] == "o1.png"
+    assert body["report"]["verdict"] in ("parent-child", "inconclusive")
+    unrelated = client.post("/api/identify", files={"file": ("x.png", png_bytes(synthetic_photo(33)), "image/png")}).json()
+    assert unrelated["matched"] is False
