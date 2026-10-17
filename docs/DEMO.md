@@ -40,3 +40,5 @@ updates with evidence -> audit batch upload -> calibrated confidence -> industry
 From PLAN.md (synthetic chains, 6 CC0 seeds, 3 chains each): run1 83.0% (tuned), run2 71.1% and
 run3 81.1% (held out); roots found 6/6 on every run; true parent inside the top-8 candidates
 98.9%; empirical precision by margin: >= 0.30 about 96%, < 0.02 about 66%. 116 tests.
+Audit load test: 30 shuffled versions from 3 originals, 9 edits deep, uploaded in 29 s; 3 families
+found; 28 of 30 parents correct against the hidden truth (93%).

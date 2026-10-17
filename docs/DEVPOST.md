@@ -8,6 +8,8 @@ Every edit destroys information. A crop loses its edges, a JPEG re-save loses de
 
 ## What it does
 
+A second media type ships too: paste several versions of a paragraph at `/text` and the same core, with MinHash fingerprints and a word-loss cost swapped in, reports which copy was trimmed, reworded or rewritten.
+
 In the live demo, a visitor uses the tablet `/edit` page to choose an image and apply one edit. Lineage returns a verdict and the evidence behind it, while the big-screen `/tree` page adds the result to a live forest with labeled edges, an evidence panel, and a tree-accuracy scoreboard.
 
 The `/audit` workspace applies the same engine to industry provenance work without known ground truth. An analyst can create cases, batch-upload images, inspect likely originals and edit paths, review calibrated confidence and metadata hints, and download a JSON report.
@@ -44,7 +46,7 @@ Information loss is a strong signal for roots and direction, but it is weaker fo
 
 ## What's next
 
-We want to add a web mode that brings in candidates from reverse-image providers, double-JPEG detection for compression chains, text plug-ins that reuse the media-agnostic core, and C2PA ingestion so signed provenance can complement pixel-based inference.
+We want to add a web mode that brings in candidates from reverse-image providers, double-JPEG detection for compression chains (our first attempt, an AC-sparsity cue, lost accuracy and was reverted), more media plug-ins on the same core, and C2PA ingestion so signed provenance can complement pixel-based inference.
 
 ## Built with
 

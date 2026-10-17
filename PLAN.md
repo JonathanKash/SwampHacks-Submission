@@ -103,5 +103,9 @@ are, and an exportable report.
       vs committed 83.0/71.1/81.1. JPEG edit improved slightly with "both" but everything else lost
       3-5 points (the statistic also moves with contrast and blur). Reverted; committed cost unchanged.
 - [x] docs/DEMO.md runbook (setup, script pointer, failure modes, numbers to quote)
+- [x] Audit load test (2026-10-17): 30 shuffled versions from 3 seeds (9 random edits deep each) uploaded in
+      29 s (1.0 s/image); 3 families found; 28/30 parents correct against hidden truth (93%)
+- [x] Audit deep links (?case=) + copy link, report download on /tree, text margin note (Codex)
+- [x] Calibration regenerated from run1+run2+run3 for larger per-bucket samples
 - [ ] Known limitation (images): a caption painted over an existing caption can attach to the sibling;
       a "replaced content" blob rule was tried and reverted (it lowered run1/run2 accuracy)

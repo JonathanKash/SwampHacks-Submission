@@ -1,8 +1,9 @@
 {
-  "generated_at": "2026-10-16T22:28:02",
+  "generated_at": "2026-10-16T23:23:34",
   "runs": [
     "run1",
-    "run2"
+    "run2",
+    "run3"
   ],
   "root_cost": 3.5,
   "weights": {
@@ -20,50 +21,50 @@
   },
   "buckets": {
     "margin \u2265 0.30": {
-      "correct": 23,
-      "n": 24
+      "correct": 36,
+      "n": 38
     },
     "margin 0.05\u20130.10": {
-      "correct": 45,
-      "n": 53
+      "correct": 76,
+      "n": 89
     },
     "margin < 0.02": {
-      "correct": 44,
-      "n": 67
+      "correct": 62,
+      "n": 92
     },
     "margin 0.02\u20130.05": {
-      "correct": 15,
-      "n": 21
+      "correct": 25,
+      "n": 31
     },
     "margin 0.10\u20130.30": {
-      "correct": 14,
-      "n": 17
+      "correct": 19,
+      "n": 26
     }
   },
   "per_edit": {
     "caption": {
-      "correct": 23,
-      "n": 29
+      "correct": 38,
+      "n": 48
     },
     "filter": {
-      "correct": 27,
-      "n": 31
+      "correct": 40,
+      "n": 46
     },
     "rotate": {
-      "correct": 30,
-      "n": 35
+      "correct": 44,
+      "n": 51
     },
     "crop": {
-      "correct": 29,
-      "n": 39
+      "correct": 46,
+      "n": 60
     },
     "jpeg": {
-      "correct": 28,
-      "n": 44
+      "correct": 42,
+      "n": 63
     },
     "root": {
-      "correct": 4,
-      "n": 4
+      "correct": 8,
+      "n": 8
     }
   }
 }
