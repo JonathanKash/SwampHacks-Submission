@@ -1,5 +1,6 @@
 import { useId, useState } from "react";
 import type { CompareReportResponse } from "./api";
+import ConfidenceChip from "./ConfidenceChip";
 
 interface CompareReportProps {
   report: CompareReportResponse;
@@ -108,14 +109,14 @@ export default function CompareReport({ report }: CompareReportProps) {
         )}
         {noParentClaimed && <p className="compare-no-parent">No parent is claimed.</p>}
         <div className="compare-confidence-row">
-          <span
+          <ConfidenceChip
+            confidence={report.confidence}
             className={`confidence ${report.confidence.precision === null ? "muted" : ""}`}
-            title={report.confidence.bucket === "caption-side cue"
+            legacy={confidenceText(report)}
+            legacyTitle={report.confidence.bucket === "caption-side cue"
               ? report.confidence.source
               : undefined}
-          >
-            {confidenceText(report)}
-          </span>
+          />
           {benchmark.edit_type !== null && benchmark.accuracy !== null && (
             <span className="compare-benchmark">
               Benchmark for {benchmark.edit_type} edits: {percent(benchmark.accuracy)} (n={benchmark.n})

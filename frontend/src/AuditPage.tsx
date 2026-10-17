@@ -27,6 +27,7 @@ import {
   uploadCaseFiles,
 } from "./api";
 import CompareReport from "./CompareReport";
+import ConfidenceChip from "./ConfidenceChip";
 import EvidenceList, { reliabilityTier } from "./EvidenceList";
 import NavBar from "./NavBar";
 import { provenancePath, provenanceSentence } from "./provenance";
@@ -259,7 +260,8 @@ export default function AuditPage() {
     () => tree?.edges.find((edge) => edge.dst === selectedNodeId) ?? null,
     [selectedNodeId, tree],
   );
-  const selectedPrecision = incomingEdge?.evidence.confidence.precision ?? null;
+  const selectedConfidence = incomingEdge?.evidence.confidence ?? null;
+  const selectedPrecision = selectedConfidence?.precision ?? null;
   const summary = tree?.summary ?? {
     images: tree?.nodes.length ?? selectedCase?.items ?? 0,
     families: tree?.nodes.filter((node) => node.root).length ?? 0,
@@ -701,11 +703,17 @@ export default function AuditPage() {
                     <div className={incomingEdge ? "edge-details" : "root-details"}>
                       <div className="detail-heading">
                         <span>Lineage's reading</span>
-                        {selectedPrecision !== null && (
-                          <span className="audit-precision">
-                            <strong>{formatPrecision(selectedPrecision)} precision</strong>
-                            <small>{reliabilityTier(selectedPrecision)}</small>
-                          </span>
+                        {selectedConfidence && selectedPrecision !== null && (
+                          <ConfidenceChip
+                            confidence={selectedConfidence}
+                            className="audit-precision"
+                            legacy={(
+                              <>
+                                <strong>{formatPrecision(selectedPrecision)} precision</strong>
+                                <small>{reliabilityTier(selectedPrecision)}</small>
+                              </>
+                            )}
+                          />
                         )}
                       </div>
                       <p>

@@ -146,6 +146,10 @@ export default function LandingPage() {
             We ran the pipeline over synthetic edit chains with known answers and recorded how often decisions
             with a given cost margin were right. Every confidence figure in the app is one of these numbers.
           </p>
+          <p className="calibration-honesty">
+            <strong>We publish both numbers:</strong> one calibrated on synthetic edit chains and one measured on an
+            independent corpus of real web images. For an unknown file, the lower result is the honest expectation.
+          </p>
           <div className="calibration-table-wrap">
             <table className="calibration-table">
               <caption>

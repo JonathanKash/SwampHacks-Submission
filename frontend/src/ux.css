@@ -901,6 +901,14 @@ p a {
   white-space: nowrap;
 }
 
+.confidence.has-corpora {
+  display: inline-block;
+  max-width: 100%;
+  line-height: 1.35;
+  text-align: right;
+  white-space: normal;
+}
+
 .confidence.muted {
   color: var(--muted);
   background: rgba(255, 255, 255, 0.06);
@@ -1268,6 +1276,39 @@ p a {
   margin: 6px 0 0;
   color: var(--muted);
   font-size: 0.9rem;
+}
+
+.confidence-explanation {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.evidence.is-compact .confidence-explanation {
+  font-size: 0.74rem;
+}
+
+.audit-precision.has-corpora {
+  max-width: 13rem;
+  color: #dbe5e0;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.69rem;
+  line-height: 1.4;
+  letter-spacing: 0;
+  text-align: right;
+  text-transform: none;
+}
+
+.calibration-honesty {
+  max-width: 58rem;
+  margin: -8px 0 22px;
+  color: #cfd8d2;
+  line-height: 1.55;
+}
+
+.calibration-honesty strong {
+  color: var(--green);
 }
 
 .candidate-original-callout {

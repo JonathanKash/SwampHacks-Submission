@@ -66,6 +66,8 @@ export interface CalibrationResponse {
 
 export type CompareVerdict = "parent-child" | "siblings" | "unrelated" | "inconclusive";
 
+export type ConfidenceByCorpus = Record<string, { precision: number; n: number }>;
+
 export type CompareConfidence =
   | {
       bucket: "caption-side cue";
@@ -73,16 +75,19 @@ export type CompareConfidence =
       n: number;
       observed: number;
       source: string;
+      by_corpus?: ConfidenceByCorpus;
     }
   | {
       bucket: `margin ${string}`;
       precision: number | null;
       n: number;
+      by_corpus?: ConfidenceByCorpus;
     }
   | {
       bucket: null;
       precision: null;
       n: 0;
+      by_corpus?: ConfidenceByCorpus;
     };
 
 export interface CompareReportResponse {
@@ -136,12 +141,19 @@ export interface CompareReportResponse {
 }
 
 /** What a parent decision was made from: measurements, the alternatives, and calibrated confidence. */
+export interface Confidence {
+  bucket: string | null;
+  precision: number | null;
+  n: number;
+  by_corpus?: ConfidenceByCorpus;
+}
+
 export interface Evidence {
   chosen_cost: number;
   terms: Record<string, number>;
   runner_up: { id: string; cost: number } | null;
   margin: number | null;
-  confidence: { bucket: string | null; precision: number | null; n: number };
+  confidence: Confidence;
   measurements: Record<string, number | string | number[]>;
   reasons: string[];
 }

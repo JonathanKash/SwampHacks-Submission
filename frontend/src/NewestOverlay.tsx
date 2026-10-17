@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { TreeEdge, TreeNode, TreeResponse } from "./api";
+import ConfidenceChip from "./ConfidenceChip";
 
 const SHOW_MS = 7000;
 
@@ -51,7 +52,7 @@ export default function NewestOverlay({ tree }: { tree: TreeResponse | null }) {
 
   if (!arrival) return null;
   const { node, parent, edge, explained, isOriginal } = arrival;
-  const precision = node.evidence.confidence.precision;
+  const { confidence } = node.evidence;
   const verdict = node.root ? "placed as a new original" : node.correct ? "parent identified correctly" : "wrong parent";
   const versionLabel = node.explains.length === 1 ? "version" : "versions";
   return (
@@ -96,7 +97,16 @@ export default function NewestOverlay({ tree }: { tree: TreeResponse | null }) {
           </div>
           <p className="arrival-verdict">
             {verdict}
-            {precision !== null && !node.root && ` · ${Math.round(precision * 100)}% empirical precision`}
+            {confidence.precision !== null && !node.root && (
+              <>
+                {" · "}
+                <ConfidenceChip
+                  confidence={confidence}
+                  className="confidence-inline"
+                  legacy={`${Math.round(confidence.precision * 100)}% empirical precision`}
+                />
+              </>
+            )}
           </p>
         </>
       )}

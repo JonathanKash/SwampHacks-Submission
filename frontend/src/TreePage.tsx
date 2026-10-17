@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { type CompareReportResponse, type TreeNode, type TreeResponse, compareIds, deleteItem } from "./api";
 import CompareReport from "./CompareReport";
+import ConfidenceChip from "./ConfidenceChip";
 import EvidenceList from "./EvidenceList";
 import ModeBadge from "./ModeBadge";
 import NewestOverlay from "./NewestOverlay";
@@ -234,8 +235,16 @@ export default function TreePage() {
                   {!newest.node.root && (
                     <span>
                       {newest.node.correct ? "parent identified correctly" : "wrong parent"}
-                      {newest.node.evidence.confidence.precision !== null &&
-                        ` · ${Math.round(newest.node.evidence.confidence.precision * 100)}% empirical precision`}
+                      {newest.node.evidence.confidence.precision !== null && (
+                        <>
+                          {" · "}
+                          <ConfidenceChip
+                            confidence={newest.node.evidence.confidence}
+                            className="confidence-inline"
+                            legacy={`${Math.round(newest.node.evidence.confidence.precision * 100)}% empirical precision`}
+                          />
+                        </>
+                      )}
                     </span>
                   )}
                 </div>
