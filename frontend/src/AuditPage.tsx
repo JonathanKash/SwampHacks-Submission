@@ -15,6 +15,7 @@ import {
   type TreeNode,
   type TreeResponse,
   createCase,
+  createSampleCase,
   deleteCase,
   deleteCaseItem,
   fetchCases,
@@ -81,6 +82,8 @@ export default function AuditPage() {
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
   const [casesLoading, setCasesLoading] = useState(true);
   const [creating, setCreating] = useState(false);
+  const [sampleLoading, setSampleLoading] = useState(false);
+  const [sampleError, setSampleError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadCount, setUploadCount] = useState(0);
   const [treeLoading, setTreeLoading] = useState(false);
@@ -231,7 +234,7 @@ export default function AuditPage() {
   const handleCreate = async (event: FormEvent) => {
     event.preventDefault();
     const name = caseName.trim();
-    if (!name || creating) return;
+    if (!name || creating || sampleLoading) return;
     setCreating(true);
     setError(null);
     try {
@@ -243,6 +246,21 @@ export default function AuditPage() {
       setError(messageFrom(createError));
     } finally {
       setCreating(false);
+    }
+  };
+
+  const handleCreateSample = async () => {
+    if (sampleLoading || creating) return;
+    setSampleLoading(true);
+    setSampleError(null);
+    try {
+      const created = await createSampleCase();
+      await loadCases();
+      selectCase(created.id);
+    } catch (sampleCreateError) {
+      setSampleError(messageFrom(sampleCreateError));
+    } finally {
+      setSampleLoading(false);
     }
   };
 
@@ -364,11 +382,35 @@ export default function AuditPage() {
                   aria-label="Analyst (optional)"
                   maxLength={80}
                 />
-                <button className="primary-button" type="submit" disabled={!caseName.trim() || creating}>
+                <button
+                  className="primary-button"
+                  type="submit"
+                  disabled={!caseName.trim() || creating || sampleLoading}
+                >
                   {creating ? <span className="spinner" aria-label="Creating case" /> : "Add"}
                 </button>
               </div>
             </form>
+            {!selectedCase && (
+              <div>
+                <button
+                  className="secondary-button"
+                  type="button"
+                  onClick={() => void handleCreateSample()}
+                  disabled={sampleLoading || creating}
+                >
+                  {sampleLoading ? (
+                    <>
+                      <span className="spinner" aria-hidden="true" />
+                      Loading sample…
+                    </>
+                  ) : (
+                    "Load a sample case"
+                  )}
+                </button>
+                {sampleError && <p className="error-banner" role="alert">{sampleError}</p>}
+              </div>
+            )}
 
             <div className="audit-case-list">
               {casesLoading && <p className="audit-list-status">Loading cases…</p>}

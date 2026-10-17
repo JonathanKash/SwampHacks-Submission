@@ -104,6 +104,7 @@ export default function EditPage() {
   const [caption, setCaption] = useState(randomCaption);
   const [loadingImage, setLoadingImage] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [cooldownSeconds, setCooldownSeconds] = useState(0);
   const [error, setError] = useState<string | null>(null);
 
   const loadRandom = useCallback(async (signal?: AbortSignal) => {
@@ -126,6 +127,18 @@ export default function EditPage() {
     void loadRandom(controller.signal);
     return () => controller.abort();
   }, [loadRandom]);
+
+  useEffect(() => {
+    if (cooldownSeconds === 0) return;
+    const timer = window.setTimeout(() => {
+      setCooldownSeconds((seconds) => Math.max(0, seconds - 1));
+    }, 1_000);
+    return () => window.clearTimeout(timer);
+  }, [cooldownSeconds]);
+
+  useEffect(() => {
+    if (result) window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [result]);
 
   const chooseEdit = (edit: EditKind) => {
     setError(null);
@@ -155,7 +168,7 @@ export default function EditPage() {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    if (!parent || !selected || !canSubmit || submitting) return;
+    if (!parent || !selected || !canSubmit || submitting || cooldownSeconds > 0) return;
     setSubmitting(true);
     setError(null);
     try {
@@ -168,7 +181,18 @@ export default function EditPage() {
       const predicted = tree?.nodes.find((candidate) => candidate.id === node?.predicted_parent) ?? null;
       setVerdict({ correct: node ? node.correct : null, edge, predicted, evidence: node?.evidence ?? null });
     } catch (submitError) {
-      setError(messageFrom(submitError));
+      if (submitError instanceof ApiError && submitError.status === 429) {
+        const secondsMatch = submitError.message.match(/(\d+)s/);
+        const seconds = secondsMatch?.[1] ? Number.parseInt(secondsMatch[1], 10) : 0;
+        if (seconds > 0) {
+          setCooldownSeconds(seconds);
+          setError(null);
+        } else {
+          setError(messageFrom(submitError));
+        }
+      } else {
+        setError(messageFrom(submitError));
+      }
     } finally {
       setSubmitting(false);
     }
@@ -387,7 +411,16 @@ export default function EditPage() {
               )}
             </p>
             {error && <p className="error-banner" role="alert">{error}</p>}
-            <button className="primary-button submit-button" type="submit" disabled={!canSubmit || submitting}>
+            {cooldownSeconds > 0 && (
+              <p className="error-banner" role="status" aria-live="polite" aria-atomic="true">
+                Give it a moment: you can submit again in {cooldownSeconds} s
+              </p>
+            )}
+            <button
+              className="primary-button submit-button"
+              type="submit"
+              disabled={!canSubmit || submitting || cooldownSeconds > 0}
+            >
               {submitting ? (
                 <>
                   <span className="spinner" aria-hidden="true" />

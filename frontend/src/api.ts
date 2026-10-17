@@ -215,6 +215,13 @@ export function createCase(name: string, analyst?: string, signal?: AbortSignal)
   });
 }
 
+export function createSampleCase(signal?: AbortSignal): Promise<AuditCase> {
+  return requestJson<AuditCase>("/api/cases/sample", {
+    method: "POST",
+    signal,
+  });
+}
+
 export function deleteCase(id: string, signal?: AbortSignal): Promise<{ ok: true }> {
   return requestJson<{ ok: true }>(`/api/cases/${encodeURIComponent(id)}`, {
     method: "DELETE",
