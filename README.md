@@ -102,6 +102,8 @@ often the system abstained, family root recovery, a calibration check and the fa
 `python benchmark/identify_eval.py` queries the running server with every meme variant that is not in the
 knowledge base and reports family accuracy, abstentions, wrong families and latency.
 
+Why some edits have no direction in the pixels, and what we do about it: [docs/research/symmetry.md](docs/research/symmetry.md).
+
 ## Benchmark corpora (not redistributed)
 
 - `benchmark/nanobanana/`: eight openly licensed photographs from Wikimedia Commons (see
