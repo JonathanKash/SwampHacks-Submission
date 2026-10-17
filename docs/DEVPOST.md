@@ -42,6 +42,10 @@ Across both calibration runs, empirical precision by decision-margin bucket was 
 
 The live experience works end to end: one edit from the tablet enters the pool, the forest updates within the polling cycle, the verdict exposes its evidence, and the scoreboard checks the hidden truth. In audit mode, a six-image shuffled batch reconstructed the correct two-family forest and produced its JSON report.
 
+## Accessibility
+
+Reviewed against WCAG 2.2 AA: contrast fixed on pills and interactive borders, every tree node is a keyboard-operable button with a visible focus ring and focus management into the details panel, edges carry descriptive labels and do not rely on color alone, the live counters are ARIA live regions, uploads have a keyboard-reachable file input, and animations honor reduced-motion preferences.
+
 ## What we learned
 
 Information loss is a strong signal for roots and direction, but it is weaker for choosing the immediate ancestor among several valid ancestors. A small, interpretable prior can settle near-ties more reliably than another large visual heuristic. We also learned that evidence is part of the product: forward and reverse costs, rejected circular choices, margins, and calibration make a result reviewable instead of merely plausible. Finally, held-out evaluation caught problems that a good-looking live demo would not have revealed.
@@ -49,6 +53,10 @@ Information loss is a strong signal for roots and direction, but it is weaker fo
 ## What's next
 
 We want to add a web mode that brings in candidates from reverse-image providers, double-JPEG detection for compression chains (our first attempt, an AC-sparsity cue, lost accuracy and was reverted), more media plug-ins on the same core, and C2PA ingestion so signed provenance can complement pixel-based inference.
+
+## Research notes
+
+The UX conventions (vocabulary, evidence drawers, report contents), the accessibility review, the JPEG compression statistics we tested, and the Gemini API check are archived in `docs/research/` with provenance.
 
 ## Built with
 
