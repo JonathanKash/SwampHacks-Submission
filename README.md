@@ -61,4 +61,5 @@ Libraries: NumPy, OpenCV (opencv-python-headless), Pillow, NetworkX, PyTorch, op
 (OpenCLIP, ViT-B/32 weights by OpenAI), requests, python-dotenv, pytest.
 APIs and data: The Metropolitan Museum of Art Open Access API (CC0 images; per-image credits
 in `data/seeds/credits.json`).
-Phase 2+: FastAPI, Uvicorn, D3, Google Gemini API, Caddy, Vultr.
+Backend API: FastAPI, Uvicorn, httpx, google-genai (Gemini image models). Frontend: React, React
+Router, Vite, D3, TypeScript. Deploy: Caddy, Vultr.

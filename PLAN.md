@@ -50,17 +50,24 @@ for tuning, k=12.
 - [x] Smoke-tested on a live uvicorn: upload, edit, tree, 204 polling, static images; 111 tests passing
 - [ ] Restyle with a real Gemini image call (needs a billing-enabled key: current key returns quota 0)
 
-## Phase 2 — /edit tablet page
-- [ ] Vite + React + TS scaffold (Codex, in progress), random image, edit menu, submit
-- [x] Gemini restyle wired server-side (model name verified)
+## Phase 2 — /edit tablet page (done 2026-10-17 ~00:30 ET)
+- [x] Vite + React + TS scaffold (Codex), typed API client, 2 s polling with 204 short-circuit
+- [x] Guided flow: step bar, random image, one-edit menu with sub-choices, submit, before/after + verdict
+      ("Lineage traced your edit back correctly" / "You fooled it", with the explain sentence)
+- [x] Gemini restyle wired server-side (model name verified) with OpenCV fallback
+- [x] Landing page at / explaining the idea, the pipeline and how to join the demo; shared nav
+- [ ] Visual QA on a real tablet (portrait + landscape)
 
-## Phase 3 — /tree big-screen view
-- [ ] D3 tree, thumbnails, edge labels, accuracy counter, newest-node highlight, live refresh
+## Phase 3 — /tree big-screen view (done 2026-10-17 ~00:30 ET)
+- [x] D3 forest, thumbnails, edge label pills (green/red, dashed = semantic), accuracy scoreboard,
+      newest-node glow + callout, legend, details panel, live refresh with smooth transitions
+- [ ] Visual QA on a 1080p TV at distance (font sizes, contrast)
 
 ## Phase 4 — ship
 - [x] Pre-seed script with known chains
 - [ ] Vultr VM + Caddy HTTPS + domain
-- [ ] README: run, architecture, AI disclosure, credits
+- [x] Pushed to github.com/JonathanKash/SwampHacks-Submission (2026-10-17)
+- [ ] README: run, architecture, AI disclosure, credits (frontend + deploy sections still to finish)
 
 ## Phase 5 — stretch
 - [ ] Text plug-ins (MinHash / word loss / explain)
