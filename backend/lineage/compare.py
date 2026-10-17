@@ -229,6 +229,12 @@ def compare(a: ImageData, b: ImageData, meta_a: dict | None = None, meta_b: dict
             ai_indicators.append(f"{label} carries a C2PA manifest; many AI tools attach one. Verify the signature with a C2PA tool.")
 
     confidence = confidence_for(margin, calibration) if (margin is not None and verdict == "parent-child") else {"bucket": None, "precision": None, "n": 0}
+    if override_confidence is None and decisive == ["caption_removed"] and (calibration.get("caption_side") or {}).get("n"):
+        # The margin buckets were calibrated on edit chains without this term; when the caption
+        # term alone decides, the honest number is the caption-side cue's own benchmark record.
+        cue = calibration["caption_side"]
+        override_confidence = {"bucket": "caption-side cue", "precision": wilson_lower(cue["correct"], cue["n"]), "n": cue["n"],
+                               "observed": round(cue["correct"] / cue["n"], 3), "source": cue.get("source")}
     if override_confidence is not None:
         confidence = override_confidence
     detected_edit = None
