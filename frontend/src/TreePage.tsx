@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import type { TreeNode } from "./api";
 import EvidenceList from "./EvidenceList";
+import NewestOverlay from "./NewestOverlay";
 import { provenancePath } from "./provenance";
 import TreeView from "./TreeView";
 import { usePageTitle } from "./usePageTitle";
@@ -127,6 +128,7 @@ export default function TreePage() {
         {tree && tree.nodes.length > 0 && (
           <div className={`tree-canvas-wrap ${selectedNode ? "has-panel" : ""}`}>
             <TreeView data={tree} selectedId={selectedId} onSelect={selectNode} />
+            <NewestOverlay tree={tree} />
 
             {newest && (
               <div
