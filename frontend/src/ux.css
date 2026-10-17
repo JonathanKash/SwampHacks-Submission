@@ -2508,6 +2508,24 @@ p a {
   line-height: 1.08;
 }
 
+.identify-family-heading {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 12px;
+}
+
+.identify-match-strength {
+  padding: 5px 9px;
+  border: 1px solid rgba(98, 230, 166, 0.38);
+  border-radius: 999px;
+  color: #b9f0d3;
+  background: rgba(98, 230, 166, 0.06);
+  font-size: 0.72rem;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
 .identify-provenance {
   margin-top: 24px;
   padding: 18px;
@@ -2634,6 +2652,30 @@ p a {
 .identify-relation small {
   color: var(--muted);
   font-size: 0.76rem;
+}
+
+.identify-tree-note {
+  display: flex;
+  margin-top: 18px;
+  align-items: center;
+  gap: 12px;
+  color: var(--muted);
+}
+
+.identify-tree-note img {
+  width: 52px;
+  height: 52px;
+  flex: 0 0 auto;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #070b0a;
+}
+
+.identify-tree-note p {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.5;
 }
 
 .identify-parent-callout {

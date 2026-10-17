@@ -184,6 +184,9 @@ export interface IdentifyMatchResponse extends IdentifyResponseBase {
   matched: true;
   parent: TreeNode;
   root: TreeNode;
+  match_strength: number;
+  tree_root?: TreeNode;
+  tree_disagrees?: boolean;
   edit: string;
   explain: string;
   cost: number;

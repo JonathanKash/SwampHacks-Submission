@@ -70,6 +70,8 @@ function MatchedFamily({ match, preview, filename }: {
   const trueSourcePhoto = booleanParam(match.root, "is_true_source_photo");
   const rootBadge = trueSourcePhoto === false ? "Earliest template on record" : "Documented original";
   const depthLabel = `${match.depth_below_root} ${match.depth_below_root === 1 ? "step" : "steps"} below the original`;
+  const matchedStoredCopy = parentRole.startsWith("variant");
+  const treeRootFamily = match.tree_root ? stringParam(match.tree_root, "family") : null;
 
   return (
     <article className="identify-family-card">
@@ -80,7 +82,15 @@ function MatchedFamily({ match, preview, filename }: {
         </figure>
         <div className="identify-family-copy">
           <p className="eyebrow">Matched family</p>
-          <h2>{family}</h2>
+          <div className="identify-family-heading">
+            <h2>{family}</h2>
+            <span
+              className="identify-match-strength"
+              title="1 - cost / threshold; 100% means a near-identical copy exists in the knowledge base"
+            >
+              Match strength {Math.round(match.match_strength * 100)}%
+            </span>
+          </div>
           <section className="identify-provenance" aria-label="Original image provenance">
             <h3>Provenance</h3>
             {rootDate && (
@@ -112,6 +122,7 @@ function MatchedFamily({ match, preview, filename }: {
           <div className="identify-relation">
             <span aria-hidden="true">→</span>
             <strong>derived from {parentRole} via {match.edit}</strong>
+            {matchedStoredCopy && <small>(matched a stored copy, not the original itself)</small>}
             {match.depth_below_root > 0 && <small>{depthLabel}</small>}
           </div>
           <figure>
@@ -119,6 +130,21 @@ function MatchedFamily({ match, preview, filename }: {
             <figcaption>Your copy</figcaption>
           </figure>
         </div>
+
+        {match.tree_disagrees && (
+          <aside className="identify-tree-note">
+            {match.tree_root && (
+              <img
+                src={match.tree_root.thumb || match.tree_root.url}
+                alt={`Reconstructed tree root for ${treeRootFamily ?? "a different family"}`}
+              />
+            )}
+            <p>
+              Note: the reconstructed tree inside the knowledge base had linked this copy to a different family
+              ({treeRootFamily ?? "unknown family"}); the family label of the matched item is used here.
+            </p>
+          </aside>
+        )}
 
         {match.would_be_better_parent && (
           <aside className="identify-parent-callout">
