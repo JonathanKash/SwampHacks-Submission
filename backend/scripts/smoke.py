@@ -50,11 +50,19 @@ def main(base: str) -> None:
     else:
         print("skip demo-pool checks (pool empty; run seed_pool.py)")
 
-    # audit case: a synthetic original + crop + darker, shuffled
-    base_img = Image.new("RGB", (480, 360), (200, 180, 120))
+    # audit case: a textured synthetic original + crop + darker, shuffled. Texture
+    # matters: flat fills give ORB too few keypoints to register.
+    import random
+
+    import numpy as np
+
+    rng = np.random.default_rng(1)
+    base_img = Image.fromarray(rng.integers(0, 256, size=(45, 60, 3), dtype=np.uint8)).resize((480, 360), Image.Resampling.BICUBIC)
     d = ImageDraw.Draw(base_img)
-    for i in range(0, 480, 40):
-        d.rectangle((i, (i * 3) % 300, i + 25, (i * 3) % 300 + 60), fill=((i * 7) % 255, (i * 13) % 255, (i * 3) % 255), outline="black")
+    r = random.Random(1)
+    for _ in range(40):
+        x0, y0 = r.randint(0, 440), r.randint(0, 320)
+        d.rectangle((x0, y0, x0 + r.randint(10, 80), y0 + r.randint(10, 80)), fill=tuple(r.randint(0, 255) for _ in range(3)), outline="black")
     crop = base_img.crop((60, 40, 400, 320))
     dark = crop.point(lambda v: int(v * 0.6))
     case = c.post("/api/cases", json={"name": "smoke"}).json()
