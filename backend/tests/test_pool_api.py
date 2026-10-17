@@ -113,3 +113,24 @@ def test_crop_never_fails_on_tiny_images():
     tiny = Image.new("RGB", (20, 12), "white")
     out, params = crop(tiny, random.Random(0), fraction=0.5)
     assert out.size == (20, 12) and params["fraction"] == 0.5
+
+
+def test_late_true_original_is_recognised(tmp_path):
+    """A crop is uploaded first (so it is the candidate original); the real original arrives
+    later and must take over as the root, with the crop under it."""
+    import random
+
+    from lineage.edits import image_edits
+
+    pool = Pool(tmp_path, use_clip=False)
+    original = synthetic_photo(11)
+    crop = image_edits.crop(original, random.Random(5), fraction=0.6)[0]
+    first = pool.add_image(crop, None, None, source="audit")
+    assert pool.tree["nodes"][0]["root"] and pool.tree["newest_took_over"] is False
+    late = pool.add_image(original, None, None, source="audit")
+    nodes = {n["id"]: n for n in pool.tree["nodes"]}
+    assert nodes[late["id"]]["root"] is True
+    assert nodes[first["id"]]["predicted_parent"] == late["id"]
+    assert nodes[late["id"]]["explains"] == [first["id"]]
+    assert pool.tree["newest_took_over"] is True
+    assert pool.tree["summary"]["families"] == 1

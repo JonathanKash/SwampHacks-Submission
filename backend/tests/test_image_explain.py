@@ -65,7 +65,7 @@ def test_color_classification(
     ("op", "description", "label"),
     [
         ("grayscale", "converted to grayscale", "gray"),
-        ("caption", "caption added", "caption"),
+        ("caption", "content added (caption or object)", "added"),
         ("jpeg", "re-saved as low-quality JPEG", "jpeg"),
         ("restyle", "AI restyle", "restyle"),
     ],
@@ -91,7 +91,7 @@ def test_multiple_operations_use_canonical_order() -> None:
     )
     assert explain(edge) == (
         "cropped to 62%, rotated 7.3° counter-clockwise (corners trimmed), "
-        "warm filter, caption added, re-saved as low-quality JPEG"
+        "warm filter, content added (caption or object), re-saved as low-quality JPEG"
     )
 
 

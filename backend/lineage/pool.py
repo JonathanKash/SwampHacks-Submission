@@ -253,7 +253,7 @@ class Pool:
                 precisions.append(precision)
                 low_confidence += int(precision < 0.8)
             nodes.append({**self.public_item(item), "predicted_parent": pred, "correct": hit,
-                          "root": is_root, "evidence": evidence})
+                          "root": is_root, "explains": children[item["id"]], "evidence": evidence})
             if pred is not None:
                 res = self.engine.results[(pred, item["id"])]
                 short, full = self.engine.explain(res)
@@ -274,6 +274,10 @@ class Pool:
                 "low_confidence": low_confidence,
             },
             "newest_id": self.newest_id,
+            # A later upload that becomes a candidate original and explains existing items is
+            # the "true original arrived late" case: say so explicitly.
+            "newest_took_over": (self.newest_id is not None and result.parent.get(self.newest_id) is None
+                                 and bool(children.get(self.newest_id))),
             "calibration": {"runs": self.calibration.get("runs", []), "generated_at": self.calibration.get("generated_at")},
         }
 

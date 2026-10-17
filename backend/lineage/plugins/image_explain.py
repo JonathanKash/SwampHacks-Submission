@@ -81,7 +81,7 @@ def explain(result: CostResult) -> str:
     if "grayscale" in ops:
         phrases.append("converted to grayscale")
     if "caption" in ops:
-        phrases.append("caption added")
+        phrases.append("content added (caption or object)")
     if "jpeg" in ops:
         phrases.append("re-saved as low-quality JPEG")
     if "restyle" in ops:
@@ -108,7 +108,7 @@ def short_label(result: CostResult) -> str:
     if "grayscale" in ops:
         labels.append("gray")
     if "caption" in ops:
-        labels.append("caption")
+        labels.append("added")
     if "jpeg" in ops:
         labels.append("jpeg")
     if "restyle" in ops:
