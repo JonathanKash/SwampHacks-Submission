@@ -198,6 +198,14 @@ export default function MethodPage() {
               {INFORMATIVE_CUES.map((cue) => <li key={cue}>{cue}</li>)}
             </ul>
           </div>
+          <div className="idea-card">
+            <span className="idea-arrow">Gates that stop a verdict</span>
+            <ul className="method-list">
+              <li>Re-rendered copy: the two align but the residual after the best colour fit is above 0.025 (genuine crops, filters and re-saves stay under 0.022; generative restyles measure 0.03 to 0.09). Direction cues no longer apply; reported as inconclusive with a measured AI-edit indicator.</li>
+              <li>Single symmetric cue: a direction that rests only on a compact content difference (object added or removed) or only on the count of detected edit operations is not claimed.</li>
+              <li>Margin below 0.02: the two directions are indistinguishable.</li>
+            </ul>
+          </div>
         </div>
         <p className="idea-note">
           Every verdict names the cues it rested on; a verdict that rests on a single symmetric cue is downgraded
@@ -225,8 +233,9 @@ export default function MethodPage() {
               decisions) and recorded how often decisions with a given cost margin were right. That table is the
               only source of the precision figures shown in the app; text decisions show raw margins because the
               table was calibrated on images. We publish two numbers for every claim: the calibration on synthetic
-              edit chains and the same bucket re-measured on real web memes. The lower one is the honest expectation
-              for unknown files.
+              edit chains and the same bucket re-measured on real web memes. On 25 real generative edits these gates
+              cut wrong-parent claims from 26% to 8%, at the price of abstaining 72% of the time. The lower one is the
+              honest expectation for unknown files.
             </p>
           </div>
         </div>
