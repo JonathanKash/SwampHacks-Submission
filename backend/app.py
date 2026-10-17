@@ -134,6 +134,48 @@ def create_case(req: CaseCreate) -> dict:
     return _case_summary(case_id, index[case_id])
 
 
+@app.post("/api/cases/sample")
+def create_sample_case() -> dict:
+    """A ready-made case: one family (an original and its edited copies) copied from the demo pool,
+    so visitors without their own versions can try the audit workspace."""
+    import random as _random
+
+    items = pool.store.list_items()
+    roots = [i for i in items if i["true_parent"] is None]
+    if not roots:
+        raise HTTPException(409, "the demo pool is empty; seed it first")
+    by_parent: dict[str, list[dict]] = {}
+    for i in items:
+        if i["true_parent"]:
+            by_parent.setdefault(i["true_parent"], []).append(i)
+    # Prefer a root with several descendants so the sample tree has something to show.
+    def family(root_item: dict) -> list[dict]:
+        out, stack = [], [root_item]
+        while stack:
+            cur = stack.pop()
+            out.append(cur)
+            stack.extend(by_parent.get(cur["id"], []))
+        return out
+
+    families = sorted((family(r) for r in roots), key=len, reverse=True)
+    chosen = _random.choice(families[: max(1, len(families) // 2)])
+    _random.shuffle(chosen)
+    seed_name = str(chosen[0].get("params", {}).get("seed") or next(
+        (c["params"].get("seed") for c in chosen if c.get("params", {}).get("seed")), "demo image"))
+    created = create_case(CaseCreate(name=f"Sample: {len(chosen)} versions of {Path(seed_name).stem}", analyst="sample"))
+    case = _case_pool(created["id"])
+    images = []
+    for item in chosen:
+        path = pool.images / item["file"]
+        images.append((Image.open(path), f"{item['edit'] or 'original'}-{item['id']}.png", path.read_bytes()))
+    case.add_images(images)
+    with _cases_lock:
+        index = _read_index()
+        index[created["id"]]["items"] = len(case.engine.items)
+        _write_index(index)
+    return _case_summary(created["id"], index[created["id"]])
+
+
 @app.delete("/api/cases/{case_id}")
 def delete_case(case_id: str, x_admin_token: str | None = Header(None)) -> dict:
     expected = os.getenv("ADMIN_TOKEN")
