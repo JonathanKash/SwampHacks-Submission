@@ -172,6 +172,10 @@ def test_case_lifecycle(tmp_path, monkeypatch):
     assert client.get(f"/api/cases/{cid}/diff/{by_name['a.png']['id']}").status_code == 404  # roots have no source
 
     assert client.get("/api/report.html").status_code == 200
+    csv_text = client.get(f"/api/cases/{cid}/report.csv").text
+    rows = [r for r in csv_text.strip().splitlines() if r]
+    assert rows[0].startswith("image_id,filename,candidate_original") and len(rows) == 4
+    assert any(",yes," in r for r in rows[1:]) and "cropped to" in csv_text
 
 
 

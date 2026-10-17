@@ -192,6 +192,19 @@ def case_report_html(case_id: str):
 MAX_BATCH_FILES = 40
 
 
+@app.get("/api/cases/{case_id}/report.csv")
+def case_report_csv(case_id: str):
+    case = _case_pool(case_id)
+    return Response(case.report_csv(), media_type="text/csv",
+                    headers={"Content-Disposition": f'attachment; filename="lineage-ledger-{case_id}.csv"'})
+
+
+@app.get("/api/report.csv")
+def demo_report_csv():
+    return Response(pool.report_csv(), media_type="text/csv",
+                    headers={"Content-Disposition": 'attachment; filename="lineage-ledger-demo.csv"'})
+
+
 def _diff_png(target_pool: Pool, item_id: str, other: str | None) -> Response:
     """Diff plate of item_id against its predicted source (or an explicit `other`)."""
     from lineage.diff import diff_plate, encode_png

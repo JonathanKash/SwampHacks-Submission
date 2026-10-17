@@ -283,6 +283,30 @@ class Pool:
             "calibration": self.tree.get("calibration"),
         }
 
+    def report_csv(self) -> str:
+        """Decision ledger as CSV: one row per image (originals included), for spreadsheets and e-discovery."""
+        import csv
+        import io as _io
+
+        buf = _io.StringIO()
+        w = csv.writer(buf)
+        w.writerow(["image_id", "filename", "candidate_original", "derived_from", "edit", "cost", "margin",
+                    "empirical_precision", "keypoint_inliers", "coverage_of_child_by_parent", "coverage_of_parent_by_child",
+                    "cost_child_to_parent", "sha256", "phash", "width", "height"])
+        edges = {e["dst"]: e for e in self.tree["edges"]}
+        for n in self.tree["nodes"]:
+            e = edges.get(n["id"])
+            ev = (e or n)["evidence"]
+            m = ev.get("measurements", {})
+            fp = n.get("footprint") or {}
+            w.writerow([n["id"], n.get("params", {}).get("filename", ""), "yes" if n["root"] else "no",
+                        e["src"] if e else "", e["explain"] if e else "", e["cost"] if e else "",
+                        ev.get("margin", ""), ev.get("confidence", {}).get("precision", ""),
+                        m.get("keypoint_inliers", ""), m.get("coverage_of_child_by_parent", ""),
+                        m.get("coverage_of_parent_by_child", ""), m.get("cost_child_to_parent", ""),
+                        fp.get("sha256", ""), fp.get("phash", ""), fp.get("width", ""), fp.get("height", "")])
+        return buf.getvalue()
+
     def diff_plates(self) -> dict[str, bytes]:
         """PNG diff plate for every derived copy against its predicted source (report exhibits)."""
         from lineage.diff import diff_plate, encode_png
