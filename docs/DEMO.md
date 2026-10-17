@@ -94,3 +94,14 @@ found; 28 of 30 parents correct against the hidden truth (93%).
 - [ ] Open `/tree` on the big screen, press Replay once, check the Fool Lineage scoreboard.
 - [ ] If the Gemini image quota has reset, run `benchmark/nanobanana/make_corpus.py` to finish the edit corpus
       (optional; the benchmark reads whatever exists).
+
+
+## Public link without a server (Cloudflare quick tunnel)
+
+```
+"C:\Program Files (x86)\cloudflared\cloudflared.exe" tunnel --url http://localhost:8010
+```
+The `https://<words>.trycloudflare.com` URL printed after a few seconds serves the running app. Set it as
+`PUBLIC_URL` when starting the server so the QR code on `/tree` points visitors there. The URL changes on every
+restart; a persistent hostname needs a Cloudflare account, a domain on Cloudflare DNS and a named tunnel
+(`cloudflared tunnel login / create / route dns`, then `cloudflared service install`), or the Vultr deploy.
