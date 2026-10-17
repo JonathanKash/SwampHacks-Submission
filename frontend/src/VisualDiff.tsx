@@ -3,9 +3,25 @@ import { useState } from "react";
 const DIFF_CAPTION =
   "source aligned onto this copy · this copy · residual after color fit (brighter = more different; hatched = area the source cannot supply)";
 
-export default function VisualDiff({ src }: { src: string }) {
-  const [shown, setShown] = useState(false);
-  const [loading, setLoading] = useState(false);
+interface VisualDiffProps {
+  src: string;
+  caption?: string;
+  defaultShown?: boolean;
+  hideLabel?: string;
+  showLabel?: string;
+  unavailableMessage?: string;
+}
+
+export default function VisualDiff({
+  src,
+  caption = DIFF_CAPTION,
+  defaultShown = false,
+  hideLabel = "Hide visual diff",
+  showLabel = "Show visual diff",
+  unavailableMessage = "Visual diff unavailable for this image.",
+}: VisualDiffProps) {
+  const [shown, setShown] = useState(defaultShown);
+  const [loading, setLoading] = useState(defaultShown);
   const [error, setError] = useState(false);
 
   const toggle = () => {
@@ -25,7 +41,7 @@ export default function VisualDiff({ src }: { src: string }) {
         onClick={toggle}
         aria-expanded={shown}
       >
-        {shown ? "Hide visual diff" : "Show visual diff"}
+        {shown ? hideLabel : showLabel}
       </button>
       {shown && (
         <figure className="visual-diff">
@@ -41,8 +57,8 @@ export default function VisualDiff({ src }: { src: string }) {
               }}
             />
           )}
-          {error && <p className="visual-diff-error" role="alert">Visual diff unavailable for this image.</p>}
-          {!error && <figcaption>{DIFF_CAPTION}</figcaption>}
+          {error && <p className="visual-diff-error" role="alert">{unavailableMessage}</p>}
+          {!error && <figcaption>{caption}</figcaption>}
         </figure>
       )}
     </div>

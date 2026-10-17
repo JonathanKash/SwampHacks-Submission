@@ -17,6 +17,7 @@ import EvidenceList from "./EvidenceList";
 import { CaptionIcon, CropIcon, FilterIcon, JpegIcon, RestyleIcon, RotateIcon } from "./icons";
 import NavBar from "./NavBar";
 import { usePageTitle } from "./usePageTitle";
+import VisualDiff from "./VisualDiff";
 
 const CAPTIONS = [
   "me irl",
@@ -84,6 +85,10 @@ function titleCase(value: string): string {
 function messageFrom(error: unknown): string {
   if (error instanceof ApiError || error instanceof Error) return error.message;
   return "Something went wrong. Please try again.";
+}
+
+function showDiffByDefault(): boolean {
+  return typeof window !== "undefined" && window.innerWidth >= 900;
 }
 
 /** Tablet page: pick an image, apply exactly one edit, then see whether Lineage traced it back. */
@@ -219,6 +224,18 @@ export default function EditPage() {
               {verdict.edge.semantic ? " and had to match by meaning, because the pixels no longer align." : "."}
             </p>
           )}
+          <VisualDiff
+            src={`/api/diff/${result.id}`}
+            caption={
+              verdict?.predicted && verdict.predicted.id !== parent.id
+                ? "source Lineage selected, aligned onto your edit"
+                : "source aligned · your edit · pixel difference"
+            }
+            defaultShown={showDiffByDefault()}
+            showLabel="Show the evidence picture"
+            hideLabel="Hide the evidence picture"
+            unavailableMessage="No pixel alignment to show for this edit."
+          />
           {verdict?.evidence && <EvidenceList evidence={verdict.evidence} />}
           <div className="verdict-actions">
             <button className="primary-button" type="button" onClick={doAnother}>
