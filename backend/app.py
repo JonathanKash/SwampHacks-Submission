@@ -306,6 +306,22 @@ class EditRequest(BaseModel):
     params: dict = {}
 
 
+@app.get("/api/calibration")
+def calibration() -> dict:
+    """The empirical precision table behind every confidence figure (from scripts/calibrate.py)."""
+    from lineage.evidence import MARGIN_BUCKETS, load_calibration
+
+    cal = load_calibration()
+    buckets = cal.get("buckets", {})
+    ordered = [{"bucket": name, "min_margin": lower, **buckets.get(name, {"correct": 0, "n": 0})}
+               for lower, name in MARGIN_BUCKETS]
+    for row in ordered:
+        row["precision"] = round(row["correct"] / row["n"], 3) if row["n"] else None
+    return {"generated_at": cal.get("generated_at"), "runs": cal.get("runs", []), "buckets": ordered,
+            "per_edit": cal.get("per_edit", {}), "root_cost": cal.get("root_cost"),
+            "decisions": sum(r["n"] for r in ordered)}
+
+
 @app.get("/api/health")
 def health() -> dict:
     return {"ok": True, "items": len(pool.engine.items), "version": pool.version,
