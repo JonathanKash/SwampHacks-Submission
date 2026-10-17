@@ -20,7 +20,7 @@ Repository: https://github.com/JonathanKash/SwampHacks-Submission
 | `/tree`   | big screen    | The live forest: thumbnails, edge labels, a tree-accuracy scoreboard, an arrival overlay when a new image lands, a scan-to-join QR code, evidence and provenance panel |
 | `/audit`  | industry      | Provenance audit: create a case (with analyst), drop in many versions, get the tree with calibrated precision and reliability tiers, visual diff plates, tamper-evident footprints (SHA-256, pHash), metadata and C2PA hints, compare any two images, JSON (hash-stamped, optionally HMAC-signed), CSV ledger and self-contained HTML reports |
 | `/identify` | everyone    | Which meme is this and where did it come from: upload any copy, get the family, the documented original with source and date, and the evidence |
-| `/compare` | industry     | Two files in, a verdict out: parent-child, siblings, unrelated or inconclusive, with "Why is this the parent?" (signals, decisive cues, conflicts, unavailable signals, AI-edit indicators, limitations, reproducibility) |
+| `/compare` | industry     | Two files in, a verdict out: parent-child, siblings, unrelated, re-rendered copy or inconclusive, with "Why is this the parent?" (signals, decisive cues, conflicts, unavailable signals, AI-edit indicators, limitations, reproducibility) |
 | `/text`   | curious       | The same core on paragraphs: paste versions, see which was trimmed, reworded or rewritten |
 | `/method` | judges        | Every cost term with its weight and direction logic, the arborescence, evidence and calibration, limitations |
 
@@ -82,7 +82,8 @@ Identify on 378 held-out meme copies (knowledge base: 223 items, pHash-only mode
 ## Compare two files: "Why is this the parent?"
 
 `POST /api/compare` (two files, or two item ids from the pool or a case) returns a verdict of
-`parent-child`, `siblings`, `unrelated` or `inconclusive`, the calibrated precision for the measured
+`parent-child`, `siblings`, `unrelated` or `inconclusive` (including the re-rendered case: aligned, but every
+pixel differs after the colour fit, which is reported as a measured AI-edit indicator), the calibrated precision for the measured
 margin, the benchmark accuracy for the detected edit type, a signal table (what each signal found,
 which direction it points, its weight, and whether it is pixel evidence or a metadata hint), the
 signals that conflicted or were unavailable, measured AI-edit indicators, a limitations section, and
