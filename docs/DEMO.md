@@ -107,3 +107,8 @@ The `https://<words>.trycloudflare.com` URL printed after a few seconds serves t
 `PUBLIC_URL` when starting the server so the QR code on `/tree` points visitors there. The URL changes on every
 restart; a persistent hostname needs a Cloudflare account, a domain on Cloudflare DNS and a named tunnel
 (`cloudflared tunnel login / create / route dns`, then `cloudflared service install`), or the Vultr deploy.
+
+Quick tunnels get revoked by Cloudflare after a while (seen twice on demo day: after ~5 h and after ~45 min).
+For the event, run the watchdog instead of starting the tunnel by hand: `.\deploy	unnel-watchdog.ps1` keeps a
+tunnel up, restarts the server with the new `PUBLIC_URL` when the address changes, and writes the current address to
+`data\public_url.txt`. Keep ngrok (`ngrok http 8010`) as a second link; it has an interstitial page but a stable session.
