@@ -25,6 +25,14 @@ Industry use cases: newsroom verification desks, trust and safety teams, legal d
 digital asset management. The engine is never told the true parent of anything; in the demo
 the server keeps it only to score the accuracy counter.
 
+| Big screen | Tablet verdict |
+|---|---|
+| ![live tree with evidence panel](docs/screenshots/tree.png) | ![verdict with evidence](docs/screenshots/verdict.png) |
+
+| Provenance audit | Text mode |
+|---|---|
+| ![audit workspace](docs/screenshots/audit.png) | ![text lineage](docs/screenshots/text.png) |
+
 ## Run it
 
 ```
