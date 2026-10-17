@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchCalibration, type CalibrationResponse } from "./api";
 import NavBar from "./NavBar";
+import QrCode from "./QrCode";
 import { usePageTitle } from "./usePageTitle";
 import { useTreePolling } from "./useTreePolling";
 
@@ -208,6 +209,9 @@ export default function LandingPage() {
               an empirical confidence from our evaluation runs.
             </p>
           </div>
+        </div>
+        <div className="join-row">
+          <QrCode size={120} label="scan on your phone to make an edit" />
         </div>
         <div className="legend" aria-label="How to read the tree">
           <span className="legend-item"><i className="swatch ok" /> correct parent</span>

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import type { TreeNode } from "./api";
 import EvidenceList from "./EvidenceList";
 import NewestOverlay from "./NewestOverlay";
+import QrCode from "./QrCode";
 import { provenancePath } from "./provenance";
 import TreeView from "./TreeView";
 import { usePageTitle } from "./usePageTitle";
@@ -68,6 +69,7 @@ export default function TreePage() {
             <h1>Lineage</h1>
           </div>
         </Link>
+        <QrCode size={84} />
         <div className="scoreboard">
           <div className="score-main" aria-live="polite" aria-atomic="true">
             <span className="score-label">tree accuracy</span>
