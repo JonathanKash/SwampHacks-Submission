@@ -87,7 +87,7 @@ def pairwise_corpus(pairs: list[tuple[Path, Path, str]], embedder, tally: Tally,
             b["n"] += 1
             b["correct"] += int(ok)
         if not ok:
-            tally.failures.append({"corpus": label, "kind": kind, "parent": parent.name, "child": child.name,
+            tally.failures.append({"corpus": label, "kind": kind, "family": parent.parent.name, "parent": parent.name, "child": child.name,
                                    "verdict": rep["verdict"], "parent_claimed": rep["parent"], "costs": rep["costs"],
                                    "precision_claimed": prec, "summary": rep["summary"][:200]})
 

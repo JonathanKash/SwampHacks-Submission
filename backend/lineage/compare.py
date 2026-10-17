@@ -106,7 +106,7 @@ def compare(a: ImageData, b: ImageData, meta_a: dict | None = None, meta_b: dict
             cheap, dear = (ab, ba) if forward else (ba, ab)
             # Which cues does the direction rest on? Drop each term in turn: if the direction
             # flips or falls inside the margin without it, that cue is decisive.
-            for key in ("coverage", "color_residual", "blockiness", "resolution", "chroma", "entropy", "blobs", "edit_ops"):
+            for key in ("coverage", "color_residual", "blockiness", "resolution", "chroma", "entropy", "blobs", "caption_removed", "edit_ops"):
                 ab_wo, ba_wo = ab.total - ab.terms.get(key, 0.0), ba.total - ba.terms.get(key, 0.0)
                 if ((ab_wo < ba_wo) != forward) or abs(ab_wo - ba_wo) < MIN_DIRECTION_MARGIN:
                     decisive.append(key)
@@ -162,7 +162,7 @@ def compare(a: ImageData, b: ImageData, meta_a: dict | None = None, meta_b: dict
             "mostly symmetric", config.WEIGHTS["color_residual"])
         for key, name in (("blockiness", "JPEG grid energy lost"), ("resolution", "resolution gained"),
                           ("chroma", "color gained from gray"), ("entropy", "histogram entropy gained"),
-                          ("blobs", "detail erased")):
+                          ("blobs", "detail erased"), ("caption_removed", "caption removed")):
             fa, fb = _term(ab, key), _term(ba, key)
             if fa > 0 or fb > 0:
                 add(name, f"penalty A→B {fa:.3f}, B→A {fb:.3f}",

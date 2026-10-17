@@ -70,7 +70,8 @@ def cmd_compare(args: argparse.Namespace) -> int:
         print(f"Parent: {report['parent']} = {a if report['parent'] == 'A' else b}")
     c = report["confidence"]
     if c["precision"] is not None:
-        print(f"Empirical precision for this margin: {c['precision']:.0%} (n={c['n']}, {c['bucket']})")
+        label = "for this margin" if str(c["bucket"]).startswith("margin") else f"of the {c['bucket']}"
+        print(f"Empirical precision {label}: {c['precision']:.0%} (n={c['n']}, {c['bucket']})")
     print(report["summary"])
     print("\nSignals:")
     for s in report["signals"]:

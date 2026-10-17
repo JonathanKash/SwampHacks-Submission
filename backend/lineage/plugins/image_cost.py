@@ -47,10 +47,17 @@ import numpy as np
 
 from lineage import config
 from lineage.plugins import image_features
+from lineage.plugins.caption import caption_likeness
 from lineage.types import CostResult, ImageData
 
-_orb = cv2.ORB_create(nfeatures=1500)
+# 4000 features, not 1500: on web memes a big caption soaks up the first 1500 corners and
+# the photo underneath gets too few to register (measured: 1-3 inliers at 1500, 100+ at 4000).
+_orb = cv2.ORB_create(nfeatures=config.ORB_FEATURES)
 _matcher = cv2.BFMatcher(cv2.NORM_HAMMING)
+# SIFT is the fallback for small or soft images where ORB finds almost no corners.
+_sift = cv2.SIFT_create(nfeatures=config.ORB_FEATURES)
+_sift_matcher = cv2.BFMatcher(cv2.NORM_L2)
+_sift_cache: dict[str, tuple[np.ndarray | None, np.ndarray | None]] = {}
 
 _feature_cache: dict[str, tuple[np.ndarray | None, np.ndarray | None]] = {}
 _stats_cache: dict[str, image_features.ImageStats] = {}
@@ -75,6 +82,17 @@ def _orb_features(img: ImageData) -> tuple[np.ndarray | None, np.ndarray | None]
     return _feature_cache[key]
 
 
+def _sift_features(img: ImageData) -> tuple[np.ndarray | None, np.ndarray | None]:
+    key = _key(img)
+    if key not in _sift_cache:
+        if len(_sift_cache) > 2000:
+            _sift_cache.clear()
+        keypoints, descriptors = _sift.detectAndCompute(img.gray, None)
+        points = np.float32([kp.pt for kp in keypoints]) if keypoints else None
+        _sift_cache[key] = (points, descriptors)
+    return _sift_cache[key]
+
+
 def _stats(img: ImageData) -> image_features.ImageStats:
     key = _key(img)
     if key not in _stats_cache:
@@ -84,20 +102,14 @@ def _stats(img: ImageData) -> image_features.ImageStats:
     return _stats_cache[key]
 
 
-def register(a: ImageData, b: ImageData) -> tuple[np.ndarray | None, int]:
-    """Estimate the homography H (3x3) mapping a's pixel coordinates onto b's.
-
-    Returns (H, inlier_count); H is None when registration fails. A homography
-    is rejected when it is not a plausible photo edit (flip, extreme scale,
-    strong perspective), which also guards against spurious matches between
-    unrelated images.
-    """
-    pts_a, des_a = _orb_features(a)
-    pts_b, des_b = _orb_features(b)
+def _register_with(a: ImageData, b: ImageData, features, matcher) -> tuple[np.ndarray | None, int]:
+    """Ratio-test matches + RANSAC homography with one feature type; (H, inliers) or (None, n)."""
+    pts_a, des_a = features(a)
+    pts_b, des_b = features(b)
     if des_a is None or des_b is None or len(des_a) < 2 or len(des_b) < 2:
         return None, 0
     good: list[cv2.DMatch] = []
-    for pair in _matcher.knnMatch(des_a, des_b, k=2):
+    for pair in matcher.knnMatch(des_a, des_b, k=2):
         if len(pair) == 2 and pair[0].distance < 0.75 * pair[1].distance:  # Lowe ratio test
             good.append(pair[0])
     if len(good) < config.MIN_INLIERS:
@@ -108,6 +120,23 @@ def register(a: ImageData, b: ImageData) -> tuple[np.ndarray | None, int]:
     inliers = int(mask.sum()) if mask is not None else 0
     if H is None or inliers < config.MIN_INLIERS or inliers < config.MIN_INLIER_RATIO * len(good):
         return None, inliers
+    return H, inliers
+
+
+def register(a: ImageData, b: ImageData) -> tuple[np.ndarray | None, int]:
+    """Estimate the homography H (3x3) mapping a's pixel coordinates onto b's.
+
+    Returns (H, inlier_count); H is None when registration fails. A homography
+    is rejected when it is not a plausible photo edit (flip, extreme scale,
+    strong perspective), which also guards against spurious matches between
+    unrelated images.
+    """
+    H, inliers = _register_with(a, b, _orb_features, _matcher)
+    if H is None:
+        H, inliers_sift = _register_with(a, b, _sift_features, _sift_matcher)
+        inliers = max(inliers, inliers_sift)
+        if H is None:
+            return None, inliers
     H = H / H[2, 2]
     det = float(np.linalg.det(H[:2, :2]))
     scale = math.sqrt(abs(det))
@@ -208,6 +237,25 @@ def cost(a: ImageData, b: ImageData, weights: dict[str, float] = config.WEIGHTS)
     features["blob_fraction"] = removed_fraction
     features["added_blob_fraction"] = added_fraction
 
+    # --- 6. caption removed: a has text-like content in the changed region, b has not -------
+    # Not gated on the blob detector: it misses captions on textured backgrounds
+    # (the edge-energy test is confounded there), which is exactly the case this fixes.
+    caption_removed = 0.0
+    if covered.any():
+        strong = np.zeros((hb, wb), dtype=bool)
+        strong[covered] = np.abs(residual).mean(axis=1) > config.BLOB_RESIDUAL_THRESHOLD
+        if 50 <= strong.sum() <= 0.6 * hb * wb:
+            cap_b = caption_likeness(b.rgb, strong)
+            try:
+                back = cv2.warpPerspective(strong.astype(np.uint8), np.linalg.inv(H), (a.gray.shape[1], a.gray.shape[0]),
+                                           flags=cv2.INTER_NEAREST) > 0
+                cap_a = caption_likeness(a.rgb, back)
+            except np.linalg.LinAlgError:
+                cap_a = {"caption_like": False}
+            if cap_a["caption_like"] and not cap_b["caption_like"]:
+                caption_removed = 1.0
+    features["caption_removed"] = bool(caption_removed)
+
     # --- 7. edit ops detected in the a -> b direction (description length) ------
     ops: list[str] = []
     if abs(angle) >= config.ROTATE_MIN_DEG:
@@ -232,6 +280,7 @@ def cost(a: ImageData, b: ImageData, weights: dict[str, float] = config.WEIGHTS)
         "chroma": weights["chroma"] * chroma_term,
         "entropy": weights["entropy"] * entropy_term,
         "blobs": weights["blobs"] * removed_fraction,
+        "caption_removed": weights.get("caption_removed", 0.0) * caption_removed,
         "edit_ops": weights["edit_op"] * len(ops),
         "specificity": weights["specificity"] * specificity,
     }

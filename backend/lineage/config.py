@@ -57,6 +57,9 @@ WEIGHTS: dict[str, float] = {
     "entropy": 0.5,  # histogram entropy gained, bits (only when a color change was detected)
     # step 5: compact residual blobs where a has detail that b lacks (content removed).
     "blobs": 20.0,
+    # step 6: a carries caption-like content (text/outline) in the changed region and b does not:
+    # the a -> b direction removes a caption, which is rare (benchmark: caption side = copy 30/30).
+    "caption_removed": 1.0,
     # step 7: description length, charged once per detected edit primitive.
     "edit_op": 0.05,
     # step 8: tie-breaker toward the most specific ancestor. Keep far below edit_op.
@@ -69,6 +72,7 @@ WEIGHTS: dict[str, float] = {
 
 # Registration is considered failed below this many RANSAC inliers, or when fewer
 # than this fraction of ratio-test matches are inliers (guards spurious homographies).
+ORB_FEATURES: int = 4000  # keypoints per image for ORB (and the SIFT fallback)
 MIN_INLIERS: int = 12
 MIN_INLIER_RATIO: float = 0.25
 
