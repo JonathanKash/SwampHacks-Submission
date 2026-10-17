@@ -4,45 +4,48 @@
 - [x] Repo skeleton, CLAUDE.md, SPEC.md, PLAN.md, .env.example
 - [x] Edit menu as pure functions (crop, rotate, filter, caption, jpeg)
 - [x] Seed fetcher (Met Open Access v1.1 search, CC0) -> 6 seeds
-- [x] Synthetic chain generator with saved ground truth (run1: 94 items, 6 families, 3 chains each)
+- [x] Synthetic chain generator with saved ground truth (run1 seed 0: 94 items; run2 seed 1: 96 items)
 - [x] Fingerprints (pHash + binarized CLIP ViT-B/32, embeddings cached on disk)
-- [x] Engine with TEMPORARY fallback (brute-force candidates, crude cost, networkx arborescence)
-- [x] Stubs + pytest specs for candidates.py, arborescence.py, image_cost.py (60 tests, all NotImplementedError)
-- [x] eval.py: tree accuracy overall / per edit type + per-cue direction table
+- [x] core/candidates.py: Hamming top-k (true parent in top-8: 98.9% / 97.8%)
+- [x] core/arborescence.py: own Chu-Liu/Edmonds + virtual root, cross-checked vs networkx
+- [x] plugins/image_cost.py: full spec + gated cues + edit-op MDL prior + specificity tie-break
+- [x] 80 pytest tests passing
+- [x] eval.py: tree accuracy overall / per edit type, candidate recall, error kinds, cue table
 - [ ] GATE: review numbers, decide go/no-go
 
-### Phase 0 numbers (run1, TEMPORARY fallback cost, 2026-10-16)
-Fallback cost = CLIP distance + one-directional cues (resolution, blockiness, chroma). No registration.
+### Phase 0 numbers (2026-10-16, k=8, root_cost=3.5)
+Weights were tuned by hand on run1; run2 (different seed) is held out.
 
-| edit        | tree accuracy |
-|-------------|---------------|
-| overall     | 51.1% (45/88) |
-| caption     | 66.7% (10/15) |
-| crop        | 56.5% (13/23) |
-| jpeg        | 55.0% (11/20) |
-| rotate      | 25.0% (4/16)  |
-| filters     | 7/14 combined |
-| roots found | 1/6           |
+| edit     | run1 (tuned)  | run2 (held out) |
+|----------|---------------|-----------------|
+| overall  | 83.0% (73/88) | 71.1% (64/90)   |
+| crop     | 82.6%         | 62.5%           |
+| rotate   | 81.2%         | 89.5%           |
+| caption  | 86.7%         | 71.4%           |
+| jpeg     | 70.0%         | 58.3%           |
+| filters  | 14/14         | 13/17           |
+| roots    | 6/6           | 6/6             |
 
-Errors: 10 direction flips, 8 grandparent, 18 other relative, 7 other family.
+Error kinds (run1): grandparent 10, other relative 4, flipped 1.
+Timing: 40-90 ms per pair cost on CPU; about 16 new pair costs per upload with k=8.
 
-Direction cues on true parent->child pairs (right/tie/wrong):
-- resolution: crop 23/0/0, rotate 16/0/0, everything else ties (perfect where it applies)
-- blockiness: jpeg 17/1/2; noisy elsewhere; rotate 0/5/11 (interpolation smooths the grid: wrong way)
-- sharpness: jpeg 17/0/3, rotate 15/1/0; caption 0/2/13 (text adds edges: wrong way)
-- chroma: only grayscale/warm/cool react; small sample
+Reading: direction (the core claim) holds: roots are always found and direction flips are
+rare. Most errors are the right family and the right direction but the wrong ancestor: a
+crop of a crop is also one crop from the grandparent, a JPEG of a JPEG is also one JPEG
+from the clean original, and chains of near-lossless edits tie. The edit-op prior fixed many
+of these; the rest are close to ambiguous. The weakest edit is low-quality JPEG (invisible
+when the parent is already a JPEG). Tuning on run1 alone overfit by ~20 points at first; the
+cue gating added afterwards (tint on gray, grayscale entropy, blob weight) generalized.
 
-Reading: the "edits destroy information" signal is real and clean for crop, rotate (resolution)
-and jpeg (blockiness, sharpness). Caption and color filters have NO cheap one-directional cue;
-they need the registered cost: coverage + per-channel color fit + blob term. Family separation
-needs the semantic offset in the real cost (crude costs are all < 0.6, so root_cost never bites).
+Known levers if we want more: double-JPEG detection, a caption-aware crop check, more seeds
+for tuning, k=12.
 
 ## Phase 1 — backend API
 - [ ] SQLite schema (items, edges cache), file storage
 - [ ] POST /upload (image + true_parent), GET /pool, GET /tree, GET /accuracy
 - [ ] Incremental recompute on upload
-- [ ] explain() plug-in from CostResult.features
-- [ ] Team fills in candidates.py / arborescence.py / image_cost.py; flip USE_FALLBACK=false
+- [ ] explain() plug-in from CostResult.features (ops list + numbers)
+- [ ] WebSocket or polling endpoint for the big screen
 
 ## Phase 2 — /edit tablet page
 - [ ] SPA scaffold, random image, edit menu, submit

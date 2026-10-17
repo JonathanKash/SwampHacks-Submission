@@ -184,12 +184,16 @@ def cost(a: ImageData, b: ImageData, weights: dict[str, float] = config.WEIGHTS)
     blockiness_term = min(1.0, max(0.0, blockiness_drop)) if geometry_unchanged else 0.0
     resolution_term = max(0.0, math.log(stats_b.pixels / max(1, stats_a.pixels)))
     a_is_gray = stats_a.chroma < config.GRAYSCALE_CHROMA
-    chroma_term = max(0.0, stats_b.chroma - stats_a.chroma) if a_is_gray else 0.0
+    b_went_gray = stats_b.chroma < config.GRAYSCALE_CHROMA and stats_b.chroma < 0.25 * stats_a.chroma
+    # Real color cannot be recreated from gray, but a uniform tint can (and the
+    # per-channel fit then explains b perfectly), so only unexplained chroma counts.
+    chroma_unexplained = a_is_gray and color_residual > config.TINT_RESIDUAL_TOL
+    chroma_term = max(0.0, stats_b.chroma - stats_a.chroma) if chroma_unexplained else 0.0
     jpeg_detected = stats_b.blockiness - stats_a.blockiness > config.JPEG_MIN_BLOCKINESS_JUMP
-    # Histogram entropy only means something for a pure color edit: a
-    # brightness/contrast change with rounding and clipping can only lose it,
-    # whereas JPEG ringing and interpolation legitimately add some.
-    pure_color_edit = color_changed and geometry_unchanged and not jpeg_detected
+    # Histogram entropy only means something for a pure brightness/contrast/tint
+    # edit: rounding and clipping can only lose it, whereas JPEG ringing,
+    # interpolation and channel mixing (grayscale) legitimately change it.
+    pure_color_edit = color_changed and geometry_unchanged and not jpeg_detected and not b_went_gray
     entropy_term = max(0.0, stats_b.entropy - stats_a.entropy) if pure_color_edit else 0.0
 
     # Specificity tie-breaker (tiny weight): among candidates that explain b
@@ -210,7 +214,6 @@ def cost(a: ImageData, b: ImageData, weights: dict[str, float] = config.WEIGHTS)
         ops.append("rotate")  # a rotation implies trimming the corners, so no extra crop op
     elif features["area_ratio"] < config.CROP_MAX_AREA_RATIO and coverage_penalty < 0.1:
         ops.append("crop")
-    b_went_gray = stats_b.chroma < config.GRAYSCALE_CHROMA and stats_b.chroma < 0.25 * stats_a.chroma
     if not a_is_gray and b_went_gray:
         ops.append("grayscale")
     elif color_changed:

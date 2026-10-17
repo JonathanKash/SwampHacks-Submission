@@ -47,7 +47,7 @@ WEIGHTS: dict[str, float] = {
     "chroma": 2.0,  # colorfulness gained from a grayscale source
     "entropy": 0.5,  # histogram entropy gained, bits (only when a color change was detected)
     # step 5: compact residual blobs where a has detail that b lacks (content removed).
-    "blobs": 10.0,
+    "blobs": 20.0,
     # step 7: description length, charged once per detected edit primitive.
     "edit_op": 0.05,
     # step 8: tie-breaker toward the most specific ancestor. Keep far below edit_op.
@@ -70,6 +70,8 @@ BLOB_MIN_AREA_FRACTION: float = 0.0005
 
 # Below this mean colorfulness an image counts as grayscale (chroma cue applies).
 GRAYSCALE_CHROMA: float = 0.05
+# Color-fit MSE above which chroma in b is "unexplained" by a tint of gray a.
+TINT_RESIDUAL_TOL: float = 0.005
 
 # Edit-op detection thresholds (also used by explain()).
 ROTATE_MIN_DEG: float = 0.5  # |homography angle| above this = a rotation happened
