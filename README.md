@@ -67,6 +67,9 @@ Evaluation and tests:
 .venv\Scripts\python -m pytest backend\tests -q                  # 116 tests
 ```
 
+One-command start on Windows: `.\start.ps1` (`-LowMemory` for pHash-only, `-Tunnel` to open a Cloudflare quick
+tunnel and put its URL on the QR code, `-PublicUrl https://...` for a fixed address).
+
 ## Identify a meme: "which meme is this, and where did it come from?"
 
 `/identify` places one uploaded image against a knowledge-base case built from the 38 documented meme
