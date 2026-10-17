@@ -160,6 +160,10 @@ Decisions in SPEC.md (v2 section). Images first; audio/video only after images w
 - [ ] Meme corpus: 30 families with documented originals (dedicated agent, in progress) -> benchmark/memes/
 - [ ] Real-photo -> Gemini-edit corpus through Antigravity (driver benchmark/nanobanana/make_corpus.py;
       capability verified 10:37: Antigravity returned a genuine Gemini edit) -> parent/child benchmark per edit type
-- [ ] Benchmark harness v2: held-out split, per-edit direction accuracy, verdict metrics, calibration check, failure cases
+- [x] Benchmark harness v2 (benchmark/run_benchmark.py): per corpus and edit type: direction accuracy, wrong-parent-claimed,
+      abstained (inconclusive/siblings/unrelated), family root recovery, calibration check, failure list.
+      Synthetic pairwise, pHash-only mode: wrong parent claimed 3% / 4% / 2% on run1/2/3; abstained 3% / 14% / 30%;
+      direction 93% / 81% / 68%. Calibration: claimed ≥0.30 bucket observed 99%, 0.05–0.30 observed 91%,
+      0.02–0.05 observed 64% (n=11, over-claims; more data needed)
 - [ ] Web candidates (reverse-image provider behind an env key) + add-by-URL for cases
 - [ ] Audio, then video (after images work fully; internet samples)
