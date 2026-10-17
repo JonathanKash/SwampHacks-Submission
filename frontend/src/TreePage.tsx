@@ -368,3 +368,47 @@ export default function TreePage() {
     </main>
   );
 }
+
+const syncTreeQrPresentation = () => {
+  const publicQr = window.location.protocol === "https:";
+  let foundLabel = !publicQr;
+  let foundTarget = !publicQr;
+
+  document.querySelectorAll<HTMLElement>("*").forEach((element) => {
+    const text = element.textContent?.trim();
+
+    if (
+      publicQr &&
+      element.children.length === 0 &&
+      text?.toLowerCase() === "scan to add your own edit"
+    ) {
+      element.textContent = "scan to identify a meme or add an edit";
+      foundLabel = true;
+    }
+
+    if (
+      publicQr &&
+      element.children.length === 0 &&
+      text?.includes(window.location.host)
+    ) {
+      element.classList.add("tree-qr-target");
+      element.parentElement?.classList.add("tree-qr-text");
+      foundTarget = true;
+    }
+  });
+
+  if (foundLabel && foundTarget) {
+    treeQrObserver?.disconnect();
+  }
+};
+
+let treeQrObserver: MutationObserver | undefined;
+
+if (typeof window !== "undefined") {
+  treeQrObserver = new MutationObserver(syncTreeQrPresentation);
+  treeQrObserver.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+  });
+  window.requestAnimationFrame(syncTreeQrPresentation);
+}

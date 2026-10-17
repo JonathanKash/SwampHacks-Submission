@@ -3228,3 +3228,31 @@ p a {
     border-bottom: 0;
   }
 }
+
+.tree-qr-text {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.tree-qr-target {
+  display: inline-block;
+  max-width: 100%;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  font-size: 1rem;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+@media (min-width: 64rem) {
+  .tree-qr-text {
+    min-width: 22rem;
+  }
+}
+
+@media (max-width: 36rem) {
+  .tree-qr-target {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}
