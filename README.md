@@ -85,6 +85,21 @@ Add `--no-clip` on small machines. Benchmarks: `python benchmark/run_benchmark.p
 reports per corpus and edit type the direction accuracy, how often a wrong parent was claimed, how
 often the system abstained, family root recovery, a calibration check and the failure cases.
 
+## Benchmark corpora (not redistributed)
+
+- `benchmark/nanobanana/`: eight openly licensed photographs from Wikimedia Commons (see
+  `sources/credits.json` for titles, authors and licenses) plus Met CC0 seeds, each edited by Gemini
+  through the Antigravity CLI with six instructions (object add, object remove, background swap,
+  watercolor restyle, subtle retouch, meme caption). Ground truth: the source is the parent.
+  `make_corpus.py` regenerates it; the images themselves are git-ignored.
+- `benchmark/memes/`: 30 meme families with a documented original/template and variants collected
+  from the web by a download script; manifest and credits are tracked, images are not.
+- `data/synthetic/run1-3`: edit chains from the Phase 0 generator (crop, rotate, caption, filter, JPEG).
+
+`python benchmark/run_benchmark.py --no-clip` prints per corpus and edit type: direction accuracy, how
+often a wrong parent was claimed, how often the system abstained, family root recovery, a calibration
+check and every failure case.
+
 ## Architecture
 
 ```

@@ -60,3 +60,15 @@ found; 28 of 30 parents correct against the hidden truth (93%).
 - [ ] Screenshots: landing, /edit verdict, /tree with panel, /audit (take fresh ones from the running app)
 - [ ] Team members added on Devpost; tracks selected
 - [ ] `.env` never committed; `GEMINI_API_KEY` present on the demo machine if restyle should hit Gemini
+
+
+## Compare two files ("Why is this the parent?")
+
+1. Open `/compare`, drop any two images, press Compare.
+2. Read the verdict line first: parent-child, siblings, unrelated or inconclusive. Inconclusive is a real
+   answer: the system found no measurable asymmetry it is calibrated for (for example an object added or
+   removed: pixels alone cannot say which).
+3. Press "Why is this the parent?" for the signal table, both diff plates, conflicts, unavailable signals,
+   measured AI-edit indicators, limitations and the reproducibility block (tool version, weights hash, SHA-256).
+4. The same button sits in the audit and tree side panels for any derived copy.
+5. CLI equivalent: `python backend/lineage_cli.py compare A.jpg B.jpg --json`.
