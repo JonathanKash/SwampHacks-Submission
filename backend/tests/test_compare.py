@@ -179,3 +179,16 @@ def test_rerendered_pair_is_inconclusive_with_indicator(photo):
         return
     assert rep["verdict"] == "inconclusive" and rep["rerendered"] is True
     assert any("re-draw" in x for x in rep["ai_edit_indicators"])
+
+
+def test_low_quality_jpeg_resave_is_not_treated_as_rerendered(photo, rng):
+    """A crunchy JPEG re-save changes many pixels a little; it must stay a normal parent-child
+    verdict (residual well under the re-render threshold), not a 're-rendered copy'."""
+    from lineage import config
+
+    crunchy = image_edits.jpeg(photo, rng, quality=8)[0]
+    rep = compare(to_image_data("A", photo), to_image_data("B", crunchy), calibration={"buckets": {}})
+    assert rep["rerendered"] is False
+    residual = next(s["found"] for s in rep["signals"] if s["signal"] == "color fit residual")
+    assert rep["verdict"] in ("parent-child", "inconclusive")
+    assert config.RERENDER_RESIDUAL > 0.02  # the gate sits above every genuine edit measured on run1-2
