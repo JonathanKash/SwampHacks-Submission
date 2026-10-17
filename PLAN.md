@@ -146,3 +146,20 @@ are, and an exportable report.
 - [x] Calibration regenerated from run1+run2+run3 for larger per-bucket samples
 - [ ] Known limitation (images): a caption painted over an existing caption can attach to the sibling;
       a "replaced content" blob rule was tried and reverted (it lowered run1/run2 accuracy)
+
+## Phase 8 — spec v2: provenance + parent/child detection (from 2026-10-17 ~10:30 ET)
+Decisions in SPEC.md (v2 section). Images first; audio/video only after images work fully.
+- [x] Pairwise compare core (lineage/compare.py): parent-child / siblings / unrelated / inconclusive, calibrated
+      confidence, benchmark accuracy for the detected edit type, signal table (pixel / semantic / metadata / gate),
+      conflicts, unavailable signals, measured AI-edit indicators, limitations, reproducibility (tool version,
+      weights hash, input SHA-256); POST /api/compare (files or ids, inline diff plates both ways)
+- [x] Compression history: estimated JPEG quality from quantization tables at ingest (hint, never evidence)
+- [x] CLI at scale (backend/lineage_cli.py): compare, tree FOLDER, place IMAGE --against FOLDER (recognises a late
+      original: "NEW CANDIDATE ORIGINAL, explains N images"), batch-compare -> CSV; --no-clip for small machines
+- [ ] /compare page + "Why is this the parent?" button in audit/tree panels (Codex, in progress)
+- [ ] Meme corpus: 30 families with documented originals (dedicated agent, in progress) -> benchmark/memes/
+- [ ] Real-photo -> Gemini-edit corpus through Antigravity (driver benchmark/nanobanana/make_corpus.py;
+      capability verified 10:37: Antigravity returned a genuine Gemini edit) -> parent/child benchmark per edit type
+- [ ] Benchmark harness v2: held-out split, per-edit direction accuracy, verdict metrics, calibration check, failure cases
+- [ ] Web candidates (reverse-image provider behind an env key) + add-by-URL for cases
+- [ ] Audio, then video (after images work fully; internet samples)

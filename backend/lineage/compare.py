@@ -125,7 +125,8 @@ def compare(a: ImageData, b: ImageData, meta_a: dict | None = None, meta_b: dict
             "hint", "metadata")
         if parent and ((qa > qb and parent == "B") or (qb > qa and parent == "A")):
             conflicts.append("Compression history points the other way from the pixel verdict (the lower-quality file was judged the parent). Re-saving at higher quality does not restore detail, so the pixel verdict is kept, but treat this pair as a lead to verify.")
-    fa_px = (meta_a.get("footprint") or {}); fb_px = (meta_b.get("footprint") or {})
+    fa_px = meta_a.get("footprint") or {}
+    fb_px = meta_b.get("footprint") or {}
     if fa_px.get("width") and fb_px.get("width"):
         add("stored dimensions", f"A {fa_px['width']}×{fa_px['height']}, B {fb_px['width']}×{fb_px['height']}", "hint only", "hint", "metadata")
     for label, meta in (("A", meta_a), ("B", meta_b)):

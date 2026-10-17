@@ -18,3 +18,9 @@ frontend/dist/
 Thumbs.db
 # local Claude Code state
 .claude/
+
+# benchmark corpora: manifests and credits are tracked, media files are not
+benchmark/**/images/
+benchmark/nanobanana/edits/
+benchmark/nanobanana/sources/*.jpg
+benchmark/nanobanana/sources/*.png
