@@ -21,11 +21,11 @@
     "semantic_scale": 5.0
   },
   "buckets": {
-    "margin \u2265 0.30": {
+    "margin ≥ 0.30": {
       "correct": 35,
       "n": 38
     },
-    "margin 0.05\u20130.30": {
+    "margin 0.05–0.30": {
       "correct": 99,
       "n": 122
     },
@@ -33,7 +33,7 @@
       "correct": 62,
       "n": 92
     },
-    "margin 0.02\u20130.05": {
+    "margin 0.02–0.05": {
       "correct": 16,
       "n": 23
     }
@@ -69,5 +69,26 @@
     "n": 30,
     "source": "benchmark/run_benchmark.py --no-clip on data/synthetic run1-3 (29 caption pairs where the cue fired) and benchmark/nanobanana text_overlay (1), 2026-10-17",
     "meaning": "when exactly one side of a registered pair carries achromatic, high-contrast text-like content in the changed region, that side was the derived copy"
+  },
+  "corpora": {
+    "web-memes": {
+      "buckets": {
+        "margin ≥ 0.30": {
+          "correct": 163,
+          "n": 281
+        },
+        "margin 0.05–0.30": {
+          "correct": 8,
+          "n": 15
+        },
+        "margin 0.02–0.05": {
+          "correct": 1,
+          "n": 3
+        }
+      },
+      "generated_at": "2026-10-17T12:28:00",
+      "source": "benchmark/run_benchmark.py (phash-only), bench_memes2.json",
+      "note": "Observed precision of parent-child claims on this corpus, by the same margin buckets."
+    }
   }
 }

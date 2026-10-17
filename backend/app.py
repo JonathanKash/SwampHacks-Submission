@@ -574,7 +574,10 @@ LAN_URL = os.getenv("PUBLIC_URL") or _lan_url()
 @app.get("/api/health")
 def health() -> dict:
     return {"ok": True, "items": len(pool.engine.items), "version": pool.version,
-            "clip": pool.engine.embedder is not None, "lan_url": LAN_URL}
+            "clip": pool.engine.embedder is not None, "lan_url": LAN_URL,
+            # capability flags the UI uses to show or hide features honestly
+            "web_search": bool(os.getenv("SERPAPI_KEY") and os.getenv("PUBLIC_URL")),
+            "identify_ready": any("meme" in meta.get("name", "").lower() for meta in _read_index().values())}
 
 
 @app.get("/api/pool")

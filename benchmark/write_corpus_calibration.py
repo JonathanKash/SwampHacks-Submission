@@ -22,11 +22,13 @@ def main(results_path: str, name: str) -> None:
         n = v.get("n", 0)
         if n:
             buckets[b] = {"correct": round(v["observed_precision"] * n), "n": n}
-    cal.setdefault("corpora", {})[name] = {"buckets": buckets, "generated_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
-                                           "source": f"benchmark/run_benchmark.py ({res.get('mode')}), {Path(results_path).name}",
-                                           "note": "Observed precision of parent-child claims on this corpus, by the same margin buckets."}
-    CAL.write_text(json.dumps(cal, indent=2, ensure_ascii=False) + "
-", encoding="utf-8")
+    cal.setdefault("corpora", {})[name] = {
+        "buckets": buckets,
+        "generated_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+        "source": f"benchmark/run_benchmark.py ({res.get('mode')}), {Path(results_path).name}",
+        "note": "Observed precision of parent-child claims on this corpus, by the same margin buckets.",
+    }
+    CAL.write_text(json.dumps(cal, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     sys.stdout.reconfigure(encoding="utf-8")
     for b, v in buckets.items():
         print(f"  {name} {b}: {v['correct']}/{v['n']} = {v['correct'] / v['n']:.0%}")
