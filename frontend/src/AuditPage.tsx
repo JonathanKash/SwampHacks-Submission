@@ -16,6 +16,7 @@ import {
   type TreeResponse,
   createCase,
   deleteCase,
+  deleteCaseItem,
   fetchCases,
   fetchCaseTree,
   htmlReportUrl,
@@ -25,6 +26,8 @@ import {
 import EvidenceList, { reliabilityTier } from "./EvidenceList";
 import NavBar from "./NavBar";
 import { provenancePath, provenanceSentence } from "./provenance";
+import ModeBadge from "./ModeBadge";
+import RemoveButton from "./RemoveButton";
 import TreeView from "./TreeView";
 import { usePageTitle } from "./usePageTitle";
 import VisualDiff from "./VisualDiff";
@@ -429,7 +432,7 @@ export default function AuditPage() {
             <section className="audit-case-main">
               <header className="audit-case-header">
                 <div>
-                  <p className="eyebrow">Active case</p>
+                  <p className="eyebrow">Active case <ModeBadge /></p>
                   <h2>{selectedCase.name}</h2>
                   {selectedCase.analyst && <p className="audit-case-analyst">Analyst · {selectedCase.analyst}</p>}
                   {verifyVerdict && (
@@ -681,6 +684,13 @@ export default function AuditPage() {
                       </div>
                     )}
                     <small className="node-id-small">id {selectedNode.id}</small>
+                    <RemoveButton
+                      remove={(token) => deleteCaseItem(selectedCase.id, selectedNode.id, token)}
+                      onRemoved={() => {
+                        setSelectedNodeId(null);
+                        setRefreshToken((value) => value + 1);
+                      }}
+                    />
                   </aside>
                 )}
                 {treeError && tree && <div className="tree-error-toast">Audit update retrying · {treeError}</div>}

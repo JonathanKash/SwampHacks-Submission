@@ -297,3 +297,32 @@ export function buildTextTree(versions: Array<{ id?: string; text: string }>, si
     signal,
   });
 }
+
+
+// ---- health + moderation ------------------------------------------------------
+export interface HealthResponse {
+  ok: boolean;
+  items: number;
+  version: number;
+  clip: boolean;
+  lan_url: string | null;
+}
+
+export function fetchHealth(signal?: AbortSignal): Promise<HealthResponse> {
+  return requestJson<HealthResponse>("/api/health", { signal });
+}
+
+function adminHeaders(token?: string): HeadersInit {
+  return token ? { "X-Admin-Token": token } : {};
+}
+
+export function deleteItem(id: string, token?: string): Promise<{ ok: true }> {
+  return requestJson<{ ok: true }>(`/api/items/${encodeURIComponent(id)}`, { method: "DELETE", headers: adminHeaders(token) });
+}
+
+export function deleteCaseItem(caseId: string, id: string, token?: string): Promise<{ ok: true }> {
+  return requestJson<{ ok: true }>(
+    `/api/cases/${encodeURIComponent(caseId)}/items/${encodeURIComponent(id)}`,
+    { method: "DELETE", headers: adminHeaders(token) },
+  );
+}

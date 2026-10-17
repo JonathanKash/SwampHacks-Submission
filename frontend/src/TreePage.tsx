@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import type { TreeNode } from "./api";
+import { type TreeNode, deleteItem } from "./api";
 import EvidenceList from "./EvidenceList";
+import ModeBadge from "./ModeBadge";
 import NewestOverlay from "./NewestOverlay";
+import RemoveButton from "./RemoveButton";
 import QrCode from "./QrCode";
 import { provenancePath } from "./provenance";
 import TreeView from "./TreeView";
@@ -79,6 +81,7 @@ export default function TreePage() {
             </span>
           </div>
           <div className="score-side">
+            <ModeBadge />
             <span>{tree?.nodes.length ?? 0} images</span>
             <span>{tree?.nodes.filter((node) => node.root).length ?? 0} families</span>
             <span className="tree-report-links">
@@ -220,6 +223,9 @@ export default function TreePage() {
                   </div>
                 )}
                 <small className="node-id-small">id {selectedNode.id}</small>
+                {new URLSearchParams(window.location.search).get("admin") === "1" && (
+                  <RemoveButton remove={(token) => deleteItem(selectedNode.id, token)} onRemoved={() => setSelectedId(null)} />
+                )}
               </aside>
             )}
           </div>

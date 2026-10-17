@@ -1357,3 +1357,39 @@ p a {
 @media (max-width: 1100px) {
   .tree-header .qr-join { display: none; }
 }
+
+/* ---- moderation + mode badge ---------------------------------------------- */
+.remove-block {
+  margin-top: 14px;
+}
+
+.danger-button {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--red);
+  border-radius: 12px;
+  color: var(--red);
+  background: transparent;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.danger-button:hover:not(:disabled),
+.danger-button:focus-visible {
+  color: #06100b;
+  background: var(--red);
+}
+
+.mode-badge {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 3px 10px;
+  border: 1px solid var(--line-strong, #4c5d57);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  vertical-align: middle;
+}
