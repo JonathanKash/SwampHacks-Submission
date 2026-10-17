@@ -145,3 +145,19 @@ where to fix the engine: registration on captioned images and a caption-side cue
 
 ### 1:50–2:00 — Close
 "Lineage does not guess. It measures, it shows its work, and when the pixels cannot tell, it says so."
+
+
+## Numbers (as of Oct 17, 13:30 ET)
+
+| Margin bucket | Synthetic edit chains | Web memes (38 families, 563 pairs) |
+|---|---|---|
+| margin ≥ 0.30 | 92% (n=38) | 58% (n=281) |
+| margin 0.05–0.30 | 81% (n=122) | 53% (n=15) |
+| margin < 0.02 | 67% (n=92) | — |
+| margin 0.02–0.05 | 70% (n=23) | 33% (n=3) |
+
+- Tree accuracy on synthetic chains (CLIP mode): run1 80.7%, run2 70.0%, run3 80.0% (held out); roots 6/6.
+- Caption-side cue: 30/30 on the benchmark (shown as a Wilson lower bound of 89%).
+- Web memes before and after the registration fix: unrelated verdicts on captions 144 → 58; abstentions 62% → 47%.
+- Identify: family accuracy on held-out meme copies is measured by `benchmark/identify_eval.py` (see PLAN.md for the latest run).
+- 128 backend tests, 9 frontend tests, smoke test against the live server: all green.
