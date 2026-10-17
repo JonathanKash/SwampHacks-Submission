@@ -1,0 +1,14 @@
+numpy
+opencv-python-headless
+pillow
+networkx
+open_clip_torch
+# torch is installed separately from the CPU index:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+requests
+python-dotenv
+pytest
+# Phase 1+
+fastapi
+uvicorn[standard]
+python-multipart

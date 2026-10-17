@@ -1,0 +1,18 @@
+# python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# secrets
+.env
+# data (seeds are fetched, synthetic/pool are generated at runtime)
+data/
+!data/.gitkeep
+# model caches
+.cache/
+# frontend
+frontend/node_modules/
+frontend/dist/
+# os
+.DS_Store
+Thumbs.db
