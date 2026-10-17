@@ -138,3 +138,12 @@ def test_caption_stays_decided_but_object_edit_is_inconclusive(photo, other_phot
     rep = compare(to_image_data("A", photo), to_image_data("B", pasted), calibration={"buckets": {}})
     assert rep["verdict"] == "inconclusive" and "added or removed" in rep["relation"], (rep["decisive_cues"], rep["summary"])
     assert rep["parent"] is None and rep["decisive_cues"] == ["blobs"]
+
+
+def test_confidence_reports_other_corpora_for_the_same_bucket():
+    from lineage.evidence import confidence_for
+
+    cal = {"buckets": {"margin ≥ 0.30": {"correct": 92, "n": 100}},
+           "corpora": {"web-memes": {"buckets": {"margin ≥ 0.30": {"correct": 58, "n": 100}}}}}
+    c = confidence_for(0.5, cal)
+    assert c["precision"] == 0.92 and c["by_corpus"]["web-memes"] == {"precision": 0.58, "n": 100}

@@ -44,9 +44,16 @@ def confidence_for(margin: float, calibration: dict) -> dict:
     """Empirical precision of decisions with a margin in the same bucket."""
     name = bucket_for(margin)
     stats = calibration.get("buckets", {}).get(name)
+    # The same bucket measured on other corpora (e.g. web memes), so a claim is never shown
+    # with only the number from the corpus it was tuned on.
+    by_corpus = {}
+    for corpus, rec in (calibration.get("corpora") or {}).items():
+        b = (rec.get("buckets") or {}).get(name)
+        if b and b.get("n"):
+            by_corpus[corpus] = {"precision": round(b["correct"] / b["n"], 3), "n": b["n"]}
     if not stats or not stats.get("n"):
-        return {"bucket": name, "precision": None, "n": 0}
-    return {"bucket": name, "precision": round(stats["correct"] / stats["n"], 3), "n": stats["n"]}
+        return {"bucket": name, "precision": None, "n": 0, "by_corpus": by_corpus}
+    return {"bucket": name, "precision": round(stats["correct"] / stats["n"], 3), "n": stats["n"], "by_corpus": by_corpus}
 
 
 def _pct(x: float) -> str:

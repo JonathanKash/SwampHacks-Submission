@@ -75,7 +75,7 @@ def main(runs: list[Path]) -> None:
     # Keep records that other benchmarks own (e.g. the caption-side cue, scored by benchmark/run_benchmark.py).
     if CALIBRATION_PATH.exists():
         previous = json.loads(CALIBRATION_PATH.read_text(encoding="utf-8"))
-        for key in ("caption_side",):
+        for key in ("caption_side", "corpora"):
             if key in previous and key not in out:
                 out[key] = previous[key]
     CALIBRATION_PATH.write_text(json.dumps(out, indent=2), encoding="utf-8")
