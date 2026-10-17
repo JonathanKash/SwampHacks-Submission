@@ -11,7 +11,7 @@ arborescence. Every decision carries evidence and an empirically calibrated prec
 
 ## Stack and commands
 - Python 3.13 backend in `backend/`, venv at `.venv/` (Windows: `.venv/Scripts/python`).
-- Tests: `.venv/Scripts/python -m pytest backend/tests -q` (130); frontend `npm --prefix frontend run test -- --run` (9)
+- Tests: `.venv/Scripts/python -m pytest backend/tests -q` (132); frontend `npm --prefix frontend run test -- --run` (9)
 - Eval: `backend/scripts/gen_chains.py --name runN --seed S`, `backend/scripts/eval.py data/synthetic/runN`,
   `backend/scripts/calibrate.py <runs...>` (writes `backend/lineage/calibration.json`).
 - API: `.venv/Scripts/python -m uvicorn app:app --app-dir backend --port 8010` (8000 is taken on the dev
@@ -50,7 +50,7 @@ backend/scripts/                 fetch_seeds, gen_chains, eval, calibrate, seed_
 backend/lineage_cli.py           CLI: compare, tree FOLDER, place IMAGE --against FOLDER, batch-compare
 benchmark/                       run_benchmark.py (per corpus/edit metrics), identify_eval.py, write_corpus_calibration.py,
                                  memes/ (38 families, manifest + downloader; images git-ignored), nanobanana/ (Gemini edits via agy)
-backend/tests/                   130 tests (core, image cost, explain, restyle, pool/API, cases, text, compare, noise)
+backend/tests/                   132 tests (core, image cost, explain, restyle, pool/API, cases, text, compare, noise)
 frontend/src/                    LandingPage, EditPage, TreePage + TreeView (D3) + ReplayOverlay, AuditPage, IdentifyPage,
                                  ComparePage + CompareReport, TextPage, MethodPage, EvidenceList, ConfidenceChip,
                                  NumbersPanel, NavBar, ErrorBoundary, api.ts

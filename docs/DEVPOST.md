@@ -162,7 +162,7 @@ where to fix the engine: registration on captioned images and a caption-side cue
 - Caption-side cue: 30/30 on the benchmark (shown as a Wilson lower bound of 89%).
 - Web memes before and after the registration fix: unrelated verdicts on captions 144 → 58; abstentions 62% → 47%.
 - Identify on 378 held-out meme copies (knowledge base: 223 items, pHash-only mode): 293 correct family (77.5%), 85 abstained, 0 wrong family; median 4.13 s, p90 5.3 s. By kind: crop 31/45, caption 255/314, other 5/6, screenshot 2/13. When it answers, it has been right every time; when pixels do not align it abstains.
-- 130 backend tests, 9 frontend tests, smoke test against the live server: all green.
+- 132 backend tests, 9 frontend tests, smoke test against the live server: all green.
 
 - Web-meme ground truth is itself noisy: in 287 of 563 pairs the "documented original" we could download is a smaller
   file than its variant. On those pairs we claim a wrong parent 31% of the time; on the 276 pairs with clean truth,
