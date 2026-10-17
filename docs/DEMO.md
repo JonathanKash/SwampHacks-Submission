@@ -15,7 +15,8 @@ starts the server. The manual steps:
 ```
 
 - TV / projector: `http://<laptop-ip>:8010/tree` in a full-screen browser (F11). Leave it; it polls every 2 s.
-- Tablet: `http://<laptop-ip>:8010/edit`, add to home screen so it opens full-screen.
+- Tablet: `http://<laptop-ip>:8010/edit`, add to home screen so it opens full-screen. The TV header and the
+  landing page show a QR code to the same URL, so visitors can join from their own phones (same Wi-Fi).
 - Judge laptop or second screen: `http://<laptop-ip>:8010/` (about) and `/audit`.
 - Have 6 to 8 versions of one photo in a folder for the audit demo (export a few from the pool:
   `data/pool/*.png`, or use `data/synthetic/run1/f0_*.png`).
