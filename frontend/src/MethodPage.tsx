@@ -7,7 +7,7 @@ const TERMS: Array<{ name: string; weight: string; measures: string; direction: 
   {
     name: "coverage",
     weight: "3.0",
-    measures: "After aligning the source onto the copy with ORB keypoints and a RANSAC homography, the fraction of the copy that the warped source does not cover.",
+    measures: "After aligning the source onto the copy with ORB keypoints and a RANSAC homography, the fraction of the copy that the warped source does not cover. Registration uses 4000 ORB features and falls back to SIFT when ORB finds too few corners (small or soft images).",
     direction: "A crop or rotation is fully covered by its source; the source is not covered by the crop. The main direction signal.",
   },
   {
@@ -45,6 +45,12 @@ const TERMS: Array<{ name: string; weight: string; measures: string; direction: 
     weight: "20.0",
     measures: "Fraction of the overlap inside compact high-residual regions where the source has more edge energy than the copy: detail that was erased.",
     direction: "Adding a caption is cheap; removing one is expensive. A caption present only in the copy is not penalised.",
+  },
+  {
+    name: "caption removed",
+    weight: "1.0",
+    measures: "The source carries text-like content (achromatic, both dark and bright, wide luminance spread) in the region where the two images differ, and the copy does not. Measured in each image's own frame on the strong-residual mask.",
+    direction: "Captions are added far more often than removed, so the direction that removes one pays a flat penalty. On the benchmark the caption side was the derived copy 30 of 30 times.",
   },
   {
     name: "edit ops",
