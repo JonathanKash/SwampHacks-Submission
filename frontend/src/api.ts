@@ -212,7 +212,7 @@ export interface TreeResponse {
     mean_precision: number | null;
     low_confidence: number;
   };
-  mode?: "audit";
+  mode?: "demo" | "audit";
 }
 
 export interface AuditCase {

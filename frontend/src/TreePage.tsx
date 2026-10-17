@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { type CompareReportResponse, type TreeNode, compareIds, deleteItem } from "./api";
+import { type CompareReportResponse, type TreeNode, type TreeResponse, compareIds, deleteItem } from "./api";
 import CompareReport from "./CompareReport";
 import EvidenceList from "./EvidenceList";
 import ModeBadge from "./ModeBadge";
 import NewestOverlay from "./NewestOverlay";
 import RemoveButton from "./RemoveButton";
 import QrCode from "./QrCode";
+import ReplayOverlay from "./ReplayOverlay";
 import { provenancePath } from "./provenance";
 import TreeView from "./TreeView";
 import { usePageTitle } from "./usePageTitle";
@@ -28,7 +29,9 @@ export default function TreePage() {
   const [parentReportOpen, setParentReportOpen] = useState(false);
   const [parentReportLoading, setParentReportLoading] = useState(false);
   const [parentReportError, setParentReportError] = useState<string | null>(null);
+  const [replayTree, setReplayTree] = useState<TreeResponse | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const replayButtonRef = useRef<HTMLButtonElement>(null);
   const returnFocusRef = useRef<SVGGElement | null>(null);
   const compareRequestRef = useRef<AbortController | null>(null);
   const selectNode = useCallback((node: TreeNode, target: SVGGElement) => {
@@ -76,6 +79,11 @@ export default function TreePage() {
   }, [selectedId]);
 
   const accuracy = tree?.accuracy;
+  const demoMode = tree?.mode !== "audit";
+  const closeReplay = useCallback(() => {
+    setReplayTree(null);
+    window.requestAnimationFrame(() => replayButtonRef.current?.focus());
+  }, []);
 
   const handleCompareParent = async () => {
     if (!selectedNode?.predicted_parent || parentReportLoading) return;
@@ -116,14 +124,43 @@ export default function TreePage() {
         </Link>
         <QrCode size={84} />
         <div className="scoreboard">
-          <div className="score-main" aria-live="polite" aria-atomic="true">
-            <span className="score-label">tree accuracy</span>
-            <strong>{accuracy ? `${formatPercent(accuracy.pct)}%` : "—"}</strong>
-            <span className="score-sub">
-              {accuracy ? `${accuracy.correct} of ${accuracy.total} parents identified correctly` : "waiting for data"}
-            </span>
-          </div>
+          {demoMode ? (
+            <div className="fool-score" aria-live="polite" aria-atomic="true">
+              <p>
+                <strong>Fool Lineage</strong>
+                {accuracy && accuracy.total > 0 ? (
+                  <span>
+                    {` · ${accuracy.total - accuracy.correct} of ${accuracy.total} edits fooled it · ${formatPercent(accuracy.pct)}% placed correctly`}
+                  </span>
+                ) : (
+                  <span> · No edits yet</span>
+                )}
+              </p>
+              <span className="fool-score-sub">
+                Make an edit on the tablet (/edit). If your version lands under the wrong parent, you fooled it.
+              </span>
+            </div>
+          ) : (
+            <div className="score-main" aria-live="polite" aria-atomic="true">
+              <span className="score-label">tree accuracy</span>
+              <strong>{accuracy ? `${formatPercent(accuracy.pct)}%` : "—"}</strong>
+              <span className="score-sub">
+                {accuracy ? `${accuracy.correct} of ${accuracy.total} parents identified correctly` : "waiting for data"}
+              </span>
+            </div>
+          )}
           <div className="score-side">
+            {demoMode && (
+              <button
+                className="secondary-button replay-button"
+                type="button"
+                ref={replayButtonRef}
+                disabled={!tree || tree.nodes.length === 0}
+                onClick={() => tree && setReplayTree(tree)}
+              >
+                Replay
+              </button>
+            )}
             <ModeBadge />
             <span>{tree?.nodes.length ?? 0} images</span>
             <span>{tree?.nodes.filter((node) => node.root).length ?? 0} families</span>
@@ -177,6 +214,7 @@ export default function TreePage() {
           <div className={`tree-canvas-wrap ${selectedNode ? "has-panel" : ""}`}>
             <TreeView data={tree} selectedId={selectedId} onSelect={selectNode} />
             <NewestOverlay tree={tree} />
+            {replayTree && <ReplayOverlay tree={replayTree} onClose={closeReplay} />}
 
             {newest && (
               <div
