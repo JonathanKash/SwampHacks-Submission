@@ -434,16 +434,48 @@ def compare_pair(a: UploadFile | None = File(None), b: UploadFile | None = File(
 
 
 # ---- identify: which family does this image belong to, and where did it come from? ------
+_warmed: set[str] = set()
+
+
+def _warm_features(case_id: str, target: Pool) -> None:
+    """Compute and cache ORB features for every item once, so the first identify call does not
+    pay for 200+ feature extractions (measured: 16 s cold vs 2-3 s warm)."""
+    if case_id in _warmed:
+        return
+    _warmed.add(case_id)
+    from lineage.plugins import image_cost
+
+    def run() -> None:
+        for data in list(target.engine.data.values()):
+            try:
+                image_cost._orb_features(data)
+            except Exception:
+                pass
+
+    threading.Thread(target=run, daemon=True, name=f"warm-{case_id}").start()
+
+
 def _identify_case() -> tuple[str, Pool]:
     wanted = os.getenv("IDENTIFY_CASE")
     index = _read_index()
     if wanted and wanted in index:
-        return wanted, _case_pool(wanted)
-    memes = [(meta.get("items", 0), cid) for cid, meta in index.items() if "meme" in meta.get("name", "").lower()]
-    if not memes:
-        raise HTTPException(503, "no identification case is built (run backend/scripts/build_meme_case.py)")
-    cid = max(memes)[1]
-    return cid, _case_pool(cid)
+        cid = wanted
+    else:
+        memes = [(meta.get("items", 0), cid) for cid, meta in index.items() if "meme" in meta.get("name", "").lower()]
+        if not memes:
+            raise HTTPException(503, "no identification case is built (run backend/scripts/build_meme_case.py)")
+        cid = max(memes)[1]
+    target = _case_pool(cid)
+    _warm_features(cid, target)
+    return cid, target
+
+
+@app.on_event("startup")
+def _warm_identify_on_start() -> None:
+    try:
+        _identify_case()
+    except HTTPException:
+        pass
 
 
 @app.post("/api/identify")
@@ -457,6 +489,20 @@ def identify(file: UploadFile = File(...), case: str | None = Form(None)) -> dic
     placed = target.place(data)
     out = {"case": case_id, **placed, "footprint": meta["footprint"], "metadata": meta["metadata"]}
     if placed.get("matched"):
+        # In a knowledge base every item is labelled with its family. The matched item's own
+        # label is the answer; the reconstructed tree can still have a wrong edge between two
+        # look-alike families, so when the tree root disagrees we say so and show the
+        # documented original of the labelled family.
+        fam_id = (placed["parent"].get("params") or {}).get("family_id")
+        if fam_id:
+            documented = next((n for n in target.tree["nodes"]
+                               if (n.get("params") or {}).get("family_id") == fam_id
+                               and str((n.get("params") or {}).get("role", "")).startswith("documented")), None)
+            tree_root = placed.get("root")
+            if documented is not None:
+                out["tree_root"] = tree_root
+                out["tree_disagrees"] = bool(tree_root and tree_root["id"] != documented["id"])
+                out["root"] = documented
         pdata, pmeta = _item_data_and_meta(target, placed["parent"]["id"])
         out["report"] = compare(pdata, data, pmeta, meta, tool_version=TOOL_VERSION)
     return out

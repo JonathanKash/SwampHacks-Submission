@@ -98,7 +98,7 @@ def test_case_lifecycle(tmp_path, monkeypatch):
 
     assert items[0]["params"]["filename"] == "c.png"
 
-    assert items[0]["metadata"] == {"has_exif": False, "c2pa_manifest": False}
+    assert items[0]["metadata"] == {"has_exif": False, "c2pa_manifest": False, "c2pa": None}
 
 
 
