@@ -18,6 +18,8 @@ COPY backend/requirements.txt backend/requirements.txt
 RUN pip install torch --index-url https://download.pytorch.org/whl/cpu \
  && pip install -r backend/requirements.txt
 COPY backend/ backend/
+# manifests, downloader and builder for the identify knowledge base (images are fetched on the VM)
+COPY benchmark/ benchmark/
 COPY --from=web /web/dist frontend/dist
 VOLUME ["/data"]
 EXPOSE 8010
