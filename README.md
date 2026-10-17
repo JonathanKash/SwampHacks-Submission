@@ -93,6 +93,7 @@ claimed. The same report is available on the `/compare` page and from the CLI.
 .venv\Scripts\python backend\lineage_cli.py tree FOLDER [--json --out report.json]
 .venv\Scripts\python backend\lineage_cli.py place IMAGE --against FOLDER   # where does IMAGE land; recognises a late original
 .venv\Scripts\python backend\lineage_cli.py batch-compare FOLDER --out pairs.csv
+.venv\Scripts\python backend\lineage_cli.py identify IMAGE [--case-dir data\cases\<id>]   # which family, which documented original
 ```
 
 Add `--no-clip` on small machines. Benchmarks: `python benchmark/run_benchmark.py [--no-clip] [--corpus ...]`
