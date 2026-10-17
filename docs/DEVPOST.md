@@ -149,12 +149,12 @@ where to fix the engine: registration on captioned images and a caption-side cue
 
 ## Numbers (as of Oct 17, 13:30 ET)
 
-| Margin bucket | Synthetic edit chains | Web memes (38 families, 563 pairs) |
-|---|---|---|
-| margin ≥ 0.30 | 92% (n=38) | 58% (n=281) |
-| margin 0.05–0.30 | 81% (n=122) | 53% (n=15) |
-| margin < 0.02 | 67% (n=92) | — |
-| margin 0.02–0.05 | 70% (n=23) | 33% (n=3) |
+| Margin bucket | Synthetic edit chains | Web memes, all pairs (563) | Web memes, clean truth (276) |
+|---|---|---|---|
+| margin ≥ 0.30 | 92% (n=38) | 58% (n=281) | 77% (n=143) |
+| margin 0.05–0.30 | 81% (n=122) | 53% (n=15) | 67% (n=9) |
+| margin < 0.02 | 67% (n=92) | — | — |
+| margin 0.02–0.05 | 70% (n=23) | 33% (n=3) | 0% (n=1) |
 
 - Tree accuracy on synthetic chains (CLIP mode): run1 80.7%, run2 70.0%, run3 80.0% (held out); roots 6/6.
 - Caption-side cue: 30/30 on the benchmark (shown as a Wilson lower bound of 89%).

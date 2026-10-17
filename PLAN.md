@@ -226,3 +226,6 @@ Decisions in SPEC.md (v2 section). Images first; audio/video only after images w
       direction 42%, abstained 45%; true-source families with clean truth: wrong 11%, direction 52% (n=90).
       Caption-side cue 100% on template families (n=27), 91% on true-source (n=32). We publish the
       conservative all-pairs number (58% in the top bucket) in the UI; the split is documented here and in Devpost.
+- [x] Calibration now carries two web-meme columns: all pairs (>=0.30 bucket 163/281 = 58%) and clean truth
+      (>=0.30 bucket 110/143 = 77%; 0.05-0.30: 6/9). Both are shown by the ConfidenceChip, NumbersPanel, HTML report
+      and CSV; the chip's lowest number is the conservative one.
