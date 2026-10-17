@@ -206,6 +206,21 @@ export interface IdentifyNoMatchResponse extends IdentifyResponseBase {
 
 export type IdentifyResponse = IdentifyMatchResponse | IdentifyNoMatchResponse;
 
+export interface IdentifyStatsResponse {
+  available: boolean;
+  knowledge_base?: string;
+  items?: number;
+  queries?: number;
+  correct?: number;
+  abstained?: number;
+  wrong_family?: number;
+  family_accuracy?: number;
+  wrong_family_rate?: number;
+  median_latency_s?: number;
+  p90_latency_s?: number;
+  generated_at?: string;
+}
+
 export interface TreeEdge {
   src: string;
   dst: string;
@@ -334,6 +349,10 @@ export function identifyImage(formData: FormData, signal?: AbortSignal): Promise
     body: formData,
     signal,
   });
+}
+
+export function fetchIdentifyStats(signal?: AbortSignal): Promise<IdentifyStatsResponse> {
+  return requestJson<IdentifyStatsResponse>("/api/identify/stats", { signal });
 }
 
 export function compareIds(

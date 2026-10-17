@@ -2587,6 +2587,14 @@ p a {
   width: min(720px, 100%);
 }
 
+.identify-hero > p.identify-trust-note {
+  max-width: none;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
 .identify-family-card,
 .identify-empty {
   margin-top: 30px;

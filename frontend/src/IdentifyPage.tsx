@@ -9,9 +9,11 @@ import {
 import { Link } from "react-router-dom";
 import {
   ApiError,
+  fetchIdentifyStats,
   identifyImage,
   type IdentifyMatchResponse,
   type IdentifyResponse,
+  type IdentifyStatsResponse,
   type TreeNode,
 } from "./api";
 import CompareReport from "./CompareReport";
@@ -185,7 +187,14 @@ export default function IdentifyPage() {
   const [error, setError] = useState<string | null>(null);
   const [unavailable, setUnavailable] = useState(false);
   const [result, setResult] = useState<IdentifyResponse | null>(null);
+  const [stats, setStats] = useState<IdentifyStatsResponse | null>(null);
   const preview = usePreview(file);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    void fetchIdentifyStats(controller.signal).then(setStats).catch(() => {});
+    return () => controller.abort();
+  }, []);
 
   const chooseFile = (nextFile: File | undefined) => {
     if (!nextFile || loading) return;
@@ -239,6 +248,14 @@ export default function IdentifyPage() {
         <p className="eyebrow">MEME PROVENANCE</p>
         <h1>Which meme is this, and where did it come from?</h1>
         <p>Upload any copy from your camera roll. Lineage places it in a family of 38 documented meme originals and shows the evidence.</p>
+        {stats?.available && (
+          <p
+            className="identify-trust-note"
+            title={`Knowledge base: ${stats.knowledge_base ?? "unknown"} · Generated: ${stats.generated_at ?? "unknown"}`}
+          >
+            On {stats.queries} held-out meme copies this feature named the right family {Math.round((stats.family_accuracy ?? 0) * 100)}% of the time, abstained {Math.round(((stats.abstained ?? 0) / (stats.queries || 1)) * 100)}% of the time, and named a wrong family {stats.wrong_family} times.
+          </p>
+        )}
       </section>
 
       <form className="compare-form identify-form" onSubmit={(event) => void handleIdentify(event)}>
@@ -303,6 +320,9 @@ export default function IdentifyPage() {
         <section className="identify-empty" role="status">
           <h2>No family matched.</h2>
           <p>{result.reason}</p>
+          {stats?.available && stats.wrong_family === 0 && (
+            <p>Abstaining is deliberate: on the benchmark this feature never named a wrong family.</p>
+          )}
           <p>Try the <Link to="/compare">Compare</Link> page for two files, or add this image to a case in <Link to="/audit">Audit</Link>.</p>
         </section>
       )}
