@@ -88,7 +88,9 @@ found; 28 of 30 parents correct against the hidden truth (93%).
 
 - [ ] `.venv\Scripts\python backend\scriptsuild_meme_case.py --no-clip --variants 5` (about 5 minutes) and
       confirm `/api/health` reports `identify_ready: true`.
-- [ ] Open `/identify`, upload a meme from a phone, confirm the family card and the "Why?" report.
+- [ ] Open `/identify` on a phone via the QR code, upload a meme, confirm the family card and the "Why?" report.
+      If nobody has a meme handy, "Try a sample instead" loads a stored copy (expect a near-identical match).
+- [ ] On the phone, the nav collapses to a Menu button; check it opens and closes.
 - [ ] Open `/method`, confirm the Numbers table shows both the synthetic column and the web-memes column.
 - [ ] Open `/compare`, run two files, confirm the verdict chip shows two numbers.
 - [ ] Open `/tree` on the big screen, press Replay once, check the Fool Lineage scoreboard.
