@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import type { TreeNode } from "./api";
+import EvidenceList from "./EvidenceList";
 import TreeView from "./TreeView";
 import { useTreePolling } from "./useTreePolling";
 
@@ -53,7 +54,7 @@ export default function TreePage() {
             <span className="score-label">tree accuracy</span>
             <strong>{accuracy ? `${formatPercent(accuracy.pct)}%` : "—"}</strong>
             <span className="score-sub">
-              {accuracy ? `${accuracy.correct} of ${accuracy.total} parents guessed right` : "waiting for data"}
+              {accuracy ? `${accuracy.correct} of ${accuracy.total} parents identified correctly` : "waiting for data"}
             </span>
           </div>
           <div className="score-side">
@@ -105,7 +106,11 @@ export default function TreePage() {
                         : "placed in the tree"}
                   </strong>
                   {!newest.node.root && (
-                    <span>{newest.node.correct ? "parent guessed correctly" : "wrong parent — it was fooled"}</span>
+                    <span>
+                      {newest.node.correct ? "parent identified correctly" : "wrong parent"}
+                      {newest.node.evidence.confidence.precision !== null &&
+                        ` · ${Math.round(newest.node.evidence.confidence.precision * 100)}% empirical precision`}
+                    </span>
                   )}
                 </div>
               </div>
@@ -140,11 +145,13 @@ export default function TreePage() {
                       </span>
                       {incomingEdge.semantic && <span>matched by meaning</span>}
                     </div>
+                    <EvidenceList evidence={incomingEdge.evidence} compact />
                   </div>
                 ) : (
                   <div className="root-details">
                     <span>No parent</span>
                     <p>Nothing in the pool explains this image more cheaply than calling it an original.</p>
+                    <EvidenceList evidence={selectedNode.evidence} compact />
                   </div>
                 )}
                 <small className="node-id-small">id {selectedNode.id}</small>

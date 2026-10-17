@@ -56,6 +56,9 @@ for tuning, k=12.
       ("Lineage traced your edit back correctly" / "You fooled it", with the explain sentence)
 - [x] Gemini restyle wired server-side (model name verified) with OpenCV fallback
 - [x] Landing page at / explaining the idea, the pipeline and how to join the demo; shared nav
+- [x] Evidence on every decision: both-direction costs, keypoint inliers, coverage, color fit, runner-up
+      and margin, plus empirical precision per margin bucket from calibration.json (scripts/calibrate.py,
+      run1+run2: <0.02 → 71%, 0.05–0.10 → 89%, ≥0.30 → 92%). No "guess" wording anywhere.
 - [ ] Visual QA on a real tablet (portrait + landscape)
 
 ## Phase 3 — /tree big-screen view (done 2026-10-17 ~00:30 ET)

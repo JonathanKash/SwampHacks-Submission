@@ -7,11 +7,13 @@ import {
   type FilterKind,
   type PoolItem,
   type RestyleKind,
+  type Evidence,
   type TreeEdge,
   fetchRandom,
   fetchTree,
   submitEdit,
 } from "./api";
+import EvidenceList from "./EvidenceList";
 import NavBar from "./NavBar";
 
 const CAPTIONS = [
@@ -60,6 +62,7 @@ interface Verdict {
   correct: boolean | null;
   edge: TreeEdge | null;
   predicted: PoolItem | null;
+  evidence: Evidence | null;
 }
 
 function randomCaption(): string {
@@ -148,7 +151,7 @@ export default function EditPage() {
       const node = tree?.nodes.find((candidate) => candidate.id === created.id) ?? null;
       const edge = tree?.edges.find((candidate) => candidate.dst === created.id) ?? null;
       const predicted = tree?.nodes.find((candidate) => candidate.id === node?.predicted_parent) ?? null;
-      setVerdict({ correct: node ? node.correct : null, edge, predicted });
+      setVerdict({ correct: node ? node.correct : null, edge, predicted, evidence: node?.evidence ?? null });
     } catch (submitError) {
       setError(messageFrom(submitError));
     } finally {
@@ -175,8 +178,8 @@ export default function EditPage() {
         <section className="verdict" aria-live="polite">
           <p className="eyebrow">Step 3 · the verdict</p>
           <h1 className={guessedRight ? "verdict-ok" : fooled ? "verdict-bad" : ""}>
-            {guessedRight && "Lineage traced your edit back correctly."}
-            {fooled && "You fooled it. It picked a different parent."}
+            {guessedRight && "Lineage traced your edit back to the right parent."}
+            {fooled && "The measurements pointed to a different parent."}
             {verdict?.correct === null && "Added to the pool."}
             {!verdict && "Added to the pool. Checking the tree…"}
           </h1>
@@ -195,17 +198,18 @@ export default function EditPage() {
                 <span className="before-after-arrow" aria-hidden="true">?</span>
                 <figure className="is-wrong">
                   <img src={verdict.predicted.url} alt="The parent Lineage guessed instead" />
-                  <figcaption>it guessed this parent</figcaption>
+                  <figcaption>parent the measurements selected</figcaption>
                 </figure>
               </>
             )}
           </div>
           {verdict?.edge && (
             <p className="verdict-explain">
-              It described the edit as <strong>“{verdict.edge.explain}”</strong>
+              It read the edit as <strong>“{verdict.edge.explain}”</strong>
               {verdict.edge.semantic ? " and had to match by meaning, because the pixels no longer align." : "."}
             </p>
           )}
+          {verdict?.evidence && <EvidenceList evidence={verdict.evidence} />}
           <div className="verdict-actions">
             <button className="primary-button" type="button" onClick={doAnother}>
               Do another
@@ -225,7 +229,7 @@ export default function EditPage() {
       <ol className="steps" aria-label="Progress">
         <li className="is-done">1 · Your image</li>
         <li className={selected ? "is-done" : "is-current"}>2 · One edit</li>
-        <li className={canSubmit ? "is-current" : ""}>3 · Verdict</li>
+        <li className={canSubmit ? "is-current" : ""}>3 · Verdict + evidence</li>
       </ol>
 
       <form className="edit-workspace" onSubmit={handleSubmit}>

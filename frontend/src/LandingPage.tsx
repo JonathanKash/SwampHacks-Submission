@@ -114,7 +114,7 @@ export default function LandingPage() {
 
       <section className="demo-how">
         <p className="eyebrow">Join the demo</p>
-        <h2>You edit. It guesses. The screen keeps score.</h2>
+        <h2>You edit. It measures. The screen keeps score.</h2>
         <div className="demo-steps">
           <div className="demo-card">
             <h3>On the tablet</h3>
@@ -133,8 +133,9 @@ export default function LandingPage() {
           <div className="demo-card">
             <h3>On the big screen</h3>
             <p>
-              Your image drops into the tree within a couple of seconds. Green edge: it guessed your parent
-              right. Red edge: it was fooled. The accuracy counter is the live scoreboard.
+              Your image drops into the tree within a couple of seconds. Green edge: the measured parent is
+              your real one. Red edge: the measurements pointed elsewhere. Every edge shows its evidence and
+              an empirical confidence from our evaluation runs.
             </p>
           </div>
         </div>

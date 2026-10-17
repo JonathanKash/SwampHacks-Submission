@@ -32,6 +32,15 @@ def test_pool_builds_tree_and_scores_accuracy(pool: Pool):
     assert tree["accuracy"] == {"correct": 2, "total": 2, "pct": 100.0}
     labels = {e["dst"]: e["label"] for e in tree["edges"]}
     assert "crop" in labels[child["id"]]
+    # Every decision carries its evidence: both directions, the runner-up, a margin, reasons.
+    edge = next(e for e in tree["edges"] if e["dst"] == child["id"])
+    ev = edge["evidence"]
+    assert ev["measurements"]["cost_parent_to_child"] < ev["measurements"]["cost_child_to_parent"]
+    assert ev["measurements"]["keypoint_inliers"] > 0
+    assert ev["runner_up"] is not None and ev["margin"] is not None and ev["margin"] > 0
+    assert any("keypoints" in r for r in ev["reasons"])
+    root_node = next(n for n in tree["nodes"] if n["id"] == root["id"])
+    assert root_node["evidence"]["reasons"]
     # no true parent anywhere in the public payload
     assert all("true_parent" not in n for n in tree["nodes"])
 

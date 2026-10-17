@@ -36,10 +36,22 @@ export interface PoolResponse {
   filters: FilterKind[];
 }
 
+/** What a parent decision was made from: measurements, the alternatives, and calibrated confidence. */
+export interface Evidence {
+  chosen_cost: number;
+  terms: Record<string, number>;
+  runner_up: { id: string; cost: number } | null;
+  margin: number | null;
+  confidence: { bucket: string | null; precision: number | null; n: number };
+  measurements: Record<string, number | string | number[]>;
+  reasons: string[];
+}
+
 export interface TreeNode extends PoolItem {
   predicted_parent: string | null;
   correct: boolean;
   root: boolean;
+  evidence: Evidence;
 }
 
 export interface TreeEdge {
@@ -50,6 +62,7 @@ export interface TreeEdge {
   cost: number;
   semantic: boolean;
   correct: boolean;
+  evidence: Evidence;
 }
 
 export interface TreeResponse {
@@ -62,6 +75,7 @@ export interface TreeResponse {
     pct: number | null;
   };
   newest_id: string | null;
+  calibration?: { runs: string[]; generated_at: string | null };
 }
 
 export interface EditRequest {

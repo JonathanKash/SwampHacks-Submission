@@ -18,6 +18,7 @@ from PIL import Image
 from lineage import config
 from lineage.core.engine import Engine
 from lineage.edits import image_edits
+from lineage.evidence import build_evidence, load_calibration
 from lineage.store import Store
 from lineage.types import CostResult
 
@@ -47,6 +48,7 @@ class Pool:
         self.thumbs.mkdir(parents=True, exist_ok=True)
         self.store = Store(data_dir / "lineage.sqlite")
         self.engine = Engine(use_clip=use_clip)
+        self.calibration = load_calibration()
         self.lock = threading.RLock()
         self.version = 0
         self.newest_id: str | None = None
@@ -116,6 +118,11 @@ class Pool:
             self.store.save_costs(new)
         items = self.store.list_items()
         truth = {i["id"]: i["true_parent"] for i in items}
+        # Every measured cost into each node: the evidence a decision is made from.
+        incoming: dict[str, dict[str, CostResult]] = {i["id"]: {} for i in items}
+        for (src, dst), res in self.engine.results.items():
+            if dst in incoming:
+                incoming[dst][src] = res
         nodes, edges = [], []
         correct = total = 0
         for item in items:
@@ -125,13 +132,17 @@ class Pool:
             if truth[item["id"]] is not None or not is_root:
                 total += 1
                 correct += int(hit)
-            nodes.append({**self.public_item(item), "predicted_parent": pred, "correct": hit, "root": is_root})
+            reverse = self.engine.results.get((item["id"], pred)) if pred else None
+            evidence = build_evidence(item["id"], pred, incoming[item["id"]], reverse,
+                                      self.engine.root_cost, self.calibration)
+            nodes.append({**self.public_item(item), "predicted_parent": pred, "correct": hit,
+                          "root": is_root, "evidence": evidence})
             if pred is not None:
                 res = self.engine.results[(pred, item["id"])]
                 short, full = _label(res)
                 edges.append({"src": pred, "dst": item["id"], "label": short, "explain": full,
-                              "cost": round(res.total, 4),
-                              "semantic": res.semantic, "correct": hit})
+                              "cost": round(res.total, 4), "semantic": res.semantic, "correct": hit,
+                              "evidence": evidence})
         self.version += 1
         self.tree = {
             "version": self.version,
@@ -139,6 +150,7 @@ class Pool:
             "edges": edges,
             "accuracy": {"correct": correct, "total": total, "pct": round(100 * correct / total, 1) if total else None},
             "newest_id": self.newest_id,
+            "calibration": {"runs": self.calibration.get("runs", []), "generated_at": self.calibration.get("generated_at")},
         }
 
     # ---- read ---------------------------------------------------------------------
