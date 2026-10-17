@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import { fetchCalibration, type CalibrationCount, type CalibrationResponse } from "./api";
 
 const MARGIN_BUCKETS = [
@@ -13,12 +13,17 @@ interface NumbersPanelProps {
 }
 
 function humanise(value: string): string {
+  if (value === "web-memes-clean-truth") return "Web memes, clean truth";
+  if (value === "web-memes") return "Web memes, all pairs";
   const words = value.replace(/[-_]+/g, " ").trim().toLowerCase();
   return words ? `${words[0].toUpperCase()}${words.slice(1)}` : value;
 }
 
-function resultText(result: CalibrationCount | undefined): string {
-  if (!result || result.n === 0) return "—";
+function resultText(result: CalibrationCount | undefined): ReactNode {
+  if (!result) return "—";
+  if (result.n < 5) {
+    return <span className="numbers-too-few" title="too few decisions to report a rate">n&lt;5</span>;
+  }
   return `${Math.round((result.correct / result.n) * 100)}% (n=${result.n})`;
 }
 
@@ -45,6 +50,9 @@ export default function NumbersPanel({ compact = false }: NumbersPanelProps) {
           <caption>
             Generated {calibration.generated_at} from {calibration.runs.join(", ")}. The lower number is the
             honest expectation for unknown files.
+            <br />
+            Clean truth = pairs whose documented original is at least as large as its variant; the all-pairs column
+            includes ambiguous ground truth.
           </caption>
           <thead>
             <tr>
