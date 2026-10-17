@@ -212,6 +212,50 @@ export default function LandingPage() {
         </Link>
       </section>
 
+      <section className="judges-strip" aria-labelledby="judges-title">
+        <p className="eyebrow">Project references</p>
+        <h2 id="judges-title">For judges</h2>
+        <div className="judges-grid">
+          <Link to="/method" className="industry-card judges-card">
+            <span className="judges-card-eyebrow">How it works</span>
+            <h3>Method</h3>
+            <p>Every cost term, the arborescence, what decides vs informs.</p>
+            <span className="judges-card-arrow" aria-hidden="true">→</span>
+          </Link>
+          <Link to="/method" className="industry-card judges-card">
+            <span className="judges-card-eyebrow">Calibration</span>
+            <h3>Numbers</h3>
+            <p>Synthetic vs web-memes calibration, caption-side cue record.</p>
+            <span className="judges-card-arrow" aria-hidden="true">→</span>
+          </Link>
+          <a
+            href="https://github.com/JonathanKash/SwampHacks-Submission/blob/main/docs/research/symmetry.md"
+            className="industry-card judges-card"
+            target="_blank"
+            rel="noopener"
+          >
+            <span className="judges-card-eyebrow">Research note</span>
+            <h3>Why some edits have no direction</h3>
+            <p>When the evidence is symmetric, direction cannot be recovered.</p>
+            <span className="judges-card-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a
+            href="https://github.com/JonathanKash/SwampHacks-Submission"
+            className="industry-card judges-card"
+            target="_blank"
+            rel="noopener"
+          >
+            <span className="judges-card-eyebrow">Repository</span>
+            <h3>Source and AI disclosure</h3>
+            <p>
+              Claude wrote the code under our direction; Codex built most of the frontend; Gemini (via
+              Antigravity) edited the benchmark images.
+            </p>
+            <span className="judges-card-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </section>
+
       <footer className="landing-footer">
         <p>
           Built at SwampHacks XII (University of Florida, October 2026). Python, FastAPI, OpenCV, OpenCLIP,
