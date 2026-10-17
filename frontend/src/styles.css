@@ -75,9 +75,17 @@ input:focus-visible,
 
 .primary-button,
 .secondary-button {
+  display: inline-flex;
+  height: 58px;
   min-height: 58px;
+  padding: 0 20px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   border-radius: 16px;
   font-weight: 850;
+  line-height: 1.15;
+  text-decoration: none;
   cursor: pointer;
   transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, opacity 160ms ease;
 }
@@ -215,8 +223,24 @@ button:disabled {
   opacity: 0.28;
 }
 
+.source-image.is-loading::before {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 20%, rgba(98, 230, 166, 0.1) 45%, rgba(255, 255, 255, 0.08) 50%, transparent 78%);
+  content: "";
+  transform: translateX(-100%);
+  animation: loading-shimmer 1.7s ease-in-out infinite;
+  pointer-events: none;
+}
+
 .source-image .spinner {
   position: absolute;
+  z-index: 2;
+}
+
+@keyframes loading-shimmer {
+  to { transform: translateX(100%); }
 }
 
 .another-button {
@@ -364,12 +388,7 @@ button:disabled {
 .submit-button {
   display: flex;
   width: 100%;
-  min-height: 64px;
   margin-top: 18px;
-  padding: 12px 20px;
-  align-items: center;
-  justify-content: center;
-  gap: 11px;
 }
 
 .edit-success-page {
@@ -639,6 +658,45 @@ button:disabled {
   max-width: 42rem;
   color: var(--red);
   font-size: 0.82rem;
+}
+
+.tree-loading-card {
+  position: relative;
+  display: grid;
+  width: min(360px, calc(100% - 48px));
+  padding: 26px;
+  overflow: hidden;
+  gap: 13px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: rgba(17, 24, 23, 0.88);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.26);
+}
+
+.tree-loading-card span {
+  display: block;
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(154, 168, 160, 0.12);
+}
+
+.tree-loading-card span:first-child {
+  width: 48%;
+  height: 72px;
+  border-radius: 16px;
+}
+
+.tree-loading-card span:last-child {
+  width: 68%;
+}
+
+.tree-loading-card::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 20%, rgba(98, 230, 166, 0.1) 45%, rgba(255, 255, 255, 0.08) 50%, transparent 78%);
+  content: "";
+  transform: translateX(-100%);
+  animation: loading-shimmer 1.7s ease-in-out infinite;
 }
 
 .waiting-orbit {
@@ -971,6 +1029,13 @@ button:disabled {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
+
+  .source-image.is-loading::before,
+  .tree-loading-card::after {
+    animation: none !important;
+    opacity: 0.35;
+    transform: none;
+  }
 }
 
 /* Industry provenance audit */
@@ -1058,7 +1123,7 @@ button:disabled {
 
 .audit-new-case input {
   min-width: 0;
-  min-height: 48px;
+  min-height: 58px;
   padding: 0 12px;
   border: 1px solid #3b4d47;
   border-radius: 13px;
@@ -1068,9 +1133,7 @@ button:disabled {
 
 .audit-new-case .primary-button {
   min-width: 52px;
-  min-height: 48px;
   padding: 0 12px;
-  border-radius: 13px;
   font-size: 0.86rem;
 }
 
@@ -1224,13 +1287,8 @@ button:disabled {
 }
 
 .audit-actions .secondary-button {
-  display: inline-grid;
-  min-height: 44px;
   padding: 0 14px;
-  place-items: center;
-  border-radius: 12px;
   font-size: 0.8rem;
-  text-decoration: none;
 }
 
 .audit-summary {

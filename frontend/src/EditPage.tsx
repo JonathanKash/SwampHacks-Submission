@@ -1,4 +1,4 @@
-import { type FormEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { type ComponentType, type FormEvent, type SVGProps, useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ApiError,
@@ -14,7 +14,9 @@ import {
   submitEdit,
 } from "./api";
 import EvidenceList from "./EvidenceList";
+import { CaptionIcon, CropIcon, FilterIcon, JpegIcon, RestyleIcon, RotateIcon } from "./icons";
 import NavBar from "./NavBar";
+import { usePageTitle } from "./usePageTitle";
 
 const CAPTIONS = [
   "me irl",
@@ -49,13 +51,19 @@ const STYLES: RestyleKind[] = [
   "claymation",
 ];
 
-const EDITS: Array<{ id: EditKind; title: string; icon: string; description: string; detects: string }> = [
-  { id: "crop", title: "Crop", icon: "⌗", description: "Keep a random 45–85% slice.", detects: "uncovered area" },
-  { id: "rotate", title: "Rotate", icon: "↻", description: "Tilt by a few degrees.", detects: "the homography angle" },
-  { id: "filter", title: "Color filter", icon: "◐", description: "Shift color or tone.", detects: "the color fit" },
-  { id: "caption", title: "Caption", icon: "Aa", description: "Bold text across the bottom.", detects: "an added blob" },
-  { id: "jpeg", title: "Crunchy JPEG", icon: "▦", description: "Re-save at very low quality.", detects: "8×8 block energy" },
-  { id: "restyle", title: "AI restyle", icon: "✦", description: "Re-render in a new art style.", detects: "meaning, via CLIP" },
+const EDITS: Array<{
+  id: EditKind;
+  title: string;
+  icon: ComponentType<SVGProps<SVGSVGElement>>;
+  description: string;
+  detects: string;
+}> = [
+  { id: "crop", title: "Crop", icon: CropIcon, description: "Keep a random 45–85% slice.", detects: "uncovered area" },
+  { id: "rotate", title: "Rotate", icon: RotateIcon, description: "Tilt by a few degrees.", detects: "the homography angle" },
+  { id: "filter", title: "Color filter", icon: FilterIcon, description: "Shift color or tone.", detects: "the color fit" },
+  { id: "caption", title: "Caption", icon: CaptionIcon, description: "Bold text across the bottom.", detects: "an added blob" },
+  { id: "jpeg", title: "Crunchy JPEG", icon: JpegIcon, description: "Re-save at very low quality.", detects: "8×8 block energy" },
+  { id: "restyle", title: "AI restyle", icon: RestyleIcon, description: "Re-render in a new art style.", detects: "meaning, via CLIP" },
 ];
 
 interface Verdict {
@@ -80,6 +88,8 @@ function messageFrom(error: unknown): string {
 
 /** Tablet page: pick an image, apply exactly one edit, then see whether Lineage traced it back. */
 export default function EditPage() {
+  usePageTitle("Make an edit · Lineage");
+
   const [parent, setParent] = useState<PoolItem | null>(null);
   const [result, setResult] = useState<PoolItem | null>(null);
   const [verdict, setVerdict] = useState<Verdict | null>(null);
@@ -269,19 +279,22 @@ export default function EditPage() {
           </div>
 
           <div className="edit-grid">
-            {EDITS.map((edit) => (
-              <button
-                className={`edit-choice ${selected === edit.id ? "is-selected" : ""}`}
-                type="button"
-                key={edit.id}
-                onClick={() => chooseEdit(edit.id)}
-                aria-pressed={selected === edit.id}
-              >
-                <span className="edit-icon" aria-hidden="true">{edit.icon}</span>
-                <span>{edit.title}</span>
-                <small>{edit.description}</small>
-              </button>
-            ))}
+            {EDITS.map((edit) => {
+              const Icon = edit.icon;
+              return (
+                <button
+                  className={`edit-choice ${selected === edit.id ? "is-selected" : ""}`}
+                  type="button"
+                  key={edit.id}
+                  onClick={() => chooseEdit(edit.id)}
+                  aria-pressed={selected === edit.id}
+                >
+                  <span className="edit-icon" aria-hidden="true"><Icon /></span>
+                  <span>{edit.title}</span>
+                  <small>{edit.description}</small>
+                </button>
+              );
+            })}
           </div>
 
           {selected === "filter" && (

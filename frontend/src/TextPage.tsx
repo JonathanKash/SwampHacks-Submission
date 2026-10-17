@@ -2,6 +2,7 @@ import { type ReactElement, useMemo, useState } from "react";
 import { ApiError, type TextTreeResponse, buildTextTree } from "./api";
 import EvidenceList from "./EvidenceList";
 import NavBar from "./NavBar";
+import { usePageTitle } from "./usePageTitle";
 
 const EXAMPLE = [
   "The city council voted on Tuesday night to approve the new riverside park after months of debate. The plan includes a playground, a boat launch and a small amphitheatre. Construction is expected to begin in the spring and finish within eighteen months, according to the parks director.",
@@ -18,6 +19,8 @@ function messageFrom(error: unknown): string {
 
 /** Second media type, same core: paste versions of a paragraph, get the edit tree. */
 export default function TextPage() {
+  usePageTitle("Text · Lineage");
+
   const [versions, setVersions] = useState<string[]>(["", ""]);
   const [result, setResult] = useState<TextTreeResponse | null>(null);
   const [selected, setSelected] = useState<string | null>(null);

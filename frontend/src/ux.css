@@ -19,6 +19,15 @@
   text-decoration: none;
 }
 
+.nav-row {
+  display: flex;
+  align-items: center;
+}
+
+.nav-menu-button {
+  display: none;
+}
+
 .nav-title {
   font-size: 1.3rem;
   font-weight: 900;
@@ -35,13 +44,20 @@
 }
 
 .nav-links a {
+  display: inline-flex;
   padding: 10px 16px;
+  align-items: center;
+  gap: 8px;
   border-radius: 999px;
   color: var(--muted);
   font-weight: 700;
   font-size: 0.95rem;
   text-decoration: none;
   transition: background 160ms ease, color 160ms ease;
+}
+
+.nav-links svg {
+  flex: 0 0 auto;
 }
 
 .nav-links a.is-active,
@@ -105,13 +121,10 @@
 }
 
 .cta {
-  display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
   min-width: 220px;
-  padding: 16px 24px;
-  text-decoration: none;
-  line-height: 1.15;
+  padding: 8px 24px;
 }
 
 .cta small {
@@ -314,12 +327,7 @@
 }
 
 .industry-cta {
-  display: inline-grid;
-  min-height: 56px;
   margin-top: 20px;
-  padding: 0 22px;
-  place-items: center;
-  text-decoration: none;
 }
 
 /* ---- guided edit flow ------------------------------------------------------ */
@@ -364,10 +372,20 @@
 
 .edit-icon {
   display: block;
-  margin-bottom: 6px;
-  font-size: 1.35rem;
+  height: 24px;
+  color: var(--green);
   line-height: 1;
   opacity: 0.9;
+}
+
+.edit-choice .edit-icon {
+  margin-bottom: 8px;
+}
+
+.edit-icon svg {
+  display: block;
+  width: 24px;
+  height: 24px;
 }
 
 .choice-chip small {
@@ -476,10 +494,7 @@
 }
 
 .verdict-actions .secondary-button {
-  display: inline-grid;
-  place-items: center;
   padding: 0 24px;
-  text-decoration: none;
 }
 
 /* ---- big screen ------------------------------------------------------------ */
@@ -534,13 +549,8 @@
 }
 
 .score-side .tree-report-link {
-  display: inline-grid;
-  min-height: 36px;
   padding: 0 11px;
-  place-items: center;
-  border-radius: 10px;
   font-size: 0.76rem;
-  text-decoration: none;
   white-space: nowrap;
 }
 
@@ -620,25 +630,40 @@
 
 @media (max-width: 760px) {
   .nav-bar {
-    min-height: 104px;
+    min-height: 84px;
+    padding: 16px 0;
     align-items: flex-start;
     justify-content: center;
     flex-direction: column;
+    gap: 12px;
+  }
+
+  .nav-row {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .nav-menu-button {
+    display: inline-flex;
   }
 
   .nav-links {
+    display: none;
     width: 100%;
-    overflow-x: auto;
+    padding: 8px;
+    align-items: stretch;
+    flex-direction: column;
+    border-radius: 18px;
+  }
+
+  .nav-links.is-open {
+    display: flex;
   }
 
   .nav-links a {
-    flex: 1 0 auto;
-    text-align: center;
-  }
-
-  .nav-links a {
-    padding: 9px 12px;
-    font-size: 0.86rem;
+    width: 100%;
+    padding: 12px 14px;
+    text-align: left;
   }
 
   .live-stats {
@@ -799,8 +824,8 @@
 }
 
 .source-panel .another-button {
+  width: auto;
   flex: 0 0 auto;
-  min-height: 46px;
   padding: 0 16px;
   font-size: 0.92rem;
 }
@@ -863,7 +888,6 @@
 }
 
 .text-inputs-actions .secondary-button {
-  min-height: 44px;
   padding: 0 14px;
   font-size: 0.9rem;
 }

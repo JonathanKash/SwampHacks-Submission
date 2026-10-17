@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import NavBar from "./NavBar";
+import { usePageTitle } from "./usePageTitle";
 import { useTreePolling } from "./useTreePolling";
 
 function pct(value: number | null | undefined): string {
@@ -9,6 +10,8 @@ function pct(value: number | null | undefined): string {
 
 /** The front door: what Lineage is, why it works, and how to join the live demo. */
 export default function LandingPage() {
+  usePageTitle("Lineage");
+
   const { tree } = useTreePolling(5_000);
   const nodes = tree?.nodes.length ?? 0;
   const roots = tree?.nodes.filter((node) => node.root).length ?? 0;

@@ -4,6 +4,7 @@ import type { TreeNode } from "./api";
 import EvidenceList from "./EvidenceList";
 import { provenancePath } from "./provenance";
 import TreeView from "./TreeView";
+import { usePageTitle } from "./usePageTitle";
 import { useTreePolling } from "./useTreePolling";
 
 function formatPercent(value: number | null): string {
@@ -13,6 +14,8 @@ function formatPercent(value: number | null): string {
 
 /** Big-screen page: the live forest, a scoreboard, and enough legend to read it from across a room. */
 export default function TreePage() {
+  usePageTitle("Live tree · Lineage");
+
   const { tree, loading, fetching, error } = useTreePolling();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selectNode = useCallback((node: TreeNode) => setSelectedId(node.id), []);
@@ -76,7 +79,11 @@ export default function TreePage() {
       <section className="tree-body">
         {loading && !tree && (
           <div className="tree-empty">
-            <span className="spinner large" aria-hidden="true" />
+            <div className="tree-loading-card" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </div>
             <p>Reconstructing the tree…</p>
           </div>
         )}

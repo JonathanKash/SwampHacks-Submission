@@ -25,6 +25,7 @@ import EvidenceList from "./EvidenceList";
 import NavBar from "./NavBar";
 import { provenancePath, provenanceSentence } from "./provenance";
 import TreeView from "./TreeView";
+import { usePageTitle } from "./usePageTitle";
 
 const AUDIT_USES = [
   ["Newsroom verification desks", "Separate likely source images from crops, captions, and circulated copies."],
@@ -50,6 +51,8 @@ function isImage(file: File): boolean {
 
 /** Industry workspace: unknown ground truth, so decisions are presented by empirical precision. */
 export default function AuditPage() {
+  usePageTitle("Audit · Lineage");
+
   const [searchParams, setSearchParams] = useSearchParams();
   const [cases, setCases] = useState<AuditCase[]>([]);
   const [caseName, setCaseName] = useState("");
