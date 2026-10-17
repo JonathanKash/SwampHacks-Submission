@@ -208,7 +208,6 @@ Decisions in SPEC.md (v2 section). Images first; audio/video only after images w
 - [x] Big-screen extras: Fool Lineage scoreboard (edits that fooled it / placed correctly) and an edit-history
       Replay overlay for the largest family (Codex). Health exposes web_search / identify_ready capability flags.
 - [ ] Antigravity image quota resets ~15:40 ET: finish benchmark/nanobanana (make_corpus.py is idempotent).
-- [ ] Third meme benchmark pass with family splits was stopped to free CPU; rerun when idle CPU is available.
 - [x] CLIP-mode eval after the cost changes (ORB 4000 + SIFT fallback + caption_removed), k=8: run1 80.7% (was 83.0),
       run2 70.0% (was 71.1), run3 80.0% (was 81.1): one to two items per run, inside noise, kept because the same
       changes took web-meme registration failures from 205/563 to ~100 and fixed a real caption reversal.
@@ -221,3 +220,9 @@ Decisions in SPEC.md (v2 section). Images first; audio/video only after images w
       symmetry limitation, caption-removed row; deploy notes + Dockerfile copy benchmark/; CLAUDE.md refreshed.
 - [x] Identify on 378 held-out meme copies (knowledge base: 223 items, pHash-only mode): 293 correct family (77.5%), 85 abstained, 0 wrong family; median 4.13 s, p90 5.3 s. By kind: crop 31/45, caption 255/314, other 5/6, screenshot 2/13.
 - [ ] Gemini edit-corpus retry scheduled for 15:45 local (quota reset).
+- [x] Meme benchmark pass 3 (family splits, 563 pairs, pHash-only): when the documented "original" is a SMALLER
+      file than its variant (287 pairs, ambiguous truth) wrong parent claimed 31%, direction 20%, abstained 49%;
+      when the documented original is at least as large (276 pairs, clean truth) wrong parent claimed 13%,
+      direction 42%, abstained 45%; true-source families with clean truth: wrong 11%, direction 52% (n=90).
+      Caption-side cue 100% on template families (n=27), 91% on true-source (n=32). We publish the
+      conservative all-pairs number (58% in the top bucket) in the UI; the split is documented here and in Devpost.

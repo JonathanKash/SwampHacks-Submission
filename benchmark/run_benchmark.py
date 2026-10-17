@@ -41,6 +41,7 @@ class Tally:
         self.by_key: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
         self.failures: list[dict] = []
         self.calib: dict[str, dict[str, int]] = defaultdict(lambda: {"correct": 0, "n": 0})
+        self.calib_clean: dict[str, dict[str, int]] = defaultdict(lambda: {"correct": 0, "n": 0})  # pairs whose truth is not ambiguous
 
     def add(self, key: str, metric: str, ok: bool) -> None:
         self.by_key[key][metric + "_n"] += 1
@@ -86,6 +87,10 @@ def pairwise_corpus(pairs: list[tuple[Path, Path, str]], embedder, tally: Tally,
             b = tally.calib[bucket_for(rep["costs"]["margin"])]
             b["n"] += 1
             b["correct"] += int(ok)
+            if not kind.endswith("/orig-smaller"):
+                bc = tally.calib_clean[bucket_for(rep["costs"]["margin"])]
+                bc["n"] += 1
+                bc["correct"] += int(ok)
         if not ok:
             tally.failures.append({"corpus": label, "kind": kind, "family": parent.parent.name, "parent": parent.name, "child": child.name,
                                    "verdict": rep["verdict"], "parent_claimed": rep["parent"], "costs": rep["costs"],
@@ -221,6 +226,7 @@ def main() -> None:
         "seconds": round(time.time() - t0, 1), "calibration_runs": calib.get("runs", []),
         "metrics": tally.summary(),
         "calibration_check": {k: {"claimed_bucket": k, "observed_precision": _acc(v["correct"], v["n"]), "n": v["n"]} for k, v in tally.calib.items()},
+        "calibration_check_clean_truth": {k: {"claimed_bucket": k, "observed_precision": _acc(v["correct"], v["n"]), "n": v["n"]} for k, v in tally.calib_clean.items()},
         "failures": tally.failures,
     }
     Path(args.out).write_text(json.dumps(results, indent=2, ensure_ascii=False), encoding="utf-8")
