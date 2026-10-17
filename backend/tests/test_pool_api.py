@@ -102,8 +102,9 @@ def test_api_endpoints(tmp_path, monkeypatch):
     assert client.post("/api/edit", json={"parent_id": "nope", "edit": "crop"}).status_code == 404
     assert client.post("/api/edit", json={"parent_id": root_id, "edit": "bogus"}).status_code == 400
     cal = client.get("/api/calibration").json()
-    assert cal["decisions"] > 0 and cal["buckets"][0]["bucket"].startswith("margin")
-    assert all(r["precision"] is None or 0 <= r["precision"] <= 1 for r in cal["buckets"])
+    assert cal["decisions"] > 0 and cal["buckets_ordered"][0]["bucket"].startswith("margin")
+    assert all(r["precision"] is None or 0 <= r["precision"] <= 1 for r in cal["buckets_ordered"])
+    assert set(cal["buckets"]) == {r["bucket"] for r in cal["buckets_ordered"]} and "corpora" in cal
 
 
 def test_crop_never_fails_on_tiny_images():

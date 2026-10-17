@@ -546,8 +546,11 @@ def calibration() -> dict:
                for lower, name in MARGIN_BUCKETS]
     for row in ordered:
         row["precision"] = round(row["correct"] / row["n"], 3) if row["n"] else None
-    return {"generated_at": cal.get("generated_at"), "runs": cal.get("runs", []), "buckets": ordered,
+    return {"generated_at": cal.get("generated_at"), "runs": cal.get("runs", []),
+            "buckets": {row["bucket"]: {"correct": row["correct"], "n": row["n"]} for row in ordered},
+            "buckets_ordered": ordered,  # same data with min_margin and precision, in display order
             "per_edit": cal.get("per_edit", {}), "root_cost": cal.get("root_cost"),
+            "caption_side": cal.get("caption_side"), "corpora": cal.get("corpora", {}),
             "decisions": sum(r["n"] for r in ordered)}
 
 
