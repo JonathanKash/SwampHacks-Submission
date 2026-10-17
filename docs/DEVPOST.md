@@ -165,3 +165,6 @@ where to fix the engine: registration on captioned images and a caption-side cue
 - Web-meme ground truth is itself noisy: in 287 of 563 pairs the "documented original" we could download is a smaller
   file than its variant. On those pairs we claim a wrong parent 31% of the time; on the 276 pairs with clean truth,
   13% (11% for families rooted at the true source photo). We publish the conservative all-pairs number.
+- Generative edits (Gemini, 25 real-photo edits): before the re-rendered gate the system claimed a wrong parent 26% of
+  the time; with it, 8%, abstaining 72% of the time. A re-rendered image (restyle, background swap, re-draw) aligns but
+  every pixel differs, and that is now reported as a measured AI-edit indicator rather than guessed as a direction.

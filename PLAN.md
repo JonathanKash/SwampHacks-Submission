@@ -233,3 +233,9 @@ Decisions in SPEC.md (v2 section). Images first; audio/video only after images w
       WRONG PARENT CLAIMED 26% (object_add 2/5, text_overlay 2/3, background_swap 1/4, style_change 1/4).
       Generative re-rendering changes resolution and every pixel slightly, which defeats the resolution cue
       (the model output is often larger than the source). Investigating a "re-rendered copy" gate.
+- [x] Re-rendered gate + edit-ops rule (16:40): colour residual after alignment > 0.025 (synthetic edits max 0.022,
+      Gemini restyles 0.03-0.09) -> inconclusive with a measured AI-edit indicator; a direction resting only on the
+      edit-op count -> inconclusive. Gemini edits (25): wrong parent claimed 26% -> 8%, abstained 44% -> 72%.
+      Synthetic pairwise: direction 89 / 84 / 79, wrong parent 6 / 4 / 2 %, abstained 6 / 11 / 19 %.
+      Decisive-cue audit on synthetic claims: several cues 99% (n=145), blockiness 100% (39), entropy 84% (32),
+      caption_removed 90% (10); edit_ops-only never occurs.
