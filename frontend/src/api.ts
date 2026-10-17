@@ -28,6 +28,12 @@ export interface PoolItem {
   params: EditParams;
   source: string;
   created_at: string;
+  metadata?: {
+    software?: string;
+    datetime?: string;
+    camera?: string;
+    has_exif: boolean;
+  };
 }
 
 export interface PoolResponse {
@@ -76,6 +82,28 @@ export interface TreeResponse {
   };
   newest_id: string | null;
   calibration?: { runs: string[]; generated_at: string | null };
+  summary?: {
+    images: number;
+    families: number;
+    mean_precision: number | null;
+    low_confidence: number;
+  };
+  mode?: "audit";
+}
+
+export interface AuditCase {
+  id: string;
+  name: string;
+  items: number;
+  created_at: number;
+}
+
+export interface CasesResponse {
+  cases: AuditCase[];
+}
+
+export interface CaseItemsResponse {
+  items: PoolItem[];
 }
 
 export interface EditRequest {
@@ -145,4 +173,58 @@ export async function fetchTree(since?: number, signal?: AbortSignal): Promise<T
     throw new ApiError(await errorMessage(response), response.status);
   }
   return (await response.json()) as TreeResponse;
+}
+
+export function fetchCases(signal?: AbortSignal): Promise<CasesResponse> {
+  return requestJson<CasesResponse>("/api/cases", { signal });
+}
+
+export function createCase(name: string, signal?: AbortSignal): Promise<AuditCase> {
+  return requestJson<AuditCase>("/api/cases", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name }),
+    signal,
+  });
+}
+
+export function deleteCase(id: string, signal?: AbortSignal): Promise<{ ok: true }> {
+  return requestJson<{ ok: true }>(`/api/cases/${encodeURIComponent(id)}`, {
+    method: "DELETE",
+    signal,
+  });
+}
+
+export async function uploadCaseFiles(
+  id: string,
+  files: File[],
+  signal?: AbortSignal,
+): Promise<CaseItemsResponse> {
+  const body = new FormData();
+  files.forEach((file) => body.append("files", file));
+  return requestJson<CaseItemsResponse>(`/api/cases/${encodeURIComponent(id)}/items`, {
+    method: "POST",
+    body,
+    signal,
+  });
+}
+
+export async function fetchCaseTree(
+  id: string,
+  since?: number,
+  signal?: AbortSignal,
+): Promise<TreeResponse | null> {
+  const query = since === undefined ? "" : `?since=${encodeURIComponent(since)}`;
+  const response = await fetch(`/api/cases/${encodeURIComponent(id)}/tree${query}`, { signal });
+  if (response.status === 204) {
+    return null;
+  }
+  if (!response.ok) {
+    throw new ApiError(await errorMessage(response), response.status);
+  }
+  return (await response.json()) as TreeResponse;
+}
+
+export function reportUrl(id: string): string {
+  return `/api/cases/${encodeURIComponent(id)}/report`;
 }

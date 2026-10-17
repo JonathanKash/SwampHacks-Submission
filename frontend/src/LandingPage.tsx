@@ -147,6 +147,37 @@ export default function LandingPage() {
         </div>
       </section>
 
+      <section className="industry-audit">
+        <p className="eyebrow">For industry</p>
+        <h2>Provenance audit</h2>
+        <p className="industry-intro">
+          When many versions of one image arrive without a known ground truth, Lineage identifies the likely
+          original, explains what changed in each copy, and reports confidence using calibrated empirical
+          precision on every edge.
+        </p>
+        <div className="industry-grid">
+          <article className="industry-card">
+            <h3>Newsroom verification</h3>
+            <p>Sort source images from crops, captions, re-saves, and other circulated variants.</p>
+          </article>
+          <article className="industry-card">
+            <h3>Trust &amp; safety</h3>
+            <p>Trace how a visual changed as it moved across reports, accounts, and moderation queues.</p>
+          </article>
+          <article className="industry-card">
+            <h3>Legal discovery</h3>
+            <p>Organize related exhibits and preserve an exportable explanation of each parent decision.</p>
+          </article>
+          <article className="industry-card">
+            <h3>Digital asset management</h3>
+            <p>Separate likely masters from derived files and surface uncertain relationships for review.</p>
+          </article>
+        </div>
+        <Link to="/audit" className="primary-button industry-cta">
+          Open the audit workspace
+        </Link>
+      </section>
+
       <footer className="landing-footer">
         <p>
           Built at SwampHacks XII (University of Florida, October 2026). Python, FastAPI, OpenCV, OpenCLIP,

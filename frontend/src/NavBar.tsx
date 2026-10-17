@@ -18,6 +18,9 @@ export default function NavBar({ compact = false }: { compact?: boolean }) {
         <NavLink to="/tree" className={({ isActive }) => (isActive ? "is-active" : "")}>
           Live tree
         </NavLink>
+        <NavLink to="/audit" className={({ isActive }) => (isActive ? "is-active" : "")}>
+          Audit
+        </NavLink>
       </div>
     </nav>
   );

@@ -25,7 +25,7 @@ def test_pool_builds_tree_and_scores_accuracy(pool: Pool):
     grandchild = pool.add_image(dark_img, child["id"], "filter", params)
 
     tree = pool.tree
-    assert tree["version"] == 3
+    assert tree["version"] == 4  # 1 at startup (empty tree) + one rebuild per add
     assert tree["newest_id"] == grandchild["id"]
     parents = {n["id"]: n["predicted_parent"] for n in tree["nodes"]}
     assert parents == {root["id"]: None, child["id"]: root["id"], grandchild["id"]: child["id"]}

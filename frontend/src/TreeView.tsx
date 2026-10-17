@@ -44,6 +44,7 @@ interface TreeViewProps {
   data: TreeResponse;
   selectedId: string | null;
   onSelect: (node: TreeNode) => void;
+  colorBy?: "truth" | "confidence";
 }
 
 function buildLayout(data: TreeResponse): LayoutResult {
@@ -128,7 +129,7 @@ function labelWidth(label: string): number {
   return Math.min(196, Math.max(56, labelText(label).length * 7.2 + 22));
 }
 
-export default function TreeView({ data, selectedId, onSelect }: TreeViewProps) {
+export default function TreeView({ data, selectedId, onSelect, colorBy = "truth" }: TreeViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const previousPositions = useRef(new Map<string, LayoutNode>());
@@ -202,9 +203,13 @@ export default function TreeView({ data, selectedId, onSelect }: TreeViewProps) 
       .attr("d", (edge) => collapsedPath(previousPositions.current.get(edge.src) ?? edge.source));
     const edgeMerged = edgeEnter.merge(edgeJoin);
     edgeMerged
-      .attr("class", (edge) =>
-        `tree-edge ${edge.correct ? "is-correct" : "is-wrong"}${edge.semantic ? " is-semantic" : ""}`,
-      )
+      .attr("class", (edge) => {
+        const precision = edge.evidence.confidence.precision;
+        const tone = colorBy === "truth"
+          ? edge.correct ? "is-correct" : "is-wrong"
+          : precision !== null && precision >= 0.85 ? "is-sure" : "is-unsure";
+        return `tree-edge ${tone}${edge.semantic ? " is-semantic" : ""}`;
+      })
       .on("pointerenter", (event: PointerEvent, edge) => {
         const bounds = containerRef.current?.getBoundingClientRect();
         if (!bounds) return;
@@ -234,7 +239,13 @@ export default function TreeView({ data, selectedId, onSelect }: TreeViewProps) 
     labelEnter.append("text").attr("dy", "0.35em").attr("text-anchor", "middle");
     const labelMerged = labelEnter.merge(labelJoin);
     labelMerged
-      .attr("class", (edge) => `edge-label ${edge.correct ? "is-correct" : "is-wrong"}`)
+      .attr("class", (edge) => {
+        const precision = edge.evidence.confidence.precision;
+        const tone = colorBy === "truth"
+          ? edge.correct ? "is-correct" : "is-wrong"
+          : precision !== null && precision >= 0.85 ? "is-sure" : "is-unsure";
+        return `edge-label ${tone}`;
+      })
       .select("rect")
       .attr("x", (edge) => -labelWidth(edge.label) / 2)
       .attr("width", (edge) => labelWidth(edge.label));
@@ -310,7 +321,7 @@ export default function TreeView({ data, selectedId, onSelect }: TreeViewProps) 
       .attr("transform", (node) => `translate(${node.x},${node.y})`);
 
     previousPositions.current = new Map(layout.nodes.map((node) => [node.item.id, node]));
-  }, [data, onSelect, selectedId, size]);
+  }, [colorBy, data, onSelect, selectedId, size]);
 
   return (
     <div className="tree-view" ref={containerRef}>

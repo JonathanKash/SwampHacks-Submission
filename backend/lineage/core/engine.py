@@ -20,10 +20,12 @@ class Engine:
         k: int = config.CANDIDATE_K,
         root_cost: float = config.ROOT_COST,
         use_clip: bool = True,
+        embedder: image_fingerprint.ClipEmbedder | None = None,
     ) -> None:
         self.k = k
         self.root_cost = root_cost
-        self.embedder = image_fingerprint.ClipEmbedder() if use_clip else None
+        # One CLIP model can be shared by many engines (one per case) to save RAM.
+        self.embedder = embedder if embedder is not None else (image_fingerprint.ClipEmbedder() if use_clip else None)
         self.items: dict[str, Item] = {}
         self.data: dict[str, ImageData] = {}
         self.fingerprints: dict[str, Fingerprint] = {}

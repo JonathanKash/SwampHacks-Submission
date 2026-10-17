@@ -35,10 +35,25 @@ def main(runs: list[Path]) -> None:
         incoming: dict[str, dict] = defaultdict(dict)
         for (src, dst), res in engine.results.items():
             incoming[dst][src] = res
+        children: dict[str, list[str]] = defaultdict(list)
+        for node, parent in tree.parent.items():
+            if parent is not None:
+                children[parent].append(node)
+
+        def descendants(node: str) -> set[str]:
+            out, stack = set(), list(children[node])
+            while stack:
+                n = stack.pop()
+                if n not in out:
+                    out.add(n)
+                    stack.extend(children[n])
+            return out
+
         for item in truth:
             pred = tree.parent.get(item["id"])
             reverse = engine.results.get((item["id"], pred)) if pred else None
-            ev = build_evidence(item["id"], pred, incoming[item["id"]], reverse, engine.root_cost, {"buckets": {}})
+            ev = build_evidence(item["id"], pred, incoming[item["id"]], reverse, engine.root_cost, {"buckets": {}},
+                                descendants(item["id"]))
             if ev["margin"] is None:
                 continue
             hit = pred == item["parent"]

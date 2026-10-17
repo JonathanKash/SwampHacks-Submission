@@ -72,5 +72,20 @@ for tuning, k=12.
 - [x] Pushed to github.com/JonathanKash/SwampHacks-Submission (2026-10-17)
 - [ ] README: run, architecture, AI disclosure, credits (frontend + deploy sections still to finish)
 
+## Phase 6 — industry mode: provenance audit (added 2026-10-17 ~01:30 ET)
+Use case: newsroom verification desks, trust & safety, legal discovery, digital asset management
+receive many versions of an image and need the original, what changed in each copy, how sure we
+are, and an exportable report.
+- [x] Cases API: create/list/delete, batch upload, per-case tree (mode "audit", no truth, summary with
+      mean empirical precision + low-confidence count), JSON report download, per-case static images
+- [x] Shared CLIP model across case pools; EXIF metadata hints per item (labelled unverified)
+- [x] Evidence is descendant-aware: locally cheaper descendants are explained as rejected cycles;
+      root reasons state that every relative is cheaper to derive from the original
+- [x] /audit page (Codex): case list, drag-and-drop batch upload, confidence-colored tree, evidence +
+      metadata panel, report download, print summary; landing "For industry" section; nav link
+- [ ] Live end-to-end check of the audit flow on the running server
+- [ ] Visual QA via Antigravity browser pass
+- [ ] Web mode (reverse-image candidates via TinEye/SerpApi) if a provider key is available
+
 ## Phase 5 — stretch
 - [ ] Text plug-ins (MinHash / word loss / explain)

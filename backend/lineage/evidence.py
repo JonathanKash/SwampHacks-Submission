@@ -60,24 +60,30 @@ def build_evidence(
     reverse: CostResult | None,
     root_cost: float = config.ROOT_COST,
     calibration: dict | None = None,
+    descendants: set[str] | None = None,
 ) -> dict:
     """Assemble the evidence for `node_id` having parent `parent_id`.
 
-    incoming: every measured cost INTO node_id, keyed by source id.
-    reverse:  the cost of the opposite direction (node -> parent), if measured.
+    incoming:    every measured cost INTO node_id, keyed by source id.
+    reverse:     the cost of the opposite direction (node -> parent), if measured.
+    descendants: ids below node_id in the final tree. They can look like cheap
+                 parents locally, but choosing one would make the tree circular;
+                 the arborescence rules them out, so they are not alternatives.
     """
     calibration = calibration if calibration is not None else load_calibration()
+    descendants = descendants or set()
     ranked = sorted(incoming.items(), key=lambda kv: kv[1].total)
     chosen = incoming.get(parent_id) if parent_id else None
     chosen_cost = chosen.total if chosen else root_cost
 
-    # Alternatives: every other measured parent, plus "be a root" at root_cost.
-    alternatives = [(src, res.total) for src, res in ranked if src != parent_id]
+    # Alternatives: every other measured, non-circular parent, plus "be a root".
+    alternatives = [(src, res.total) for src, res in ranked if src != parent_id and src not in descendants]
     if parent_id is not None:
         alternatives.append(("__root__", root_cost))
     alternatives.sort(key=lambda kv: kv[1])
     runner_up_id, runner_up_cost = alternatives[0] if alternatives else (None, None)
     margin = (runner_up_cost - chosen_cost) if runner_up_cost is not None else None
+    circular = [(src, res.total) for src, res in ranked if src in descendants and res.total < chosen_cost]
 
     reasons: list[str] = []
     measurements: dict[str, float | int | str | list[float]] = {}
@@ -145,14 +151,27 @@ def build_evidence(
                 + (f" ({ratio:.1f}× more)." if ratio != float("inf") else " (the forward cost is essentially zero).")
             )
     else:
-        best = ranked[0] if ranked else None
-        if best is None:
-            reasons.append("No other image in the pool is a candidate relative, so this is treated as an original.")
-        else:
+        outside = [(src, res) for src, res in ranked if src not in descendants]
+        if descendants:
             reasons.append(
-                f"The cheapest way to derive this image from any pool image costs {best[1].total:.3f}, more than "
-                f"the root threshold {root_cost:.2f}, so it is treated as an original."
+                f"All {len(descendants)} relatives in this family are explained more cheaply from this image than "
+                "it is from them, so it is the family's original."
             )
+        if not ranked:
+            reasons.append("No other image in the pool is a candidate relative, so this is treated as an original.")
+        elif outside:
+            src, res = outside[0]
+            reasons.append(
+                f"The cheapest unrelated candidate parent would cost {res.total:.3f}, more than the root threshold "
+                f"{root_cost:.2f}, so nothing outside the family explains it."
+            )
+
+    if circular:
+        src, cost_ = circular[0]
+        reasons.append(
+            f"A locally cheaper parent exists (cost {cost_:.3f}) but it is one of this image's own descendants; "
+            "using it would make the tree circular, so the arborescence rejected it."
+        )
 
     if margin is not None and runner_up_id is not None:
         label = "being an original" if runner_up_id == "__root__" else f"the next-best parent"
