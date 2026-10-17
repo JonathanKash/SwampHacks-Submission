@@ -283,6 +283,18 @@ class Pool:
             "calibration": self.tree.get("calibration"),
         }
 
+    def diff_plates(self) -> dict[str, bytes]:
+        """PNG diff plate for every derived copy against its predicted source (report exhibits)."""
+        from lineage.diff import diff_plate, encode_png
+
+        plates: dict[str, bytes] = {}
+        for node in self.tree["nodes"]:
+            src = node.get("predicted_parent")
+            if src and src in self.engine.data and node["id"] in self.engine.data:
+                plate, _ = diff_plate(self.engine.data[src], self.engine.data[node["id"]])
+                plates[node["id"]] = encode_png(plate)
+        return plates
+
     def export_truth(self) -> str:
         """Ground truth as JSON (never served to the engine; used by the eval)."""
         return json.dumps(self.store.list_items(), indent=2)

@@ -186,7 +186,7 @@ def case_report_html(case_id: str):
     meta = _read_index()[case_id]
     report = case.report({"id": case_id, "name": meta["name"], "created_at": meta["created_at"], "analyst": meta.get("analyst", "")})
     report["tool"] = {"name": "Lineage", "version": TOOL_VERSION}
-    return HTMLResponse(render_report(report, case.thumbs, f"Lineage provenance report: {meta['name']}"))
+    return HTMLResponse(render_report(report, case.thumbs, f"Lineage provenance report: {meta['name']}", case.diff_plates()))
 
 
 MAX_BATCH_FILES = 40
@@ -339,7 +339,7 @@ def demo_report():
 
 @app.get("/api/report.html")
 def demo_report_html():
-    return HTMLResponse(render_report(pool.report(), pool.thumbs, "Lineage provenance report: live demo pool"))
+    return HTMLResponse(render_report(pool.report(), pool.thumbs, "Lineage provenance report: live demo pool", pool.diff_plates()))
 
 
 @app.post("/api/items")

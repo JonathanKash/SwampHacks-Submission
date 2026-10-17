@@ -23,8 +23,10 @@ def _pct(value: float | None) -> str:
     return "—" if value is None else f"{round(value * 100)}%"
 
 
-def render_report(report: dict, thumbs_dir: Path, title: str = "Lineage provenance report") -> str:
+def render_report(report: dict, thumbs_dir: Path, title: str = "Lineage provenance report",
+                  plates: dict[str, bytes] | None = None) -> str:
     e = html.escape
+    plates = plates or {}
     nodes = {n["id"]: n for n in report["items"]}
     thumbs = {nid: _thumb_data_uri(thumbs_dir, nid) for nid in nodes}
     children: dict[str | None, list[str]] = {}
@@ -57,6 +59,11 @@ def render_report(report: dict, thumbs_dir: Path, title: str = "Lineage provenan
                 + "</p>"
                 f"<ul>{reasons}</ul><table>{rows}</table>"
             )
+            if nid in plates:
+                uri = "data:image/png;base64," + base64.b64encode(plates[nid]).decode("ascii")
+                body += (f'<figure class="plate"><img src="{uri}" alt="visual diff plate">'
+                         "<figcaption>Exhibit: source aligned onto this copy · this copy · residual after color fit "
+                         "(brighter = more different; hatched = area the source cannot supply)</figcaption></figure>")
         else:
             reasons = "".join(f"<li>{e(r)}</li>" for r in n.get("evidence", {}).get("reasons", []))
             body = f"<ul>{reasons}</ul>"
@@ -90,6 +97,7 @@ def render_report(report: dict, thumbs_dir: Path, title: str = "Lineage provenan
   .node ul {{ margin: 6px 0; padding-left: 18px; color: #333; }} .node table {{ font-size: 12px; border-collapse: collapse; margin-top: 6px; }}
   .node th {{ text-align: left; color: #666; font-weight: 500; padding: 1px 10px 1px 0; }} .node td {{ padding: 1px 0; }}
   .inventory {{ font-size: 12px; border-collapse: collapse; }} .inventory th, .inventory td {{ text-align: left; padding: 3px 10px 3px 0; border-bottom: 1px solid #eee; }}
+  .plate {{ margin: 8px 0 0; }} .plate img {{ width: 100%; max-width: 860px; border-radius: 6px; }} .plate figcaption {{ color: #666; font-size: 11px; }}
   footer {{ margin-top: 28px; color: #666; font-size: 12px; border-top: 1px solid #ddd; padding-top: 12px; }}
   @media print {{ body {{ padding: 0; }} }}
 </style></head><body>
