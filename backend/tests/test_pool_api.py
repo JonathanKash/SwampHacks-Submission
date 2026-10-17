@@ -90,6 +90,9 @@ def test_api_endpoints(tmp_path, monkeypatch):
     r = client.post("/api/edit", json={"parent_id": root_id, "edit": "caption", "params": {"text": "hi"}})
     assert r.status_code == 200, r.text
     assert r.json()["edit"] == "caption"
+    # tap spam from the same client is throttled, then allowed again once the cooldown is cleared
+    assert client.post("/api/edit", json={"parent_id": root_id, "edit": "jpeg"}).status_code == 429
+    app_module._last_edit_by_ip.clear()
 
     tree = client.get("/api/tree").json()
     assert len(tree["nodes"]) == 2 and len(tree["edges"]) == 1

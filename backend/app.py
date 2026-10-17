@@ -38,7 +38,16 @@ import time
 import uuid
 from pathlib import Path
 
-from fastapi import FastAPI, File, Form, Header, HTTPException, Response, UploadFile
+from fastapi import (
+    FastAPI,
+    File,
+    Form,
+    Header,
+    HTTPException,
+    Request,
+    Response,
+    UploadFile,
+)
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -407,10 +416,29 @@ def upload(file: UploadFile = File(...), parent_id: str | None = Form(None),
     return pool.add_image(img, parent_id or None, edit, json.loads(params) if params else {}, raw=raw)
 
 
+_last_edit_by_ip: dict[str, float] = {}
+EDIT_COOLDOWN_S = float(os.getenv("EDIT_COOLDOWN_S", "4"))
+
+
+def _throttle(request: Request) -> None:
+    """Phones joining via QR can tap Submit repeatedly; one edit per few seconds per client."""
+    if EDIT_COOLDOWN_S <= 0:
+        return
+    ip = request.client.host if request.client else "unknown"
+    now = time.time()
+    last = _last_edit_by_ip.get(ip, 0.0)
+    if now - last < EDIT_COOLDOWN_S:
+        raise HTTPException(429, f"One edit at a time: try again in {EDIT_COOLDOWN_S - (now - last):.0f}s")
+    _last_edit_by_ip[ip] = now
+    if len(_last_edit_by_ip) > 5000:
+        _last_edit_by_ip.clear()
+
+
 @app.post("/api/edit")
-def edit(req: EditRequest) -> dict:
+def edit(req: EditRequest, request: Request) -> dict:
     if req.parent_id not in pool.engine.items:
         raise HTTPException(404, "unknown parent_id")
+    _throttle(request)
     if req.edit == "restyle":
         from lineage.edits.image_edits import restyle_local
         from lineage.plugins import gemini_restyle  # lazy: needs the API key
