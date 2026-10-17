@@ -105,6 +105,7 @@ export default function EditPage() {
   const [loadingImage, setLoadingImage] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [cooldownSeconds, setCooldownSeconds] = useState(0);
+  const [showFoolHint, setShowFoolHint] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const loadRandom = useCallback(async (signal?: AbortSignal) => {
@@ -222,6 +223,16 @@ export default function EditPage() {
             {verdict?.correct === null && "Added to the pool."}
             {!verdict && "Added to the pool. Checking the tree…"}
           </h1>
+          {guessedRight && (
+            <p className="verdict-explain">
+              Caught. The evidence panel shows the measurements that gave it away.
+            </p>
+          )}
+          {fooled && (
+            <p className="verdict-explain">
+              You fooled it. This miss stays on the big-screen scoreboard.
+            </p>
+          )}
           <div className="before-after">
             <figure>
               <img src={parent.url} alt="The image you started from" />
@@ -318,6 +329,22 @@ export default function EditPage() {
             </div>
             <span className="step-badge">just one</span>
           </div>
+
+          {showFoolHint && (
+            <aside className="option-panel section-heading" aria-label="Fool Lineage hint">
+              <div>
+                <p className="eyebrow">Fool Lineage</p>
+                <p className="hint">
+                  Hard cases that have fooled it on the big screen: a tiny crop (under 10%), a mild filter on an
+                  already-filtered copy, a crunchy JPEG of a JPEG.
+                </p>
+                <p className="hint">Easy cases it nails: captions, rotations, big crops.</p>
+              </div>
+              <button className="choice-chip" type="button" onClick={() => setShowFoolHint(false)}>
+                Dismiss
+              </button>
+            </aside>
+          )}
 
           <div className="edit-grid">
             {EDITS.map((edit) => {
