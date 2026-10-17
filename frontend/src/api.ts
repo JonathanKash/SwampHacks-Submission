@@ -49,6 +49,21 @@ export interface PoolResponse {
   filters: FilterKind[];
 }
 
+export interface CalibrationResponse {
+  generated_at: string | null;
+  runs: string[];
+  decisions: number;
+  root_cost: number | null;
+  buckets: Array<{
+    bucket: string;
+    min_margin: number;
+    correct: number;
+    n: number;
+    precision: number | null;
+  }>;
+  per_edit: Record<string, { correct: number; n: number }>;
+}
+
 /** What a parent decision was made from: measurements, the alternatives, and calibrated confidence. */
 export interface Evidence {
   chosen_cost: number;
@@ -160,6 +175,10 @@ export function fetchRandom(signal?: AbortSignal): Promise<PoolItem> {
 
 export function fetchPool(signal?: AbortSignal): Promise<PoolResponse> {
   return requestJson<PoolResponse>("/api/pool", { signal });
+}
+
+export function fetchCalibration(signal?: AbortSignal): Promise<CalibrationResponse> {
+  return requestJson<CalibrationResponse>("/api/calibration", { signal });
 }
 
 export function submitEdit(payload: EditRequest, signal?: AbortSignal): Promise<PoolItem> {

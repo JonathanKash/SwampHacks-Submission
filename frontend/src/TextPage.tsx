@@ -2,6 +2,7 @@ import { type ReactElement, useMemo, useState } from "react";
 import { ApiError, type TextTreeResponse, buildTextTree } from "./api";
 import EvidenceList from "./EvidenceList";
 import NavBar from "./NavBar";
+import { tokenDiff } from "./textDiff";
 import { usePageTitle } from "./usePageTitle";
 
 const EXAMPLE = [
@@ -17,6 +18,10 @@ function messageFrom(error: unknown): string {
   return "Something went wrong. Please try again.";
 }
 
+function words(text: string): string[] {
+  return text.trim().split(/\s+/).filter(Boolean);
+}
+
 /** Second media type, same core: paste versions of a paragraph, get the edit tree. */
 export default function TextPage() {
   usePageTitle("Text · Lineage");
@@ -24,6 +29,7 @@ export default function TextPage() {
   const [versions, setVersions] = useState<string[]>(["", ""]);
   const [result, setResult] = useState<TextTreeResponse | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
+  const [showDiff, setShowDiff] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -60,7 +66,13 @@ export default function TextPage() {
       const precision = node.evidence.confidence.precision;
       return (
         <li key={id} className={`text-node ${selected === id ? "is-selected" : ""}`} style={{ marginLeft: depth * 26 }}>
-          <button type="button" onClick={() => setSelected(id)}>
+          <button
+            type="button"
+            onClick={() => {
+              setSelected(id);
+              setShowDiff(false);
+            }}
+          >
             <span className="text-node-label">{edge ? edge.label : "original"}</span>
             <span className="text-node-id">{id}</span>
             <span className="text-node-preview">{node.text.slice(0, 110)}{node.text.length > 110 ? "…" : ""}</span>
@@ -73,6 +85,10 @@ export default function TextPage() {
 
   const selectedNode = result?.nodes.find((n) => n.id === selected) ?? null;
   const selectedEdge = result?.edges.find((e) => e.dst === selected) ?? null;
+  const parentNode = result?.nodes.find((node) => node.id === selectedNode?.predicted_parent) ?? null;
+  const diff = selectedNode && parentNode ? tokenDiff(words(parentNode.text), words(selectedNode.text)) : [];
+  const removed = diff.filter((part) => part.kind === "removed").length;
+  const added = diff.filter((part) => part.kind === "added").length;
 
   return (
     <main className="landing text-page">
@@ -141,6 +157,38 @@ export default function TextPage() {
                   <p className="eyebrow">{selectedNode.root ? "Original" : "Derived version"}</p>
                   <h3>{selectedEdge ? selectedEdge.explain : "root of its family"}</h3>
                   <blockquote>{selectedNode.text}</blockquote>
+                  {parentNode && (
+                    <div className="text-diff-block">
+                      <button
+                        className="secondary-button text-diff-toggle"
+                        type="button"
+                        aria-pressed={showDiff}
+                        onClick={() => setShowDiff((visible) => !visible)}
+                      >
+                        {showDiff ? "Hide word diff" : "Show word diff"}
+                      </button>
+                      {showDiff && (
+                        <div className="text-word-diff">
+                          <p className="sr-only">
+                            struck-through = removed from the source, highlighted = added in this version
+                          </p>
+                          <p>
+                            {diff.map((part, index) => {
+                              const text = `${index === 0 ? "" : " "}${part.text}`;
+                              if (part.kind === "removed") {
+                                return <del className="tok-removed" key={`${part.kind}-${index}`}>{text}</del>;
+                              }
+                              if (part.kind === "added") {
+                                return <ins className="tok-added" key={`${part.kind}-${index}`}>{text}</ins>;
+                              }
+                              return <span key={`${part.kind}-${index}`}>{text}</span>;
+                            })}
+                          </p>
+                          <small>{removed} words removed · {added} words added</small>
+                        </div>
+                      )}
+                    </div>
+                  )}
                   <EvidenceList evidence={selectedNode.evidence} compact />
                 </>
               ) : (

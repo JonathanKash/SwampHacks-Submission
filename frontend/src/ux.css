@@ -172,6 +172,7 @@
 
 .idea,
 .pipeline,
+.calibration,
 .demo-how,
 .industry-audit {
   padding: clamp(28px, 4vw, 56px) 0;
@@ -333,6 +334,89 @@ p a {
 
 .industry-cta {
   margin-top: 20px;
+}
+
+.calibration-intro {
+  max-width: 52rem;
+  margin: -8px 0 22px;
+  color: #cfd8d2;
+  line-height: 1.58;
+}
+
+.calibration-table-wrap {
+  max-width: 760px;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(17, 24, 23, 0.82);
+}
+
+.calibration-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.calibration-table caption {
+  padding: 15px 18px;
+  border-bottom: 1px solid var(--line);
+  color: #d4ddd7;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-align: left;
+}
+
+.calibration-table th,
+.calibration-table td {
+  padding: 11px 18px;
+  border-bottom: 1px solid var(--line);
+  font-variant-numeric: tabular-nums;
+}
+
+.calibration-table tbody tr:last-child > * {
+  border-bottom: 0;
+}
+
+.calibration-table thead th {
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.calibration-table tbody th {
+  font-size: 0.9rem;
+}
+
+.calibration-precision {
+  width: 52%;
+  color: #dce5e0;
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.calibration-bar {
+  height: 5px;
+  margin-top: 5px;
+  border-radius: 999px;
+  background: var(--green);
+}
+
+.calibration-edits {
+  display: flex;
+  margin-top: 14px;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.calibration-edits span {
+  padding: 5px 9px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: #cfd8d2;
+  background: rgba(17, 24, 23, 0.82);
+  font-size: 0.72rem;
+  font-weight: 700;
 }
 
 /* ---- guided edit flow ------------------------------------------------------ */
@@ -1039,6 +1123,60 @@ p a {
   color: #d4ddd7;
   font-size: 0.95rem;
   line-height: 1.5;
+}
+
+.text-diff-block {
+  margin-top: 12px;
+}
+
+.text-diff-toggle {
+  height: 38px;
+  min-height: 38px;
+  padding: 0 12px;
+  border-radius: 11px;
+  font-size: 0.78rem;
+}
+
+.text-word-diff {
+  margin-top: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #0b1110;
+}
+
+.text-word-diff > p:not(.sr-only) {
+  margin: 0;
+  color: #d4ddd7;
+  font-size: 0.9rem;
+  line-height: 1.75;
+}
+
+.tok-removed,
+.tok-added {
+  padding: 2px 1px;
+  border-radius: 4px;
+  text-decoration-thickness: 2px;
+}
+
+.tok-removed {
+  color: #3d0911;
+  background: #ffc6ce;
+  text-decoration-line: line-through;
+}
+
+.tok-added {
+  color: #062217;
+  background: #b8f3d5;
+  text-decoration: none;
+}
+
+.text-word-diff small {
+  display: block;
+  margin-top: 9px;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 700;
 }
 
 @media (max-width: 900px) {
