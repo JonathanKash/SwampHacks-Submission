@@ -55,6 +55,7 @@ def render_report(report: dict, thumbs_dir: Path, title: str = "Lineage provenan
                 f'<p class="reading">Derived from <strong>{parent_name}</strong>: {e(d["edit"])}. '
                 f'Cost {d["cost"]:.3f}, margin {("—" if d["margin"] is None else f"{d["margin"]:.3f}")}, '
                 f'empirical precision {_pct(d["empirical_precision"])}'
+                + "".join(f" · {k.replace('-', ' ')} {_pct(v['precision'])}" for k, v in (d.get("precision_by_corpus") or {}).items())
                 + (" · matched by meaning" if d["semantic"] else "")
                 + "</p>"
                 f"<ul>{reasons}</ul><table>{rows}</table>"

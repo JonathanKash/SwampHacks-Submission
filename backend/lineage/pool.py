@@ -373,6 +373,7 @@ class Pool:
                     "semantic": e["semantic"],
                     "margin": e["evidence"]["margin"],
                     "empirical_precision": e["evidence"]["confidence"]["precision"],
+                    "precision_by_corpus": e["evidence"]["confidence"].get("by_corpus", {}),
                     "measurements": e["evidence"]["measurements"],
                     "reasons": e["evidence"]["reasons"],
                 }
@@ -392,7 +393,7 @@ class Pool:
         buf = _io.StringIO()
         w = csv.writer(buf)
         w.writerow(["image_id", "filename", "candidate_original", "derived_from", "edit", "cost", "margin",
-                    "empirical_precision", "keypoint_inliers", "coverage_of_child_by_parent", "coverage_of_parent_by_child",
+                    "empirical_precision", "web_memes_precision", "keypoint_inliers", "coverage_of_child_by_parent", "coverage_of_parent_by_child",
                     "cost_child_to_parent", "sha256", "phash", "width", "height"])
         edges = {e["dst"]: e for e in self.tree["edges"]}
         for n in self.tree["nodes"]:
@@ -403,6 +404,7 @@ class Pool:
             w.writerow([n["id"], n.get("params", {}).get("filename", ""), "yes" if n["root"] else "no",
                         e["src"] if e else "", e["explain"] if e else "", e["cost"] if e else "",
                         ev.get("margin", ""), ev.get("confidence", {}).get("precision", ""),
+                        (ev.get("confidence", {}).get("by_corpus", {}).get("web-memes") or {}).get("precision", ""),
                         m.get("keypoint_inliers", ""), m.get("coverage_of_child_by_parent", ""),
                         m.get("coverage_of_parent_by_child", ""), m.get("cost_child_to_parent", ""),
                         fp.get("sha256", ""), fp.get("phash", ""), fp.get("width", ""), fp.get("height", "")])
