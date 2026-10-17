@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { type ReactElement, useMemo, useState } from "react";
 import { ApiError, type TextTreeResponse, buildTextTree } from "./api";
 import EvidenceList from "./EvidenceList";
 import NavBar from "./NavBar";
@@ -50,7 +50,7 @@ export default function TextPage() {
     }
   };
 
-  const renderBranch = (parentId: string | null, depth: number): JSX.Element[] =>
+  const renderBranch = (parentId: string | null, depth: number): ReactElement[] =>
     (children.get(parentId) ?? []).map((id) => {
       const node = result!.nodes.find((n) => n.id === id)!;
       const edge = result!.edges.find((e) => e.dst === id) ?? null;

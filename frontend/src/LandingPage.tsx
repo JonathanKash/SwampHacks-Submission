@@ -110,6 +110,10 @@ export default function LandingPage() {
             </p>
           </li>
         </ol>
+        <p className="idea-note">
+          Nothing in those three stages knows what an image is. Swap the plug-ins and the same core traces
+          paragraphs instead: <Link to="/text">try it on text</Link>.
+        </p>
       </section>
 
       <section className="demo-how">
