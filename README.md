@@ -19,6 +19,8 @@ Repository: https://github.com/JonathanKash/SwampHacks-Submission
 | `/edit`   | tablet or phone | Pick a pool image, apply exactly one edit (crop, rotate, filter, caption, crunchy JPEG, AI restyle), submit, see the verdict with its evidence and the aligned evidence picture |
 | `/tree`   | big screen    | The live forest: thumbnails, edge labels, a tree-accuracy scoreboard, an arrival overlay when a new image lands, a scan-to-join QR code, evidence and provenance panel |
 | `/audit`  | industry      | Provenance audit: create a case (with analyst), drop in many versions, get the tree with calibrated precision and reliability tiers, visual diff plates, tamper-evident footprints (SHA-256, pHash), metadata and C2PA hints, compare any two images, JSON (hash-stamped, optionally HMAC-signed), CSV ledger and self-contained HTML reports |
+| `/identify` | everyone    | Which meme is this and where did it come from: upload any copy, get the family, the documented original with source and date, and the evidence |
+| `/compare` | industry     | Two files in, a verdict out: parent-child, siblings, unrelated or inconclusive, with "Why is this the parent?" (signals, decisive cues, conflicts, unavailable signals, AI-edit indicators, limitations, reproducibility) |
 | `/text`   | curious       | The same core on paragraphs: paste versions, see which was trimmed, reworded or rewritten |
 | `/method` | judges        | Every cost term with its weight and direction logic, the arborescence, evidence and calibration, limitations |
 
@@ -33,6 +35,10 @@ the server keeps it only to score the accuracy counter.
 | Provenance audit | Text mode |
 |---|---|
 | ![audit workspace](docs/screenshots/audit.png) | ![text lineage](docs/screenshots/text.png) |
+
+| Identify a meme | Compare two files |
+|---|---|
+| ![identify result](docs/screenshots/identify.png) | ![compare report](docs/screenshots/compare.png) |
 
 ## Run it
 

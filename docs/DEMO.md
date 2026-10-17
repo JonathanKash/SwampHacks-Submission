@@ -82,3 +82,15 @@ found; 28 of 30 parents correct against the hidden truth (93%).
 3. Talk track: the family card is the documented original with its date and source; "Your copy" shows the
    measured edit; "Why?" opens the same evidence report as everywhere else. If it says "No family matched",
    say so: it means nothing aligned pixel for pixel, and that is the honest answer.
+
+
+## Pre-demo checklist (Oct 17 additions)
+
+- [ ] `.venv\Scripts\python backend\scriptsuild_meme_case.py --no-clip --variants 5` (about 5 minutes) and
+      confirm `/api/health` reports `identify_ready: true`.
+- [ ] Open `/identify`, upload a meme from a phone, confirm the family card and the "Why?" report.
+- [ ] Open `/method`, confirm the Numbers table shows both the synthetic column and the web-memes column.
+- [ ] Open `/compare`, run two files, confirm the verdict chip shows two numbers.
+- [ ] Open `/tree` on the big screen, press Replay once, check the Fool Lineage scoreboard.
+- [ ] If the Gemini image quota has reset, run `benchmark/nanobanana/make_corpus.py` to finish the edit corpus
+      (optional; the benchmark reads whatever exists).
