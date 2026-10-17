@@ -20,6 +20,18 @@ import CompareReport from "./CompareReport";
 import NavBar from "./NavBar";
 import { usePageTitle } from "./usePageTitle";
 
+type CaseSummary = {
+  id: string;
+  name: string;
+  items: number;
+};
+
+type SampleNode = {
+  id: string;
+  url: string;
+  params: Record<string, unknown>;
+};
+
 function messageFrom(error: unknown): string {
   if (error instanceof ApiError || error instanceof Error) return error.message;
   return "Something went wrong. Please try again.";
@@ -184,11 +196,15 @@ export default function IdentifyPage() {
   const [file, setFile] = useState<File | null>(null);
   const [dragging, setDragging] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [sampleLoading, setSampleLoading] = useState(false);
+  const [isSample, setIsSample] = useState(false);
+  const [sampleError, setSampleError] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [unavailable, setUnavailable] = useState(false);
   const [result, setResult] = useState<IdentifyResponse | null>(null);
   const [stats, setStats] = useState<IdentifyStatsResponse | null>(null);
   const preview = usePreview(file);
+  const busy = loading || sampleLoading;
 
   useEffect(() => {
     const controller = new AbortController();
@@ -197,12 +213,14 @@ export default function IdentifyPage() {
   }, []);
 
   const chooseFile = (nextFile: File | undefined) => {
-    if (!nextFile || loading) return;
+    if (!nextFile || busy) return;
     if (!isImage(nextFile)) {
       setError(`${nextFile.name} is not a supported image file.`);
       return;
     }
     setFile(nextFile);
+    setIsSample(false);
+    setSampleError(null);
     setResult(null);
     setUnavailable(false);
     setError(null);
@@ -219,11 +237,10 @@ export default function IdentifyPage() {
     chooseFile(event.dataTransfer.files[0]);
   };
 
-  const handleIdentify = async (event: FormEvent) => {
-    event.preventDefault();
-    if (!file || loading) return;
+  const identify = async (nextFile: File) => {
     const body = new FormData();
-    body.append("file", file);
+    body.append("file", nextFile);
+    setFile(nextFile);
     setLoading(true);
     setError(null);
     setUnavailable(false);
@@ -238,6 +255,53 @@ export default function IdentifyPage() {
       }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleIdentify = async (event: FormEvent) => {
+    event.preventDefault();
+    if (!file || busy) return;
+    await identify(file);
+  };
+
+  const handleSample = async () => {
+    if (busy) return;
+    setSampleLoading(true);
+    setSampleError(null);
+    setError(null);
+    try {
+      const casesResponse = await fetch("/api/cases");
+      if (!casesResponse.ok) throw new Error("Could not load cases");
+      const { cases } = await casesResponse.json() as { cases: CaseSummary[] };
+      const memeCases = cases.filter((entry) => entry.name.includes("Meme"));
+      const sampleCase = memeCases.reduce<CaseSummary | null>(
+        (largest, entry) => !largest || entry.items > largest.items ? entry : largest,
+        null,
+      );
+      if (!sampleCase) throw new Error("No meme case found");
+
+      const treeResponse = await fetch(`/api/cases/${sampleCase.id}/tree`);
+      if (!treeResponse.ok) throw new Error("Could not load sample tree");
+      const { nodes } = await treeResponse.json() as { nodes: SampleNode[] };
+      const variants = nodes.filter((node) => (
+        typeof node.params.role === "string" && node.params.role.startsWith("variant")
+      ));
+      if (!variants.length) throw new Error("No sample variant found");
+
+      const node = variants[Math.floor(Math.random() * variants.length)];
+      const imageResponse = await fetch(node.url);
+      if (!imageResponse.ok) throw new Error("Could not download sample image");
+      const filename = node.params.filename;
+      if (typeof filename !== "string" || !filename.trim()) throw new Error("Sample has no filename");
+      const blob = await imageResponse.blob();
+      const sampleFile = new File([blob], filename, { type: blob.type });
+      setIsSample(true);
+      setSampleLoading(false);
+      await identify(sampleFile);
+    } catch {
+      setSampleError("Couldn’t load a sample. Please try again.");
+    } finally {
+      setSampleLoading(false);
     }
   };
 
@@ -275,12 +339,17 @@ export default function IdentifyPage() {
             type="file"
             accept="image/*"
             aria-describedby="identify-file-help"
-            disabled={loading}
+            disabled={busy}
             onChange={handleInput}
           />
           {file && preview ? (
             <>
               <img src={preview} alt={`Preview of ${file.name}`} />
+              {isSample && (
+                <small className="identify-sample-caption">
+                  Sample from the knowledge base (a stored copy), so expect a near-identical match. Upload your own for a real test.
+                </small>
+              )}
               <strong>{file.name}</strong>
               <span id="identify-file-help">Click or drop to replace</span>
             </>
@@ -292,7 +361,16 @@ export default function IdentifyPage() {
             </>
           )}
         </label>
-        <button className="primary-button compare-submit" type="submit" disabled={!file || loading}>
+        <button
+          className="identify-sample-button"
+          type="button"
+          disabled={busy}
+          onClick={() => void handleSample()}
+        >
+          {sampleLoading ? "Loading sample…" : "Try a sample instead"}
+        </button>
+        {sampleError && <p className="compare-inline-error" role="alert">{sampleError}</p>}
+        <button className="primary-button compare-submit" type="submit" disabled={!file || busy}>
           {loading ? (
             <>
               <span className="spinner" aria-hidden="true" />
