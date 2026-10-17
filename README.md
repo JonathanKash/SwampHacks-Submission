@@ -99,6 +99,9 @@ Add `--no-clip` on small machines. Benchmarks: `python benchmark/run_benchmark.p
 reports per corpus and edit type the direction accuracy, how often a wrong parent was claimed, how
 often the system abstained, family root recovery, a calibration check and the failure cases.
 
+`python benchmark/identify_eval.py` queries the running server with every meme variant that is not in the
+knowledge base and reports family accuracy, abstentions, wrong families and latency.
+
 ## Benchmark corpora (not redistributed)
 
 - `benchmark/nanobanana/`: eight openly licensed photographs from Wikimedia Commons (see
