@@ -123,7 +123,7 @@ def _register_with(a: ImageData, b: ImageData, features, matcher) -> tuple[np.nd
     return H, inliers
 
 
-def register(a: ImageData, b: ImageData) -> tuple[np.ndarray | None, int]:
+def register(a: ImageData, b: ImageData, sift: bool = True) -> tuple[np.ndarray | None, int]:
     """Estimate the homography H (3x3) mapping a's pixel coordinates onto b's.
 
     Returns (H, inlier_count); H is None when registration fails. A homography
@@ -132,11 +132,11 @@ def register(a: ImageData, b: ImageData) -> tuple[np.ndarray | None, int]:
     unrelated images.
     """
     H, inliers = _register_with(a, b, _orb_features, _matcher)
-    if H is None:
+    if H is None and sift:
         H, inliers_sift = _register_with(a, b, _sift_features, _sift_matcher)
         inliers = max(inliers, inliers_sift)
-        if H is None:
-            return None, inliers
+    if H is None:
+        return None, inliers
     H = H / H[2, 2]
     det = float(np.linalg.det(H[:2, :2]))
     scale = math.sqrt(abs(det))
@@ -157,7 +157,7 @@ def _semantic_cost(a: ImageData, b: ImageData, weights: dict[str, float], featur
     return CostResult(total=total, semantic=True, terms={"semantic": total}, features=features)
 
 
-def cost(a: ImageData, b: ImageData, weights: dict[str, float] = config.WEIGHTS) -> CostResult:
+def cost(a: ImageData, b: ImageData, weights: dict[str, float] = config.WEIGHTS, sift: bool = True) -> CostResult:
     """How cheaply can b be produced from a? Lower is cheaper. For a real parent p
     and its edited child c, cost(p, c) < cost(c, p). Always finite and >= 0."""
     stats_a, stats_b = _stats(a), _stats(b)
@@ -170,7 +170,7 @@ def cost(a: ImageData, b: ImageData, weights: dict[str, float] = config.WEIGHTS)
     }
 
     # --- 1. registration -----------------------------------------------------
-    H, inliers = register(a, b)
+    H, inliers = register(a, b, sift=sift)
     features["inliers"] = inliers
     if H is None:
         return _semantic_cost(a, b, weights, features)

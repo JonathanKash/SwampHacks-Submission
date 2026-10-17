@@ -294,12 +294,19 @@ class Pool:
             cands = top_k_candidates(fps, k or self.engine.k).get("__query__", [])
             if not cands:
                 return {"matched": False, "reason": "empty pool"}
-            best = None
-            for cid in cands:
-                res = self.engine.media.cost(self.engine.data[cid], data)
-                if best is None or res.total < best[1].total:
-                    best = (cid, res)
-            parent_id, forward = best
+            from lineage.plugins import image_cost
+
+            def pair_cost(cid: str, sift: bool) -> CostResult:
+                if self.engine.media.name == "image":
+                    return image_cost.cost(self.engine.data[cid], data, sift=sift)
+                return self.engine.media.cost(self.engine.data[cid], data)
+
+            # Fast path: ORB only across all candidates (SIFT on every unrelated candidate is what
+            # made this slow); SIFT only for the nearest few when nothing aligned.
+            scored = [(cid, pair_cost(cid, sift=False)) for cid in cands]
+            if all(res.semantic for _, res in scored):
+                scored = [(cid, pair_cost(cid, sift=True)) for cid in cands[:4]] + scored[4:]
+            parent_id, forward = min(scored, key=lambda t: t[1].total)
             if forward.semantic:
                 return {"matched": False, "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
                         "nearest": parent_id, "cost": round(forward.total, 4)}

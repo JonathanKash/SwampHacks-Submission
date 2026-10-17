@@ -209,3 +209,9 @@ Decisions in SPEC.md (v2 section). Images first; audio/video only after images w
       Replay overlay for the largest family (Codex). Health exposes web_search / identify_ready capability flags.
 - [ ] Antigravity image quota resets ~15:40 ET: finish benchmark/nanobanana (make_corpus.py is idempotent).
 - [ ] Third meme benchmark pass with family splits was stopped to free CPU; rerun when idle CPU is available.
+- [x] CLIP-mode eval after the cost changes (ORB 4000 + SIFT fallback + caption_removed), k=8: run1 80.7% (was 83.0),
+      run2 70.0% (was 71.1), run3 80.0% (was 81.1): one to two items per run, inside noise, kept because the same
+      changes took web-meme registration failures from 205/563 to ~100 and fixed a real caption reversal.
+- [x] Identify fast path: ORB-only scan of the candidates, SIFT only on the nearest four when nothing aligns
+      (SIFT on every unrelated candidate made identify take 4-17 s under load). Knowledge base rebuilt with 5
+      variants per family (223 items).
