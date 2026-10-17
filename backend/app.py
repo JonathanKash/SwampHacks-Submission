@@ -48,6 +48,7 @@ from pydantic import BaseModel
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from lineage import config  # noqa: E402
 from lineage.edits.image_edits import EDIT_TYPES, FILTER_KINDS  # noqa: E402
+from lineage.integrity import stamp, verify  # noqa: E402
 from lineage.pool import Pool  # noqa: E402
 from lineage.report_html import render_report  # noqa: E402
 
@@ -176,6 +177,7 @@ def case_report(case_id: str):
     meta = _read_index()[case_id]
     report = case.report({"id": case_id, "name": meta["name"], "created_at": meta["created_at"], "analyst": meta.get("analyst", "")})
     report["tool"] = {"name": "Lineage", "version": TOOL_VERSION}
+    report = stamp(report)
     return JSONResponse(report, headers={"Content-Disposition": f'attachment; filename="lineage-report-{case_id}.json"'})
 
 
@@ -361,9 +363,15 @@ def tree(since: int | None = None):
     return pool.tree
 
 
+@app.post("/api/verify-report")
+def verify_report(report: dict) -> dict:
+    """Re-check a previously downloaded JSON report: hash intact? signed by this server?"""
+    return verify(report)
+
+
 @app.get("/api/report")
 def demo_report():
-    return JSONResponse(pool.report(), headers={"Content-Disposition": 'attachment; filename="lineage-report-demo.json"'})
+    return JSONResponse(stamp({**pool.report(), "tool": {"name": "Lineage", "version": TOOL_VERSION}}), headers={"Content-Disposition": 'attachment; filename="lineage-report-demo.json"'})
 
 
 @app.get("/api/report.html")

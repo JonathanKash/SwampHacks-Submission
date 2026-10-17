@@ -4,26 +4,14 @@
 
 from __future__ import annotations
 
-
-
 import importlib
-
 import io
-
 import random
 
-
-
 from lineage.edits import image_edits
-
 from lineage.pool import Pool
-
 from PIL import Image
-
 from tests.conftest import synthetic_photo
-
-
-
 
 
 def png(img: Image.Image, name: str) -> tuple[str, tuple[str, bytes, str]]:
