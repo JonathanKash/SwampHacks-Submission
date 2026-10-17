@@ -135,3 +135,26 @@ def test_late_true_original_is_recognised(tmp_path):
     assert nodes[late["id"]]["explains"] == [first["id"]]
     assert pool.tree["newest_took_over"] is True
     assert pool.tree["summary"]["families"] == 1
+
+
+def test_place_reports_weak_and_meaning_only_matches_as_no_match(tmp_path):
+    """Identify must not claim a family on a weak or meaning-only placement."""
+    import random
+
+    from lineage.edits import image_edits
+    from lineage.plugins.image_fingerprint import load_image_data
+
+    pool = Pool(tmp_path, use_clip=False, mode="audit")
+    original = synthetic_photo(41)
+    pool.add_image(original, None, None, {"filename": "o.png"}, source="audit")
+    # a crop of the original: strong match, parent is the stored original
+    crop = image_edits.crop(original, random.Random(7), fraction=0.7)[0]
+    crop.save(tmp_path / "q.png")
+    placed = pool.place(load_image_data("q", tmp_path / "q.png", None))
+    assert placed["matched"] is True and placed["parent"]["params"]["filename"] == "o.png"
+    assert 0 < placed["match_strength"] <= 1 and placed["depth_below_root"] == 0
+    # an unrelated image: no pixel alignment -> no family claimed
+    other = synthetic_photo(42)
+    other.save(tmp_path / "u.png")
+    unrelated = pool.place(load_image_data("u", tmp_path / "u.png", None))
+    assert unrelated["matched"] is False and unrelated["reason"]
