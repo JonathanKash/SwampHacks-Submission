@@ -75,6 +75,11 @@ WEIGHTS: dict[str, float] = {
 # identify: a placement counts as a match only when the best parent explains the query at well
 # under the root cost (a weak, barely-under-root match is reported as "no family").
 IDENTIFY_MAX_COST_FRACTION: float = 0.8
+# compare: colour-fit residual (MSE, 0-1 scale) above which an aligned pair is treated as re-rendered
+# (restyle, background swap, generative re-draw): every pixel differs, so geometric cues like
+# resolution and coverage no longer carry direction. Genuine edits on the synthetic runs stay below
+# 0.022 (captions max 0.022, JPEG q8 max 0.013); Gemini restyles/background swaps measure 0.03-0.09.
+RERENDER_RESIDUAL: float = 0.025
 ORB_FEATURES: int = 4000  # keypoints per image for ORB (and the SIFT fallback)
 MIN_INLIERS: int = 12
 MIN_INLIER_RATIO: float = 0.25

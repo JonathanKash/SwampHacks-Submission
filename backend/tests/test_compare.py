@@ -167,3 +167,15 @@ def test_cli_identify_against_a_case_dir(tmp_path):
         assert lineage_cli.main(["--no-clip", "identify", str(query), "--case-dir", str(case_dir), "--json"]) == 0
     out = json.loads(buf.getvalue())
     assert out["matched"] is True and out["root"]["params"]["family"] == "Fam"
+
+
+def test_rerendered_pair_is_inconclusive_with_indicator(photo):
+    """A full restyle that still aligns geometrically: every pixel differs, no direction is claimed."""
+    from lineage.edits.image_edits import restyle_local
+
+    styled = restyle_local(photo)[0]
+    rep = compare(to_image_data("A", photo), to_image_data("B", styled), calibration={"buckets": {}})
+    if rep["verdict"] == "unrelated":  # a restyle may not register at all; nothing to assert then
+        return
+    assert rep["verdict"] == "inconclusive" and rep["rerendered"] is True
+    assert any("re-draw" in x for x in rep["ai_edit_indicators"])

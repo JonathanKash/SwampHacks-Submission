@@ -65,6 +65,7 @@ def compare(a: ImageData, b: ImageData, meta_a: dict | None = None, meta_b: dict
     decisive: list[str] = []
     noise_report: dict | None = None
     caption_side: str | None = None
+    rerendered = False
     if a.embedding is None or b.embedding is None:
         unavailable.append("CLIP embeddings (server in low-memory mode): semantic similarity falls back to pHash")
     for label, meta in (("A", meta_a), ("B", meta_b)):
@@ -100,6 +101,15 @@ def compare(a: ImageData, b: ImageData, meta_a: dict | None = None, meta_b: dict
             parent = child = None
             summary = (f"Aligned and almost identical (cost {ab.total:.3f} vs {ba.total:.3f}); the difference is below "
                        f"the {MIN_DIRECTION_MARGIN} margin we trust, so the direction is not determinable.")
+        elif min(_term(ab, "color_residual"), _term(ba, "color_residual")) > config.RERENDER_RESIDUAL:
+            # Aligned, but every pixel differs even after the colour fit: a restyle, a background swap
+            # or a generative re-draw. Resolution and coverage then say nothing about direction.
+            verdict, relation = "inconclusive", "re-rendered copy: aligned, but every pixel differs"
+            parent = child = None
+            rerendered = True
+            summary = (f"The two align, yet the residual after the best colour fit is {min(_term(ab, 'color_residual'), _term(ba, 'color_residual')):.3f} "
+                       f"(genuine crops, filters and re-saves stay under {config.RERENDER_RESIDUAL}). One of them was re-rendered rather than "
+                       "edited pixel by pixel, so the usual direction cues do not apply and no parent is claimed.")
         else:
             forward = ab.total < ba.total  # a -> b is the cheap direction
             parent, child = ("A", "B") if forward else ("B", "A")
@@ -123,6 +133,14 @@ def compare(a: ImageData, b: ImageData, meta_a: dict | None = None, meta_b: dict
                            f"Reading it as content added gives {cheap.total:.3f} for {parent}→{child}; reading it as content removed gives "
                            f"{dear.total:.3f} the other way. Our calibration covers captions, not object add/remove, so no parent is claimed. "
                            "Compression history or a third version would settle it.")
+                parent = child = None
+            elif decisive == ["edit_ops"]:
+                # The only thing separating the two directions is the count of detected edit
+                # primitives (0.05 each). The synthetic runs never decide on that alone and real
+                # generative edits got it wrong 2 of 3 times, so it is not a direction.
+                verdict, relation = "inconclusive", "direction rests only on the number of detected edit operations"
+                summary = (f"Both directions align and cost almost the same ({ab.total:.3f} vs {ba.total:.3f}); the difference is one "
+                           "detected edit primitive, which is a tie-breaker, not evidence. No parent is claimed.")
                 parent = child = None
             elif caption_side == parent and len(decisive) <= 1:
                 # The side the cost calls the parent carries caption-like content the other lacks,
@@ -209,6 +227,9 @@ def compare(a: ImageData, b: ImageData, meta_a: dict | None = None, meta_b: dict
 
     # ---- AI-edit indicators (measured only) ------------------------------------------
     ai_indicators: list[str] = []
+    if rerendered:
+        ai_indicators.append("Aligned pair whose pixels all differ after the best colour fit: consistent with a generative "
+                             "re-draw, restyle or background replacement. Not proof of AI use.")
     if registered and noise_report is not None:
         who = child or "the derived copy"
         if caption_side:
@@ -272,6 +293,7 @@ def compare(a: ImageData, b: ImageData, meta_a: dict | None = None, meta_b: dict
         "ai_edit_indicators": ai_indicators,
         "noise": noise_report,
         "decisive_cues": decisive,
+        "rerendered": rerendered,
         "caption_side": caption_side,
         "limitations": [
             "Verdicts come from pixel measurements between these two files only; an earlier version outside them may exist.",
