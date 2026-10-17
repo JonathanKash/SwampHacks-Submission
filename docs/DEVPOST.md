@@ -116,3 +116,32 @@ We built Lineage with AI coding agents under our direction: Claude Code contribu
 
 ### Pitch line
 "Lineage does not guess. It measures, it shows its work, and when the pixels cannot tell, it says so."
+
+
+## 2-minute demo pitch, v2 (Oct 17)
+
+### 0:00–0:20 — Hook (Identify)
+Judge's phone, `/identify`, upload any meme from their camera roll. "Lineage places it in a family of 38
+documented originals, shows the documented original with its source and date, and the measured edit between
+the two. Every claim on this screen is a measurement; press Why to see all of them."
+
+### 0:20–0:45 — Which image came first (Compare)
+Two files on `/compare`: a photo and its captioned copy. Verdict, the signals, the decisive cue, both diff plates.
+Then an object-removal pair: "Here it says inconclusive. Adding and removing an object look the same from
+pixels alone, so we do not guess. That is a feature."
+
+### 0:45–1:10 — Live tree
+Big screen `/tree`: the forest rebuilt from pixels alone, the Fool Lineage scoreboard, one Replay. "Anyone in the
+room can scan and try to fool it. Misses stay on the board."
+
+### 1:10–1:35 — Audit workspace (industry)
+`/audit`: drop 30 versions, cases, reliability tiers, SHA-256 footprints, Content Credentials read and validated,
+HTML and CSV reports with an integrity stamp, add-from-URL, compare any two.
+
+### 1:35–1:50 — Two numbers
+`/method` Numbers table. "Our confidence is calibrated on synthetic edit chains and re-measured on real web
+memes. We show both. The lower number is the honest expectation for unknown files, and the benchmark told us
+where to fix the engine: registration on captioned images and a caption-side cue that was right 30 of 30 times."
+
+### 1:50–2:00 — Close
+"Lineage does not guess. It measures, it shows its work, and when the pixels cannot tell, it says so."
