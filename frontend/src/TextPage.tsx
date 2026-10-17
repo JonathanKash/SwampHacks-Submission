@@ -5,12 +5,13 @@ import NavBar from "./NavBar";
 import { tokenDiff } from "./textDiff";
 import { usePageTitle } from "./usePageTitle";
 
+const ORIGINAL_EXAMPLE = "A photograph begins its journey across the web when a visitor uploads it to a small community website after a local event. The site stores the image, creates a smaller preview, and places that preview beside a descriptive caption. A reader downloads the file and shares it in a public forum, where other people repost it with new filenames of their own. Search engines index those public copies while social platforms compress the image and remove its metadata. Eventually, the scene appears across blogs and forums, often without a link to its upload.";
+
 const EXAMPLE = [
-  "The city council voted on Tuesday night to approve the new riverside park after months of debate. The plan includes a playground, a boat launch and a small amphitheatre. Construction is expected to begin in the spring and finish within eighteen months, according to the parks director.",
-  "The city council voted on Tuesday night to approve the new riverside park after months of debate. The plan includes a playground, a boat launch and a small amphitheatre.",
-  "The city council voted Tuesday night to approve the new riverside park after months of argument. The plan includes a playground, a boat ramp and a small amphitheatre.",
-  "Council approves riverside park after months of argument. Plan includes playground, boat ramp, amphitheatre.",
-  "The city council voted on Tuesday night to approve the new riverside park after months of debate. The plan includes a playground, a boat launch and a small amphitheatre. Construction is expected to begin in the spring and finish within eighteen months, according to the parks director. Local businesses welcomed the decision.",
+  ORIGINAL_EXAMPLE,
+  "A photograph begins its journey across the web when a visitor uploads it to a small community website after a local event. The site stores the image, creates a smaller preview, and places that preview beside a descriptive caption. A reader downloads the file and shares it in a public forum, where other people repost it with new filenames of their own.",
+  "A photograph begins its path across the web when a visitor posts it to a modest community website after a local event. The site saves the image, creates a reduced preview, and places that preview beside a descriptive caption. A reader retrieves the file and circulates it in a public forum, where other people repost it with fresh filenames of their own. Search engines index those public copies while social platforms shrink the image and remove its metadata. Eventually, the scene surfaces across blogs and forums, often without a connection to its upload.",
+  `${ORIGINAL_EXAMPLE} Each new host leaves another record of where the photograph has traveled.`,
 ];
 
 function messageFrom(error: unknown): string {
@@ -150,7 +151,24 @@ export default function TextPage() {
           </h2>
           {result.note && <p className="hint">{result.note}</p>}
           <div className="text-result-grid">
-            <ul className="text-tree">{renderBranch(null, 0)}</ul>
+            <div>
+              <ul className="text-tree">{renderBranch(null, 0)}</ul>
+              {result.edges.some((edge) => edge.explain) && (
+                <div aria-label="Edge readings">
+                  {result.edges.filter((edge) => edge.explain).map((edge) => (
+                    <p className="hint" key={`${edge.src}-${edge.dst}`}>
+                      {edge.src} → {edge.dst} · {edge.label}: {edge.explain}
+                    </p>
+                  ))}
+                </div>
+              )}
+              <p className="hint">
+                Legend: -sentence = trimmed / reworded = reworded / +sentence = extended
+              </p>
+              <p className="hint">
+                Text mode shows the same core on paragraphs. No precision figure is shown here because calibration exists only for images.
+              </p>
+            </div>
             <aside className="text-detail">
               {selectedNode ? (
                 <>
