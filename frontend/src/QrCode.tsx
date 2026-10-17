@@ -11,7 +11,20 @@ export default function QrCode({ path = "/edit", size = 132, label = "scan to ad
   label?: string;
 }) {
   const [src, setSrc] = useState<string | null>(null);
-  const url = typeof window !== "undefined" ? `${window.location.origin}${path}` : path;
+  const [origin, setOrigin] = useState<string>(typeof window !== "undefined" ? window.location.origin : "");
+  const url = `${origin}${path}`;
+
+  // A phone cannot reach "localhost": when the page runs on a loopback origin, ask the
+  // server for its LAN address (or PUBLIC_URL) and encode that instead.
+  useEffect(() => {
+    if (!/^https?:\/\/(localhost|127\.0\.0\.1)(:|$)/.test(origin)) return;
+    fetch("/api/health")
+      .then((r) => r.json() as Promise<{ lan_url?: string | null }>)
+      .then((h) => {
+        if (h.lan_url) setOrigin(h.lan_url.replace(/\/$/, ""));
+      })
+      .catch(() => undefined);
+  }, [origin]);
 
   useEffect(() => {
     let active = true;

@@ -337,10 +337,27 @@ def calibration() -> dict:
             "decisions": sum(r["n"] for r in ordered)}
 
 
+def _lan_url() -> str | None:
+    """Best-guess LAN address of this machine, so QR codes work when the page was opened via localhost."""
+    import socket
+
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+            sock.connect(("8.8.8.8", 80))  # no packets are sent; this just picks the outbound interface
+            ip = sock.getsockname()[0]
+    except OSError:
+        return None
+    port = os.getenv("PORT", "8010")
+    return f"http://{ip}:{port}"
+
+
+LAN_URL = os.getenv("PUBLIC_URL") or _lan_url()
+
+
 @app.get("/api/health")
 def health() -> dict:
     return {"ok": True, "items": len(pool.engine.items), "version": pool.version,
-            "clip": pool.engine.embedder is not None}
+            "clip": pool.engine.embedder is not None, "lan_url": LAN_URL}
 
 
 @app.get("/api/pool")
