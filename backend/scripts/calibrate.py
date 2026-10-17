@@ -72,6 +72,12 @@ def main(runs: list[Path]) -> None:
         "buckets": dict(buckets),
         "per_edit": dict(per_edit),
     }
+    # Keep records that other benchmarks own (e.g. the caption-side cue, scored by benchmark/run_benchmark.py).
+    if CALIBRATION_PATH.exists():
+        previous = json.loads(CALIBRATION_PATH.read_text(encoding="utf-8"))
+        for key in ("caption_side",):
+            if key in previous and key not in out:
+                out[key] = previous[key]
     CALIBRATION_PATH.write_text(json.dumps(out, indent=2), encoding="utf-8")
     print(f"-> {CALIBRATION_PATH}")
     for name, b in out["buckets"].items():

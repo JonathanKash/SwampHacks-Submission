@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T23:40:04",
+  "generated_at": "2026-10-17T11:44:14",
   "runs": [
     "run1",
     "run2",
@@ -14,53 +14,54 @@
     "chroma": 2.0,
     "entropy": 0.5,
     "blobs": 20.0,
+    "caption_removed": 1.0,
     "edit_op": 0.05,
     "specificity": 0.01,
     "semantic_offset": 2.0,
     "semantic_scale": 5.0
   },
   "buckets": {
-    "margin ≥ 0.30": {
-      "correct": 36,
+    "margin \u2265 0.30": {
+      "correct": 35,
       "n": 38
     },
-    "margin 0.05–0.30": {
-      "correct": 95,
-      "n": 115
+    "margin 0.05\u20130.30": {
+      "correct": 99,
+      "n": 122
     },
     "margin < 0.02": {
       "correct": 62,
       "n": 92
     },
-    "margin 0.02–0.05": {
-      "correct": 25,
-      "n": 31
+    "margin 0.02\u20130.05": {
+      "correct": 16,
+      "n": 23
     }
   },
   "per_edit": {
     "caption": {
-      "correct": 38,
+      "correct": 37,
       "n": 48
     },
     "filter": {
-      "correct": 40,
+      "correct": 41,
       "n": 46
     },
     "rotate": {
-      "correct": 44,
+      "correct": 45,
       "n": 51
     },
     "crop": {
-      "correct": 46,
+      "correct": 45,
       "n": 60
     },
     "jpeg": {
-      "correct": 42,
+      "correct": 38,
       "n": 63
     },
     "root": {
-      "correct": 8,
-      "n": 8
+      "correct": 6,
+      "n": 7
     }
   },
   "caption_side": {
