@@ -229,3 +229,7 @@ Decisions in SPEC.md (v2 section). Images first; audio/video only after images w
 - [x] Calibration now carries two web-meme columns: all pairs (>=0.30 bucket 163/281 = 58%) and clean truth
       (>=0.30 bucket 110/143 = 77%; 0.05-0.30: 6/9). Both are shown by the ConfidenceChip, NumbersPanel, HTML report
       and CSV; the chip's lowest number is the conservative one.
+- [x] Gemini-edit benchmark, interim (23 edits from 4 photos + Met, pHash-only): direction 30%, abstained 44%,
+      WRONG PARENT CLAIMED 26% (object_add 2/5, text_overlay 2/3, background_swap 1/4, style_change 1/4).
+      Generative re-rendering changes resolution and every pixel slightly, which defeats the resolution cue
+      (the model output is often larger than the source). Investigating a "re-rendered copy" gate.
