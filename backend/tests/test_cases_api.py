@@ -37,8 +37,8 @@ def test_case_lifecycle(tmp_path, monkeypatch):
     assert client.get("/api/cases").json() == {"cases": []}
     assert client.get("/api/cases/deadbeef/tree").status_code == 404
 
-    case = client.post("/api/cases", json={"name": "Viral photo, Oct 16"}).json()
-    assert case["name"] == "Viral photo, Oct 16" and case["items"] == 0
+    case = client.post("/api/cases", json={"name": "Viral photo, Oct 16", "analyst": "J. Kash"}).json()
+    assert case["name"] == "Viral photo, Oct 16" and case["items"] == 0 and case["analyst"] == "J. Kash"
     cid = case["id"]
 
     rng = random.Random(0)
@@ -71,6 +71,20 @@ def test_case_lifecycle(tmp_path, monkeypatch):
     body = report.json()
     assert body["originals"] == [by_name["a.png"]["id"]]
     assert len(body["decisions"]) == 2 and body["decisions"][0]["reasons"]
+
+    page = client.get(f"/api/cases/{cid}/report.html")
+    assert page.status_code == 200 and page.headers["content-type"].startswith("text/html")
+    assert "candidate original" in page.text and "data:image/jpeg;base64," in page.text and "a.png" in page.text
+    assert "Evidence inventory" in page.text and "SHA-256" in page.text
+    # tamper-evident footprint on every item
+    fp = by_name["a.png"]["footprint"]
+    assert len(fp["sha256"]) == 64 and fp["width"] > 0 and len(fp["phash"]) == 16
+    # visual diff plate for a derived copy against its predicted source
+    diff = client.get(f"/api/cases/{cid}/diff/{by_name['b.png']['id']}")
+    assert diff.status_code == 200 and diff.headers["content-type"] == "image/png"
+    assert diff.headers["x-diff-registered"] == "true" and int(diff.headers["x-diff-inliers"]) > 0
+    assert client.get(f"/api/cases/{cid}/diff/{by_name['a.png']['id']}").status_code == 404  # roots have no source
+    assert client.get("/api/report.html").status_code == 200
 
     assert client.get("/api/cases").json()["cases"][0]["items"] == 3
     assert client.delete(f"/api/cases/{cid}").json() == {"ok": True}

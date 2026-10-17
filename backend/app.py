@@ -31,6 +31,7 @@ import io
 import json
 import os
 import re
+import subprocess
 import sys
 import threading
 import time
@@ -39,7 +40,7 @@ from pathlib import Path
 
 from fastapi import FastAPI, File, Form, Header, HTTPException, Response, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from PIL import Image
 from pydantic import BaseModel
@@ -48,6 +49,18 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from lineage import config  # noqa: E402
 from lineage.edits.image_edits import EDIT_TYPES, FILTER_KINDS  # noqa: E402
 from lineage.pool import Pool  # noqa: E402
+from lineage.report_html import render_report  # noqa: E402
+
+
+def _tool_version() -> str:
+    try:
+        return subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True,
+                              cwd=Path(__file__).resolve().parents[1], timeout=5).stdout.strip() or "dev"
+    except Exception:
+        return "dev"
+
+
+TOOL_VERSION = _tool_version()
 
 app = FastAPI(title="Lineage")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
@@ -85,11 +98,13 @@ def _case_pool(case_id: str) -> Pool:
 
 def _case_summary(case_id: str, meta: dict) -> dict:
     items = len(_case_pools[case_id].engine.items) if case_id in _case_pools else meta.get("items", 0)
-    return {"id": case_id, "name": meta["name"], "items": items, "created_at": meta["created_at"]}
+    return {"id": case_id, "name": meta["name"], "items": items, "created_at": meta["created_at"],
+            "analyst": meta.get("analyst", "")}
 
 
 class CaseCreate(BaseModel):
     name: str
+    analyst: str | None = None
 
 
 @app.get("/api/cases")
@@ -104,7 +119,7 @@ def create_case(req: CaseCreate) -> dict:
     with _cases_lock:
         index = _read_index()
         case_id = uuid.uuid4().hex[:8]
-        index[case_id] = {"name": name, "created_at": time.time(), "items": 0}
+        index[case_id] = {"name": name, "created_at": time.time(), "items": 0, "analyst": (req.analyst or "").strip()[:80]}
         _write_index(index)
     return _case_summary(case_id, index[case_id])
 
@@ -129,6 +144,8 @@ def delete_case(case_id: str, x_admin_token: str | None = Header(None)) -> dict:
 @app.post("/api/cases/{case_id}/items")
 def upload_case_items(case_id: str, files: list[UploadFile] = File(...)) -> dict:
     case = _case_pool(case_id)
+    if len(files) > 40:
+        raise HTTPException(400, "at most 40 images per upload")
     images: list[tuple[Image.Image, str]] = []
     for upload in files:
         try:
@@ -156,8 +173,47 @@ def case_tree(case_id: str, since: int | None = None):
 def case_report(case_id: str):
     case = _case_pool(case_id)
     meta = _read_index()[case_id]
-    report = case.report({"id": case_id, "name": meta["name"], "created_at": meta["created_at"]})
+    report = case.report({"id": case_id, "name": meta["name"], "created_at": meta["created_at"], "analyst": meta.get("analyst", "")})
+    report["tool"] = {"name": "Lineage", "version": TOOL_VERSION}
     return JSONResponse(report, headers={"Content-Disposition": f'attachment; filename="lineage-report-{case_id}.json"'})
+
+
+@app.get("/api/cases/{case_id}/report.html")
+def case_report_html(case_id: str):
+    """Self-contained HTML report (print to PDF from the browser)."""
+    case = _case_pool(case_id)
+    meta = _read_index()[case_id]
+    report = case.report({"id": case_id, "name": meta["name"], "created_at": meta["created_at"], "analyst": meta.get("analyst", "")})
+    report["tool"] = {"name": "Lineage", "version": TOOL_VERSION}
+    return HTMLResponse(render_report(report, case.thumbs, f"Lineage provenance report: {meta['name']}"))
+
+
+MAX_BATCH_FILES = 40
+
+
+def _diff_png(target_pool: Pool, item_id: str, other: str | None) -> Response:
+    """Diff plate of item_id against its predicted source (or an explicit `other`)."""
+    from lineage.diff import diff_plate, encode_png
+
+    if item_id not in target_pool.engine.data:
+        raise HTTPException(404, "unknown item")
+    src = other or next((n["predicted_parent"] for n in target_pool.tree["nodes"] if n["id"] == item_id), None)
+    if not src or src not in target_pool.engine.data:
+        raise HTTPException(404, "item has no source to compare with")
+    plate, info = diff_plate(target_pool.engine.data[src], target_pool.engine.data[item_id])
+    headers = {"X-Diff-Registered": str(info["registered"]).lower(), "X-Diff-Inliers": str(info["inliers"]),
+               "Cache-Control": "no-store"}
+    return Response(encode_png(plate), media_type="image/png", headers=headers)
+
+
+@app.get("/api/cases/{case_id}/diff/{item_id}")
+def case_diff(case_id: str, item_id: str, other: str | None = None):
+    return _diff_png(_case_pool(case_id), item_id, other)
+
+
+@app.get("/api/diff/{item_id}")
+def demo_diff(item_id: str, other: str | None = None):
+    return _diff_png(pool, item_id, other)
 
 
 @app.get("/cases/{case_id}/images/{file}", include_in_schema=False)
@@ -251,7 +307,8 @@ class EditRequest(BaseModel):
 
 @app.get("/api/health")
 def health() -> dict:
-    return {"ok": True, "items": len(pool.engine.items), "version": pool.version}
+    return {"ok": True, "items": len(pool.engine.items), "version": pool.version,
+            "clip": pool.engine.embedder is not None}
 
 
 @app.get("/api/pool")
@@ -277,6 +334,11 @@ def tree(since: int | None = None):
 @app.get("/api/report")
 def demo_report():
     return JSONResponse(pool.report(), headers={"Content-Disposition": 'attachment; filename="lineage-report-demo.json"'})
+
+
+@app.get("/api/report.html")
+def demo_report_html():
+    return HTMLResponse(render_report(pool.report(), pool.thumbs, "Lineage provenance report: live demo pool"))
 
 
 @app.post("/api/items")

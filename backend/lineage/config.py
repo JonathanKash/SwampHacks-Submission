@@ -23,6 +23,11 @@ def _env_bool(name: str, default: bool) -> bool:
 
 DATA_DIR: Path = Path(os.getenv("DATA_DIR", "./data")).resolve()
 
+# Low-memory mode: USE_CLIP=false skips the CLIP model (~1.5 GB RAM). Candidate search then
+# uses pHash only and "matched by meaning" edges use pHash distance. Fine for UI work and as a
+# fallback on small machines; accuracy on restyles drops.
+USE_CLIP: bool = _env_bool("USE_CLIP", True)
+
 # Candidate search: how many likely relatives to keep per item.
 CANDIDATE_K: int = 8
 

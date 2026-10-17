@@ -8,6 +8,8 @@ confidence comes from the calibrated evidence instead.
 
 from __future__ import annotations
 
+import hashlib
+import io
 import json
 import random
 import threading
@@ -54,7 +56,7 @@ def exif_hints(img: Image.Image) -> dict:
 
 
 class Pool:
-    def __init__(self, data_dir: Path = config.DATA_DIR, use_clip: bool = True,
+    def __init__(self, data_dir: Path = config.DATA_DIR, use_clip: bool = config.USE_CLIP,
                  embedder: ClipEmbedder | None = None, url_prefix: str = "", mode: str = "demo") -> None:
         self.dir = data_dir
         self.images = data_dir / "pool"
@@ -89,6 +91,11 @@ class Pool:
         """Store a new version, fingerprint it, and (by default) rebuild the tree."""
         params = dict(params or {})
         params.setdefault("metadata", exif_hints(img))
+        # Tamper-evident footprint of what was received, before any resizing.
+        raw = io.BytesIO()
+        img.save(raw, format="PNG")
+        params.setdefault("footprint", {"sha256": hashlib.sha256(raw.getvalue()).hexdigest(),
+                                        "width": img.size[0], "height": img.size[1], "bytes": len(raw.getvalue())})
         img = img.convert("RGB")
         w, h = img.size
         scale = config.MAX_SIDE / max(w, h)
@@ -213,8 +220,12 @@ class Pool:
     def public_item(self, item: dict) -> dict:
         params = dict(item["params"])
         metadata = params.pop("metadata", None)
+        footprint = params.pop("footprint", None)
+        if footprint is not None and item["id"] in self.engine.data:
+            footprint = {**footprint, "phash": f"{self.engine.data[item['id']].phash:016x}"}
         return {
             "id": item["id"],
+            "footprint": footprint,
             "url": f"{self.url_prefix}/images/{item['file']}",
             "thumb": f"{self.url_prefix}/thumbs/{item['id']}.jpg",
             "edit": item["edit"],
