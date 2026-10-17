@@ -255,3 +255,11 @@ Decisions in SPEC.md (v2 section). Images first; audio/video only after images w
       16% (was 24%), abstained 68%; true-source families wrong 10% (was 20%),
       abstained 64%. Top-bucket observed precision: all pairs 97/172,
       clean truth 71/97. calibration.json corpora columns refreshed from this pass.
+
+## Handoff (2026-10-17 18:30 ET)
+State: everything pushed to main; 133 backend tests, 9 frontend tests, smoke ALL OK, route sweep clean (8 routes x 3 widths).
+Public link: Cloudflare quick tunnel from the laptop (URL changes on restart; `.\start.ps1 -LowMemory -Tunnel` reopens
+server + tunnel and puts the new URL on the QR code). Persistent hosting: Cloudflare named tunnel or the Vultr deploy
+(deploy/README.md). Before the demo: docs/DEMO.md checklist (reseed pool, build meme case, phone QR, big screen).
+Known honest limits: web-meme calibration 56% (all pairs) / 73% (clean truth) in the top bucket vs 92% synthetic;
+object add/remove and re-rendered copies return inconclusive by design; generative corpus has 25 edits (quota).
