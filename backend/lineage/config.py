@@ -21,7 +21,10 @@ def _env_bool(name: str, default: bool) -> bool:
     return value.strip().lower() in {"1", "true", "yes", "on"}
 
 
-DATA_DIR: Path = Path(os.getenv("DATA_DIR", "./data")).resolve()
+# Default data dir is relative to the repo root, not the shell's cwd, so the server finds the
+# same pool no matter where it is launched from.
+_REPO_ROOT = Path(__file__).resolve().parents[2]
+DATA_DIR: Path = Path(os.getenv("DATA_DIR", str(_REPO_ROOT / "data"))).resolve()
 
 # Low-memory mode: USE_CLIP=false skips the CLIP model (~1.5 GB RAM). Candidate search then
 # uses pHash only and "matched by meaning" edges use pHash distance. Fine for UI work and as a
