@@ -219,5 +219,5 @@ Decisions in SPEC.md (v2 section). Images first; audio/video only after images w
       calibration corpora, identify and the new routes (ALL OK live); HTML report and CSV carry the web-memes
       precision; tree view zoom/pan with fit controls (223-item case readable); method page: decides vs informs,
       symmetry limitation, caption-removed row; deploy notes + Dockerfile copy benchmark/; CLAUDE.md refreshed.
-- [ ] identify_eval over all held-out meme variants running against the live server (results -> PLAN/Devpost).
+- [x] Identify on 378 held-out meme copies (knowledge base: 223 items, pHash-only mode): 293 correct family (77.5%), 85 abstained, 0 wrong family; median 4.13 s, p90 5.3 s. By kind: crop 31/45, caption 255/314, other 5/6, screenshot 2/13.
 - [ ] Gemini edit-corpus retry scheduled for 15:45 local (quota reset).

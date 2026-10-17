@@ -1,0 +1,799 @@
+{
+  "knowledge_base": "Meme originals · 38 families",
+  "items": 223,
+  "queries": 378,
+  "correct": 293,
+  "abstained": 85,
+  "wrong_family": 0,
+  "tree_disagreed": 196,
+  "family_accuracy": 0.775,
+  "wrong_family_rate": 0.0,
+  "median_latency_s": 4.13,
+  "p90_latency_s": 5.3,
+  "by_kind": {
+    "crop": {
+      "correct": 31,
+      "abstained": 14
+    },
+    "caption": {
+      "correct": 255,
+      "abstained": 59
+    },
+    "other": {
+      "correct": 5,
+      "abstained": 1
+    },
+    "screenshot": {
+      "abstained": 11,
+      "correct": 2
+    }
+  },
+  "failures": [
+    {
+      "family": "distracted-boyfriend",
+      "file": "distracted-boyfriend/v08_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "disaster-girl",
+      "file": "disaster-girl/v07_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "success-kid",
+      "file": "success-kid/v01_crop.jpg",
+      "kind": "crop",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "success-kid",
+      "file": "success-kid/v07_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "success-kid",
+      "file": "success-kid/v08_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "woman-yelling-at-a-cat",
+      "file": "woman-yelling-at-a-cat/v03_screenshot.jpg",
+      "kind": "screenshot",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "woman-yelling-at-a-cat",
+      "file": "woman-yelling-at-a-cat/v08_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "drake-hotline-bling",
+      "file": "drake-hotline-bling/v07_caption.png",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "drake-hotline-bling",
+      "file": "drake-hotline-bling/v14_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "expanding-brain",
+      "file": "expanding-brain/v02_crop.png",
+      "kind": "crop",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "expanding-brain",
+      "file": "expanding-brain/v08_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "two-buttons",
+      "file": "two-buttons/v08_caption.png",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "is-this-a-pigeon",
+      "file": "is-this-a-pigeon/v08_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "surprised-pikachu",
+      "file": "surprised-pikachu/v05_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "surprised-pikachu",
+      "file": "surprised-pikachu/v15_crop.png",
+      "kind": "crop",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "this-is-fine",
+      "file": "this-is-fine/v06_caption.png",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "this-is-fine",
+      "file": "this-is-fine/v07_caption.png",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "this-is-fine",
+      "file": "this-is-fine/v08_caption.png",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "this-is-fine",
+      "file": "this-is-fine/v11_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "this-is-fine",
+      "file": "this-is-fine/v12_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "this-is-fine",
+      "file": "this-is-fine/v13_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "this-is-fine",
+      "file": "this-is-fine/v14_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "this-is-fine",
+      "file": "this-is-fine/v15_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "roll-safe",
+      "file": "roll-safe/v07_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "overly-attached-girlfriend",
+      "file": "overly-attached-girlfriend/v05_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "overly-attached-girlfriend",
+      "file": "overly-attached-girlfriend/v07_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "overly-attached-girlfriend",
+      "file": "overly-attached-girlfriend/v13_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "overly-attached-girlfriend",
+      "file": "overly-attached-girlfriend/v15_crop.jpg",
+      "kind": "crop",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "scumbag-steve",
+      "file": "scumbag-steve/v07_caption.png",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "philosoraptor",
+      "file": "philosoraptor/v01_crop.jpg",
+      "kind": "crop",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "philosoraptor",
+      "file": "philosoraptor/v05_crop.jpg",
+      "kind": "crop",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "mocking-spongebob",
+      "file": "mocking-spongebob/v03_screenshot.jpg",
+      "kind": "screenshot",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "mocking-spongebob",
+      "file": "mocking-spongebob/v08_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "change-my-mind",
+      "file": "change-my-mind/v03_screenshot.jpg",
+      "kind": "screenshot",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "arthur-fist",
+      "file": "arthur-fist/v06_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "arthur-fist",
+      "file": "arthur-fist/v15_crop.jpg",
+      "kind": "crop",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "evil-kermit",
+      "file": "evil-kermit/v03_screenshot.jpg",
+      "kind": "screenshot",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "evil-kermit",
+      "file": "evil-kermit/v06_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "evil-kermit",
+      "file": "evil-kermit/v07_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "evil-kermit",
+      "file": "evil-kermit/v08_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "evil-kermit",
+      "file": "evil-kermit/v11_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "evil-kermit",
+      "file": "evil-kermit/v12_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "evil-kermit",
+      "file": "evil-kermit/v13_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "evil-kermit",
+      "file": "evil-kermit/v14_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "evil-kermit",
+      "file": "evil-kermit/v15_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "leonardo-dicaprio-cheers",
+      "file": "leonardo-dicaprio-cheers/v01_crop.jpg",
+      "kind": "crop",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "leonardo-dicaprio-cheers",
+      "file": "leonardo-dicaprio-cheers/v02_crop.jpg",
+      "kind": "crop",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "leonardo-dicaprio-cheers",
+      "file": "leonardo-dicaprio-cheers/v09_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "boardroom-meeting-suggestion",
+      "file": "boardroom-meeting-suggestion/v06_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "boardroom-meeting-suggestion",
+      "file": "boardroom-meeting-suggestion/v08_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "confused-math-lady",
+      "file": "confused-math-lady/v07_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "confused-math-lady",
+      "file": "confused-math-lady/v09_caption.png",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "confused-math-lady",
+      "file": "confused-math-lady/v15_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "side-eyeing-chloe",
+      "file": "side-eyeing-chloe/v03_crop.jpg",
+      "kind": "crop",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "side-eyeing-chloe",
+      "file": "side-eyeing-chloe/v09_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "side-eyeing-chloe",
+      "file": "side-eyeing-chloe/v13_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "side-eyeing-chloe",
+      "file": "side-eyeing-chloe/v15_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "blinking-white-guy",
+      "file": "blinking-white-guy/v02_crop.jpg",
+      "kind": "crop",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "blinking-white-guy",
+      "file": "blinking-white-guy/v04_crop.jpg",
+      "kind": "crop",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "blinking-white-guy",
+      "file": "blinking-white-guy/v06_screenshot.png",
+      "kind": "screenshot",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "blinking-white-guy",
+      "file": "blinking-white-guy/v09_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "blinking-white-guy",
+      "file": "blinking-white-guy/v10_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "blinking-white-guy",
+      "file": "blinking-white-guy/v11_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "blinking-white-guy",
+      "file": "blinking-white-guy/v14_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "one-does-not-simply",
+      "file": "one-does-not-simply/v03_screenshot.png",
+      "kind": "screenshot",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "one-does-not-simply",
+      "file": "one-does-not-simply/v06_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "one-does-not-simply",
+      "file": "one-does-not-simply/v08_caption.png",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "bernie-sanders-mittens",
+      "file": "bernie-sanders-mittens/v03_other.webp",
+      "kind": "other",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "bernie-sanders-mittens",
+      "file": "bernie-sanders-mittens/v06_screenshot.png",
+      "kind": "screenshot",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "bernie-sanders-mittens",
+      "file": "bernie-sanders-mittens/v07_screenshot.png",
+      "kind": "screenshot",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "bernie-sanders-mittens",
+      "file": "bernie-sanders-mittens/v08_screenshot.png",
+      "kind": "screenshot",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "bernie-sanders-mittens",
+      "file": "bernie-sanders-mittens/v13_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "no item explains this image clearly more cheaply than being a new original",
+      "strength": null
+    },
+    {
+      "family": "monkey-puppet",
+      "file": "monkey-puppet/v03_screenshot.png",
+      "kind": "screenshot",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "monkey-puppet",
+      "file": "monkey-puppet/v06_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "monkey-puppet",
+      "file": "monkey-puppet/v07_caption.png",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "sad-keanu",
+      "file": "sad-keanu/v03_screenshot.png",
+      "kind": "screenshot",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "sad-keanu",
+      "file": "sad-keanu/v05_crop.jpg",
+      "kind": "crop",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "sad-keanu",
+      "file": "sad-keanu/v13_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "kombucha-girl",
+      "file": "kombucha-girl/v09_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "tuxedo-winnie-the-pooh",
+      "file": "tuxedo-winnie-the-pooh/v02_crop.jpg",
+      "kind": "crop",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "tuxedo-winnie-the-pooh",
+      "file": "tuxedo-winnie-the-pooh/v05_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "tuxedo-winnie-the-pooh",
+      "file": "tuxedo-winnie-the-pooh/v07_caption.png",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "tuxedo-winnie-the-pooh",
+      "file": "tuxedo-winnie-the-pooh/v10_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "tuxedo-winnie-the-pooh",
+      "file": "tuxedo-winnie-the-pooh/v11_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    },
+    {
+      "family": "tuxedo-winnie-the-pooh",
+      "file": "tuxedo-winnie-the-pooh/v12_caption.jpg",
+      "kind": "caption",
+      "outcome": "abstained",
+      "got": null,
+      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
+      "strength": null
+    }
+  ],
+  "generated_at": "2026-10-17T13:12:32"
+}

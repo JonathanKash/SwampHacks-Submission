@@ -159,5 +159,5 @@ where to fix the engine: registration on captioned images and a caption-side cue
 - Tree accuracy on synthetic chains (CLIP mode): run1 80.7%, run2 70.0%, run3 80.0% (held out); roots 6/6.
 - Caption-side cue: 30/30 on the benchmark (shown as a Wilson lower bound of 89%).
 - Web memes before and after the registration fix: unrelated verdicts on captions 144 → 58; abstentions 62% → 47%.
-- Identify: family accuracy on held-out meme copies is measured by `benchmark/identify_eval.py` (see PLAN.md for the latest run).
+- Identify on 378 held-out meme copies (knowledge base: 223 items, pHash-only mode): 293 correct family (77.5%), 85 abstained, 0 wrong family; median 4.13 s, p90 5.3 s. By kind: crop 31/45, caption 255/314, other 5/6, screenshot 2/13. When it answers, it has been right every time; when pixels do not align it abstains.
 - 130 backend tests, 9 frontend tests, smoke test against the live server: all green.
