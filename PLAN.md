@@ -95,6 +95,13 @@ are, and an exportable report.
 ## Phase 5 — second media type: text (started 2026-10-17 ~02:30 ET)
 - [x] Media plug-in interface (lineage/media.py); Engine takes any plug-in; evidence accepts plug-in reasons
 - [x] Stateless POST /api/text/tree and a /text page (paste versions, see the tree + evidence)
-- [ ] plugins/text_media.py (Codex, in progress): SimHash/MinHash fingerprints, word-loss cost, explain
+- [x] plugins/text_media.py (Codex): SimHash/MinHash fingerprints, word-loss cost, worded explain; semantic
+      scale tuned so reworded summaries attach by meaning while unrelated text stays a separate root
+- [x] Text decisions show raw margins (the precision table is calibrated on image chains only)
+- [x] Experiment (rejected): AC-sparsity "estimated compression" cue from Gemini's research. Measured on
+      run1/run2/run3: blockiness-only 81.8/68.9/81.1, sparsity-only 71.6/65.6/66.7, both 78.4/67.8/75.6
+      vs committed 83.0/71.1/81.1. JPEG edit improved slightly with "both" but everything else lost
+      3-5 points (the statistic also moves with contrast and blur). Reverted; committed cost unchanged.
+- [x] docs/DEMO.md runbook (setup, script pointer, failure modes, numbers to quote)
 - [ ] Known limitation (images): a caption painted over an existing caption can attach to the sibling;
       a "replaced content" blob rule was tried and reverted (it lowered run1/run2 accuracy)
