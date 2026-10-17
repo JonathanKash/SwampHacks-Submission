@@ -59,8 +59,18 @@ def main() -> None:
     sys.stdout.reconfigure(encoding="utf-8")
     manifest_path = Path(__file__).parent / "manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else {"families": []}
-    done = {(f["source"]["file"], e["edit"]) for f in manifest["families"] for e in f["edits"]}
     families = {f["source"]["file"]: f for f in manifest["families"]}
+    # Reconcile with disk: an edit file written by an earlier/parallel run counts even if the
+    # manifest missed it (two drivers racing on the manifest must not lose work).
+    for src in sorted(p for p in args.sources.iterdir() if p.suffix.lower() in {".jpg", ".jpeg", ".png"}):
+        fam = families.setdefault(src.name, {"source": {"file": src.name, "sha256": sha256(src)}, "edits": []})
+        have = {e["edit"] for e in fam["edits"]}
+        for edit_id, instruction in EDITS.items():
+            dst = args.out / src.stem / f"{edit_id}.png"
+            if edit_id not in have and dst.exists() and dst.stat().st_size > 10_000:
+                fam["edits"].append({"edit": edit_id, "file": str(dst.relative_to(Path(__file__).parent)).replace("\\", "/"),
+                                     "parent": src.name, "sha256": sha256(dst), "instruction": instruction, "tool": "antigravity/gemini"})
+    done = {(f["source"]["file"], e["edit"]) for f in families.values() for e in f["edits"]}
     attempted = 0
     for src in sorted(p for p in args.sources.iterdir() if p.suffix.lower() in {".jpg", ".jpeg", ".png"}):
         fam = families.setdefault(src.name, {"source": {"file": src.name, "sha256": sha256(src)}, "edits": []})
