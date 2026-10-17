@@ -61,6 +61,30 @@ Evaluation and tests:
 .venv\Scripts\python -m pytest backend\tests -q                  # 116 tests
 ```
 
+## Compare two files: "Why is this the parent?"
+
+`POST /api/compare` (two files, or two item ids from the pool or a case) returns a verdict of
+`parent-child`, `siblings`, `unrelated` or `inconclusive`, the calibrated precision for the measured
+margin, the benchmark accuracy for the detected edit type, a signal table (what each signal found,
+which direction it points, its weight, and whether it is pixel evidence or a metadata hint), the
+signals that conflicted or were unavailable, measured AI-edit indicators, a limitations section, and
+reproducibility data (tool version, weights hash, SHA-256 of both inputs). Inconclusive is a
+first-class answer: when the two directions are within the margin we do not trust, no parent is
+claimed. The same report is available on the `/compare` page and from the CLI.
+
+## Command line (works at scale, no server)
+
+```
+.venv\Scripts\python backend\lineage_cli.py compare A.jpg B.jpg [--json]
+.venv\Scripts\python backend\lineage_cli.py tree FOLDER [--json --out report.json]
+.venv\Scripts\python backend\lineage_cli.py place IMAGE --against FOLDER   # where does IMAGE land; recognises a late original
+.venv\Scripts\python backend\lineage_cli.py batch-compare FOLDER --out pairs.csv
+```
+
+Add `--no-clip` on small machines. Benchmarks: `python benchmark/run_benchmark.py [--no-clip] [--corpus ...]`
+reports per corpus and edit type the direction accuracy, how often a wrong parent was claimed, how
+often the system abstained, family root recovery, a calibration check and the failure cases.
+
 ## Architecture
 
 ```

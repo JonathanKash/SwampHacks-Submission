@@ -12,8 +12,10 @@ import { useSearchParams } from "react-router-dom";
 import {
   ApiError,
   type AuditCase,
+  type CompareReportResponse,
   type TreeNode,
   type TreeResponse,
+  compareIds,
   createCase,
   createSampleCase,
   deleteCase,
@@ -24,6 +26,7 @@ import {
   reportUrl,
   uploadCaseFiles,
 } from "./api";
+import CompareReport from "./CompareReport";
 import EvidenceList, { reliabilityTier } from "./EvidenceList";
 import NavBar from "./NavBar";
 import { provenancePath, provenanceSentence } from "./provenance";
@@ -95,6 +98,10 @@ export default function AuditPage() {
   const [copied, setCopied] = useState(false);
   const [copiedHash, setCopiedHash] = useState(false);
   const [compareWith, setCompareWith] = useState("");
+  const [parentReport, setParentReport] = useState<CompareReportResponse | null>(null);
+  const [parentReportOpen, setParentReportOpen] = useState(false);
+  const [parentReportLoading, setParentReportLoading] = useState(false);
+  const [parentReportError, setParentReportError] = useState<string | null>(null);
   const [verifyVerdict, setVerifyVerdict] = useState<string | null>(null);
 
   // Re-check a previously downloaded JSON report against the server's hash/signature.
@@ -116,13 +123,22 @@ export default function AuditPage() {
     }
   };
 
-  // A new selection starts without a comparison target.
-  useEffect(() => setCompareWith(""), [selectedNodeId]);
   const copyResetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hashCopyResetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const compareRequestRef = useRef<AbortController | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const returnFocusRef = useRef<SVGGElement | null>(null);
   const selectedCaseId = searchParams.get("case");
+
+  // A new selection starts without comparison state from the prior image.
+  useEffect(() => {
+    compareRequestRef.current?.abort();
+    setCompareWith("");
+    setParentReport(null);
+    setParentReportOpen(false);
+    setParentReportLoading(false);
+    setParentReportError(null);
+  }, [selectedNodeId]);
 
   const selectCase = useCallback((id: string | null) => {
     setSearchParams((current) => {
@@ -155,6 +171,7 @@ export default function AuditPage() {
   useEffect(() => () => {
     if (copyResetTimer.current !== null) clearTimeout(copyResetTimer.current);
     if (hashCopyResetTimer.current !== null) clearTimeout(hashCopyResetTimer.current);
+    compareRequestRef.current?.abort();
   }, []);
 
   useEffect(() => {
@@ -351,6 +368,38 @@ export default function AuditPage() {
       hashCopyResetTimer.current = setTimeout(() => setCopiedHash(false), 1_500);
     } catch (copyError) {
       setError(messageFrom(copyError));
+    }
+  };
+
+  const handleCompareParent = async () => {
+    if (!selectedNode?.predicted_parent || !selectedCaseId || parentReportLoading) return;
+    if (parentReport) {
+      setParentReportOpen((open) => !open);
+      return;
+    }
+
+    const controller = new AbortController();
+    compareRequestRef.current?.abort();
+    compareRequestRef.current = controller;
+    setParentReportLoading(true);
+    setParentReportError(null);
+    try {
+      const next = await compareIds(
+        selectedNode.predicted_parent,
+        selectedNode.id,
+        selectedCaseId,
+        controller.signal,
+      );
+      if (!controller.signal.aborted) {
+        setParentReport(next);
+        setParentReportOpen(true);
+      }
+    } catch (compareError) {
+      if (!(compareError instanceof DOMException && compareError.name === "AbortError")) {
+        setParentReportError(messageFrom(compareError));
+      }
+    } finally {
+      if (!controller.signal.aborted) setParentReportLoading(false);
     }
   };
 
@@ -639,6 +688,35 @@ export default function AuditPage() {
                         key={`${selectedNode.id}-${tree.version}`}
                         src={`/api/cases/${encodeURIComponent(selectedCase.id)}/diff/${encodeURIComponent(selectedNode.id)}?t=${tree.version}`}
                       />
+                    )}
+                    {selectedNode.predicted_parent && (
+                      <div className="compare-parent-control">
+                        <button
+                          className="primary-button"
+                          type="button"
+                          aria-expanded={parentReport ? parentReportOpen : undefined}
+                          aria-controls="audit-parent-compare-report"
+                          disabled={parentReportLoading}
+                          onClick={() => void handleCompareParent()}
+                        >
+                          {parentReportLoading ? (
+                            <>
+                              <span className="spinner" aria-hidden="true" />
+                              Aligning and measuring…
+                            </>
+                          ) : parentReport && parentReportOpen ? (
+                            "Hide pairwise report"
+                          ) : (
+                            "Why is this the parent?"
+                          )}
+                        </button>
+                        {parentReportError && <p className="compare-inline-error" role="alert">{parentReportError}</p>}
+                        {parentReport && parentReportOpen && (
+                          <div id="audit-parent-compare-report">
+                            <CompareReport report={parentReport} />
+                          </div>
+                        )}
+                      </div>
                     )}
                     {tree && tree.nodes.length > 1 && (
                       <div className="compare-with">

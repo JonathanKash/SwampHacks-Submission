@@ -186,3 +186,48 @@ def test_c2pa_presence_check():
     fake = b"\xff\xd8\xff\xeb" + b"\x00\x40JP" + b"\x00\x00\x00\x20jumb"
     fake += b"\x00\x00\x00\x18jumdc2pa\x00" + b"\xff\xd9"
     assert c2pa_present(fake) is True
+
+
+def test_add_by_url_and_web_search_guards(tmp_path, monkeypatch):
+    import importlib
+
+    from lineage import config
+
+    monkeypatch.setenv("DATA_DIR", str(tmp_path))
+    importlib.reload(config)
+    import app as app_module
+
+    importlib.reload(app_module)
+    app_module.pool = Pool(tmp_path, use_clip=False)
+    monkeypatch.setattr(app_module, "CASES_DIR", tmp_path / "cases")
+    monkeypatch.setattr(app_module, "CASES_INDEX", tmp_path / "cases" / "index.json")
+    app_module._case_pools.clear()
+    from fastapi.testclient import TestClient
+
+    client = TestClient(app_module.app)
+    cid = client.post("/api/cases", json={"name": "web"}).json()["id"]
+
+    # fetch_image is stubbed: one good url, one bad url
+    import lineage.web_candidates as wc
+
+    def fake_fetch(url, timeout=30.0):
+        if "bad" in url:
+            raise ValueError("HTTP 404 for " + url)
+        img = synthetic_photo(8)
+        buf = io.BytesIO()
+        img.save(buf, format="JPEG", quality=85)
+        return img, buf.getvalue()
+
+    monkeypatch.setattr(wc, "fetch_image", fake_fetch)
+    r = client.post(f"/api/cases/{cid}/items/urls", json={"urls": ["https://example.com/a.jpg", "https://example.com/bad.jpg"]})
+    assert r.status_code == 200
+    body = r.json()
+    assert len(body["items"]) == 1 and body["items"][0]["source"] == "web" and body["items"][0]["params"]["source_url"].endswith("a.jpg")
+    assert body["failed"][0]["url"].endswith("bad.jpg")
+    item_id = body["items"][0]["id"]
+    # reverse-image search refuses clearly without PUBLIC_URL / SERPAPI_KEY
+    monkeypatch.delenv("PUBLIC_URL", raising=False)
+    assert client.post(f"/api/cases/{cid}/web-search/{item_id}").status_code == 503
+    monkeypatch.setenv("PUBLIC_URL", "https://lineage.example.com")
+    monkeypatch.delenv("SERPAPI_KEY", raising=False)
+    assert client.post(f"/api/cases/{cid}/web-search/{item_id}").status_code == 503

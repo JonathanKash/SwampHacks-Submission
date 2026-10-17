@@ -118,3 +118,13 @@ export function TextLinesIcon({ width = 16, ...props }: IconProps) {
     </svg>
   );
 }
+
+export function CompareIcon({ width = 16, ...props }: IconProps) {
+  return (
+    <svg {...iconProps(width)} {...props}>
+      <rect x="3" y="5" width="7" height="11" rx="1.5" />
+      <rect x="14" y="8" width="7" height="11" rx="1.5" />
+      <path d="m10 10 4 4M13 11l1 3-3-1" />
+    </svg>
+  );
+}

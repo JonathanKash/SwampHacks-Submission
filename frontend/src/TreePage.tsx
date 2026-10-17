@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { type TreeNode, deleteItem } from "./api";
+import { type CompareReportResponse, type TreeNode, compareIds, deleteItem } from "./api";
+import CompareReport from "./CompareReport";
 import EvidenceList from "./EvidenceList";
 import ModeBadge from "./ModeBadge";
 import NewestOverlay from "./NewestOverlay";
@@ -23,8 +24,13 @@ export default function TreePage() {
 
   const { tree, loading, fetching, error } = useTreePolling();
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [parentReport, setParentReport] = useState<CompareReportResponse | null>(null);
+  const [parentReportOpen, setParentReportOpen] = useState(false);
+  const [parentReportLoading, setParentReportLoading] = useState(false);
+  const [parentReportError, setParentReportError] = useState<string | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const returnFocusRef = useRef<SVGGElement | null>(null);
+  const compareRequestRef = useRef<AbortController | null>(null);
   const selectNode = useCallback((node: TreeNode, target: SVGGElement) => {
     returnFocusRef.current = target;
     setSelectedId(node.id);
@@ -56,10 +62,47 @@ export default function TreePage() {
   }, [selectedId, tree]);
 
   useEffect(() => {
+    compareRequestRef.current?.abort();
+    setParentReport(null);
+    setParentReportOpen(false);
+    setParentReportLoading(false);
+    setParentReportError(null);
+  }, [selectedId]);
+
+  useEffect(() => () => compareRequestRef.current?.abort(), []);
+
+  useEffect(() => {
     if (selectedId) closeButtonRef.current?.focus();
   }, [selectedId]);
 
   const accuracy = tree?.accuracy;
+
+  const handleCompareParent = async () => {
+    if (!selectedNode?.predicted_parent || parentReportLoading) return;
+    if (parentReport) {
+      setParentReportOpen((open) => !open);
+      return;
+    }
+
+    const controller = new AbortController();
+    compareRequestRef.current?.abort();
+    compareRequestRef.current = controller;
+    setParentReportLoading(true);
+    setParentReportError(null);
+    try {
+      const next = await compareIds(selectedNode.predicted_parent, selectedNode.id, undefined, controller.signal);
+      if (!controller.signal.aborted) {
+        setParentReport(next);
+        setParentReportOpen(true);
+      }
+    } catch (compareError) {
+      if (!(compareError instanceof DOMException && compareError.name === "AbortError")) {
+        setParentReportError(compareError instanceof Error ? compareError.message : "Could not compare this pair.");
+      }
+    } finally {
+      if (!controller.signal.aborted) setParentReportLoading(false);
+    }
+  };
 
   return (
     <main className="tree-page">
@@ -188,6 +231,35 @@ export default function TreePage() {
                     key={`${selectedNode.id}-${tree.version}`}
                     src={`/api/diff/${encodeURIComponent(selectedNode.id)}?t=${tree.version}`}
                   />
+                )}
+                {!selectedNode.root && selectedNode.predicted_parent && (
+                  <div className="compare-parent-control">
+                    <button
+                      className="primary-button"
+                      type="button"
+                      aria-expanded={parentReport ? parentReportOpen : undefined}
+                      aria-controls="tree-parent-compare-report"
+                      disabled={parentReportLoading}
+                      onClick={() => void handleCompareParent()}
+                    >
+                      {parentReportLoading ? (
+                        <>
+                          <span className="spinner" aria-hidden="true" />
+                          Aligning and measuring…
+                        </>
+                      ) : parentReport && parentReportOpen ? (
+                        "Hide pairwise report"
+                      ) : (
+                        "Why is this the parent?"
+                      )}
+                    </button>
+                    {parentReportError && <p className="compare-inline-error" role="alert">{parentReportError}</p>}
+                    {parentReport && parentReportOpen && (
+                      <div id="tree-parent-compare-report">
+                        <CompareReport report={parentReport} />
+                      </div>
+                    )}
+                  </div>
                 )}
                 {incomingEdge ? (
                   <div className="edge-details">

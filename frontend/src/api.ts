@@ -64,6 +64,41 @@ export interface CalibrationResponse {
   per_edit: Record<string, { correct: number; n: number }>;
 }
 
+export type CompareVerdict = "parent-child" | "siblings" | "unrelated" | "inconclusive";
+
+export interface CompareReportResponse {
+  verdict: CompareVerdict;
+  relation: string;
+  parent: "A" | "B" | null;
+  child: "A" | "B" | null;
+  summary: string;
+  confidence: { bucket: string | null; precision: number | null; n: number };
+  benchmark_for_edit_type: { edit_type: string | null; accuracy: number | null; n: number };
+  costs: { a_to_b: number; b_to_a: number; margin: number | null };
+  explain: { a_to_b: string; b_to_a: string };
+  signals: Array<{
+    signal: string;
+    found: string;
+    direction: string;
+    weight: number | string;
+    kind: "pixel" | "semantic" | "metadata" | "gate";
+  }>;
+  conflicts: string[];
+  unavailable: string[];
+  ai_edit_indicators: string[];
+  limitations: string[];
+  reproducibility: {
+    tool_version: string;
+    weights_sha256_12: string;
+    input_sha256: { A: string | null; B: string | null };
+    calibration_runs: string[];
+  };
+  plates: {
+    a_to_b: { png: string; registered: boolean; inliers: number };
+    b_to_a: { png: string; registered: boolean; inliers: number };
+  };
+}
+
 /** What a parent decision was made from: measurements, the alternatives, and calibrated confidence. */
 export interface Evidence {
   chosen_cost: number;
@@ -179,6 +214,27 @@ export function fetchPool(signal?: AbortSignal): Promise<PoolResponse> {
 
 export function fetchCalibration(signal?: AbortSignal): Promise<CalibrationResponse> {
   return requestJson<CalibrationResponse>("/api/calibration", { signal });
+}
+
+export function comparePair(formData: FormData, signal?: AbortSignal): Promise<CompareReportResponse> {
+  return requestJson<CompareReportResponse>("/api/compare", {
+    method: "POST",
+    body: formData,
+    signal,
+  });
+}
+
+export function compareIds(
+  aId: string,
+  bId: string,
+  caseId?: string,
+  signal?: AbortSignal,
+): Promise<CompareReportResponse> {
+  const body = new FormData();
+  body.append("a_id", aId);
+  body.append("b_id", bId);
+  if (caseId) body.append("case", caseId);
+  return comparePair(body, signal);
 }
 
 export function submitEdit(payload: EditRequest, signal?: AbortSignal): Promise<PoolItem> {

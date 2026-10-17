@@ -7,8 +7,13 @@ before building manifest.json).
 
 Usage: python harvest.py families.json harvested.json [id1,id2,...]
 """
-import json, re, sys, time, html
+import html
+import json
+import re
+import sys
+import time
 from pathlib import Path
+
 import requests
 
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
@@ -33,27 +38,38 @@ IMGFLIP_ITEM = re.compile(
     r".*?<img class='base-img' src='//i\.imgflip\.com/(\w+)\.(jpg|png|gif)'", re.S)
 
 
-def imgflip(slug, n=12):
-    out = {"slug": slug, "template_url": f"https://imgflip.com/s/meme/{slug}.jpg"}
-    r = get(out["template_url"])
-    out["template_ok"] = bool(r is not None and r.status_code == 200 and r.headers.get("content-type", "").startswith("image"))
-    r = get(f"https://imgflip.com/meme/{slug}?sort=top-365d")
-    memes = []
-    out["title"] = None
-    if r is not None and r.status_code == 200:
-        out["title"] = strip("".join(re.findall(r"<title>(.*?)</title>", r.text)))
+def imgflip(slug, n=14):
+    """slug is either a named template ("Distracted-Boyfriend") or "<id>/<Name>"."""
+    out = {"slug": slug, "template_url": None, "template_ok": False, "title": None, "memes": []}
+    if "/" in slug:
+        r = get(f"https://imgflip.com/memetemplate/{slug}")
+        if r is not None and r.status_code == 200:
+            m = re.search(r"(?:https?:)?//i\.imgflip\.com/([\w/]+\.(?:jpg|png))", r.text)
+            if m:
+                out["template_url"] = f"https://i.imgflip.com/{m.group(1)}"
+    else:
+        out["template_url"] = f"https://imgflip.com/s/meme/{slug}.jpg"
+    if out["template_url"]:
+        r = get(out["template_url"])
+        out["template_ok"] = bool(r is not None and r.status_code == 200 and r.headers.get("content-type", "").startswith("image"))
+    seen = set()
+    for params in (None, {"sort": "top-365d"}, {"page": 2}):
+        r = get(f"https://imgflip.com/meme/{slug}", params=params)
+        if r is None or r.status_code != 200:
+            continue
+        if out["title"] is None:
+            out["title"] = strip("".join(re.findall(r"<title>(.*?)</title>", r.text)))
         for m in IMGFLIP_ITEM.finditer(r.text):
             code, title, code2, ext = m.groups()
-            if ext == "gif":
+            if ext == "gif" or code2 in seen:
                 continue
-            memes.append({"url": f"https://i.imgflip.com/{code2}.{ext}", "page": f"https://imgflip.com/i/{code}", "title": strip(title)})
-            if len(memes) >= n:
-                break
-    out["memes"] = memes
+            seen.add(code2)
+            out["memes"].append({"url": f"https://i.imgflip.com/{code2}.{ext}", "page": f"https://imgflip.com/i/{code}", "title": strip(title)})
+        if len(out["memes"]) >= n:
+            break
+        time.sleep(0.3)
+    out["memes"] = out["memes"][:n]
     return out
-
-
-KYM_PHOTO = re.compile(r'<a class="item"[^>]*?alt="([^"]*)"[^>]*?data-title="([^"]*)"[^>]*?href="([^"]+)">.*?data-image="([^"]+)" src="([^"]+)"', re.S)
 
 
 def kym(slug, n=10):
@@ -100,12 +116,19 @@ def kym(slug, n=10):
     r = get(f"https://knowyourmeme.com/memes/{slug}/photos?sort=views")
     photos = []
     if r is not None and r.status_code == 200:
-        for pm in KYM_PHOTO.finditer(r.text):
-            alt, title, page, orig, masonry = pm.groups()
-            if re.search(r"\.(gif|mp4|webm)$", orig.lower()):
+        blocks = r.text.split('<a class="item"')[1:]
+        for b in blocks:
+            b = b.split("</a>")[0]
+            u = re.search(r'https://i\.kym-cdn\.com/photos/images/(?:original|masonry|newsfeed|list|small|facebook)/(\d{3}/\d{3}/\d{3}/[^"\s<>]+)', b)
+            if not u:
                 continue
-            photos.append({"url": orig, "masonry_url": masonry, "page": page.replace(":443", ""),
-                           "title": html.unescape(title), "alt": html.unescape(alt)[:200]})
+            tail = u.group(1)
+            if re.search(r"\.(gif|mp4|webm)$", tail.lower()):
+                continue
+            alt = re.search(r'alt="([^"]*)"', b); title = re.search(r'data-title="([^"]*)"', b); page = re.search(r'href="([^"]+)"', b)
+            photos.append({"url": f"https://i.kym-cdn.com/photos/images/original/{tail}", "masonry_url": f"https://i.kym-cdn.com/photos/images/masonry/{tail}",
+                           "page": (page.group(1) if page else "").replace(":443", ""), "title": html.unescape(title.group(1) if title else ""),
+                           "alt": html.unescape(alt.group(1) if alt else "")[:200]})
             if len(photos) >= n:
                 break
     out["photos"] = photos

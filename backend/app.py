@@ -214,6 +214,69 @@ def upload_case_items(case_id: str, files: list[UploadFile] = File(...)) -> dict
     return {"items": added}
 
 
+class UrlList(BaseModel):
+    urls: list[str]
+
+
+@app.post("/api/cases/{case_id}/items/urls")
+def add_case_items_by_url(case_id: str, req: UrlList) -> dict:
+    """Add images from URLs (a tweet, an article, a listing). Each item keeps its source URL."""
+    from lineage.web_candidates import fetch_image
+
+    case = _case_pool(case_id)
+    if not req.urls or len(req.urls) > 40:
+        raise HTTPException(400, "give 1 to 40 urls")
+    added, failed = [], []
+    for url in req.urls:
+        try:
+            img, raw = fetch_image(url)
+        except ValueError as exc:
+            failed.append({"url": url, "error": str(exc)[:200]})
+            continue
+        added.append(case.add_image(img, None, None, {"filename": url.rsplit("/", 1)[-1][:80], "source_url": url},
+                                    source="web", rebuild=False, raw=raw))
+    with case.lock:
+        case._rebuild()
+    with _cases_lock:
+        index = _read_index()
+        if case_id in index:
+            index[case_id]["items"] = len(case.engine.items)
+            _write_index(index)
+    return {"items": added, "failed": failed}
+
+
+@app.post("/api/cases/{case_id}/web-search/{item_id}")
+def web_search_case_item(case_id: str, item_id: str, limit: int = 10) -> dict:
+    """Pull visually similar images from the web into the case (needs SERPAPI_KEY and PUBLIC_URL)."""
+    from lineage.web_candidates import fetch_image, reverse_image_search
+
+    case = _case_pool(case_id)
+    node = next((n for n in case.tree["nodes"] if n["id"] == item_id), None)
+    if node is None:
+        raise HTTPException(404, "unknown item")
+    public = os.getenv("PUBLIC_URL")
+    if not public:
+        raise HTTPException(503, "PUBLIC_URL is not set: the search provider needs a publicly reachable image URL (deployed server)")
+    try:
+        candidates = reverse_image_search(public.rstrip("/") + node["url"], limit=limit)
+    except PermissionError as exc:
+        raise HTTPException(503, str(exc)) from exc
+    except Exception as exc:
+        raise HTTPException(502, f"search provider error: {exc}") from exc
+    added, failed = [], []
+    for c in candidates:
+        try:
+            img, raw = fetch_image(c.url)
+        except ValueError as exc:
+            failed.append({"url": c.url, "error": str(exc)[:200]})
+            continue
+        added.append(case.add_image(img, None, None, {"filename": c.url.rsplit("/", 1)[-1][:80], "source_url": c.source or c.url,
+                                                      "title": c.title, "provider": c.provider}, source="web", rebuild=False, raw=raw))
+    with case.lock:
+        case._rebuild()
+    return {"items": added, "failed": failed, "candidates": len(candidates)}
+
+
 @app.get("/api/cases/{case_id}/tree")
 def case_tree(case_id: str, since: int | None = None):
     case = _case_pool(case_id)

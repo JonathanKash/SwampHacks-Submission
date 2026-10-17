@@ -211,6 +211,9 @@ export default function LandingPage() {
             </p>
           </div>
         </div>
+        <p className="compare-invite">
+          Have two files? <Link to="/compare">Compare them</Link> and ask why one is the parent.
+        </p>
         <div className="join-row">
           <QrCode size={120} label="scan on your phone to make an edit" />
         </div>
