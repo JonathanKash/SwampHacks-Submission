@@ -160,4 +160,4 @@ where to fix the engine: registration on captioned images and a caption-side cue
 - Caption-side cue: 30/30 on the benchmark (shown as a Wilson lower bound of 89%).
 - Web memes before and after the registration fix: unrelated verdicts on captions 144 → 58; abstentions 62% → 47%.
 - Identify: family accuracy on held-out meme copies is measured by `benchmark/identify_eval.py` (see PLAN.md for the latest run).
-- 128 backend tests, 9 frontend tests, smoke test against the live server: all green.
+- 130 backend tests, 9 frontend tests, smoke test against the live server: all green.
