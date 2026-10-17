@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T23:23:34",
+  "generated_at": "2026-10-16T23:40:04",
   "runs": [
     "run1",
     "run2",
@@ -24,9 +24,9 @@
       "correct": 36,
       "n": 38
     },
-    "margin 0.05\u20130.10": {
-      "correct": 76,
-      "n": 89
+    "margin 0.05\u20130.30": {
+      "correct": 95,
+      "n": 115
     },
     "margin < 0.02": {
       "correct": 62,
@@ -35,10 +35,6 @@
     "margin 0.02\u20130.05": {
       "correct": 25,
       "n": 31
-    },
-    "margin 0.10\u20130.30": {
-      "correct": 19,
-      "n": 26
     }
   },
   "per_edit": {

@@ -32,6 +32,8 @@ updates with evidence -> audit batch upload -> calibrated confidence -> industry
 - **Caption over a caption** attaches to the sibling: known limitation, documented in PLAN.md.
 - **The TV page goes dark**: an error boundary now shows the message and a Reload button; reload.
 - **Port 8000 is taken** on the dev laptop; everything is on 8010.
+- **Memory**: the server holds one CLIP model (~1.5 GB). Do not run `eval.py` / `calibrate.py` next to
+  it on a 16 GB laptop during the demo; each loads its own copy.
 - **Reset mid-event**: `POST /api/reset` with header `X-Admin-Token: <ADMIN_TOKEN>` (if set), then
   rerun `seed_pool.py` and restart the server.
 

@@ -18,10 +18,10 @@ from lineage.types import CostResult
 CALIBRATION_PATH = Path(__file__).with_name("calibration.json")
 
 # Margin buckets (lower bound inclusive). Must match scripts/calibrate.py.
+# Four buckets: with ~280 evaluated decisions, finer splits were non-monotone from sampling noise.
 MARGIN_BUCKETS: tuple[tuple[float, str], ...] = (
     (0.30, "margin ≥ 0.30"),
-    (0.10, "margin 0.10–0.30"),
-    (0.05, "margin 0.05–0.10"),
+    (0.05, "margin 0.05–0.30"),
     (0.02, "margin 0.02–0.05"),
     (0.0, "margin < 0.02"),
 )
