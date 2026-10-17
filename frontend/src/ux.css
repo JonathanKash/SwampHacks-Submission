@@ -1231,6 +1231,68 @@ p a {
   font-size: 0.9rem;
 }
 
+.candidate-original-callout {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border: 1px solid rgba(98, 230, 166, 0.42);
+  border-radius: 14px;
+  background: rgba(98, 230, 166, 0.08);
+}
+
+.candidate-original-callout strong {
+  display: block;
+  color: var(--green);
+  font-size: 0.82rem;
+}
+
+.candidate-original-callout p {
+  margin: 6px 0 0;
+  color: #d4ddd7;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.original-recognised-toast {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 20;
+  display: flex;
+  max-width: min(460px, calc(100vw - 32px));
+  padding: 13px 14px 13px 16px;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid rgba(98, 230, 166, 0.55);
+  border-radius: 14px;
+  color: #dff9ec;
+  background: rgba(13, 36, 27, 0.96);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45), 0 0 0 2px rgba(98, 230, 166, 0.12);
+  font-size: 0.9rem;
+  font-weight: 750;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.original-recognised-toast button {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  color: var(--green);
+  background: transparent;
+  font: inherit;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.original-recognised-toast button:hover,
+.original-recognised-toast button:focus-visible {
+  color: #06100b;
+  background: var(--green);
+}
+
 /* ---- big-screen arrival overlay ------------------------------------------- */
 .arrival {
   position: absolute;
@@ -1251,6 +1313,14 @@ p a {
 
 .arrival.is-ok { box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6), 0 0 0 3px rgba(98, 230, 166, 0.45); }
 .arrival.is-bad { box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6), 0 0 0 3px rgba(255, 101, 120, 0.5); }
+.arrival.is-original {
+  border-color: rgba(98, 230, 166, 0.62);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6), 0 0 0 3px rgba(98, 230, 166, 0.48);
+}
+
+.arrival.is-original .eyebrow {
+  color: var(--green);
+}
 
 .arrival-pair {
   display: flex;
@@ -1276,6 +1346,22 @@ p a {
 
 .arrival-pair figure.is-new img {
   box-shadow: 0 0 0 3px var(--orange);
+}
+
+.arrival.is-original .arrival-pair figure.is-new img {
+  box-shadow: 0 0 0 3px var(--green);
+}
+
+.arrival-explained {
+  display: grid;
+  width: min(280px, 42%);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.arrival-explained img {
+  border: 1px solid rgba(98, 230, 166, 0.38);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
 .arrival-pair figcaption {
@@ -1311,6 +1397,30 @@ p a {
 
 @media (prefers-reduced-motion: reduce) {
   .arrival { animation: none; }
+}
+
+@media (max-width: 620px) {
+  .arrival.is-original {
+    padding-inline: 18px;
+  }
+
+  .arrival.is-original .arrival-pair {
+    gap: 10px;
+  }
+
+  .arrival-explained {
+    grid-template-columns: 1fr;
+  }
+
+  .arrival-explained img:nth-child(n + 3) {
+    display: none;
+  }
+}
+
+@media print {
+  .original-recognised-toast {
+    display: none !important;
+  }
 }
 
 /* ---- scan-to-join QR -------------------------------------------------------- */

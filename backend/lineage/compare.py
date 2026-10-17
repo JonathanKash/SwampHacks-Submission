@@ -15,7 +15,7 @@ import numpy as np
 
 from lineage import config
 from lineage.evidence import confidence_for, load_calibration
-from lineage.plugins import image_cost, image_explain
+from lineage.plugins import image_cost, image_explain, noise
 from lineage.types import CostResult, ImageData
 
 SIBLING_UNCOVERED = 0.05  # each side leaves at least this fraction of the other uncovered
@@ -50,6 +50,8 @@ def compare(a: ImageData, b: ImageData, meta_a: dict | None = None, meta_b: dict
     signals: list[dict[str, Any]] = []
     conflicts: list[str] = []
     unavailable: list[str] = []
+    decisive: list[str] = []
+    noise_report: dict | None = None
     if a.embedding is None or b.embedding is None:
         unavailable.append("CLIP embeddings (server in low-memory mode): semantic similarity falls back to pHash")
     for label, meta in (("A", meta_a), ("B", meta_b)):
@@ -88,10 +90,29 @@ def compare(a: ImageData, b: ImageData, meta_a: dict | None = None, meta_b: dict
         else:
             forward = ab.total < ba.total  # a -> b is the cheap direction
             parent, child = ("A", "B") if forward else ("B", "A")
-            verdict, relation = "parent-child", f"{parent} is the parent of {child}"
             cheap, dear = (ab, ba) if forward else (ba, ab)
-            summary = (f"Producing {child} from {parent} costs {cheap.total:.3f}; producing {parent} from {child} would cost "
-                       f"{dear.total:.3f} ({dear.total / max(cheap.total, 1e-6):.1f}× more). Read as: {image_explain.explain(cheap)}.")
+            # Which cues does the direction rest on? Drop each term in turn: if the direction
+            # flips or falls inside the margin without it, that cue is decisive.
+            for key in ("coverage", "color_residual", "blockiness", "resolution", "chroma", "entropy", "blobs", "edit_ops"):
+                ab_wo, ba_wo = ab.total - ab.terms.get(key, 0.0), ba.total - ba.terms.get(key, 0.0)
+                if ((ab_wo < ba_wo) != forward) or abs(ab_wo - ba_wo) < MIN_DIRECTION_MARGIN:
+                    decisive.append(key)
+            noise_report = noise.noise_consistency(a if forward else b, b if forward else a)
+            caption_like = bool(noise_report and noise_report.get("caption_like"))
+            if decisive == ["blobs"] and not caption_like:
+                # A compact region of content that one image has and the other lacks is symmetric:
+                # an object added to the parent, or an object removed from it. Only a two-tone
+                # (caption-like) region is the calibrated case. Say so instead of guessing.
+                verdict, relation = "inconclusive", "content differs in one region: added or removed, pixels alone cannot tell which"
+                summary = (f"The two align and differ only in a compact region ({(noise_report or {}).get('region_fraction', 0):.1%} of the frame). "
+                           f"Reading it as content added gives {cheap.total:.3f} for {parent}→{child}; reading it as content removed gives "
+                           f"{dear.total:.3f} the other way. Our calibration covers captions, not object add/remove, so no parent is claimed. "
+                           "Compression history or a third version would settle it.")
+                parent = child = None
+            else:
+                verdict, relation = "parent-child", f"{parent} is the parent of {child}"
+                summary = (f"Producing {child} from {parent} costs {cheap.total:.3f}; producing {parent} from {child} would cost "
+                           f"{dear.total:.3f} ({dear.total / max(cheap.total, 1e-6):.1f}× more). Read as: {image_explain.explain(cheap)}.")
 
     # ---- signal table ---------------------------------------------------------------
     def add(signal: str, found: str, direction: str, weight: float | str, kind: str = "pixel") -> None:
@@ -135,6 +156,8 @@ def compare(a: ImageData, b: ImageData, meta_a: dict | None = None, meta_b: dict
             add("C2PA manifest", f"present on {label} (signature not verified here)", "signed provenance exists", "hint", "metadata")
         if md.get("software"):
             add("EXIF software tag", f"{label}: {md['software']}", "hint only", "hint", "metadata")
+    if registered and parent and len(decisive) == 1:
+        conflicts.append(f"The direction rests on a single cue ({decisive[0]}); without it the direction would be undetermined.")
     if registered and parent:
         # conflicts among pixel cues: a cue that penalises the chosen direction
         cheap = ab if parent == "A" else ba
@@ -144,6 +167,23 @@ def compare(a: ImageData, b: ImageData, meta_a: dict | None = None, meta_b: dict
 
     # ---- AI-edit indicators (measured only) ------------------------------------------
     ai_indicators: list[str] = []
+    if registered and noise_report is not None:
+        who = child or "the derived copy"
+        if noise_report.get("two_tone") is not None:
+            add("changed-region colour structure", f"{noise_report['two_tone']:.0%} of the changed pixels fall in two colours"
+                + (" (caption-like)" if noise_report.get("caption_like") else " (natural content)"), "indicator only", "indicator")
+        if noise_report.get("measurable"):
+            add("noise consistency of the changed region",
+                f"high-pass noise inside the changed {noise_report['region_fraction']:.1%} of {who}: "
+                f"{noise_report['noise_inside_changed']}, outside: {noise_report['noise_outside']} (ratio {noise_report['ratio']})",
+                "indicator only, no direction", "indicator")
+            if noise_report["break"]:
+                how = "smoother" if noise_report["ratio"] < 1 else "noisier"
+                ai_indicators.append(f"The region of {who} that differs from the other image is {how} than the rest of the frame "
+                                     f"(noise ratio {noise_report['ratio']}). Generated fills and pasted content usually break noise "
+                                     "consistency this way. Not proof of AI use.")
+        else:
+            unavailable.append("noise consistency (no local change region of usable size to measure)")
     if not registered and related_by_meaning:
         ai_indicators.append("Same subject, no pixel alignment: typical of generative re-rendering or heavy restyling. Not proof of AI use.")
     for label, meta in (("A", meta_a), ("B", meta_b)):
@@ -173,6 +213,8 @@ def compare(a: ImageData, b: ImageData, meta_a: dict | None = None, meta_b: dict
         "conflicts": conflicts,
         "unavailable": unavailable,
         "ai_edit_indicators": ai_indicators,
+        "noise": noise_report,
+        "decisive_cues": decisive,
         "limitations": [
             "Verdicts come from pixel measurements between these two files only; an earlier version outside them may exist.",
             "Near-lossless edits (small crops, mild filters) can leave the direction within the margin we do not trust; the report then says inconclusive.",

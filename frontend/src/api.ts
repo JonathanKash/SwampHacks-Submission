@@ -114,6 +114,7 @@ export interface TreeNode extends PoolItem {
   predicted_parent: string | null;
   correct: boolean;
   root: boolean;
+  explains: string[];
   evidence: Evidence;
 }
 
@@ -138,6 +139,7 @@ export interface TreeResponse {
     pct: number | null;
   };
   newest_id: string | null;
+  newest_took_over: boolean;
   calibration?: { runs: string[]; generated_at: string | null };
   summary?: {
     images: number;

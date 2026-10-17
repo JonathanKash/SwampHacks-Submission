@@ -119,3 +119,21 @@ def test_cli_tree_place_and_compare(tmp_path):
         assert lineage_cli.main(["--no-clip", "compare", str(late_original), str(folder / "b_crop.png"), "--json"]) == 0
     pair = json.loads(buf.getvalue())
     assert pair["verdict"] == "parent-child" and pair["parent"] == "A"
+
+
+def test_caption_stays_decided_but_object_edit_is_inconclusive(photo, other_photo, rng):
+    # a two-tone caption is the calibrated case: direction is claimed
+    captioned = image_edits.caption(photo, rng, text="HELLO WORLD")[0]
+    rep = compare(to_image_data("A", photo), to_image_data("B", captioned), calibration={"buckets": {}})
+    assert rep["verdict"] == "parent-child" and rep["parent"] == "A", rep["summary"]
+    # a natural-texture patch pasted in (object added) or the same pair read backwards (object
+    # removed) is symmetric from pixels alone: no parent is claimed
+    import numpy as np
+
+    arr = np.asarray(photo).copy()
+    patch = np.asarray(other_photo)[40:140, 60:200]
+    arr[200:300, 150:290] = patch
+    pasted = Image.fromarray(arr)
+    rep = compare(to_image_data("A", photo), to_image_data("B", pasted), calibration={"buckets": {}})
+    assert rep["verdict"] == "inconclusive" and "added or removed" in rep["relation"], (rep["decisive_cues"], rep["summary"])
+    assert rep["parent"] is None and rep["decisive_cues"] == ["blobs"]

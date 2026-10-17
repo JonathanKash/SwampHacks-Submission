@@ -103,6 +103,7 @@ export default function AuditPage() {
   const [parentReportLoading, setParentReportLoading] = useState(false);
   const [parentReportError, setParentReportError] = useState<string | null>(null);
   const [verifyVerdict, setVerifyVerdict] = useState<string | null>(null);
+  const [originalToast, setOriginalToast] = useState<{ caseId: string; count: number } | null>(null);
 
   // Re-check a previously downloaded JSON report against the server's hash/signature.
   const handleVerifyReport = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -128,6 +129,7 @@ export default function AuditPage() {
   const compareRequestRef = useRef<AbortController | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const returnFocusRef = useRef<SVGGElement | null>(null);
+  const takeoverCheckCaseRef = useRef<string | null>(null);
   const selectedCaseId = searchParams.get("case");
 
   // A new selection starts without comparison state from the prior image.
@@ -184,6 +186,7 @@ export default function AuditPage() {
     const controller = new AbortController();
     let version: number | undefined;
     let timer: ReturnType<typeof setTimeout> | undefined;
+    const checkForTakeover = takeoverCheckCaseRef.current === selectedCaseId;
     setTree(null);
     setSelectedNodeId(null);
     setTreeLoading(true);
@@ -196,6 +199,16 @@ export default function AuditPage() {
         if (next) {
           version = next.version;
           setTree(next);
+          if (checkForTakeover && takeoverCheckCaseRef.current === selectedCaseId) {
+            takeoverCheckCaseRef.current = null;
+            if (next.newest_took_over) {
+              const newestNode = next.nodes.find((node) => node.id === next.newest_id);
+              setOriginalToast({
+                caseId: selectedCaseId,
+                count: newestNode?.explains.length ?? 0,
+              });
+            }
+          }
         }
         setTreeError(null);
       } catch (pollError) {
@@ -227,6 +240,12 @@ export default function AuditPage() {
   useEffect(() => {
     if (selectedNodeId) closeButtonRef.current?.focus();
   }, [selectedNodeId]);
+
+  useEffect(() => {
+    if (!originalToast) return;
+    const timer = window.setTimeout(() => setOriginalToast(null), 8_000);
+    return () => window.clearTimeout(timer);
+  }, [originalToast]);
 
   const selectedCase = useMemo(
     () => cases.find((auditCase) => auditCase.id === selectedCaseId) ?? null,
@@ -307,9 +326,10 @@ export default function AuditPage() {
     setError(null);
     try {
       await uploadCaseFiles(caseId, files);
-      await loadCases();
+      takeoverCheckCaseRef.current = caseId;
       // Restarting the poll guarantees a full tree after a long analysis request.
       if (selectedCaseId === caseId) setRefreshToken((value) => value + 1);
+      await loadCases();
     } catch (uploadError) {
       setError(messageFrom(uploadError));
     } finally {
@@ -666,6 +686,18 @@ export default function AuditPage() {
                     </p>
                     <h2>{incomingEdge?.label ?? "root of its family"}</h2>
                     <img src={selectedNode.url} alt={`Full-size audit image ${selectedNode.id}`} />
+                    {selectedNode.root && selectedNode.explains.length > 0 && (
+                      <div className="candidate-original-callout" role="note">
+                        <strong>
+                          Candidate original · explains {selectedNode.explains.length}{" "}
+                          {selectedNode.explains.length === 1 ? "version" : "versions"}
+                        </strong>
+                        <p>
+                          Every other version in this family costs less to derive from this image than the reverse.
+                          {" "}If an earlier version is found later, upload it: the tree re-roots automatically.
+                        </p>
+                      </div>
+                    )}
                     <div className={incomingEdge ? "edge-details" : "root-details"}>
                       <div className="detail-heading">
                         <span>Lineage's reading</span>
@@ -814,6 +846,23 @@ export default function AuditPage() {
                   </aside>
                 )}
                 {treeError && tree && <div className="tree-error-toast">Audit update retrying · {treeError}</div>}
+                {originalToast?.caseId === selectedCaseId && (
+                  <div
+                    className="original-recognised-toast"
+                    role="status"
+                    aria-live="polite"
+                    aria-atomic="true"
+                    onClick={() => setOriginalToast(null)}
+                  >
+                    <span>
+                      New candidate original recognised: it explains {originalToast.count} existing{" "}
+                      {originalToast.count === 1 ? "version" : "versions"}.
+                    </span>
+                    <button type="button" onClick={() => setOriginalToast(null)} aria-label="Dismiss notification">
+                      ×
+                    </button>
+                  </div>
+                )}
               </div>
             </section>
           )}

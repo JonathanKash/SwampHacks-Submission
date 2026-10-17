@@ -226,6 +226,18 @@ export default function TreePage() {
                 <p className="eyebrow">{selectedNode.root ? "Original" : "Edited copy"}</p>
                 <h2>{incomingEdge ? incomingEdge.label : "root of its family"}</h2>
                 <img src={selectedNode.url} alt={`Full-size image ${selectedNode.id}`} />
+                {selectedNode.root && selectedNode.explains.length > 0 && (
+                  <div className="candidate-original-callout" role="note">
+                    <strong>
+                      Candidate original · explains {selectedNode.explains.length}{" "}
+                      {selectedNode.explains.length === 1 ? "version" : "versions"}
+                    </strong>
+                    <p>
+                      Every other version in this family costs less to derive from this image than the reverse.
+                      {" "}If an earlier version is found later, upload it: the tree re-roots automatically.
+                    </p>
+                  </div>
+                )}
                 {!selectedNode.root && tree && (
                   <VisualDiff
                     key={`${selectedNode.id}-${tree.version}`}

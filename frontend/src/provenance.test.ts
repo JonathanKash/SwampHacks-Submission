@@ -24,6 +24,7 @@ function node(id: string, parent: string | null): TreeNode {
     predicted_parent: parent,
     correct: true,
     root: parent === null,
+    explains: [],
     evidence,
   };
 }
@@ -38,6 +39,7 @@ const tree: TreeResponse = {
   edges: [edge("root", "a", "cropped to 60%"), edge("a", "b", "warm filter")],
   accuracy: { correct: 2, total: 2, pct: 100 },
   newest_id: "b",
+  newest_took_over: false,
 };
 
 describe("provenancePath", () => {

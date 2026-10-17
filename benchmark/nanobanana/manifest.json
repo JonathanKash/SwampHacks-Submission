@@ -29,6 +29,62 @@
           "sha256": "3e4211c609004e25b5475a70029d8596bad9f84730c8b76209dbc25db97e5b03",
           "instruction": "Add one small, realistic object that fits the scene (for example a bird, a cup, a bicycle, a sign). Keep everything else pixel-identical.",
           "tool": "antigravity/gemini"
+        },
+        {
+          "edit": "object_remove",
+          "file": "edits/src01/object_remove.png",
+          "parent": "src01.jpg",
+          "sha256": "01d2033d80f076cf2dd67c5d30c4a4839b205cec745c771a692061b45dadf983",
+          "instruction": "Remove one clearly visible object or person from the scene and fill the area realistically. Keep everything else pixel-identical.",
+          "tool": "antigravity/gemini"
+        },
+        {
+          "edit": "background_swap",
+          "file": "edits/src01/background_swap.png",
+          "parent": "src01.jpg",
+          "sha256": "bd5ef4efa812c4db61daec216ba87e89cd0226ed65ecd7be94eb5e2007e97e3a",
+          "instruction": "Replace the background behind the main subject with a different but plausible background. Keep the main subject identical in position and size.",
+          "tool": "antigravity/gemini"
+        },
+        {
+          "edit": "style_change",
+          "file": "edits/src01/style_change.png",
+          "parent": "src01.jpg",
+          "sha256": "f4877c81e5337ce6f94715aea215d9f206c66bfc870828866edebf50e4b6a927",
+          "instruction": "Re-render the whole image as a watercolor painting. Keep the composition, framing and aspect ratio identical.",
+          "tool": "antigravity/gemini"
+        },
+        {
+          "edit": "subtle_retouch",
+          "file": "edits/src01/subtle_retouch.png",
+          "parent": "src01.jpg",
+          "sha256": "6e981094725e359281117f4c303940ea6236c58b4c572c5463f95b5328c97ac4",
+          "instruction": "Make a subtle retouch only: slightly brighten the main subject and soften skin or surface texture a little. No other change.",
+          "tool": "antigravity/gemini"
+        },
+        {
+          "edit": "text_overlay",
+          "file": "edits/src01/text_overlay.png",
+          "parent": "src01.jpg",
+          "sha256": "c9e1d7743d1aa0929b3f45a7ff34ea74f7dd4b52e548363f5cbcc5e08517fb1f",
+          "instruction": "Add a short bold meme-style caption in white text with a black outline across the bottom of the image. Keep everything else pixel-identical.",
+          "tool": "antigravity/gemini"
+        }
+      ]
+    },
+    {
+      "source": {
+        "file": "src02.jpg",
+        "sha256": "960b7bf817257d3eeb38bfc1ad1f545f3f7c125c882ddf055a929490440659ee"
+      },
+      "edits": [
+        {
+          "edit": "object_add",
+          "file": "edits/src02/object_add.png",
+          "parent": "src02.jpg",
+          "sha256": "7b85e8bbfc92bf2bddaaf8c6c5ca79b311691abbfc2af5fb8fd3241c1f115977",
+          "instruction": "Add one small, realistic object that fits the scene (for example a bird, a cup, a bicycle, a sign). Keep everything else pixel-identical.",
+          "tool": "antigravity/gemini"
         }
       ]
     }

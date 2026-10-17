@@ -156,7 +156,17 @@ Decisions in SPEC.md (v2 section). Images first; audio/video only after images w
 - [x] Compression history: estimated JPEG quality from quantization tables at ingest (hint, never evidence)
 - [x] CLI at scale (backend/lineage_cli.py): compare, tree FOLDER, place IMAGE --against FOLDER (recognises a late
       original: "NEW CANDIDATE ORIGINAL, explains N images"), batch-compare -> CSV; --no-clip for small machines
-- [ ] /compare page + "Why is this the parent?" button in audit/tree panels (Codex, in progress)
+- [x] /compare page + "Why is this the parent?" button in audit/tree panels (Codex); verified end to end with
+      Playwright on the Met painting vs its Gemini edit
+- [x] Late true original: nodes.explains + tree.newest_took_over; overlay/audit callout (Codex); pool test
+- [x] Decisive-cue analysis in compare (drop each term, see if the direction survives). A direction resting on
+      the compact-content ("blobs") cue alone is symmetric (object added vs object removed) and now returns
+      inconclusive unless the gained content is caption-like (two-tone >= 0.7, achromatic, contrast >= 100,
+      measured on the strong residual mask: synthetic captions 0.83, pasted natural patch 0.10).
+      Real Gemini edits (src01): object_remove was claimed backwards at "95%" before this rule, now
+      inconclusive; object_add inconclusive; background_swap correct; watercolor restyle inconclusive.
+- [x] Noise-consistency indicator (high-pass std inside vs outside the changed region) as a measured AI-edit
+      indicator, never a verdict input
 - [ ] Meme corpus: 30 families with documented originals (dedicated agent, in progress) -> benchmark/memes/
 - [ ] Real-photo -> Gemini-edit corpus through Antigravity (driver benchmark/nanobanana/make_corpus.py;
       capability verified 10:37: Antigravity returned a genuine Gemini edit) -> parent/child benchmark per edit type
