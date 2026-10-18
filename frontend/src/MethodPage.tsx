@@ -14,6 +14,7 @@ const METHOD_SECTIONS = [
   { id: "other-media", label: "Other media" },
 ] as const;
 
+// Weights are copied from backend/lineage/config.py; backend/tests/test_method_page.py fails if they drift.
 const TERMS: Array<{ name: string; weight: string; measures: string; direction: string }> = [
   {
     name: "coverage",
@@ -71,7 +72,7 @@ const TERMS: Array<{ name: string; weight: string; measures: string; direction: 
   },
   {
     name: "specificity",
-    weight: "0.01",
+    weight: "0.03",
     measures: "Tiny tie-breaker toward the candidate with the least surplus pixels or compression headroom.",
     direction: "Among equally good explanations prefer the most specific ancestor.",
   },
