@@ -1891,7 +1891,14 @@ p a {
   text-transform: uppercase;
 }
 
+.compare-with {
+  min-width: 0; /* grid item: otherwise the longest option label sets the column width */
+}
+
 .compare-with select {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   min-height: 44px;
   padding: 0 12px;
   border: 1px solid var(--line-strong, #4c5d57);
@@ -2424,28 +2431,9 @@ p a {
     min-width: 0;
     margin-left: 0;
     margin-right: 0;
-    flex: 0 1 270px;
+    flex: 0 0 auto; /* natural width: shrinking it made the caption spill over the scoreboard */
   }
 
-  /* Narrow big screens: drop the lead line and let the host wrap at its hyphens; never clip mid-word. */
-  .tree-header .qr-join figcaption {
-    min-width: 0;
-    max-width: 13rem;
-  }
-
-  .tree-header .qr-join .qr-lead {
-    display: none;
-  }
-
-  .tree-header .qr-join .qr-host {
-    font-size: 0.78rem;
-    line-height: 1.3;
-    overflow-wrap: anywhere; /* the host has no hyphens; wrapping beats overlapping the scoreboard */
-  }
-
-  .tree-header .qr-join .qr-host b {
-    display: block;
-  }
 
   .scoreboard {
     gap: clamp(8px, 0.8vw, 12px);
@@ -4235,5 +4223,31 @@ p a {
     position: static;
     width: 100%;
     margin-top: 8px;
+  }
+}
+
+@media (max-width: 1499px) {
+  .tree-header .qr-join {
+    flex: 0 1 270px;
+  }
+
+  /* Narrow big screens: drop the lead line and let the host wrap; never clip mid-word. */
+  .tree-header .qr-join figcaption {
+    min-width: 0;
+    max-width: 13rem;
+  }
+
+  .tree-header .qr-join .qr-lead {
+    display: none;
+  }
+
+  .tree-header .qr-join .qr-host {
+    font-size: 0.78rem;
+    line-height: 1.3;
+    overflow-wrap: anywhere; /* the host has no hyphens; wrapping beats overlapping the scoreboard */
+  }
+
+  .tree-header .qr-join .qr-host b {
+    display: block;
   }
 }
