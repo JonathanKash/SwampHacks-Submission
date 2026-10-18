@@ -141,6 +141,11 @@ export default function TextPage() {
         <button className="primary-button" type="button" disabled={filled < 2 || busy} onClick={() => void run()}>
           {busy ? "Measuring…" : `Build the tree from ${filled} versions`}
         </button>
+        {filled < 2 && !busy && (
+          <p className="muted text-hint" role="status">
+            Paste at least two versions of the same text, or press "Load example" to see it work.
+          </p>
+        )}
       </section>
 
       {result && (
