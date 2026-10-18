@@ -312,3 +312,17 @@ def test_identify_knowledge_base_cannot_be_deleted_from_the_public_page(tmp_path
     monkeypatch.setenv("ADMIN_TOKEN", "s3cret")
     assert client.delete(f"/api/cases/{kb}").status_code == 403
     assert client.delete(f"/api/cases/{kb}", headers={"x-admin-token": "s3cret"}).json() == {"ok": True}
+
+
+def test_items_without_an_upload_footprint_get_one_from_the_stored_file(tmp_path):
+    """Seeded pools and sample cases never went through the upload path; reports still need a footprint."""
+    import hashlib
+
+    pool = Pool(tmp_path, use_clip=False)
+    created = pool.add_image(synthetic_photo(3), None, None, {}, source="seed")
+    stored = tmp_path / "pool" / created["url"].rsplit("/", 1)[-1]
+    fp = pool._stored_footprint({"id": created["id"], "file": stored.name})
+    assert fp is not None and fp["of_stored_file"] is True
+    assert fp["sha256"] == hashlib.sha256(stored.read_bytes()).hexdigest()
+    assert (fp["width"], fp["height"]) == (480, 360) and fp["bytes"] == stored.stat().st_size
+    assert pool._stored_footprint({"id": "nope", "file": "missing.png"}) is None

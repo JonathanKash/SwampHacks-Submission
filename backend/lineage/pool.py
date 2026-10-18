@@ -97,6 +97,7 @@ class Pool:
                  embedder: ClipEmbedder | None = None, url_prefix: str = "", mode: str = "demo") -> None:
         self.dir = data_dir
         self.images = data_dir / "pool"
+        self._footprint_cache: dict[str, dict] = {}
         self.thumbs = data_dir / "thumbs"
         self.images.mkdir(parents=True, exist_ok=True)
         self.thumbs.mkdir(parents=True, exist_ok=True)
@@ -197,6 +198,7 @@ class Pool:
         return True
 
     def reset(self) -> None:
+        self._footprint_cache.clear()
         with self.lock:
             self.store.clear()
             for f in list(self.images.iterdir()) + list(self.thumbs.iterdir()):
@@ -333,10 +335,30 @@ class Pool:
                     "depth_below_root": len(seen)}
 
     # ---- read ---------------------------------------------------------------------
+    def _stored_footprint(self, item: dict) -> dict | None:
+        """Footprint of the file as stored, for items that did not arrive through an upload (seeded pool,
+        sample cases). Hashed once per item; the upload path keeps the hash of the original bytes instead."""
+        cached = self._footprint_cache.get(item["id"])
+        if cached is not None:
+            return cached
+        path = self.images / item["file"]
+        if not path.exists():
+            return None
+        raw = path.read_bytes()
+        try:
+            with Image.open(io.BytesIO(raw)) as img:
+                width, height = img.size
+        except Exception:
+            return None
+        fp = {"sha256": hashlib.sha256(raw).hexdigest(), "width": width, "height": height,
+              "bytes": len(raw), "jpeg_quality": jpeg_quality_estimate(raw), "of_stored_file": True}
+        self._footprint_cache[item["id"]] = fp
+        return fp
+
     def public_item(self, item: dict) -> dict:
         params = dict(item["params"])
         metadata = params.pop("metadata", None)
-        footprint = params.pop("footprint", None)
+        footprint = params.pop("footprint", None) or self._stored_footprint(item)
         if footprint is not None and item["id"] in self.engine.data:
             footprint = {**footprint, "phash": f"{self.engine.data[item['id']].phash:016x}"}
         return {
