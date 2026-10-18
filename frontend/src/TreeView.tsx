@@ -194,7 +194,7 @@ function fitTreeTransform(layout: LayoutResult, width: number, height: number): 
   const contentWidth = Math.max(1, layout.maxX - layout.minX);
   const contentHeight = Math.max(1, layout.maxY - layout.minY);
   // Keep the existing breathing room for the legend and newest-image callout.
-  const bottomReserve = 150; // the newest-image callout is about 130 px tall at the bottom-left
+  const bottomReserve = 190; // keeps the lowest nodes clear of the newest-image callout at 1600x900 and 1920x1080
   const usableHeight = Math.max(1, height - 54 - bottomReserve);
   const scale = Math.min(1.25, Math.max(1, width - 64) / contentWidth, usableHeight / contentHeight);
   const scaledHeight = contentHeight * scale;
