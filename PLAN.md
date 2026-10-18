@@ -288,3 +288,20 @@ object add/remove and re-rendered copies return inconclusive by design; generati
       photo-like rectangle, register that) is the likely fix. Not started: too large to land safely before the demo.
 - [x] Meme benchmark pass 6 (margin floor 0.05): template families wrong parent 16%, abstained 70%; true-source wrong 11%,
       abstained 64%; top bucket 95/169 = 56% all pairs, 71/97 = 73% clean truth. Calibration columns refreshed from this pass.
+
+## UI/UX pass (2026-10-18, 02:30 ET onward; user: "make it more intuitive and more human, all night")
+
+Visual audit with Playwright at 1366 / 834 / 390 px (all routes, plus interaction states), then one Codex task per
+page with a screenshot check after each. Kept so far (each its own commit):
+- Landing: inline links styled (were browser blue), plain-language section eyebrows, CTA subtitles, phone-width
+  numbers rendered as cards instead of an overflowing four-column table.
+- Method: sticky "On this page" jump bar with section anchors (hash scrolling), plain eyebrows, phone term cards,
+  stale accuracy sentence replaced with the current pHash / CLIP numbers.
+- Edit (tablet): step pills show done/current state, shorter "Want to fool it?" hint, helper text sits above Submit.
+- Compare: swap button in its own column, pool picker names edits ("Caption “me irl” · 9d8084bf") grouped as
+  Originals / Edited copies, busy state with timing hint.
+- Tree (big screen): side panel overlays the canvas instead of shifting the header off-screen; header fits 1280–1920
+  (Export menu replaces the JSON / HTML buttons, "pHash mode" chip, QR host wraps instead of clipping).
+- Identify: shorter heading, provenance note clamps to four lines with Read more.
+- Nav: "Text" → "Text mode"; audit/compare/text eyebrows in plain words.
+Not changed: any cost term, threshold or calibration number.
