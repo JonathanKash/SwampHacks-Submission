@@ -267,8 +267,7 @@ object add/remove and re-rendered copies return inconclusive by design; generati
 ### Public links at 20:05 ET
 - Cloudflare quick tunnel (on the QR): https://tigers-surely-wood-upc.trycloudflare.com (rotates; watchdog script handles it)
 - ngrok backup (stable while the process runs, interstitial on first visit): https://uninsured-untold-brittle.ngrok-free.dev
-- Tailscale Funnel (permanent, free): https://jmklptp08.tail2caba9.ts.net — pending the owner's one-click Funnel approval
-  at https://login.tailscale.com/f/funnel?node=nEgFZbqWXE11CNTRL ; once enabled, restart the server with
-  PUBLIC_URL=https://jmklptp08.tail2caba9.ts.net (`.\start.ps1 -LowMemory -PublicUrl https://jmklptp08.tail2caba9.ts.net`).
+- Tailscale Funnel (permanent, free): https://jmklptp08.tail2caba9.ts.net — ENABLED 20:40 ET; server now advertises it
+  (restart after reboot: `.\start.ps1 -LowMemory -PublicUrl https://jmklptp08.tail2caba9.ts.net`; Funnel itself persists).
 - Laptop memory is the demo's weak point (13.6 GB total; browser tabs + two Claude sessions leave ~1.5 GB):
   close spare tabs before the demo, keep the server in low-memory mode.

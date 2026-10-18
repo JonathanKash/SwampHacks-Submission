@@ -172,7 +172,6 @@ where to fix the engine: registration on captioned images and a caption-side cue
   every pixel differs, and that is now reported as a measured AI-edit indicator rather than guessed as a direction.
 
 ## Try it live
-Public link during the event (a Cloudflare quick tunnel from the demo laptop; the address changes if the tunnel
-restarts, so replace it with the current one before submitting):
-https://roses-inner-cars-dealtime.trycloudflare.com  — start at /identify on a phone, /tree on a big screen,
-/compare and /audit for the evidence workflow, /method for the numbers.
+Permanent public link (Tailscale Funnel from the demo laptop, free, survives reboots while the laptop is on):
+https://jmklptp08.tail2caba9.ts.net  — start at /identify on a phone, /tree on a big screen, /compare and /audit for the evidence
+workflow, /method for the numbers.

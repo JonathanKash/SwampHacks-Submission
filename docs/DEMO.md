@@ -112,3 +112,9 @@ Quick tunnels get revoked by Cloudflare after a while (seen twice on demo day: a
 For the event, run the watchdog instead of starting the tunnel by hand: `.\deploy	unnel-watchdog.ps1` keeps a
 tunnel up, restarts the server with the new `PUBLIC_URL` when the address changes, and writes the current address to
 `data\public_url.txt`. Keep ngrok (`ngrok http 8010`) as a second link; it has an interstitial page but a stable session.
+
+
+## Permanent public link (Tailscale Funnel)
+Enabled on 2026-10-17. The address https://jmklptp08.tail2caba9.ts.net is fixed and the Funnel persists across reboots (Tailscale runs as a
+service). After a reboot only the server needs starting: `.\start.ps1 -LowMemory -PublicUrl https://jmklptp08.tail2caba9.ts.net`.
+To turn the public exposure off: `tailscale funnel --https=443 off`.
