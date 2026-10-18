@@ -305,4 +305,13 @@ page with a screenshot check after each. Kept so far (each its own commit):
 - Identify: shorter heading, provenance note clamps to four lines with Read more.
 - Nav: "Text" → "Text mode"; audit/compare/text eyebrows in plain words.
 - Audit: the Identify knowledge-base case is protected from deletion (server 403 without ADMIN_TOKEN, "KB" chip in the rail); a visitor on the public link could otherwise have broken Identify mid-demo.
+- Identify: "Not one of the memes we know." with the raw measured reason underneath; relation line is a sentence
+  ("Your copy is a stored low-res variant, copied unchanged.").
+- Compare: "Inconclusive: the pixels cannot tell which came first", "Unrelated: these two do not line up".
+- Audit: secondary actions under "More", case names wrap, new-case form stacks in the narrow rail, zoom controls
+  top-right on tablets, case chips scroll in a row on phones; "reverse image search is off" instead of env var names.
+- Landing on phones: "Open it on this phone" button instead of a QR code.
+- Sweep: every route at 390 / 834 / 1366 px has no horizontal overflow and no JavaScript errors (Playwright).
+- README screenshots in docs/screenshots regenerated from the new UI (04:11 ET). devpost-gallery/ (untracked, the
+  owner's) still shows the 03:01 UI.
 Not changed: any cost term, threshold or calibration number.
