@@ -84,6 +84,15 @@ found; 28 of 30 parents correct against the hidden truth (93%).
    say so: it means nothing aligned pixel for pixel, and that is the honest answer.
 
 
+## Run the server from your own terminal (important)
+Start it in a PowerShell window you own, not from a Claude Code session: Claude Code's memory watchdog kills its own
+background jobs when the laptop runs low on RAM, and that took the demo server down several times on Oct 17-18.
+```
+cd C:\Users\jonjo\Documents\SWAMPHACKS
+.\start.ps1 -LowMemory -PublicUrl https://jmklptp08.tail2caba9.ts.net
+```
+Leave the window open. Close spare browser tabs first; the machine has 13.6 GB and the browser is the swing factor.
+
 ## Pre-demo checklist (Oct 17 additions)
 
 - [ ] `.venv\Scripts\python backend\scriptsuild_meme_case.py --no-clip --variants 5` (about 5 minutes) and
