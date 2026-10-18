@@ -150,6 +150,13 @@ function MatchedFamily({ match, preview, filename }: {
   const rootBadge = trueSourcePhoto === false ? "Earliest template on record" : "Documented original";
   const depthLabel = `${match.depth_below_root} ${match.depth_below_root === 1 ? "step" : "steps"} below the original`;
   const matchedStoredCopy = parentRole.startsWith("variant");
+  // "variant (lowres)" is the knowledge-base role label; say it the way a person would.
+  const parentName = matchedStoredCopy
+    ? `a stored ${parentRole.replace(/^variant \((.*)\)$/, "$1").replace("lowres", "low-res")} variant`
+    : parentRole === "original" || parentRole === "root"
+      ? "the documented original"
+      : parentRole;
+  const editSentence = match.edit === "copy" ? "copied unchanged" : (match.explain || match.edit).replace(/\.$/, "");
   const treeRootFamily = match.tree_root ? stringParam(match.tree_root, "family") : null;
 
   return (
@@ -218,7 +225,7 @@ function MatchedFamily({ match, preview, filename }: {
           </figure>
           <div className="identify-relation">
             <span aria-hidden="true">→</span>
-            <strong>derived from {parentRole} via {match.edit}</strong>
+            <strong>Your copy is {parentName}, {editSentence}.</strong>
             {matchedStoredCopy && <small>(matched a stored copy, not the original itself)</small>}
             {match.depth_below_root > 0 && <small>{depthLabel}</small>}
           </div>
