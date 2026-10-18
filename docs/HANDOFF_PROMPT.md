@@ -23,7 +23,7 @@ How it works, in one paragraph each:
 
 Python 3.13 FastAPI backend in `backend/` (venv `.venv`), React/Vite/TypeScript frontend in `frontend/` served from `frontend/dist` by the backend with SPA deep links, SQLite + files under `data/`. Pages: `/` landing, `/edit` tablet flow, `/identify`, `/compare`, `/tree` big screen, `/audit` industry workspace, `/text` text mode, `/method` for judges (cost terms, decides-vs-informs, gates, live Numbers table).
 
-- Tests: `.venv\Scripts\python -m pytest backend\tests -q` (133 pass) and `npm --prefix frontend run test -- --run` (9 pass). Build: `npm --prefix frontend run build` (must exit 0; TypeScript strict).
+- Tests: `.venv\Scripts\python -m pytest backend\tests -q` (134 pass) and `npm --prefix frontend run test -- --run` (9 pass). Build: `npm --prefix frontend run build` (must exit 0; TypeScript strict).
 - Smoke test against a running server: `.venv\Scripts\python backend\scripts\smoke.py http://localhost:8010` (expects `ALL OK`).
 - Start the server: `.\start.ps1 -LowMemory -PublicUrl https://jmklptp08.tail2caba9.ts.net` from the repo root (low-memory = pHash-only candidates; the laptop has 13.6 GB and CLIP mode is not safe next to a browser). Port 8010 (8000 is taken on this machine).
 - CLI: `backend\lineage_cli.py` with `compare A B`, `tree FOLDER`, `place IMAGE --against FOLDER`, `identify IMAGE`, `batch-compare FOLDER`.
@@ -34,6 +34,16 @@ Python 3.13 FastAPI backend in `backend/` (venv `.venv`), React/Vite/TypeScript 
 - **Permanent link (use this):** `https://jmklptp08.tail2caba9.ts.net` via Tailscale Funnel from this laptop. Tailscale runs as a Windows service and the Funnel persists across reboots; only the Lineage server needs restarting after a reboot (command above). The QR code on `/tree` points phones at `/identify` there.
 - Fallbacks: Cloudflare quick tunnel (`.\deploy\tunnel-watchdog.ps1` keeps one alive and rotates `PUBLIC_URL`; addresses get revoked after a while) and ngrok (`ngrok http 8010`, stable per session, interstitial page). A Vultr/Docker deploy exists in `deploy/` but is not set up.
 - `/api/health` reports `ok`, `items`, `clip`, `public_url`, `identify_ready`, `web_search`.
+
+## UI state after the overnight UX pass (2026-10-18, 02:30-04:00 ET)
+
+Every page got a plain-language pass and a layout check at 1366 / 834 / 390 px (details in PLAN.md "UI/UX pass").
+Things that moved: on `/tree` the JSON and HTML report buttons live under an **Export** menu, the mode chip reads
+"pHash mode", and the node side panel overlays the canvas; the nav says "Text mode"; the compare pool picker names
+edits ("Caption “me irl” · 9d8084bf"); on phones the landing shows "Open it on this phone" instead of a QR code.
+The Identify knowledge-base case shows a **KB** chip on `/audit` and the server refuses to delete it (403) unless
+`ADMIN_TOKEN` is set and sent. `start.ps1` warns when `ADMIN_TOKEN` is unset behind a public URL: set it in `.env`
+before judges arrive, or anyone with the link can press "Remove this image".
 
 ## Laptop constraints you must respect
 
