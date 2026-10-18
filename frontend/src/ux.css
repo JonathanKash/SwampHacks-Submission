@@ -4051,3 +4051,189 @@ p a {
   letter-spacing: 0.08em;
   cursor: help;
 }
+
+/* ---- audit responsive workspace ------------------------------------------ */
+.audit-sidebar {
+  container-name: audit-sidebar;
+  container-type: inline-size;
+}
+
+.audit-case-select strong {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  white-space: normal;
+}
+
+.audit-actions {
+  align-items: flex-start;
+  flex-wrap: nowrap;
+}
+
+.audit-actions-primary {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+}
+
+.audit-actions-more {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.audit-actions-more > summary {
+  list-style: none;
+  user-select: none;
+}
+
+.audit-actions-more > summary::-webkit-details-marker {
+  display: none;
+}
+
+.audit-actions-more > summary span {
+  transition: transform 160ms ease;
+}
+
+.audit-actions-more[open] > summary span {
+  transform: rotate(180deg);
+}
+
+.audit-actions-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 12;
+  display: grid;
+  width: max-content;
+  min-width: 190px;
+  padding: 6px;
+  gap: 4px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(13, 19, 18, 0.98);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.42);
+}
+
+.audit-actions-menu .secondary-button {
+  width: 100%;
+  height: 42px;
+  min-height: 42px;
+  justify-content: flex-start;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+}
+
+.audit-actions-menu .secondary-button:hover,
+.audit-actions-menu .secondary-button:focus-visible {
+  color: #06100b;
+  background: var(--green);
+}
+
+@container audit-sidebar (max-width: 259px) {
+  /* ".audit-new-case > div" in styles.css is more specific; match it or the two-column grid wins. */
+  .audit-new-case > .audit-new-case-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .audit-new-case-fields input:first-child {
+    grid-column: auto;
+  }
+
+  .audit-new-case-fields .primary-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 999px) {
+  .tree-zoom-overlay {
+    inset: 12px 12px auto auto;
+    justify-items: end;
+  }
+
+  .tree-zoom-controls {
+    background: rgba(13, 19, 18, 0.78);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+    opacity: 0.82;
+    transition: opacity 160ms ease;
+  }
+
+  .tree-zoom-controls button {
+    min-width: 30px;
+    height: 30px;
+    padding-inline: 8px;
+  }
+
+  .tree-zoom-controls:hover,
+  .tree-zoom-controls:focus-within {
+    opacity: 1;
+  }
+
+  .tree-zoom-hint {
+    display: none;
+  }
+
+  .tree-legend,
+  .audit-legend,
+  .tree-canvas-wrap.has-panel .tree-legend {
+    position: absolute;
+    right: 50%;
+    bottom: 12px;
+    width: max-content;
+    max-width: calc(100% - 24px);
+    margin: 0;
+    justify-content: center;
+    column-gap: 14px;
+    row-gap: 7px;
+    transform: translateX(50%);
+  }
+
+  .tree-legend .legend-item,
+  .audit-legend .legend-item {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 699px) {
+  .audit-case-list {
+    display: flex;
+    max-height: none;
+    padding-bottom: 6px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+  }
+
+  .audit-case-row {
+    width: min(250px, 78vw);
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+}
+
+@media (max-width: 520px) {
+  .audit-actions,
+  .audit-actions-primary {
+    width: 100%;
+  }
+
+  .audit-actions {
+    flex-direction: column;
+  }
+
+  .audit-actions-primary {
+    flex-direction: column;
+  }
+
+  .audit-actions-more {
+    width: 100%;
+  }
+
+  .audit-actions-menu {
+    position: static;
+    width: 100%;
+    margin-top: 8px;
+  }
+}

@@ -748,30 +748,39 @@ export default function AuditPage() {
                   )}
                 </div>
                 <div className="audit-actions">
-                  <a className="secondary-button" href={reportUrl(selectedCase.id)} download>
-                    Download report (JSON)
-                  </a>
-                  <a
-                    className="secondary-button"
-                    href={htmlReportUrl(selectedCase.id)}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Open HTML report
-                  </a>
-                  <a className="secondary-button" href={`/api/cases/${encodeURIComponent(selectedCase.id)}/report.csv`} download>
-                    CSV ledger
-                  </a>
-                  <button className="secondary-button" type="button" onClick={() => void handleCopyLink()}>
-                    {copied ? "Copied" : "Copy link"}
-                  </button>
-                  <label className="secondary-button verify-report">
-                    Verify a report
-                    <input type="file" accept="application/json,.json" className="sr-only" onChange={(event) => void handleVerifyReport(event)} />
-                  </label>
-                  <button className="secondary-button" type="button" onClick={() => window.print()}>
-                    Print summary
-                  </button>
+                  <div className="audit-actions-primary">
+                    <a className="secondary-button" href={reportUrl(selectedCase.id)} download>
+                      Download report (JSON)
+                    </a>
+                    <a
+                      className="secondary-button"
+                      href={htmlReportUrl(selectedCase.id)}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Open HTML report
+                    </a>
+                  </div>
+                  <details className="audit-actions-more">
+                    <summary className="secondary-button">
+                      More <span aria-hidden="true">▾</span>
+                    </summary>
+                    <div className="audit-actions-menu">
+                      <a className="secondary-button" href={`/api/cases/${encodeURIComponent(selectedCase.id)}/report.csv`} download>
+                        CSV ledger
+                      </a>
+                      <button className="secondary-button" type="button" onClick={() => void handleCopyLink()}>
+                        {copied ? "Copied" : "Copy link"}
+                      </button>
+                      <label className="secondary-button verify-report">
+                        Verify a report
+                        <input type="file" accept="application/json,.json" className="sr-only" onChange={(event) => void handleVerifyReport(event)} />
+                      </label>
+                      <button className="secondary-button" type="button" onClick={() => window.print()}>
+                        Print summary
+                      </button>
+                    </div>
+                  </details>
                 </div>
               </header>
 
