@@ -203,7 +203,7 @@ export default function MethodPage() {
             <ul className="method-list">
               <li>Re-rendered copy: the two align but the residual after the best colour fit is above 0.025 (genuine crops, filters and re-saves stay under 0.022; generative restyles measure 0.03 to 0.09). Direction cues no longer apply; reported as inconclusive with a measured AI-edit indicator.</li>
               <li>Single symmetric cue: a direction that rests only on a compact content difference (object added or removed) or only on the count of detected edit operations is not claimed.</li>
-              <li>Margin below 0.02: the two directions are indistinguishable.</li>
+              <li>Margin below 0.05: the two directions are indistinguishable. Raised from 0.02 after measuring that the 0.02 to 0.05 band was right only 70% of the time on synthetic chains and 0 of 2 times on web memes.</li>
             </ul>
           </div>
         </div>
