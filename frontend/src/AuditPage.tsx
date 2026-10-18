@@ -1242,18 +1242,24 @@ export default function AuditPage() {
             {tree.nodes.map((node) => {
               const edge = tree.edges.find((candidate) => candidate.dst === node.id) ?? null;
               const evidence = edge?.evidence ?? node.evidence;
+              // Printed pages are read by people: file names first, the short id as a secondary key.
+              const nameOf = (id: string) => {
+                const target = tree.nodes.find((candidate) => candidate.id === id);
+                const filename = target?.params.filename;
+                return typeof filename === "string" && filename ? filename : id.slice(0, 8);
+              };
               return (
                 <article key={node.id}>
                   <img src={node.thumb} alt="" />
                   <div>
-                    <h2>{node.id}</h2>
+                    <h2>{nameOf(node.id)} <code>{node.id.slice(0, 8)}</code></h2>
                     <p>
                       <strong>Parent:</strong>{' '}
-                      {node.predicted_parent ?? <span title={CANDIDATE_ORIGINAL_TITLE}>candidate original</span>}
+                      {node.predicted_parent ? nameOf(node.predicted_parent) : <span title={CANDIDATE_ORIGINAL_TITLE}>candidate original</span>}
                     </p>
                     <p>
                       {edge
-                        ? `Derived from ${edge.src}: ${edge.explain}`
+                        ? `Derived from ${nameOf(edge.src)}: ${edge.explain}`
                         : "Treated as a candidate original because no uploaded image explains it more cheaply."}
                     </p>
                     <ul>
