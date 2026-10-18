@@ -953,7 +953,7 @@ export default function AuditPage() {
                       </p>
                       {selectedNodeReviewed && <span className="reviewed-badge">✓ Reviewed</span>}
                     </div>
-                    <h2>{incomingEdge?.label ?? "root of its family"}</h2>
+                    <h2>{incomingEdge ? incomingEdge.explain || incomingEdge.label : "start of its family"}</h2>
                     <button
                       className={`secondary-button audit-review-toggle ${selectedNodeReviewed ? "is-reviewed" : ""}`}
                       type="button"

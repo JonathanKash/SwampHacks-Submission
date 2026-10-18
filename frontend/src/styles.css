@@ -910,10 +910,11 @@ g.tree-node:focus-visible .node-border {
 }
 
 .node-panel h2 {
-  margin: 0 58px 19px 0;
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: clamp(1.25rem, 2vw, 1.7rem);
-  letter-spacing: 0.05em;
+  margin: 0 58px 16px 0;
+  /* a sentence ("re-saved as low-quality JPEG"), so the display face, not the code face used for ids */
+  font-size: clamp(1.15rem, 1.6vw, 1.45rem);
+  line-height: 1.2;
+  letter-spacing: 0;
 }
 
 .node-panel > img {

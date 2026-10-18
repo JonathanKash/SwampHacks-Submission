@@ -314,4 +314,7 @@ page with a screenshot check after each. Kept so far (each its own commit):
 - Sweep: every route at 390 / 834 / 1366 px has no horizontal overflow and no JavaScript errors (Playwright).
 - README screenshots in docs/screenshots regenerated from the new UI (04:11 ET). devpost-gallery/ (untracked, the
   owner's) still shows the 03:01 UI.
+- Tree + audit side panels: headline is the edit sentence ("re-saved as low-quality JPEG") in the display face, not
+  the pill label in monospace; edge pills at 62% of the link with a halo; levels 1.9x the thumbnail; the fit reserves
+  190 px at the bottom so no node hides under the newest-image callout (checked at 1600x900 and 1920x1080).
 Not changed: any cost term, threshold or calibration number.
