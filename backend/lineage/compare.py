@@ -19,7 +19,10 @@ from lineage.plugins import image_cost, image_explain, noise
 from lineage.types import CostResult, ImageData
 
 SIBLING_UNCOVERED = 0.05  # each side leaves at least this fraction of the other uncovered
-MIN_DIRECTION_MARGIN = 0.02  # below this the two directions are indistinguishable
+MIN_DIRECTION_MARGIN = 0.05  # below this the two directions are indistinguishable
+# 0.02 -> 0.05 on 2026-10-18 (benchmark/margin_floor_experiment.py): wrong-parent claims on the synthetic runs
+# 11 -> 8 of 268 pairs and on Gemini edits 3 -> 2 of 25, for about 3 points more abstention; the 0.02-0.05
+# margin bucket was only 70% precise on synthetic chains and 0 of 2 on web memes, so claims there were not trustworthy.
 SEMANTIC_RELATED = 0.80  # CLIP cosine at or above this = same subject, even if pixels differ
 PHASH_RELATED = 14  # bits, fallback when CLIP is unavailable
 

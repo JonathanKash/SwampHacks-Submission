@@ -280,3 +280,6 @@ object add/remove and re-rendered copies return inconclusive by design; generati
 - [x] Identify recall (benchmark/identify_recall_experiment.py, 378 held-out copies): SIFT on all 16 candidates when
       nothing aligns: 77.5% -> 78.8% correct, 0 wrong (KEPT). inliers 12 -> 10: no change. k=24 + ratio 0.20: 79.9% but
       2 wrong families -> REJECTED (a wrong family is worse than an abstention).
+- [x] Margin floor (benchmark/margin_floor_experiment.py): floors 0.02/0.03/0.05/0.08 -> synthetic wrong claims 11/10/8/6,
+      direction (run1/2/3) 88-84-79 / 88-83-76 / 88-82-74 / 86-81-74; Gemini wrong 3/2/2/1 with abstention 68/76/68/84%.
+      Chose 0.05: fewer wrong claims at a small abstention cost; 0.08 abstains on 84% of generative edits.
