@@ -1,7 +1,18 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import NavBar from "./NavBar";
 import NumbersPanel from "./NumbersPanel";
 import { usePageTitle } from "./usePageTitle";
+
+const METHOD_SECTIONS = [
+  { id: "pipeline", label: "Three stages" },
+  { id: "numbers", label: "Numbers" },
+  { id: "cost-terms", label: "Cost terms" },
+  { id: "signal-roles", label: "Signal roles" },
+  { id: "evidence", label: "Evidence" },
+  { id: "limitations", label: "Limitations" },
+  { id: "other-media", label: "Other media" },
+] as const;
 
 const TERMS: Array<{ name: string; weight: string; measures: string; direction: string }> = [
   {
@@ -93,9 +104,53 @@ const INFORMATIVE_CUES = [
   "semantic similarity",
 ];
 
+function MethodJumpLinks({ activeSection, mobile = false }: { activeSection: string; mobile?: boolean }) {
+  return (
+    <nav
+      className={`method-toc method-toc--${mobile ? "mobile" : "desktop"}`}
+      aria-label="On this page"
+    >
+      <span className="method-toc-title">On this page</span>
+      <ul>
+        {METHOD_SECTIONS.map((section) => (
+          <li key={section.id}>
+            <a
+              className={section.id === activeSection ? "is-active" : ""}
+              href={`#${section.id}`}
+              aria-current={section.id === activeSection ? "location" : undefined}
+            >
+              {section.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}
+
 /** The method, in one page, for judges and industry readers. */
 export default function MethodPage() {
   usePageTitle("Method · Lineage");
+  const [activeSection, setActiveSection] = useState("pipeline");
+
+  useEffect(() => {
+    const sections = METHOD_SECTIONS.map(({ id }) => document.getElementById(id)).filter(
+      (section): section is HTMLElement => section !== null,
+    );
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const current = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => Math.abs(a.boundingClientRect.top) - Math.abs(b.boundingClientRect.top))[0];
+        if (current) setActiveSection(current.target.id);
+      },
+      { rootMargin: "-18% 0px -72% 0px" },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <main className="landing method">
       <NavBar />
@@ -108,8 +163,11 @@ export default function MethodPage() {
         </p>
       </section>
 
-      <section className="pipeline">
-        <p className="eyebrow">Pipeline</p>
+      <MethodJumpLinks activeSection={activeSection} />
+      <MethodJumpLinks activeSection={activeSection} mobile />
+
+      <section className="pipeline" id="pipeline">
+        <p className="eyebrow">Three stages</p>
         <h2>Fingerprint, cost, arborescence.</h2>
         <ol className="stages">
           <li>
@@ -144,14 +202,14 @@ export default function MethodPage() {
         </ol>
       </section>
 
-      <section className="pipeline">
+      <section className="pipeline" id="numbers">
         <p className="eyebrow">Evaluation</p>
         <h2>Numbers</h2>
         <NumbersPanel />
       </section>
 
-      <section className="idea">
-        <p className="eyebrow">Cost terms</p>
+      <section className="idea" id="cost-terms">
+        <p className="eyebrow">What it charges for</p>
         <h2>What each term measures and why it points one way.</h2>
         <div className="method-table-wrap">
           <table className="method-table">
@@ -176,10 +234,30 @@ export default function MethodPage() {
             </tbody>
           </table>
         </div>
+        <ul className="method-term-cards" aria-label="Image cost terms, weights as deployed">
+          {TERMS.map((term) => (
+            <li className="method-term-card" key={term.name}>
+              <div className="method-term-card-head">
+                <h3>{term.name}</h3>
+                <span className="method-weight">weight {term.weight}</span>
+              </div>
+              <dl>
+                <div>
+                  <dt>Measures</dt>
+                  <dd>{term.measures}</dd>
+                </div>
+                <div>
+                  <dt>Direction</dt>
+                  <dd>{term.direction}</dd>
+                </div>
+              </dl>
+            </li>
+          ))}
+        </ul>
       </section>
 
-      <section className="pipeline">
-        <p className="eyebrow">Signal roles</p>
+      <section className="pipeline" id="signal-roles">
+        <p className="eyebrow">What decides and what only informs</p>
         <h2>What decides, what only informs</h2>
         <div className="idea-grid">
           <div className="idea-card">
@@ -213,8 +291,8 @@ export default function MethodPage() {
         </p>
       </section>
 
-      <section className="pipeline">
-        <p className="eyebrow">Evidence and confidence</p>
+      <section className="pipeline" id="evidence">
+        <p className="eyebrow">Why you can check it</p>
         <h2>Nothing is a guess.</h2>
         <div className="idea-grid">
           <div className="idea-card">
@@ -240,13 +318,15 @@ export default function MethodPage() {
           </div>
         </div>
         <p className="idea-note">
-          Held-out accuracy on those runs: 71% and 81% (83% on the run used for tuning); roots found 6 of 6 every
-          time. See the live table in <Link to="/">How sure is it?</Link>.
+          Tree accuracy on the three synthetic runs, measured today in the mode this demo runs (pHash candidates,
+          no CLIP): 75.0%, 67.8% and 73.3%; with CLIP candidates about 81%, 70% and 80%. Run 1 was used for tuning,
+          runs 2 and 3 are held out; roots 6 of 6 every time. See the live table in <Link to="#numbers">How sure is
+          it?</Link>.
         </p>
       </section>
 
-      <section className="idea">
-        <p className="eyebrow">Limitations</p>
+      <section className="idea" id="limitations">
+        <p className="eyebrow">Where it says 'not sure'</p>
         <h2>Where it is honest about being unsure.</h2>
         <ul className="method-list">
           <li>A crop of a crop is also one crop from the grandparent; the edit-op prior resolves many of these, not all.</li>
@@ -261,8 +341,8 @@ export default function MethodPage() {
         </ul>
       </section>
 
-      <section className="pipeline">
-        <p className="eyebrow">Other media</p>
+      <section className="pipeline" id="other-media">
+        <p className="eyebrow">Not just images</p>
         <h2>The core does not know what an image is.</h2>
         <p className="idea-note">
           A media plug-in supplies four functions: load, fingerprint, cost and explain. The text plug-in uses
