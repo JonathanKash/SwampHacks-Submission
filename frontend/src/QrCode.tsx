@@ -68,6 +68,10 @@ export default function QrCode({ path = "/edit", size = 132, label = "scan to ad
           <span>{url.replace(/^https?:\/\//, "")}</span>
         )}
       </figcaption>
+      {/* Already on a phone? A QR code is useless there; CSS shows this link only under 640 px. */}
+      <a className="qr-open" href={targetPath}>
+        Open it on this phone
+      </a>
     </figure>
   );
 }

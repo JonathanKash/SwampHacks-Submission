@@ -2294,6 +2294,35 @@ p a {
   color: var(--ink);
   font-size: inherit;
   font-weight: inherit;
+  word-break: normal; /* never "e dit" */
+  overflow-wrap: normal;
+}
+
+/* Phones: hide the QR image and offer the link directly. */
+.qr-join .qr-open {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .qr-join {
+    flex-wrap: wrap;
+  }
+
+  .qr-join img,
+  .qr-join figcaption {
+    display: none;
+  }
+
+  .qr-join .qr-open {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 16px;
+    border: 1px solid var(--green);
+    border-radius: 999px;
+    color: var(--green);
+    font-weight: 700;
+    text-decoration: none;
+  }
 }
 
 .qr-join figcaption span {
