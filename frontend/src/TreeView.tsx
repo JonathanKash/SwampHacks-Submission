@@ -16,12 +16,16 @@ import { reliabilityTier } from "./EvidenceList";
 const NODE_SIZE = 96;
 const NODE_HALF = NODE_SIZE / 2;
 const HORIZONTAL_GAP = 150;
-const VERTICAL_GAP = 166;
+// Leave a clear lane for the caption and edge pill between thumbnail rows.
+// 1.9 x thumbnail: room for a caption and an edge pill, but a 9-level demo forest still fits a 1600x900 screen
+const VERTICAL_GAP = Math.max(166, Math.ceil(NODE_SIZE * 1.9));
+const EDGE_LABEL_POSITION = 0.62;
+const EDGE_LABEL_HALO_WIDTH = 6;
 const TRANSITION_MS = 600;
 const ZOOM_TRANSITION_MS = 250;
 const MIN_ZOOM = 0.3;
 const MAX_ZOOM = 6;
-const MIN_FITTED_NODE_SIZE = 40;
+const MIN_FITTED_NODE_SIZE = 36; // below this the whole-forest view is unreadable, so focus the newest node instead
 const FOCUSED_NODE_SIZE = 64;
 
 interface HierarchyDatum {
@@ -131,11 +135,32 @@ function collapsedPath(node: LayoutNode): string {
   return `M${node.x},${node.y} C${node.x},${node.y} ${node.x},${node.y} ${node.x},${node.y}`;
 }
 
+function cubicPoint(start: number, control1: number, control2: number, end: number, t: number): number {
+  const remaining = 1 - t;
+  return remaining ** 3 * start
+    + 3 * remaining ** 2 * t * control1
+    + 3 * remaining * t ** 2 * control2
+    + t ** 3 * end;
+}
+
 function labelPosition(edge: LayoutEdge): { x: number; y: number } {
+  const startY = edge.source.y + NODE_HALF;
+  const endY = edge.target.y - NODE_HALF;
+  const middleY = (startY + endY) / 2;
   return {
-    x: (edge.source.x + edge.target.x) / 2,
-    y: (edge.source.y + edge.target.y) / 2,
+    x: cubicPoint(edge.source.x, edge.source.x, edge.target.x, edge.target.x, EDGE_LABEL_POSITION),
+    y: cubicPoint(startY, middleY, middleY, endY, EDGE_LABEL_POSITION),
   };
+}
+
+function canvasBackground(element: Element): string {
+  let current: Element | null = element;
+  while (current) {
+    const color = window.getComputedStyle(current).backgroundColor;
+    if (color !== "transparent" && color !== "rgba(0, 0, 0, 0)") return color;
+    current = current.parentElement;
+  }
+  return "#070b0a";
 }
 
 function labelText(label: string): string {
@@ -169,7 +194,7 @@ function fitTreeTransform(layout: LayoutResult, width: number, height: number): 
   const contentWidth = Math.max(1, layout.maxX - layout.minX);
   const contentHeight = Math.max(1, layout.maxY - layout.minY);
   // Keep the existing breathing room for the legend and newest-image callout.
-  const bottomReserve = 110;
+  const bottomReserve = 150; // the newest-image callout is about 130 px tall at the bottom-left
   const usableHeight = Math.max(1, height - 54 - bottomReserve);
   const scale = Math.min(1.25, Math.max(1, width - 64) / contentWidth, usableHeight / contentHeight);
   const scaledHeight = contentHeight * scale;
@@ -273,6 +298,7 @@ export default function TreeView({
     const linksLayer = stage.select<SVGGElement>("g.links-layer");
     const labelsLayer = stage.select<SVGGElement>("g.labels-layer");
     const nodesLayer = stage.select<SVGGElement>("g.nodes-layer");
+    const labelHaloColor = canvasBackground(svgElement);
 
     const fitTransform = fitTreeTransform(layout, size.width, size.height);
     fitTransformRef.current = fitTransform;
@@ -387,7 +413,16 @@ export default function TreeView({
       .attr("class", "edge-label")
       .attr("aria-hidden", "true")
       .style("opacity", "0");
-    labelEnter.append("rect").attr("y", -13).attr("height", 26).attr("rx", 13);
+    labelEnter
+      .append("rect")
+      .attr("class", "edge-label-halo")
+      .attr("y", -13)
+      .attr("height", 26)
+      .attr("rx", 13)
+      .style("fill", "none")
+      .style("stroke-width", `${EDGE_LABEL_HALO_WIDTH}px`)
+      .style("paint-order", "stroke");
+    labelEnter.append("rect").attr("class", "edge-label-pill").attr("y", -13).attr("height", 26).attr("rx", 13);
     labelEnter.append("text").attr("dy", "0.35em").attr("text-anchor", "middle");
     const labelMerged = labelEnter.merge(labelJoin);
     labelMerged
@@ -397,8 +432,12 @@ export default function TreeView({
           ? edge.correct ? "is-correct" : "is-wrong"
           : precision !== null && precision >= 0.85 ? "is-sure" : "is-unsure";
         return `edge-label ${tone}`;
-      })
-      .select("rect")
+      });
+    labelMerged
+      .select<SVGRectElement>("rect.edge-label-halo")
+      .style("stroke", labelHaloColor);
+    labelMerged
+      .selectAll<SVGRectElement, LayoutEdge>("rect")
       .attr("x", (edge) => -labelWidth(edgePillText(edge, colorBy)) / 2)
       .attr("width", (edge) => labelWidth(edgePillText(edge, colorBy)));
     labelMerged.select("text").text((edge) => labelText(edgePillText(edge, colorBy)));
