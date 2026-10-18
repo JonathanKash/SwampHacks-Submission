@@ -277,5 +277,6 @@ object add/remove and re-rendered copies return inconclusive by design; generati
       resolution 0.5 vs 1.0 and blockiness 1.0 vs 1.5 change nothing; specificity 0.01 -> 0.03 gives held-out 69.2% -> 69.8%
       (kept; run1 unchanged); edit_op 0.05 -> 0.1 gives 70.9% but makes a seed-vs-caption pair go backwards
       (caught by test_api_endpoints) -> REJECTED. Tree eval now 75.0 / 67.8 / 73.3 (pHash-only).
-- [ ] Identify recall: 84 of 85 abstentions are registration failures; experiment with wider SIFT coverage and softer
-      inlier thresholds queued (benchmark/identify_recall_experiment.py).
+- [x] Identify recall (benchmark/identify_recall_experiment.py, 378 held-out copies): SIFT on all 16 candidates when
+      nothing aligns: 77.5% -> 78.8% correct, 0 wrong (KEPT). inliers 12 -> 10: no change. k=24 + ratio 0.20: 79.9% but
+      2 wrong families -> REJECTED (a wrong family is worse than an abstention).
