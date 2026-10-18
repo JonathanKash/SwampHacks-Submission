@@ -209,7 +209,8 @@ function MatchedFamily({ match, preview, filename }: {
         </div>
 
         {match.tree_disagrees && (
-          <aside className="identify-tree-note">
+          <details className="identify-tree-note">
+            <summary>How the family was decided</summary>
             {match.tree_root && (
               <img
                 src={match.tree_root.thumb || match.tree_root.url}
@@ -217,10 +218,12 @@ function MatchedFamily({ match, preview, filename }: {
               />
             )}
             <p>
-              Note: the reconstructed tree inside the knowledge base had linked this copy to a different family
-              ({treeRootFamily ?? "unknown family"}); the family label of the matched item is used here.
+              The family comes from the label on the matched stored copy, which was placed by the corpus curator.
+              The knowledge base&apos;s own reconstructed tree had linked that copy to {treeRootFamily ?? "unknown family"};
+              stored trees in low-memory mode cross-link look-alike families, so the label wins here and the
+              disagreement is shown for transparency.
             </p>
-          </aside>
+          </details>
         )}
 
         {match.would_be_better_parent && (
