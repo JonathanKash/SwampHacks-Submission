@@ -307,7 +307,8 @@ export default function TreePage() {
                   ×
                 </button>
                 <p className="eyebrow">{selectedNode.root ? "Original" : "Edited copy"}</p>
-                <h2>{incomingEdge ? incomingEdge.label : "root of its family"}</h2>
+                {/* the full sentence ("re-saved as low-quality JPEG") reads better than the short pill label ("jpeg") */}
+                <h2>{incomingEdge ? incomingEdge.explain || incomingEdge.label : "start of its family"}</h2>
                 <img src={selectedNode.url} alt={`Full-size image ${selectedNode.id}`} />
                 {selectedNode.root && selectedNode.explains.length > 0 && (
                   <div className="candidate-original-callout" role="note">
