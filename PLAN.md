@@ -304,4 +304,5 @@ page with a screenshot check after each. Kept so far (each its own commit):
   (Export menu replaces the JSON / HTML buttons, "pHash mode" chip, QR host wraps instead of clipping).
 - Identify: shorter heading, provenance note clamps to four lines with Read more.
 - Nav: "Text" → "Text mode"; audit/compare/text eyebrows in plain words.
+- Audit: the Identify knowledge-base case is protected from deletion (server 403 without ADMIN_TOKEN, "KB" chip in the rail); a visitor on the public link could otherwise have broken Identify mid-demo.
 Not changed: any cost term, threshold or calibration number.
