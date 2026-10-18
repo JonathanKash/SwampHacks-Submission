@@ -1,4 +1,5 @@
 import {
+  Fragment,
   type ChangeEvent,
   type DragEvent,
   type FormEvent,
@@ -256,6 +257,7 @@ export default function ComparePage() {
   ];
   const hasMixedSources = Boolean((fileA && poolB) || (poolA && fileB));
   const canCompare = !preparing.A && !preparing.B && Boolean((fileA && fileB) || (poolA && poolB));
+  const bothSidesEmpty = !fileA && !fileB && !poolA && !poolB;
 
   return (
     <main className="compare-page">
@@ -270,10 +272,7 @@ export default function ComparePage() {
       </section>
 
       <form className="compare-form" onSubmit={(event) => void handleCompare(event)}>
-        <div
-          className="compare-dropzones"
-          style={{ position: "relative", columnGap: "clamp(72px, 10vw, 132px)", rowGap: 72 }}
-        >
+        <div className="compare-dropzones">
           {slots.map(({ label, file, poolItem, preview, resize }) => {
             const inputId = `compare-file-${label.toLowerCase()}`;
             const helpId = `${inputId}-help`;
@@ -281,76 +280,87 @@ export default function ComparePage() {
             const displayName = file?.name ?? (poolItem ? poolItemName(poolItem) : null);
             const displayPreview = preview ?? poolItem?.thumb ?? poolItem?.url ?? null;
             return (
-              <div key={label}>
-                <label
-                  className={`compare-dropzone ${dragging === label ? "is-dragging" : ""} ${displayName ? "has-file" : ""}`}
-                  htmlFor={inputId}
-                  onDragEnter={(event) => { event.preventDefault(); setDragging(label); }}
-                  onDragOver={(event) => event.preventDefault()}
-                  onDragLeave={(event) => {
-                    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setDragging(null);
-                  }}
-                  onDrop={(event) => handleDrop(label, event)}
-                >
-                  <input
-                    className="sr-only"
-                    id={inputId}
-                    type="file"
-                    accept="image/*"
-                    aria-describedby={helpId}
-                    disabled={loading}
-                    onChange={(event) => handleInput(label, event)}
-                  />
-                  <span className="compare-slot-label">{label}</span>
-                  {displayName && displayPreview ? (
-                    <>
-                      <img src={displayPreview} alt={`Preview of ${displayName}`} />
-                      <strong>{displayName}</strong>
-                      <span id={helpId}>Click or drop to replace</span>
-                    </>
-                  ) : (
-                    <>
-                      <span className="compare-upload-mark" aria-hidden="true">＋</span>
-                      <strong>Choose or drop one image</strong>
-                      <span id={helpId}>One local image file</span>
-                    </>
-                  )}
-                </label>
-                {resize && (
-                  <p
-                    style={{ color: "var(--muted)", fontSize: "0.82rem", margin: "10px 0 0" }}
-                    title="The SHA-256 in the report is calculated from the resized file."
-                  >
-                    Resized for upload: {resize.originalWidth}×{resize.originalHeight} →{" "}
-                    {resize.resizedWidth}×{resize.resizedHeight}
-                  </p>
+              <Fragment key={label}>
+                {label === "B" && (
+                  <div className="compare-swap-column">
+                    <button
+                      className="compare-swap-button"
+                      type="button"
+                      disabled={loading || preparing.A || preparing.B || bothSidesEmpty}
+                      onClick={swapSelections}
+                    >
+                      <span aria-hidden="true">⇄</span>
+                      <span className="sr-only">Swap A and B</span>
+                    </button>
+                    <span>Swap</span>
+                  </div>
                 )}
-                <div className="compare-with">
-                  <label htmlFor={selectId}>or pick from the demo pool</label>
-                  <select
-                    id={selectId}
-                    value={poolItem?.id ?? ""}
-                    disabled={loading || poolLoading || poolItems.length === 0}
-                    onChange={(event) => choosePoolItem(label, event)}
+                <div className="compare-slot">
+                  <label
+                    className={`compare-dropzone ${dragging === label ? "is-dragging" : ""} ${displayName ? "has-file" : ""} ${loading ? "is-disabled" : ""}`}
+                    htmlFor={inputId}
+                    aria-disabled={loading}
+                    onDragEnter={(event) => {
+                      event.preventDefault();
+                      if (!loading) setDragging(label);
+                    }}
+                    onDragOver={(event) => event.preventDefault()}
+                    onDragLeave={(event) => {
+                      if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setDragging(null);
+                    }}
+                    onDrop={(event) => handleDrop(label, event)}
                   >
-                    <option value="">{poolLoading ? "Loading demo pool…" : "Choose a pool item"}</option>
-                    {poolItems.map((item) => (
-                      <option value={item.id} key={item.id}>{poolItemName(item)}</option>
-                    ))}
-                  </select>
+                    <input
+                      className="sr-only"
+                      id={inputId}
+                      type="file"
+                      accept="image/*"
+                      aria-describedby={helpId}
+                      disabled={loading}
+                      onChange={(event) => handleInput(label, event)}
+                    />
+                    <span className="compare-slot-label">{label}</span>
+                    {displayName && displayPreview ? (
+                      <>
+                        <img src={displayPreview} alt={`Preview of ${displayName}`} />
+                        <strong>{displayName}</strong>
+                        <span id={helpId}>Click or drop to replace</span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="compare-upload-mark" aria-hidden="true">＋</span>
+                        <strong>Choose or drop one image</strong>
+                        <span id={helpId}>One local image file</span>
+                      </>
+                    )}
+                  </label>
+                  {resize && (
+                    <p
+                      style={{ color: "var(--muted)", fontSize: "0.82rem", margin: "10px 0 0" }}
+                      title="The SHA-256 in the report is calculated from the resized file."
+                    >
+                      Resized for upload: {resize.originalWidth}×{resize.originalHeight} →{" "}
+                      {resize.resizedWidth}×{resize.resizedHeight}
+                    </p>
+                  )}
+                  <div className="compare-with">
+                    <label htmlFor={selectId}>or pick from the demo pool</label>
+                    <select
+                      id={selectId}
+                      value={poolItem?.id ?? ""}
+                      disabled={loading || poolLoading || poolItems.length === 0}
+                      onChange={(event) => choosePoolItem(label, event)}
+                    >
+                      <option value="">{poolLoading ? "Loading demo pool…" : "Choose a pool item"}</option>
+                      {poolItems.map((item) => (
+                        <option value={item.id} key={item.id}>{poolItemName(item)}</option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-              </div>
+              </Fragment>
             );
           })}
-          <button
-            className="secondary-button"
-            type="button"
-            disabled={loading || preparing.A || preparing.B || (!fileA && !fileB && !poolA && !poolB)}
-            style={{ position: "absolute", top: "50%", left: "50%", zIndex: 1, transform: "translate(-50%, -50%)" }}
-            onClick={swapSelections}
-          >
-            Swap A and B
-          </button>
         </div>
         {hasMixedSources && (
           <p className="compare-inline-error compare-error" role="note">
@@ -368,6 +378,14 @@ export default function ComparePage() {
             "Compare"
           )}
         </button>
+        {bothSidesEmpty && (
+          <p className="compare-submit-note">No files handy? Pick two items from the demo pool above.</p>
+        )}
+        {loading && (
+          <p className="compare-submit-note" role="status">
+            Usually 3 to 10 seconds; large phone photos are resized first.
+          </p>
+        )}
         {error && <p className="error-banner compare-error" role="alert">{error}</p>}
       </form>
 

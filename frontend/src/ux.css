@@ -724,6 +724,38 @@ p a {
   border-color: var(--green);
 }
 
+.steps li.is-done {
+  padding: 0;
+}
+
+.steps li.is-done button {
+  width: 100%;
+  padding: 10px 14px;
+  border: 0;
+  border-radius: inherit;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+.steps li.is-done button::before {
+  margin-right: 6px;
+  content: "✓";
+  font-size: 0.72em;
+}
+
+.steps li.is-done button:hover,
+.steps li.is-done button:focus-visible {
+  color: #06100b;
+  background: var(--green);
+}
+
+.steps li.is-done button:focus-visible {
+  outline: 3px solid #9ff5ca;
+  outline-offset: 3px;
+}
+
 .hint {
   margin: 0;
   color: var(--muted);
@@ -768,6 +800,51 @@ p a {
   margin-top: 4px;
   color: var(--muted);
   font-weight: 600;
+}
+
+.fool-hint {
+  position: relative;
+  padding-right: 52px;
+  align-items: flex-start;
+}
+
+.fool-hint > div {
+  min-width: 0;
+}
+
+.fool-hint .eyebrow {
+  margin-bottom: 5px;
+}
+
+.hint-dismiss {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  color: var(--muted);
+  background: #17201e;
+  font: inherit;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.hint-dismiss:hover,
+.hint-dismiss:focus-visible {
+  border-color: var(--green);
+  color: #06100b;
+  background: var(--green);
+}
+
+.hint-dismiss:focus-visible {
+  outline: 3px solid #9ff5ca;
+  outline-offset: 2px;
 }
 
 /* ---- verdict -------------------------------------------------------------- */
@@ -2383,8 +2460,56 @@ p a {
 .compare-dropzones {
   display: grid;
   width: 100%;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr) 64px minmax(0, 1fr);
+  align-items: start;
   gap: 18px;
+}
+
+.compare-slot {
+  min-width: 0;
+}
+
+.compare-swap-column {
+  display: grid;
+  align-self: center;
+  justify-items: center;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.compare-swap-button {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  color: var(--green);
+  background: #17201e;
+  font: inherit;
+  font-size: 1.65rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.compare-swap-button:hover:not(:disabled),
+.compare-swap-button:focus-visible {
+  border-color: var(--green);
+  color: #06100b;
+  background: var(--green);
+}
+
+.compare-swap-button:focus-visible {
+  outline: 3px solid #9ff5ca;
+  outline-offset: 3px;
+}
+
+.compare-swap-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
 }
 
 .compare-dropzone {
@@ -2407,7 +2532,7 @@ p a {
   transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
 }
 
-.compare-dropzone:hover,
+.compare-dropzone:not(.is-disabled):hover,
 .compare-dropzone.is-dragging,
 .compare-dropzone:focus-visible,
 .compare-dropzone:focus-within {
@@ -2423,6 +2548,11 @@ p a {
 
 .compare-dropzone.is-dragging {
   transform: scale(0.99);
+}
+
+.compare-dropzone.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
 }
 
 .compare-slot-label {
@@ -2468,6 +2598,15 @@ p a {
 
 .compare-submit {
   min-width: min(280px, 100%);
+}
+
+.compare-submit-note {
+  max-width: 34rem;
+  margin: -9px 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.45;
+  text-align: center;
 }
 
 .compare-error {
@@ -2886,6 +3025,16 @@ p a {
   color: #ffc1c9;
   font-size: 0.78rem;
   line-height: 1.4;
+}
+
+@media (max-width: 899px) {
+  .compare-dropzones {
+    grid-template-columns: 1fr;
+  }
+
+  .compare-swap-button > span:first-child {
+    transform: rotate(90deg);
+  }
 }
 
 @media (max-width: 720px) {

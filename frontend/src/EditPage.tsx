@@ -159,13 +159,12 @@ export default function EditPage() {
   const canSubmit =
     Boolean(parent && selected) && !needsChoice && (selected !== "caption" || Boolean(caption.trim()));
 
-  const summary = useMemo(() => {
-    if (!selected) return "Pick one edit below.";
-    if (selected === "filter") return filter ? `Apply the ${filter} filter.` : "Which filter?";
-    if (selected === "restyle") return style ? `Re-render as ${style}.` : "Which style?";
-    if (selected === "caption") return `Add “${caption.trim() || "your caption"}”.`;
-    return EDITS.find((edit) => edit.id === selected)?.description ?? "";
-  }, [caption, filter, selected, style]);
+  const selectedEdit = EDITS.find((edit) => edit.id === selected) ?? null;
+
+  const scrollToStep = (id: string) => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.getElementById(id)?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+  };
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -289,13 +288,29 @@ export default function EditPage() {
     <main className="edit-page">
       <NavBar />
       <ol className="steps" aria-label="Progress">
-        <li className="is-done">1 · Your image</li>
-        <li className={selected ? "is-done" : "is-current"}>2 · One edit</li>
-        <li className={canSubmit ? "is-current" : ""}>3 · Verdict + evidence</li>
+        {parent && !loadingImage ? (
+          <li className="is-done">
+            <button type="button" onClick={() => scrollToStep("edit-source")}>1 · Your image</button>
+          </li>
+        ) : (
+          <li className="is-current" aria-current="step">1 · Your image</li>
+        )}
+        {canSubmit ? (
+          <li className="is-done">
+            <button type="button" onClick={() => scrollToStep("edit-controls")}>2 · One edit</button>
+          </li>
+        ) : (
+          <li className={parent && !loadingImage ? "is-current" : ""} aria-current={parent && !loadingImage ? "step" : undefined}>
+            2 · One edit
+          </li>
+        )}
+        <li className={canSubmit ? "is-current" : ""} aria-current={canSubmit ? "step" : undefined}>
+          3 · Verdict + evidence
+        </li>
       </ol>
 
       <form className="edit-workspace" onSubmit={handleSubmit}>
-        <section className="source-panel" aria-label="Your image">
+        <section className="source-panel" id="edit-source" aria-label="Your image">
           <div className="section-heading">
             <div>
               <p className="eyebrow">Step 1</p>
@@ -321,7 +336,7 @@ export default function EditPage() {
           </p>
         </section>
 
-        <section className="controls-panel" aria-label="Choose one edit">
+        <section className="controls-panel" id="edit-controls" aria-label="Choose one edit">
           <div className="section-heading">
             <div>
               <p className="eyebrow">Step 2</p>
@@ -331,17 +346,21 @@ export default function EditPage() {
           </div>
 
           {showFoolHint && (
-            <aside className="option-panel section-heading" aria-label="Fool Lineage hint">
+            <aside className="option-panel section-heading fool-hint" aria-label="Fool Lineage hint">
               <div>
-                <p className="eyebrow">Fool Lineage</p>
+                <p className="eyebrow">Want to fool it?</p>
                 <p className="hint">
-                  Hard cases that have fooled it on the big screen: a tiny crop (under 10%), a mild filter on an
-                  already-filtered copy, a crunchy JPEG of a JPEG.
+                  Try a tiny crop, a filter on an already-filtered copy, or a JPEG of a JPEG. Captions and big crops
+                  rarely fool it.
                 </p>
-                <p className="hint">Easy cases it nails: captions, rotations, big crops.</p>
               </div>
-              <button className="choice-chip" type="button" onClick={() => setShowFoolHint(false)}>
-                Dismiss
+              <button
+                className="hint-dismiss"
+                type="button"
+                aria-label="Dismiss Fool Lineage hint"
+                onClick={() => setShowFoolHint(false)}
+              >
+                ×
               </button>
             </aside>
           )}
@@ -432,10 +451,7 @@ export default function EditPage() {
 
           <div className="submit-row">
             <p className="selection-description">
-              {summary}
-              {selected && (
-                <small> Lineage will look for {EDITS.find((edit) => edit.id === selected)?.detects}.</small>
-              )}
+              {selectedEdit ? `Ready: ${selectedEdit.title}. Submit when you like.` : "Pick one edit above to continue"}
             </p>
             {error && <p className="error-banner" role="alert">{error}</p>}
             {cooldownSeconds > 0 && (
