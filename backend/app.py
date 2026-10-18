@@ -106,10 +106,29 @@ def _case_pool(case_id: str) -> Pool:
         return _case_pools[case_id]
 
 
-def _case_summary(case_id: str, meta: dict) -> dict:
+def _case_summary(case_id: str, meta: dict, protected: bool = False) -> dict:
     items = len(_case_pools[case_id].engine.items) if case_id in _case_pools else meta.get("items", 0)
     return {"id": case_id, "name": meta["name"], "items": items, "created_at": meta["created_at"],
-            "analyst": meta.get("analyst", "")}
+            "analyst": meta.get("analyst", ""), "protected": protected}
+
+
+def _identify_case_id(index: dict) -> str | None:
+    """Which case backs /identify: IDENTIFY_CASE if set, else the largest case with "meme" in its name."""
+    wanted = os.getenv("IDENTIFY_CASE")
+    if wanted and wanted in index:
+        return wanted
+    memes = [(meta.get("items", 0), cid) for cid, meta in index.items() if "meme" in meta.get("name", "").lower()]
+    return max(memes)[1] if memes else None
+
+
+def _guard_knowledge_base(case_id: str, token: str | None) -> None:
+    """The Identify knowledge base is reachable from the public /audit page; deleting it would break the
+    demo for everyone, so it needs the admin token even when ADMIN_TOKEN is unset (then nobody can)."""
+    if case_id != _identify_case_id(_read_index()):
+        return
+    expected = os.getenv("ADMIN_TOKEN")
+    if not expected or token != expected:
+        raise HTTPException(403, "this case is the Identify knowledge base; deleting from it needs the ADMIN_TOKEN header")
 
 
 class CaseCreate(BaseModel):
@@ -120,7 +139,8 @@ class CaseCreate(BaseModel):
 @app.get("/api/cases")
 def list_cases() -> dict:
     index = _read_index()
-    return {"cases": sorted((_case_summary(cid, m) for cid, m in index.items()), key=lambda c: -c["created_at"])}
+    kb = _identify_case_id(index)
+    return {"cases": sorted((_case_summary(cid, m, protected=cid == kb) for cid, m in index.items()), key=lambda c: -c["created_at"])}
 
 
 @app.post("/api/cases")
@@ -181,6 +201,7 @@ def delete_case(case_id: str, x_admin_token: str | None = Header(None)) -> dict:
     expected = os.getenv("ADMIN_TOKEN")
     if expected and x_admin_token != expected:
         raise HTTPException(403, "bad admin token")
+    _guard_knowledge_base(case_id, x_admin_token)
     with _cases_lock:
         index = _read_index()
         if case_id not in index:
@@ -456,15 +477,9 @@ def _warm_features(case_id: str, target: Pool) -> None:
 
 
 def _identify_case() -> tuple[str, Pool]:
-    wanted = os.getenv("IDENTIFY_CASE")
-    index = _read_index()
-    if wanted and wanted in index:
-        cid = wanted
-    else:
-        memes = [(meta.get("items", 0), cid) for cid, meta in index.items() if "meme" in meta.get("name", "").lower()]
-        if not memes:
-            raise HTTPException(503, "no identification case is built (run backend/scripts/build_meme_case.py)")
-        cid = max(memes)[1]
+    cid = _identify_case_id(_read_index())
+    if cid is None:
+        raise HTTPException(503, "no identification case is built (run backend/scripts/build_meme_case.py)")
     target = _case_pool(cid)
     _warm_features(cid, target)
     return cid, target
@@ -754,6 +769,7 @@ def delete_item(item_id: str, x_admin_token: str | None = Header(None)) -> dict:
 @app.delete("/api/cases/{case_id}/items/{item_id}")
 def delete_case_item(case_id: str, item_id: str, x_admin_token: str | None = Header(None)) -> dict:
     _check_admin(x_admin_token)
+    _guard_knowledge_base(case_id, x_admin_token)
     if not _case_pool(case_id).remove(item_id):
         raise HTTPException(404, "unknown item")
     return {"ok": True}

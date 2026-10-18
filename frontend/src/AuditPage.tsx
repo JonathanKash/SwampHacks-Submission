@@ -683,15 +683,22 @@ export default function AuditPage() {
                     {auditCase.analyst && <span>Analyst · {auditCase.analyst}</span>}
                     <span>{auditCase.items} {auditCase.items === 1 ? "image" : "images"}</span>
                   </button>
-                  <button
-                    type="button"
-                    className="audit-case-delete"
-                    onClick={() => void handleDelete(auditCase)}
-                    title="Delete case"
-                  >
-                    <span aria-hidden="true">×</span>
-                    <span className="sr-only">Delete {auditCase.name}</span>
-                  </button>
+                  {auditCase.protected ? (
+                    // Backs /identify for every visitor, so it cannot be removed from this page.
+                    <span className="audit-case-kb" title="Knowledge base behind Identify; protected from deletion">
+                      KB
+                    </span>
+                  ) : (
+                    <button
+                      type="button"
+                      className="audit-case-delete"
+                      onClick={() => void handleDelete(auditCase)}
+                      title="Delete case"
+                    >
+                      <span aria-hidden="true">×</span>
+                      <span className="sr-only">Delete {auditCase.name}</span>
+                    </button>
+                  )}
                 </div>
               ))}
             </div>

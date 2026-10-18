@@ -282,3 +282,33 @@ def test_identify_stats_endpoint_reads_the_benchmark_file():
     assert "available" in body
     if body["available"]:
         assert body["queries"] > 0 and 0 <= body["family_accuracy"] <= 1 and body["wrong_family"] >= 0
+
+
+def test_identify_knowledge_base_cannot_be_deleted_from_the_public_page(tmp_path, monkeypatch):
+    """The case that backs /identify is shown on /audit; without ADMIN_TOKEN nobody may delete it."""
+    monkeypatch.setenv("DATA_DIR", str(tmp_path))
+    monkeypatch.delenv("ADMIN_TOKEN", raising=False)
+    monkeypatch.delenv("IDENTIFY_CASE", raising=False)
+    from lineage import config
+    importlib.reload(config)
+    import app as app_module
+    importlib.reload(app_module)
+    app_module.pool = Pool(tmp_path, use_clip=False)
+    monkeypatch.setattr(app_module, "CASES_DIR", tmp_path / "cases")
+    monkeypatch.setattr(app_module, "CASES_INDEX", tmp_path / "cases" / "index.json")
+    app_module._case_pools.clear()
+    from fastapi.testclient import TestClient
+    client = TestClient(app_module.app)
+
+    kb = client.post("/api/cases", json={"name": "Meme originals test"}).json()["id"]
+    other = client.post("/api/cases", json={"name": "Ordinary case"}).json()["id"]
+    flags = {c["id"]: c["protected"] for c in client.get("/api/cases").json()["cases"]}
+    assert flags == {kb: True, other: False}
+
+    assert client.delete(f"/api/cases/{kb}").status_code == 403
+    assert client.delete(f"/api/cases/{other}").json() == {"ok": True}
+
+    # with a token configured and presented, the owner can still delete it
+    monkeypatch.setenv("ADMIN_TOKEN", "s3cret")
+    assert client.delete(f"/api/cases/{kb}").status_code == 403
+    assert client.delete(f"/api/cases/{kb}", headers={"x-admin-token": "s3cret"}).json() == {"ok": True}

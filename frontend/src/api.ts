@@ -260,6 +260,7 @@ export interface AuditCase {
   items: number;
   created_at: number;
   analyst: string;
+  protected?: boolean; // the case that backs /identify; the server refuses to delete it without the admin token
 }
 
 export interface CasesResponse {

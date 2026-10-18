@@ -4009,3 +4009,16 @@ p a {
     border-bottom: 0;
   }
 }
+
+/* Knowledge-base chip in the audit case rail (replaces the delete button for the Identify case). */
+.audit-case-kb {
+  align-self: center;
+  padding: 2px 8px;
+  border: 1px solid var(--line-strong, #4c5d57);
+  border-radius: 999px;
+  color: var(--green);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  cursor: help;
+}
