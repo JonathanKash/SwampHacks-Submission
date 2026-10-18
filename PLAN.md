@@ -218,7 +218,7 @@ Decisions in SPEC.md (v2 section). Images first; audio/video only after images w
       calibration corpora, identify and the new routes (ALL OK live); HTML report and CSV carry the web-memes
       precision; tree view zoom/pan with fit controls (223-item case readable); method page: decides vs informs,
       symmetry limitation, caption-removed row; deploy notes + Dockerfile copy benchmark/; CLAUDE.md refreshed.
-- [x] Identify on 378 held-out meme copies (knowledge base: 223 items, pHash-only mode): 293 correct family (77.5%), 85 abstained, 0 wrong family; median 4.13 s, p90 5.3 s. By kind: crop 31/45, caption 255/314, other 5/6, screenshot 2/13.
+- [x] Identify on 378 held-out meme copies (knowledge base: 223 items, pHash-only mode): 298 correct family (78.8%), 80 abstained, 0 wrong family; median 3.1 s, p90 3.5 s. By kind: crop 31/45, caption 260/314, other 5/6, screenshot 2/13.
 - [x] Gemini edit corpus: 25 edits (4 photos x 6 instructions + Met object_add); the image quota ran out again at 16:30
       (src05-src08 pending; `make_corpus.py` resumes where it left off).
 - [x] Meme benchmark pass 3 (family splits, 563 pairs, pHash-only): when the documented "original" is a SMALLER
@@ -283,3 +283,6 @@ object add/remove and re-rendered copies return inconclusive by design; generati
 - [x] Margin floor (benchmark/margin_floor_experiment.py): floors 0.02/0.03/0.05/0.08 -> synthetic wrong claims 11/10/8/6,
       direction (run1/2/3) 88-84-79 / 88-83-76 / 88-82-74 / 86-81-74; Gemini wrong 3/2/2/1 with abstention 68/76/68/84%.
       Chose 0.05: fewer wrong claims at a small abstention cost; 0.08 abstains on 84% of generative edits.
+- [ ] Next accuracy lever: screenshot copies (2 of 13 identified). They are tweet/page screenshots with the photo
+      embedded at a fraction of the frame; a multi-scale or region-proposal registration pass (detect the largest
+      photo-like rectangle, register that) is the likely fix. Not started: too large to land safely before the demo.

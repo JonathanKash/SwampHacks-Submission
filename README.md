@@ -76,7 +76,7 @@ tunnel and put its URL on the QR code, `-PublicUrl https://...` for a fixed addr
 originals (`python backend/scripts/build_meme_case.py`). It returns the family, the documented original
 with its source note, date and links, the edit that separates your copy from it, and the full evidence
 report. Weak or meaning-only matches are reported as "no family matched" rather than guessed.
-Identify on 378 held-out meme copies (knowledge base: 223 items, pHash-only mode): 293 correct family (77.5%), 85 abstained, 0 wrong family; median 4.13 s, p90 5.3 s. By kind: crop 31/45, caption 255/314, other 5/6, screenshot 2/13.
+Identify on 378 held-out meme copies (knowledge base: 223 items, pHash-only mode): 298 correct family (78.8%), 80 abstained, 0 wrong family; median 3.1 s, p90 3.5 s. By kind: crop 31/45, caption 260/314, other 5/6, screenshot 2/13.
 `POST /api/identify` (field `file`) is the API; `IDENTIFY_CASE` selects a different case.
 
 ## Compare two files: "Why is this the parent?"

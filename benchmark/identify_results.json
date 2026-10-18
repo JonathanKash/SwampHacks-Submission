@@ -2,22 +2,22 @@
   "knowledge_base": "Meme originals · 38 families",
   "items": 223,
   "queries": 378,
-  "correct": 293,
-  "abstained": 85,
+  "correct": 298,
+  "abstained": 80,
   "wrong_family": 0,
-  "tree_disagreed": 196,
-  "family_accuracy": 0.775,
+  "tree_disagreed": 201,
+  "family_accuracy": 0.788,
   "wrong_family_rate": 0.0,
-  "median_latency_s": 4.13,
-  "p90_latency_s": 5.3,
+  "median_latency_s": 3.08,
+  "p90_latency_s": 3.5,
   "by_kind": {
     "crop": {
       "correct": 31,
       "abstained": 14
     },
     "caption": {
-      "correct": 255,
-      "abstained": 59
+      "correct": 260,
+      "abstained": 54
     },
     "other": {
       "correct": 5,
@@ -114,15 +114,6 @@
       "family": "expanding-brain",
       "file": "expanding-brain/v02_crop.png",
       "kind": "crop",
-      "outcome": "abstained",
-      "got": null,
-      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
-      "strength": null
-    },
-    {
-      "family": "expanding-brain",
-      "file": "expanding-brain/v08_caption.jpg",
-      "kind": "caption",
       "outcome": "abstained",
       "got": null,
       "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
@@ -230,15 +221,6 @@
     {
       "family": "this-is-fine",
       "file": "this-is-fine/v15_caption.jpg",
-      "kind": "caption",
-      "outcome": "abstained",
-      "got": null,
-      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
-      "strength": null
-    },
-    {
-      "family": "roll-safe",
-      "file": "roll-safe/v07_caption.jpg",
       "kind": "caption",
       "outcome": "abstained",
       "got": null,
@@ -491,15 +473,6 @@
     {
       "family": "confused-math-lady",
       "file": "confused-math-lady/v09_caption.png",
-      "kind": "caption",
-      "outcome": "abstained",
-      "got": null,
-      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
-      "strength": null
-    },
-    {
-      "family": "confused-math-lady",
-      "file": "confused-math-lady/v15_caption.jpg",
       "kind": "caption",
       "outcome": "abstained",
       "got": null,
@@ -769,25 +742,7 @@
     },
     {
       "family": "tuxedo-winnie-the-pooh",
-      "file": "tuxedo-winnie-the-pooh/v10_caption.jpg",
-      "kind": "caption",
-      "outcome": "abstained",
-      "got": null,
-      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
-      "strength": null
-    },
-    {
-      "family": "tuxedo-winnie-the-pooh",
       "file": "tuxedo-winnie-the-pooh/v11_caption.jpg",
-      "kind": "caption",
-      "outcome": "abstained",
-      "got": null,
-      "reason": "related by meaning only: nothing in the pool aligns with this image pixel for pixel",
-      "strength": null
-    },
-    {
-      "family": "tuxedo-winnie-the-pooh",
-      "file": "tuxedo-winnie-the-pooh/v12_caption.jpg",
       "kind": "caption",
       "outcome": "abstained",
       "got": null,
@@ -795,5 +750,5 @@
       "strength": null
     }
   ],
-  "generated_at": "2026-10-17T13:12:32"
+  "generated_at": "2026-10-18T01:34:40"
 }
