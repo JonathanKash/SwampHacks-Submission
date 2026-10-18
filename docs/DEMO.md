@@ -97,6 +97,9 @@ Leave the window open. Close spare browser tabs first; the machine has 13.6 GB a
 
 - [ ] `.venv\Scripts\python backend\scriptsuild_meme_case.py --no-clip --variants 5` (about 5 minutes) and
       confirm `/api/health` reports `identify_ready: true`.
+- [ ] Set `ADMIN_TOKEN=<secret>` in `.env` before sharing the public link (start.ps1 warns if it is missing). Without it
+      any visitor can press "Remove this image" or delete an audit case; the Identify knowledge base is refused either
+      way. The UI asks for the token once (session only) when you remove something yourself.
 - [ ] Open `/identify` on a phone via the QR code, upload a meme, confirm the family card and the "Why?" report.
       If nobody has a meme handy, "Try a sample instead" loads a stored copy (expect a near-identical match).
 - [ ] On the phone, the nav collapses to a Menu button; check it opens and closes.

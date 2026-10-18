@@ -37,6 +37,10 @@ if ($Tunnel -and -not $PublicUrl) {
   if (-not $PublicUrl) { Write-Host "Tunnel did not report a URL within 30 s; see $log" } else { Write-Host "Public URL: $PublicUrl" }
 }
 if ($PublicUrl) { $env:PUBLIC_URL = $PublicUrl }
+# On a public link anyone can press "Remove" or delete an audit case unless ADMIN_TOKEN is set in .env
+# (the UI asks for the token once on a 403). The Identify knowledge base is refused regardless.
+$hasAdmin = $env:ADMIN_TOKEN -or ((Test-Path .env) -and (Select-String -Path .env -Pattern '^ADMIN_TOKEN=.+' -Quiet))
+if ($PublicUrl -and -not $hasAdmin) { Write-Host "WARNING: ADMIN_TOKEN is not set; visitors on $PublicUrl can remove images and audit cases. Add ADMIN_TOKEN=<secret> to .env." }
 
 Write-Host "Lineage: http://localhost:8010  (tablet /edit, big screen /tree, audit /audit, identify /identify)"
 & $py -m uvicorn app:app --app-dir backend --host 0.0.0.0 --port 8010
