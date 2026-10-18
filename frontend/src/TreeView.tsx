@@ -530,7 +530,8 @@ export default function TreeView({
 
   return (
     <div className="tree-view" ref={containerRef}>
-      <svg ref={svgRef} role="img" aria-label="Live image lineage forest">
+      {/* role="group", not "img": the nodes inside are keyboard-focusable buttons */}
+      <svg ref={svgRef} role="group" aria-label="Live image lineage forest">
         <defs className="tree-defs" />
         <g className="viewport">
           <g className="tree-stage">

@@ -216,6 +216,7 @@ export default function TreePage() {
             </details>
             <span
               className={`poll-dot ${fetching ? "is-fetching" : ""} ${error ? "has-error" : ""}`}
+              role="status"
               title={error ? "reconnecting" : "server connected"}
               aria-label={error ? "reconnecting" : "server connected"}
             />
