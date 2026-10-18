@@ -28,8 +28,9 @@ function verdictText(report: CompareReportResponse): string {
     return `${report.parent} is the parent of ${report.child}`;
   }
   if (report.verdict === "siblings") return "Siblings: two copies of a common source";
-  if (report.verdict === "unrelated") return "Unrelated";
-  return "Inconclusive";
+  if (report.verdict === "unrelated") return "Unrelated: these two do not line up";
+  // "which came first" is the question the page asks; answer it in the same words
+  return "Inconclusive: the pixels cannot tell which came first";
 }
 
 function shortHash(value: string | null): string {
