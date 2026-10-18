@@ -4185,7 +4185,17 @@ p a {
 }
 
 @media (max-width: 699px) {
+  /* The chip row must scroll inside the rail, not widen the page (grid/flex items default to min-width: auto). */
+  .audit-sidebar,
+  .audit-layout,
+  .audit-shell {
+    min-width: 0;
+    max-width: 100%;
+  }
+
   .audit-case-list {
+    position: relative; /* the chips' sr-only labels are absolutely positioned; keep them inside the scroller */
+    max-width: 100%;
     display: flex;
     max-height: none;
     padding-bottom: 6px;
