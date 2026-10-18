@@ -4,7 +4,6 @@ import { type CompareReportResponse, type TreeNode, type TreeResponse, compareId
 import CompareReport from "./CompareReport";
 import ConfidenceChip from "./ConfidenceChip";
 import EvidenceList from "./EvidenceList";
-import ModeBadge from "./ModeBadge";
 import NewestOverlay from "./NewestOverlay";
 import RemoveButton from "./RemoveButton";
 import QrCode from "./QrCode";
@@ -33,6 +32,8 @@ export default function TreePage() {
   const [parentReportLoading, setParentReportLoading] = useState(false);
   const [parentReportError, setParentReportError] = useState<string | null>(null);
   const [replayTree, setReplayTree] = useState<TreeResponse | null>(null);
+  const pageRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const replayButtonRef = useRef<HTMLButtonElement>(null);
   const returnFocusRef = useRef<SVGGElement | null>(null);
@@ -76,6 +77,21 @@ export default function TreePage() {
   }, [selectedId]);
 
   useEffect(() => () => compareRequestRef.current?.abort(), []);
+
+  useEffect(() => {
+    const page = pageRef.current;
+    const header = headerRef.current;
+    if (!page || !header) return;
+
+    // The responsive header owns its height; the canvas uses whatever remains.
+    const syncHeaderHeight = () => {
+      page.style.setProperty("--tree-header-height", `${header.getBoundingClientRect().height}px`);
+    };
+    const observer = new ResizeObserver(syncHeaderHeight);
+    observer.observe(header);
+    syncHeaderHeight();
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (selectedId) closeButtonRef.current?.focus({ preventScroll: true });
@@ -127,8 +143,8 @@ export default function TreePage() {
   };
 
   return (
-    <main className="tree-page">
-      <header className="tree-header">
+    <main className="tree-page" ref={pageRef}>
+      <header className="tree-header" ref={headerRef}>
         <Link to="/" className="tree-brand" title="About Lineage">
           <span className="brand-mark" aria-hidden="true">L</span>
           <div>
@@ -175,26 +191,33 @@ export default function TreePage() {
                 Replay
               </button>
             )}
-            <ModeBadge />
+            {health && !health.clip && (
+              <span className="mode-badge" title="low-memory mode · pHash candidates">
+                pHash mode
+              </span>
+            )}
             <span>{tree?.nodes.length ?? 0} images</span>
             <span>{tree?.nodes.filter((node) => node.root).length ?? 0} families</span>
-            <span className="tree-report-links">
-              <a className="secondary-button tree-report-link" href="/api/report" download>
-                JSON
-              </a>
-              <a
-                className="secondary-button tree-report-link"
-                href="/api/report.html"
-                target="_blank"
-                rel="noreferrer"
-              >
-                HTML report
-              </a>
-            </span>
+            <details className="tree-export">
+              <summary className="secondary-button tree-export-button">Export</summary>
+              <div className="tree-export-menu">
+                <a className="secondary-button tree-report-link" href="/api/report" download>
+                  JSON
+                </a>
+                <a
+                  className="secondary-button tree-report-link"
+                  href="/api/report.html"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  HTML report
+                </a>
+              </div>
+            </details>
             <span
               className={`poll-dot ${fetching ? "is-fetching" : ""} ${error ? "has-error" : ""}`}
-              title={error ?? "Checking for new images every 2 seconds"}
-              aria-label={error ? "Live updates retrying" : "Live updates active"}
+              title={error ? "reconnecting" : "server connected"}
+              aria-label={error ? "reconnecting" : "server connected"}
             />
           </div>
         </div>

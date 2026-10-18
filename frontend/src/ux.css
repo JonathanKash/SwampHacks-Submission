@@ -978,6 +978,10 @@ p a {
   overflow: hidden;
 }
 
+.tree-body {
+  height: calc(100dvh - var(--tree-header-height, 104px));
+}
+
 .node-panel {
   position: absolute;
   inset-block: 0;
@@ -994,12 +998,15 @@ p a {
 }
 
 .tree-brand {
+  flex: 0 0 auto;
   color: inherit;
   text-decoration: none;
 }
 
 .scoreboard {
   display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
   align-items: center;
   gap: 22px;
 }
@@ -1009,6 +1016,7 @@ p a {
   gap: 3px;
   padding: 9px 14px;
   min-width: 0;
+  flex: 1 1 180px;
   overflow: hidden; /* the hint line ellipsizes instead of running under the next control */
   border: 1px solid rgba(98, 230, 166, 0.32);
   border-radius: 16px;
@@ -1018,7 +1026,9 @@ p a {
 }
 
 .fool-score p {
+  overflow: hidden;
   margin: 0;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
@@ -1028,8 +1038,11 @@ p a {
 }
 
 .fool-score-sub {
+  display: block;
+  overflow: hidden;
   color: var(--muted);
   font-size: 0.7rem;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
@@ -1066,6 +1079,8 @@ p a {
 
 .score-side {
   display: flex;
+  min-width: 0;
+  flex: 0 0 auto;
   align-items: center;
   gap: 14px;
   color: var(--muted);
@@ -1089,9 +1104,43 @@ p a {
   white-space: nowrap;
 }
 
-.tree-report-links {
-  display: flex;
+.tree-export {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.tree-export-button {
+  height: 36px;
+  min-height: 36px;
+  padding: 0 11px;
+  border-radius: 11px;
+  font-size: 0.76rem;
+  list-style: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.tree-export-button::-webkit-details-marker {
+  display: none;
+}
+
+.tree-export-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 8;
+  display: grid;
+  min-width: 132px;
+  padding: 6px;
   gap: 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: 13px;
+  background: rgba(13, 19, 18, 0.98);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.42);
+}
+
+.tree-export-menu .tree-report-link {
+  width: 100%;
 }
 
 .newest-callout {
@@ -2107,6 +2156,12 @@ p a {
   line-height: 1.25;
 }
 
+.qr-join figcaption .qr-lead {
+  color: var(--ink);
+  font-size: inherit;
+  font-weight: inherit;
+}
+
 .qr-join figcaption span {
   color: var(--muted);
   font-size: 0.78rem;
@@ -2156,7 +2211,7 @@ p a {
   margin-top: 22px;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1279px) {
   .tree-header .qr-join { display: none; }
 }
 
@@ -2194,6 +2249,56 @@ p a {
   letter-spacing: 0.04em;
   text-transform: none;
   vertical-align: middle;
+}
+
+@media (max-width: 1699px) {
+  .tree-header {
+    padding-inline: clamp(14px, 1.5vw, 24px);
+    gap: clamp(10px, 1vw, 16px);
+  }
+
+  .tree-header .qr-join {
+    min-width: 0;
+    margin-left: 0;
+    margin-right: 0;
+    flex: 0 1 270px;
+  }
+
+  /* Narrow big screens: drop the lead line and let the host wrap at its hyphens; never clip mid-word. */
+  .tree-header .qr-join figcaption {
+    min-width: 0;
+    max-width: 13rem;
+  }
+
+  .tree-header .qr-join .qr-lead {
+    display: none;
+  }
+
+  .tree-header .qr-join .qr-host {
+    font-size: 0.78rem;
+    line-height: 1.3;
+    overflow-wrap: anywhere; /* the host has no hyphens; wrapping beats overlapping the scoreboard */
+  }
+
+  .tree-header .qr-join .qr-host b {
+    display: block;
+  }
+
+  .scoreboard {
+    gap: clamp(8px, 0.8vw, 12px);
+  }
+
+  .score-side {
+    gap: clamp(6px, 0.7vw, 10px);
+  }
+
+  .score-side > span {
+    white-space: nowrap;
+  }
+
+  .score-side .mode-badge {
+    margin-left: 0;
+  }
 }
 
 /* ---- method page ------------------------------------------------------------- */

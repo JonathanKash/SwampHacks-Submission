@@ -113,9 +113,48 @@ function usePreview(file: File | null): string | null {
   return url;
 }
 
+/** Human name for a demo-pool item: what edit made it, then the short id so judges can match it on the tree. */
 function poolItemName(item: PoolItem): string {
   const filename = item.params.filename;
-  return typeof filename === "string" && filename.trim() ? filename : item.id.slice(0, 8);
+  if (typeof filename === "string" && filename.trim()) return filename;
+  const short = item.id.slice(0, 8);
+  const p = item.params;
+  const num = (v: unknown): number | null => (typeof v === "number" && Number.isFinite(v) ? v : null);
+  let what: string;
+  switch (item.edit) {
+    case null:
+    case "original":
+      what = "Original";
+      break;
+    case "caption":
+      what = typeof p.text === "string" && p.text.trim() ? `Caption “${p.text.trim()}”` : "Caption";
+      break;
+    case "crop": {
+      const f = num(p.fraction);
+      what = f === null ? "Crop" : `Crop to ${Math.round(f * 100)}%`;
+      break;
+    }
+    case "rotate": {
+      const a = num(p.angle);
+      what = a === null ? "Rotated" : `Rotated ${a.toFixed(1)}°`;
+      break;
+    }
+    case "filter":
+      what = typeof p.kind === "string" ? `Filter: ${p.kind}` : "Color filter";
+      break;
+    case "jpeg": {
+      const q = num(p.quality);
+      what = q === null ? "Crunchy JPEG" : `Crunchy JPEG, quality ${q}`;
+      break;
+    }
+    case "restyle":
+      what = "AI restyle";
+      break;
+    default:
+      what = item.edit;
+  }
+  const origin = item.source === "upload" ? " (from the tablet)" : "";
+  return `${what}${origin} · ${short}`;
 }
 
 /** Ad-hoc pairwise comparison for two local image files. */
@@ -352,9 +391,17 @@ export default function ComparePage() {
                       onChange={(event) => choosePoolItem(label, event)}
                     >
                       <option value="">{poolLoading ? "Loading demo pool…" : "Choose a pool item"}</option>
-                      {poolItems.map((item) => (
-                        <option value={item.id} key={item.id}>{poolItemName(item)}</option>
-                      ))}
+                      {/* originals first so a judge can pick "the original vs its caption" without hunting */}
+                      <optgroup label="Originals">
+                        {poolItems.filter((item) => item.edit === null || item.edit === "original").map((item) => (
+                          <option value={item.id} key={item.id}>{poolItemName(item)}</option>
+                        ))}
+                      </optgroup>
+                      <optgroup label="Edited copies">
+                        {poolItems.filter((item) => item.edit !== null && item.edit !== "original").map((item) => (
+                          <option value={item.id} key={item.id}>{poolItemName(item)}</option>
+                        ))}
+                      </optgroup>
                     </select>
                   </div>
                 </div>

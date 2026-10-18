@@ -57,7 +57,7 @@ export default function QrCode({ path = "/edit", size = 132, label = "scan to ad
     <figure className="qr-join">
       <img src={src} width={size} height={size} alt={`QR code linking to ${url}`} />
       <figcaption className={publicOrigin ? "qr-public" : undefined}>
-        {publicOrigin ? "scan to identify or add an edit" : label}
+        <span className="qr-lead">{publicOrigin ? "scan to identify or add an edit" : label}</span>
         {publicOrigin ? (
           // Typed by people who cannot scan: host on one line, path in the accent colour.
           <span className="qr-host">
