@@ -217,37 +217,47 @@ export default function EditPage() {
         <section className="verdict" aria-live="polite">
           <p className="eyebrow">Step 3 · the verdict</p>
           <h1 className={guessedRight ? "verdict-ok" : fooled ? "verdict-bad" : ""}>
-            {guessedRight && "Lineage traced your edit back to the right parent."}
-            {fooled && "The measurements pointed to a different parent."}
+            {guessedRight && "Lineage found your parent."}
+            {fooled && "You fooled it."}
             {verdict?.correct === null && "Added to the pool."}
             {!verdict && "Added to the pool. Checking the tree…"}
           </h1>
-          {guessedRight && (
-            <p className="verdict-explain">
-              Caught. The evidence panel shows the measurements that gave it away.
-            </p>
-          )}
           {fooled && (
-            <p className="verdict-explain">
-              You fooled it. This miss stays on the big-screen scoreboard.
+            <p className="verdict-subline">
+              The pixels pointed to a different parent. This miss stays on the big-screen scoreboard.
             </p>
           )}
-          <div className="before-after">
+          <div
+            className={`before-after ${
+              guessedRight ? "is-match" : fooled && verdict?.predicted ? "is-miss" : "is-pending"
+            }`}
+            role="group"
+            aria-label="Parent comparison"
+          >
             <figure>
               <img src={parent.url} alt="The image you started from" />
-              <figcaption>you started from</figcaption>
+              <figcaption>You started from</figcaption>
             </figure>
             <span className="before-after-arrow" aria-hidden="true">→</span>
             <figure>
               <img src={result.url} alt="Your edited image" />
-              <figcaption>your edit</figcaption>
+              <figcaption>Your edit</figcaption>
             </figure>
+            {guessedRight && (
+              <div className="comparison-result">
+                <span className="comparison-badge">✓ matched</span>
+                <p>Lineage found the parent you started from.</p>
+              </div>
+            )}
             {fooled && verdict?.predicted && (
               <>
-                <span className="before-after-arrow" aria-hidden="true">?</span>
+                <span className="before-after-arrow" aria-hidden="true">←</span>
                 <figure className="is-wrong">
                   <img src={verdict.predicted.url} alt="The parent Lineage guessed instead" />
-                  <figcaption>parent the measurements selected</figcaption>
+                  <figcaption>
+                    <span>Parent Lineage chose</span>
+                    <small>Lineage chose this parent instead.</small>
+                  </figcaption>
                 </figure>
               </>
             )}
@@ -270,7 +280,12 @@ export default function EditPage() {
             hideLabel="Hide the evidence picture"
             unavailableMessage="No pixel alignment to show for this edit."
           />
-          {verdict?.evidence && <EvidenceList evidence={verdict.evidence} />}
+          {verdict?.evidence && (
+            <div className="evidence-group">
+              <p className="evidence-lead">What the measurements said, in order of weight:</p>
+              <EvidenceList evidence={verdict.evidence} />
+            </div>
+          )}
           <div className="verdict-actions">
             <button className="primary-button" type="button" onClick={doAnother}>
               Do another

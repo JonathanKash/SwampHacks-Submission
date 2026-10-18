@@ -864,6 +864,14 @@ p a {
   letter-spacing: -0.03em;
 }
 
+.verdict-subline {
+  max-width: 44rem;
+  margin: -10px auto 24px;
+  color: #d4ddd7;
+  font-size: 1.08rem;
+  line-height: 1.5;
+}
+
 .verdict-ok {
   color: var(--green);
 }
@@ -873,15 +881,24 @@ p a {
 }
 
 .before-after {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(8px, 1.5vw, 18px);
+  margin-inline: auto;
+}
+
+.before-after.is-match,
+.before-after.is-pending {
+  max-width: 740px;
+}
+
+.before-after.is-miss {
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
 }
 
 .before-after figure {
-  width: min(320px, 40vw);
+  min-width: 0;
   margin: 0;
 }
 
@@ -909,10 +926,48 @@ p a {
   text-transform: uppercase;
 }
 
+.before-after figcaption small {
+  display: block;
+  margin-top: 5px;
+  color: #d4ddd7;
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0;
+  line-height: 1.4;
+  text-transform: none;
+}
+
 .before-after-arrow {
+  align-self: center;
+  padding-bottom: 28px;
   color: var(--muted);
   font-size: 2rem;
   font-weight: 900;
+}
+
+.comparison-result {
+  grid-column: 1 / -1;
+  color: #dff9ec;
+}
+
+.comparison-badge {
+  display: block;
+  width: 100%;
+  padding: 8px 14px;
+  border: 1px solid rgba(98, 230, 166, 0.55);
+  border-radius: 999px;
+  background: rgba(98, 230, 166, 0.1);
+  color: var(--green);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.comparison-result p {
+  margin: 8px 0 0;
+  font-size: 0.95rem;
+  font-weight: 700;
 }
 
 .verdict-explain {
@@ -950,6 +1005,24 @@ p a {
   font-size: 0.85rem;
 }
 
+.evidence-group {
+  margin-top: 22px;
+}
+
+.evidence-lead {
+  max-width: 52rem;
+  margin: 0 auto;
+  color: #d4ddd7;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.evidence-group .evidence {
+  margin-top: 8px;
+}
+
 .verdict-actions {
   display: flex;
   flex-wrap: wrap;
@@ -960,6 +1033,67 @@ p a {
 
 .verdict-actions .secondary-button {
   padding: 0 24px;
+}
+
+/* Keep the actions above the long evidence region on tablet. */
+@media (min-width: 640px) and (max-width: 1024px) {
+  .verdict {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .verdict > .verdict-actions {
+    position: sticky;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    z-index: 5;
+    order: 1;
+    width: min(520px, 100%);
+    margin: 24px auto 0;
+    padding: 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 16px;
+    background: rgba(13, 19, 18, 0.94);
+    box-shadow: 0 14px 38px rgba(0, 0, 0, 0.38);
+    backdrop-filter: blur(12px);
+  }
+
+  .verdict > .visual-diff-block {
+    order: 2;
+  }
+
+  .verdict > .evidence-group {
+    order: 3;
+  }
+}
+
+@media (max-width: 639px) {
+  .before-after,
+  .before-after.is-match,
+  .before-after.is-miss,
+  .before-after.is-pending {
+    grid-template-columns: minmax(0, 1fr);
+    width: min(360px, 100%);
+  }
+
+  .before-after-arrow {
+    justify-self: center;
+    padding-bottom: 0;
+    transform: rotate(90deg);
+  }
+
+  .comparison-result {
+    grid-column: 1;
+  }
+
+  .verdict-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .verdict-actions .primary-button,
+  .verdict-actions .secondary-button {
+    width: 100%;
+  }
 }
 
 /* ---- big screen ------------------------------------------------------------ */
