@@ -45,6 +45,8 @@ MAX_SIDE: int = 768
 ROOT_COST: float = 3.5
 
 # Weights for plugins/image_cost.py. One dict, tune here.
+# 2026-10-18 sweep (benchmark/weight_sweep.py, pHash-only): edit_op 0.05->0.1 and specificity 0.01->0.03
+# raised held-out (run2+run3) tree accuracy 69.2% -> 70.9% with run1 unchanged; resolution/blockiness had no effect.
 WEIGHTS: dict[str, float] = {
     # step 2: fraction of b not covered by warped a. Main direction signal.
     "coverage": 3.0,
@@ -61,9 +63,9 @@ WEIGHTS: dict[str, float] = {
     # the a -> b direction removes a caption, which is rare (benchmark: caption side = copy 30/30).
     "caption_removed": 1.0,
     # step 7: description length, charged once per detected edit primitive.
-    "edit_op": 0.05,
+    "edit_op": 0.1,
     # step 8: tie-breaker toward the most specific ancestor. Keep far below edit_op.
-    "specificity": 0.01,
+    "specificity": 0.03,
     # step 6: semantic fallback = semantic_offset + semantic_scale * (1 - cos).
     # The offset guarantees a semantic edge always costs more than a good registration.
     "semantic_offset": 2.0,
