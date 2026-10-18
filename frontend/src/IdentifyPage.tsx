@@ -276,6 +276,20 @@ function MatchedFamily({ match, preview, filename }: {
 }
 
 /** Place one local image into the documented meme-family knowledge base. */
+/** The server's abstention reasons are precise but terse; say them the way a person would, and keep the raw line below. */
+function humanReason(reason: string): string {
+  if (reason.startsWith("related by meaning")) {
+    return "Nothing in the knowledge base lines up with this picture pixel for pixel. It may look like a meme, but it is not a copy of one of the 38 we know, so Lineage says so instead of guessing.";
+  }
+  if (reason.startsWith("no item explains")) {
+    return "Something aligned, but not clearly enough: explaining your picture from the closest stored copy costs about as much as calling it a new original, so Lineage does not claim a family.";
+  }
+  if (reason.startsWith("empty pool")) {
+    return "The knowledge base has not been built on this server yet.";
+  }
+  return reason;
+}
+
 export default function IdentifyPage() {
   usePageTitle("Identify · Lineage");
 
@@ -492,8 +506,9 @@ export default function IdentifyPage() {
 
       {result && !result.matched && (
         <section className="identify-empty" role="status">
-          <h2>No family matched.</h2>
-          <p>{result.reason}</p>
+          <h2>Not one of the memes we know.</h2>
+          <p>{humanReason(result.reason)}</p>
+          <p className="identify-measured">Measured: {result.reason}.</p>
           {stats?.available && stats.wrong_family === 0 && (
             <p>Abstaining is deliberate: on the benchmark this feature never named a wrong family.</p>
           )}

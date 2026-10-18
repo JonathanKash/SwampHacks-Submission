@@ -4251,3 +4251,14 @@ p a {
     display: block;
   }
 }
+
+/* Identify: a "no" answer is neutral, not a green success. */
+.identify-empty h2 {
+  color: var(--ink);
+}
+
+.identify-empty .identify-measured {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
