@@ -700,12 +700,13 @@ export default function AuditPage() {
 
           {!selectedCase ? (
             <section className="audit-welcome">
-              <p className="eyebrow">Unknown ground truth</p>
+              <p className="eyebrow">No answer key needed</p>
               <h2>Turn a folder of image variants into an explainable family tree.</h2>
               <p>
                 An audit identifies the candidate original, describes what changed in every copy, and shows how
-                sure the system is from calibrated empirical precision. There is no accuracy counter because
-                the real lineage is not known in advance.
+                sure the system is from calibrated empirical precision. There is no accuracy counter here: in a
+                real case nobody knows the true lineage in advance, so every decision shows its measurements and
+                a calibrated precision instead.
               </p>
               <div className="audit-how-to-read">
                 <h3>How to read a lineage tree</h3>

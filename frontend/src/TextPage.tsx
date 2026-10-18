@@ -95,7 +95,7 @@ export default function TextPage() {
     <main className="landing text-page">
       <NavBar />
       <section className="hero text-hero">
-        <p className="eyebrow">Second media type · same core</p>
+        <p className="eyebrow">Not just images</p>
         <h1>Paragraphs have lineage too.</h1>
         <p className="lede">
           Paste several versions of the same text: the original, a trimmed copy, a reworded copy, a summary. The

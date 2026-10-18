@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import NavBar from "./NavBar";
 import NumbersPanel from "./NumbersPanel";
 import { usePageTitle } from "./usePageTitle";
@@ -131,7 +131,28 @@ function MethodJumpLinks({ activeSection, mobile = false }: { activeSection: str
 /** The method, in one page, for judges and industry readers. */
 export default function MethodPage() {
   usePageTitle("Method · Lineage");
+  const location = useLocation();
   const [activeSection, setActiveSection] = useState("pipeline");
+
+  useEffect(() => {
+    if (!location.hash) return;
+
+    let timeout: number | undefined;
+    const frame = window.requestAnimationFrame(() => {
+      timeout = window.setTimeout(() => {
+        const section = document.getElementById(location.hash.slice(1));
+        if (!section) return;
+
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        section.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+      }, 0);
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      if (timeout !== undefined) window.clearTimeout(timeout);
+    };
+  }, [location.hash]);
 
   useEffect(() => {
     const sections = METHOD_SECTIONS.map(({ id }) => document.getElementById(id)).filter(

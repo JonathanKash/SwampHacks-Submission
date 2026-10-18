@@ -263,7 +263,7 @@ export default function ComparePage() {
     <main className="compare-page">
       <NavBar />
       <section className="compare-hero">
-        <p className="eyebrow">Pairwise provenance</p>
+        <p className="eyebrow">Two files, one answer</p>
         <h1>Which image came first?</h1>
         <p>
           Add two files. Lineage aligns and measures them in both directions, then shows the evidence for

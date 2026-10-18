@@ -380,8 +380,8 @@ export default function IdentifyPage() {
     <main className="identify-page">
       <NavBar />
       <section className="compare-hero identify-hero">
-        <p className="eyebrow">MEME PROVENANCE</p>
-        <h1>Which meme is this, and where did it come from?</h1>
+        <p className="eyebrow">WHICH MEME IS THIS?</p>
+        <h1>Where did this meme come from?</h1>
         <p>Upload any copy from your camera roll. Lineage places it in a family of 38 documented meme originals and shows the evidence.</p>
         {stats?.available && (
           <p

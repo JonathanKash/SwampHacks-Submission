@@ -17,7 +17,7 @@ const NAV_ITEMS = [
   { to: "/compare", label: "Compare", icon: CompareIcon, end: false },
   { to: "/tree", label: "Live tree", icon: NetworkIcon, end: false },
   { to: "/audit", label: "Audit", icon: BriefcaseIcon, end: false },
-  { to: "/text", label: "Text", icon: TextLinesIcon, end: false },
+  { to: "/text", label: "Text mode", icon: TextLinesIcon, end: false },
 ] as const;
 
 /** Shared top navigation so every page explains where you are and where to go next. */
