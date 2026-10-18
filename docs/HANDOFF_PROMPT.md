@@ -72,7 +72,7 @@ Two-minute script (`docs/DEVPOST.md`, "pitch v2"):
 5. **1:35–1:50 `/method`, Numbers table.** Two numbers for every claim: synthetic calibration and the same bucket re-measured on real web memes. Line: "The lower number is the honest expectation for unknown files; the benchmark told us where to fix the engine."
 6. **1:50–2:00 Close.** "Lineage does not guess. It measures, it shows its work, and when the pixels cannot tell, it says so."
 
-If something abstains live, say so proudly and show the evidence panel; if a judge's upload returns "No family matched", explain that nothing aligned pixel for pixel and offer the sample button. If the public link is down, run `.\start.ps1 -LowMemory -PublicUrl https://jmklptp08.tail2caba9.ts.net`; if Tailscale is down, `.\deploy\tunnel-watchdog.ps1` gives a Cloudflare address within a minute.
+If something abstains live, say so proudly and show the evidence panel; if a judge's upload returns "Not one of the memes we know", explain that nothing aligned pixel for pixel and offer the sample button. If the public link is down, run `.\start.ps1 -LowMemory -PublicUrl https://jmklptp08.tail2caba9.ts.net`; if Tailscale is down, `.\deploy\tunnel-watchdog.ps1` gives a Cloudflare address within a minute.
 
 ## Rules
 

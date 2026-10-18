@@ -80,7 +80,7 @@ found; 28 of 30 parents correct against the hidden truth (93%).
    case appears in Audit as "Meme originals · 38 families").
 2. Visitors open `/identify` from the QR code, upload any meme from their phone, press Identify.
 3. Talk track: the family card is the documented original with its date and source; "Your copy" shows the
-   measured edit; "Why?" opens the same evidence report as everywhere else. If it says "No family matched",
+   measured edit; "Why?" opens the same evidence report as everywhere else. If it says "Not one of the memes we know",
    say so: it means nothing aligned pixel for pixel, and that is the honest answer.
 
 
