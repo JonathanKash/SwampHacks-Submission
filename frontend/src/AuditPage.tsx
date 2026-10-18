@@ -990,7 +990,7 @@ export default function AuditPage() {
                         </button>
                       ) : (
                         <p className="web-search-unavailable">
-                          Web search needs a provider key on the server (SERPAPI_KEY + PUBLIC_URL)
+                          Reverse image search is off on this server: no search provider key is configured
                         </p>
                       )}
                       {webSearchResult && (
