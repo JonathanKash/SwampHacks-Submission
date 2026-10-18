@@ -74,20 +74,16 @@
     "web-memes": {
       "buckets": {
         "margin \u2265 0.30": {
-          "correct": 97,
-          "n": 172
+          "correct": 95,
+          "n": 169
         },
         "margin 0.05\u20130.30": {
-          "correct": 8,
-          "n": 12
-        },
-        "margin 0.02\u20130.05": {
-          "correct": 0,
-          "n": 2
+          "correct": 7,
+          "n": 13
         }
       },
-      "generated_at": "2026-10-17T18:09:41",
-      "source": "benchmark/run_benchmark.py (phash-only), 563 pairs from 38 meme families, all pairs, current verdict rules",
+      "generated_at": "2026-10-18T02:33:48",
+      "source": "benchmark/run_benchmark.py (phash-only), 563 pairs from 38 meme families, all pairs, margin floor 0.05",
       "note": "Observed precision of parent-child claims on real web memes, all pairs, including ambiguous ground truth."
     },
     "web-memes-clean-truth": {
@@ -99,14 +95,10 @@
         "margin \u2265 0.30": {
           "correct": 71,
           "n": 97
-        },
-        "margin 0.02\u20130.05": {
-          "correct": 0,
-          "n": 1
         }
       },
-      "generated_at": "2026-10-17T18:09:41",
-      "source": "benchmark/run_benchmark.py (phash-only), pairs whose documented original is at least as large as the variant, current verdict rules",
+      "generated_at": "2026-10-18T02:33:48",
+      "source": "benchmark/run_benchmark.py (phash-only), pairs whose documented original is at least as large as the variant, margin floor 0.05",
       "note": "Same measurement restricted to pairs whose ground truth is not ambiguous."
     }
   }

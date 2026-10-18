@@ -286,3 +286,5 @@ object add/remove and re-rendered copies return inconclusive by design; generati
 - [ ] Next accuracy lever: screenshot copies (2 of 13 identified). They are tweet/page screenshots with the photo
       embedded at a fraction of the frame; a multi-scale or region-proposal registration pass (detect the largest
       photo-like rectangle, register that) is the likely fix. Not started: too large to land safely before the demo.
+- [x] Meme benchmark pass 6 (margin floor 0.05): template families wrong parent 16%, abstained 70%; true-source wrong 11%,
+      abstained 64%; top bucket 95/169 = 56% all pairs, 71/97 = 73% clean truth. Calibration columns refreshed from this pass.
