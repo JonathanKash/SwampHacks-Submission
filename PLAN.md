@@ -271,3 +271,11 @@ object add/remove and re-rendered copies return inconclusive by design; generati
   (restart after reboot: `.\start.ps1 -LowMemory -PublicUrl https://jmklptp08.tail2caba9.ts.net`; Funnel itself persists).
 - Laptop memory is the demo's weak point (13.6 GB total; browser tabs + two Claude sessions leave ~1.5 GB):
   close spare tabs before the demo, keep the server in low-memory mode.
+
+## Accuracy work (2026-10-18, after the loop)
+- [x] Weight sweep (2026-10-18 00:40, benchmark/weight_sweep.py, pHash-only, 24 settings, run1 tuned / run2+run3 held out):
+      resolution 0.5 vs 1.0 and blockiness 1.0 vs 1.5 change nothing; specificity 0.01 -> 0.03 gives held-out 69.2% -> 69.8%
+      (kept; run1 unchanged); edit_op 0.05 -> 0.1 gives 70.9% but makes a seed-vs-caption pair go backwards
+      (caught by test_api_endpoints) -> REJECTED. Tree eval now 75.0 / 67.8 / 73.3 (pHash-only).
+- [ ] Identify recall: 84 of 85 abstentions are registration failures; experiment with wider SIFT coverage and softer
+      inlier thresholds queued (benchmark/identify_recall_experiment.py).
