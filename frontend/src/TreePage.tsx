@@ -43,7 +43,7 @@ export default function TreePage() {
   }, []);
   const closeDetails = useCallback(() => {
     setSelectedId(null);
-    window.requestAnimationFrame(() => returnFocusRef.current?.focus());
+    window.requestAnimationFrame(() => returnFocusRef.current?.focus({ preventScroll: true }));
   }, []);
 
   const selectedNode = useMemo(
@@ -78,8 +78,19 @@ export default function TreePage() {
   useEffect(() => () => compareRequestRef.current?.abort(), []);
 
   useEffect(() => {
-    if (selectedId) closeButtonRef.current?.focus();
+    if (selectedId) closeButtonRef.current?.focus({ preventScroll: true });
   }, [selectedId]);
+
+  useEffect(() => {
+    if (!selectedId) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      closeDetails();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [closeDetails, selectedId]);
 
   const accuracy = tree?.accuracy;
   const demoMode = tree?.mode !== "audit";

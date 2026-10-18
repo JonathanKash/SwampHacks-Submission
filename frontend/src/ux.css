@@ -963,6 +963,36 @@ p a {
 }
 
 /* ---- big screen ------------------------------------------------------------ */
+.tree-page {
+  width: 100%;
+  max-width: 100%;
+}
+
+.tree-header {
+  width: 100%;
+  min-width: 0;
+}
+
+.tree-body,
+.tree-canvas-wrap {
+  overflow: hidden;
+}
+
+.node-panel {
+  position: absolute;
+  inset-block: 0;
+  right: 0;
+  width: var(--panel-width, clamp(330px, 24vw, 430px));
+  max-width: min(430px, 92vw);
+  box-shadow: -18px 0 54px rgba(0, 0, 0, 0.38);
+  animation-name: node-panel-in;
+}
+
+/* Opacity avoids focused panel controls creating transformed viewport overflow. */
+@keyframes node-panel-in {
+  from { opacity: 0; }
+}
+
 .tree-brand {
   color: inherit;
   text-decoration: none;
@@ -3229,6 +3259,29 @@ p a {
   font-size: 0.9rem;
   line-height: 1.55;
   white-space: pre-wrap;
+}
+
+.identify-source-note:not(.is-expanded) {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.identify-source-note-toggle {
+  display: block;
+  min-height: 44px;
+  margin-top: 2px;
+  padding: 4px 0;
+  border: 0;
+  color: var(--green);
+  background: transparent;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 800;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .identify-source-links {

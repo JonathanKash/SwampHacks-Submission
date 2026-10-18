@@ -136,7 +136,9 @@ function MatchedFamily({ match, preview, filename }: {
   filename: string;
 }) {
   const [showWhy, setShowWhy] = useState(false);
+  const [sourceNoteExpanded, setSourceNoteExpanded] = useState(false);
   const reportId = useId();
+  const sourceNoteId = useId();
   const family = stringParam(match.root, "family") ?? "Meme family";
   const rootFilename = stringParam(match.root, "filename") ?? family;
   const rootDate = stringParam(match.root, "date");
@@ -178,7 +180,25 @@ function MatchedFamily({ match, preview, filename }: {
                 </div>
               </dl>
             )}
-            {sourceNote && <p>{sourceNote}</p>}
+            {sourceNote && (
+              <>
+                <p
+                  id={sourceNoteId}
+                  className={`identify-source-note ${sourceNoteExpanded ? "is-expanded" : ""}`}
+                >
+                  {sourceNote}
+                </p>
+                <button
+                  className="identify-source-note-toggle"
+                  type="button"
+                  aria-expanded={sourceNoteExpanded}
+                  aria-controls={sourceNoteId}
+                  onClick={() => setSourceNoteExpanded((expanded) => !expanded)}
+                >
+                  {sourceNoteExpanded ? "Show less" : "Read more"}
+                </button>
+              </>
+            )}
             {(sourceUrl || kymUrl) && (
               <div className="identify-source-links">
                 {sourceUrl && <a href={sourceUrl} target="_blank" rel="noopener">Source</a>}
