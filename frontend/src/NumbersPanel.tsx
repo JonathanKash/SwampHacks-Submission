@@ -76,6 +76,30 @@ export default function NumbersPanel({ compact = false }: NumbersPanelProps) {
           </tbody>
         </table>
       </div>
+      <ul className="numbers-cards" aria-label="Accuracy by margin and corpus">
+        {MARGIN_BUCKETS.map((bucket) => (
+          <li className="numbers-card" key={bucket}>
+            <h4>{bucket}</h4>
+            <div className="numbers-card-synthetic">
+              <span>Synthetic edit chains</span>
+              <strong>{resultText(calibration.buckets[bucket])}</strong>
+            </div>
+            <dl className="numbers-card-corpora">
+              {corpora.map(([key, corpus]) => (
+                <div key={key}>
+                  <dt>{humanise(key)}</dt>
+                  <dd>{resultText(corpus.buckets[bucket])}</dd>
+                </div>
+              ))}
+            </dl>
+          </li>
+        ))}
+      </ul>
+      <p className="numbers-cards-note">
+        Generated {calibration.generated_at} from {calibration.runs.join(", ")}. The lower number is the
+        honest expectation for unknown files. Clean truth means the documented original is at least as large
+        as its variant; all pairs includes ambiguous ground truth.
+      </p>
 
       {calibration.caption_side && (
         <p className="numbers-caption-cue" title={calibration.caption_side.source}>

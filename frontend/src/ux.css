@@ -1,5 +1,22 @@
 /* UX layer: navigation, landing page, guided edit flow, verdict, scoreboard, legend. */
 
+/* Inline links should read as part of the sentence, not as browser chrome. */
+:where(p, li, figcaption, .lede) a:not([class*="button"], [class*="card"]) {
+  color: var(--green);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+:where(p, li, figcaption, .lede) a:not([class*="button"], [class*="card"]):hover {
+  color: #9ff5ca;
+}
+
+:where(p, li, figcaption, .lede) a:not([class*="button"], [class*="card"]):focus-visible {
+  border-radius: 3px;
+  outline: 3px solid #9ff5ca;
+  outline-offset: 2px;
+}
+
 /* ---- navigation ------------------------------------------------------- */
 .nav-bar {
   display: flex;
@@ -168,6 +185,12 @@
   font-weight: 900;
   letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
+}
+
+.live-stats-note {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
 }
 
 .idea,
@@ -547,6 +570,11 @@ p a {
   border-bottom: 0;
 }
 
+.numbers-cards,
+.numbers-cards-note {
+  display: none;
+}
+
 .numbers-panel--compact .numbers-table th,
 .numbers-panel--compact .numbers-table td {
   padding-block: 9px;
@@ -575,6 +603,92 @@ p a {
   font-size: 0.72rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 639px) {
+  .numbers-table-wrap {
+    display: none;
+  }
+
+  .numbers-cards {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    gap: 12px;
+    list-style: none;
+  }
+
+  .numbers-card {
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: rgba(17, 24, 23, 0.82);
+  }
+
+  .numbers-card h4 {
+    margin: 0;
+    color: var(--green);
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+  }
+
+  .numbers-card-synthetic {
+    display: grid;
+    margin-top: 13px;
+    gap: 3px;
+  }
+
+  .numbers-card-synthetic span {
+    color: var(--muted);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  .numbers-card-synthetic strong {
+    color: #dce5e0;
+    font-size: 1.65rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.03em;
+  }
+
+  .numbers-card-corpora {
+    display: flex;
+    margin: 14px 0 0;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+
+  .numbers-card-corpora > div {
+    display: grid;
+    padding: 7px 10px;
+    gap: 2px;
+    border: 1px solid var(--line-strong);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.025);
+  }
+
+  .numbers-card-corpora dt {
+    color: var(--muted);
+    font-size: 0.64rem;
+  }
+
+  .numbers-card-corpora dd {
+    margin: 0;
+    color: #cfd8d2;
+    font-size: 0.76rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .numbers-cards-note {
+    display: block;
+    margin: 10px 2px 0;
+    color: var(--muted);
+    font-size: 0.7rem;
+    line-height: 1.45;
+  }
 }
 
 /* ---- guided edit flow ------------------------------------------------------ */

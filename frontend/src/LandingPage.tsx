@@ -37,15 +37,15 @@ export default function LandingPage() {
         <div className="hero-actions">
           <Link to="/identify" className="primary-button cta">
             Identify a meme
-            <small>one upload · 38 families</small>
+            <small>one photo from your phone</small>
           </Link>
           <Link to="/edit" className="primary-button cta">
             Make an edit
-            <small>tablet · 30 seconds</small>
+            <small>on the tablet, 30 seconds</small>
           </Link>
           <Link to="/tree" className="secondary-button cta">
             Watch the tree
-            <small>big screen · updates live</small>
+            <small>big screen, updates live</small>
           </Link>
         </div>
         <dl className="live-stats" aria-label="Live demo statistics">
@@ -62,10 +62,11 @@ export default function LandingPage() {
             <dd>{pct(tree?.accuracy.pct)}</dd>
           </div>
         </dl>
+        <p className="live-stats-note">Live numbers from the demo pool on this screen.</p>
       </section>
 
       <section className="idea">
-        <p className="eyebrow">The one idea</p>
+        <p className="eyebrow">Why it works</p>
         <h2>Edits destroy information, and information only flows one way.</h2>
         <div className="idea-grid">
           <div className="idea-card">
@@ -90,7 +91,7 @@ export default function LandingPage() {
       </section>
 
       <section className="pipeline">
-        <p className="eyebrow">How it works</p>
+        <p className="eyebrow">Under the hood</p>
         <h2>Three stages, each one plain enough to explain in a sentence.</h2>
         <ol className="stages">
           <li>
@@ -120,14 +121,14 @@ export default function LandingPage() {
           </li>
         </ol>
         <p className="idea-note">
-          Nothing in those three stages knows what an image is. Swap the plug-ins and the same core traces
-          paragraphs instead: <Link to="/text">try it on text</Link>. Want every cost term, weight and
-          limitation? <Link to="/method">Read the method</Link>.
+          None of these stages knows what an image is. Swap the plug-ins and the same core traces paragraphs
+          instead (<Link to="/text">try it on text</Link>). Every cost term, weight and limitation is on the
+          method page (<Link to="/method">read the method</Link>).
         </p>
       </section>
 
       <section className="calibration">
-        <p className="eyebrow">How sure is it?</p>
+        <p className="eyebrow">How much to trust it</p>
         <h2>Confidence is measured, not guessed.</h2>
         <p className="calibration-intro">
           We ran the pipeline over synthetic edit chains with known answers and recorded how often decisions
@@ -141,7 +142,7 @@ export default function LandingPage() {
       </section>
 
       <section className="demo-how">
-        <p className="eyebrow">Join the demo</p>
+        <p className="eyebrow">Try it right now</p>
         <h2>You edit. It measures. The screen keeps score.</h2>
         <div className="demo-steps">
           <div className="demo-card">
@@ -182,7 +183,7 @@ export default function LandingPage() {
       </section>
 
       <section className="industry-audit">
-        <p className="eyebrow">For industry</p>
+        <p className="eyebrow">Where it is useful</p>
         <h2>Provenance audit</h2>
         <p className="industry-intro">
           When many versions of one image arrive without a known ground truth, Lineage identifies the likely
@@ -213,7 +214,7 @@ export default function LandingPage() {
       </section>
 
       <section className="judges-strip" aria-labelledby="judges-title">
-        <p className="eyebrow">Project references</p>
+        <p className="eyebrow">For judges</p>
         <h2 id="judges-title">For judges</h2>
         <div className="judges-grid">
           <Link to="/method" className="industry-card judges-card">
