@@ -319,4 +319,6 @@ page with a screenshot check after each. Kept so far (each its own commit):
   190 px at the bottom so no node hides under the newest-image callout (checked at 1600x900 and 1920x1080).
 - Reports: items that never went through an upload (seeded demo pool, sample cases) had no footprint, so the HTML
   evidence inventory printed "×, B" and "…"; the pool now hashes the stored file lazily (`of_stored_file: true`).
+- Accessibility: axe-core WCAG A/AA scan on every route (desktop, tablet, phone) is clean after two fixes on /tree
+  (status dot as a status region; the forest SVG is a group, not an image, so its focusable nodes are valid).
 Not changed: any cost term, threshold or calibration number.
